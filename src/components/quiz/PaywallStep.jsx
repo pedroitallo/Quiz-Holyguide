@@ -1,57 +1,91 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
-import { User, Calendar } from 'lucide-react';
+import { User, Calendar, Heart, Sparkles, Shield, Clock } from 'lucide-react';
+import { QuizResult } from '@/entities/QuizResult';
 import SalesSection from './SalesSection';
 
-export default function PaywallStep({ userName, birthDate }) {
+export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
   const [showSales, setShowSales] = useState(false);
 
-  // This useEffect handles timing for SalesSection
+  // This useEffect handles timing for SalesSection and tracking pitch step view
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSales(true);
+      
+      // Track pitch step view when sales section appears
+      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
+        QuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e => 
+          console.warn("Failed to update pitch step view:", e)
+        );
+      }
     }, 275000); // 4 minutes and 35 seconds = 275000ms
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [quizResultId]);
 
   const handleCheckout = async () => {
-    try {
-      // Corrected URL: removed extra '}'
-      const checkoutUrl = "https://payments.holymind.life/products/map-of-the-divine-soul";
-      const url = new URL(checkoutUrl);
-
-      // Capturar e passar TODAS as UTMs da URL atual
-      const currentUrl = new URL(window.location.href);
-      
-      // Parâmetros UTM padrão
-      const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-      utmParams.forEach(param => {
-        const value = currentUrl.searchParams.get(param);
-        if (value) {
-          url.searchParams.set(param, value);
+    // Track checkout click IMMEDIATELY before any redirect
+    const trackCheckout = async () => {
+      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
+        try {
+          await QuizResult.update(quizResultId, { checkout_step_clicked: true });
+          console.log('Checkout click tracked successfully');
+        } catch (error) {
+          console.warn("Falha ao rastrear clique de checkout:", error);
         }
-      });
+      }
+    };
 
-      // Parâmetros específicos de tracking (fbclid, src, xcod, etc.)
-      const specificParams = ['fbclid', 'src', 'xcod']; 
-      specificParams.forEach(param => {
-        const value = currentUrl.searchParams.get(param);
-        if (value) {
-          url.searchParams.set(param, value);
+    // Execute tracking synchronously and then redirect
+    trackCheckout().then(() => {
+      try {
+        // Corrected URL: removed extra '}'
+        const checkoutUrl = "https://payments.holymind.life/checkout/map-of-the-divine-soul";
+        const url = new URL(checkoutUrl);
+
+        // Capturar e passar TODAS as UTMs da URL atual
+        const currentUrl = new URL(window.location.href);
+        
+        // Parâmetros UTM padrão
+        const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+        utmParams.forEach(param => {
+          const value = currentUrl.searchParams.get(param);
+          if (value) {
+            url.searchParams.set(param, value);
+          }
+        });
+
+        // Parâmetros específicos de tracking (fbclid, src, xcod, etc.)
+        const specificParams = ['fbclid', 'src', 'xcod']; 
+        specificParams.forEach(param => {
+          const value = currentUrl.searchParams.get(param);
+          if (value) {
+            url.searchParams.set(param, value);
+          }
+        });
+        
+        // Adicionar quiz_result_id como parâmetro para conectar com o webhook
+        if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
+          url.searchParams.set('quiz_result_id', quizResultId);
         }
-      });
 
-      console.log('Redirecting to checkout:', url.toString());
-      // Limpar estado do quiz em andamento antes de redirecionar
-      localStorage.removeItem('holymind_quiz_state');
-      window.location.href = url.toString();
-    } catch (error) {
-      console.error("Erro ao construir URL de checkout:", error);
-      // Fallback para garantir que o usuário seja redirecionado mesmo em caso de erro
-      window.location.href = "https://payments.holymind.life/products/map-of-the-divine-soul";
-    }
+        console.log('Redirecting to checkout:', url.toString());
+        // Limpar estado do quiz em andamento antes de redirecionar
+        localStorage.removeItem('holymind_quiz_state');
+        localStorage.setItem('holymind_last_quiz_id', quizResultId);
+        window.location.href = url.toString();
+      } catch (error) {
+        console.error("Erro ao construir URL de checkout:", error);
+        // Fallback para garantir que o usuário seja redirecionado mesmo em caso de erro
+        window.location.href = "https://payments.holymind.life/checkout/map-of-the-divine-soul";
+      }
+    }).catch((error) => {
+      console.error("Erro ao rastrear checkout, mas redirecionando mesmo assim:", error);
+      // Se o tracking falhar, ainda assim redireciona
+      window.location.href = "https://payments.holymind.life/checkout/map-of-the-divine-soul";
+    });
   };
 
   const formatDate = (dateString) => {
@@ -150,6 +184,8 @@ export default function PaywallStep({ userName, birthDate }) {
           <SalesSection 
             userName={userName}
             birthDate={birthDate}
+            quizResultId={quizResultId}
+            src={src}
             onCheckout={handleCheckout}
           />
         )}
