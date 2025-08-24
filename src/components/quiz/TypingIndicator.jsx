@@ -7,6 +7,8 @@ export default function TypingIndicator() {
         src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
         alt="Madame Aura"
         className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+        loading="lazy"
+        decoding="async"
       />
       <div className="flex flex-col pt-1">
         <p className="text-sm text-gray-600">Madame Aura is typing...</p>

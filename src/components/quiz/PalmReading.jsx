@@ -80,6 +80,8 @@ export default function PalmReading({ onPhotoTaken }) {
               alt="Palma da mão do usuário"
               className="w-full h-full object-cover"
               onLoad={() => setImageLoaded(true)}
+              loading="lazy"
+              decoding="async"
               loading="eager"
             />
           ) : (

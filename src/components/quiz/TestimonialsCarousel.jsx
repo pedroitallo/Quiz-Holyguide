@@ -91,6 +91,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 src={testimonials[testimonialIndex].imageUrl}
                 alt="Testimonial couple"
                 className="w-64 h-80 object-cover rounded-xl shadow-lg"
+                decoding="async"
                 loading="lazy"
                 decoding="async" />
             </div>

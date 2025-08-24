@@ -48,6 +48,7 @@ export default function PersonalizedPaper({ userName, birthDate, onContinue }) {
             className="w-full h-auto rounded-lg shadow-lg"
             loading="lazy"
             decoding="async"
+            decoding="async"
           />
           
           {/* Overlay com texto manuscrito no papel menor à direita */}

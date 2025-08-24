@@ -136,6 +136,8 @@ export default function LoadingRevelation({ onContinue, userName, birthDate }) {
             alt="Preparing your revelation"
             className="w-full rounded-lg"
             style={{
+              loading: 'lazy',
+              decoding: 'async',
               imageRendering: 'crisp-edges',
               backfaceVisibility: 'hidden',
               transform: 'translateZ(0)'
