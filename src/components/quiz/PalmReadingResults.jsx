@@ -52,6 +52,8 @@ const CustomAudioPlayer = () => {
         <img
           src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
           alt="Madame Aura"
+          loading="lazy"
+          decoding="async"
           className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
         />
         <div className="flex-1">
@@ -99,6 +101,8 @@ const ChatBubble = ({ userName }) => (
             <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
                 alt="Madame Aura"
+                loading="lazy"
+                decoding="async"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
             />
             <div className="text-left">
@@ -120,6 +124,8 @@ const RecordingIndicator = () => (
             <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
                 alt="Madame Aura"
+                loading="lazy"
+                decoding="async"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
             />
             <div className="flex items-center gap-2 mt-2">

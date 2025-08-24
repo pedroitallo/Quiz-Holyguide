@@ -137,7 +137,7 @@ export default function BirthDataCollection({ onSubmit }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}>
 
-        <h1 className="text-violet-600 mb-6 text-base font-bold lowercase leading-tight">in the next step, i will reveal everything i’ve just discovered about your soulmate!</h1>
+        <h1 className="text-violet-600 mb-6 text-base font-bold lowercase leading-tight">in the next step, i will reveal everything i've just discovered about your soulmate!</h1>
       </motion.div>
 
       {/* Container fixo para primeira área de mensagem - evita layout shift */}
