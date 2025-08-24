@@ -8,17 +8,17 @@ import quiz from "./quiz";
 
 import Home from "./Home";
 
-import funnel-1 from "./funnel-1";
+import Funnel1 from "./funnel-1";
 
-import funnelesp from "./funnelesp";
+import FunnelEsp from "./funnelesp";
 
-import up-letter from "./up-letter";
+import UpLetter from "./up-letter";
 
-import up-energy from "./up-energy";
+import UpEnergy from "./up-energy";
 
-import up-journey from "./up-journey";
+import UpJourney from "./up-journey";
 
-import up-combo from "./up-combo";
+import UpCombo from "./up-combo";
 
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
@@ -32,17 +32,17 @@ const PAGES = {
     
     Home: Home,
     
-    funnel-1: funnel-1,
+    "funnel-1": Funnel1,
     
-    funnelesp: funnelesp,
+    funnelesp: FunnelEsp,
     
-    up-letter: up-letter,
+    "up-letter": UpLetter,
     
-    up-energy: up-energy,
+    "up-energy": UpEnergy,
     
-    up-journey: up-journey,
+    "up-journey": UpJourney,
     
-    up-combo: up-combo,
+    "up-combo": UpCombo,
     
 }
 
@@ -68,7 +68,7 @@ function PagesContent() {
         <Layout currentPageName={currentPage}>
             <Routes>            
                 
-                    <Route path="/" element={<metrics />} />
+                <Route path="/" element={<metrics />} />
                 
                 
                 <Route path="/metrics" element={<metrics />} />
@@ -79,17 +79,17 @@ function PagesContent() {
                 
                 <Route path="/Home" element={<Home />} />
                 
-                <Route path="/funnel-1" element={<funnel-1 />} />
+                <Route path="/funnel-1" element={<Funnel1 />} />
                 
-                <Route path="/funnelesp" element={<funnelesp />} />
+                <Route path="/funnelesp" element={<FunnelEsp />} />
                 
-                <Route path="/up-letter" element={<up-letter />} />
+                <Route path="/up-letter" element={<UpLetter />} />
                 
-                <Route path="/up-energy" element={<up-energy />} />
+                <Route path="/up-energy" element={<UpEnergy />} />
                 
-                <Route path="/up-journey" element={<up-journey />} />
+                <Route path="/up-journey" element={<UpJourney />} />
                 
-                <Route path="/up-combo" element={<up-combo />} />
+                <Route path="/up-combo" element={<UpCombo />} />
                 
             </Routes>
         </Layout>
