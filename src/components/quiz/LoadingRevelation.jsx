@@ -1,51 +1,16 @@
-
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button"; // This import is no longer strictly needed for the final button, but might be used elsewhere. Keeping it.
+import { Button } from "@/components/ui/button";
 import TypingIndicator from './TypingIndicator';
 
-// A lógica do LocationDetector foi movida para cá.
-const fetchLocationWithFallbacks = async (onLocationDetected) => {
-  const ipServices = [
-  { url: 'https://ip-api.com/json/?fields=city', getCityFromResponse: (data) => data.city },
-  { url: 'https://ipapi.co/json/', getCityFromResponse: (data) => data.city },
-  { url: 'https://api.ipify.org?format=json', getCityFromResponse: async (data) => {
-      try {
-        const ipDetailResponse = await fetch(`https://ipapi.co/${data.ip}/json/`);
-        const ipDetail = await ipDetailResponse.json();
-        return ipDetail.city;
-      } catch (error) {return null;}
-    }
-  },
-  { url: 'https://ipinfo.io/json', getCityFromResponse: (data) => data.city }];
-
-
-  for (const service of ipServices) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000);
-      const response = await fetch(service.url, { signal: controller.signal, headers: { 'Accept': 'application/json' } });
-      clearTimeout(timeoutId);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data = await response.json();
-      const city = await service.getCityFromResponse(data);
-      if (city && city.trim()) {
-        onLocationDetected(city);
-        return;
-      }
-    } catch (error) {/* console.error("Location service failed:", service.url, error); */continue;}
-  }
-  onLocationDetected("your city");
-};
-
 export default function LoadingRevelation({ onContinue, userName, birthDate }) {
-  const [userCity, setUserCity] = useState(null); // Estado local para a cidade
+  const [userCity, setUserCity] = useState("your city");
   const [showFirstTyping, setShowFirstTyping] = useState(true);
   const [showFirstMessage, setShowFirstMessage] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [showSecondTyping, setShowSecondTyping] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
-  const [showNextButton, setShowNextButton] = useState(false); // Changed from showButton to showNextButton
+  const [showNextButton, setShowNextButton] = useState(false);
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
@@ -91,39 +56,35 @@ export default function LoadingRevelation({ onContinue, userName, birthDate }) {
       </div>
     </div>;
 
-
   useEffect(() => {
-    // Inicia a detecção de localização apenas quando este componente é montado
-    fetchLocationWithFallbacks(setUserCity);
-
     const timers = [];
 
     // First typing (1s) then first message
     timers.push(setTimeout(() => {
       setShowFirstTyping(false);
       setShowFirstMessage(true);
-    }, 1000)); // Changed from 2000 to 1000
+    }, 1000));
 
     // Show image immediately after first message
     timers.push(setTimeout(() => {
       setShowImage(true);
-    }, 1500)); // Adjusted to 1500 (1000 + 500)
+    }, 1500));
 
     // Start second typing after image appears
     timers.push(setTimeout(() => {
       setShowSecondTyping(true);
-    }, 2000)); // Adjusted to 2000 (1500 + 500)
+    }, 2000));
 
     // Second typing (1s) then final message
     timers.push(setTimeout(() => {
       setShowSecondTyping(false);
       setShowFinalMessage(true);
-    }, 3000)); // Adjusted to 3000 (2000 + 1000)
+    }, 3000));
 
     // Show button after final message
     timers.push(setTimeout(() => {
       setShowNextButton(true);
-    }, 3500)); // Adjusted to 3500 (3000 + 500)
+    }, 3500));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -133,7 +94,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate }) {
       <link
         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&display=swap"
         rel="stylesheet" />
-
 
       {/* First typing indicator */}
       <AnimatePresence>
@@ -156,7 +116,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate }) {
 
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, I am preparing a portrait of your divine soul. I'm starting right now👇🔮
-
               </p>
               </div>
             </div>
@@ -210,7 +169,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate }) {
                 <p className="text-base text-gray-700 leading-relaxed">
                   <span className="font-bold">{userName || 'Friend'}</span>, something special is unfolding...
                   <br /><br />
-                  Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate. Everything points to a meeting in <span className="font-bold">{userCity || 'your city'}</span> — or somewhere very close.
+                  Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate. Everything points to a meeting in <span className="font-bold">{userCity}</span> — or somewhere very close.
                   <br /><br />
                   This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨
                 </p>
@@ -220,23 +179,21 @@ export default function LoadingRevelation({ onContinue, userName, birthDate }) {
         }
       </AnimatePresence>
 
-      {/* Continue button (now "Discover the face..." button) */}
-      {showNextButton && // Changed from showButton
+      {/* Continue button */}
+      {showNextButton &&
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }} // Added transition
-        className="mt-8"> {/* Changed className from "mt-4 w-full flex justify-center" */}
+        transition={{ duration: 0.5 }}
+        className="mt-8">
 
           <button
           onClick={onContinue}
           id="btn-vsl"
-          className="btn-primary w-full max-w-sm md:w-auto"> {/* Changed to plain button and class */}
-
-            Discover the face of my divine soul {/* Changed button text */}
+          className="btn-primary w-full max-w-sm md:w-auto">
+            Discover the face of my divine soul
           </button>
         </motion.div>
       }
     </div>);
-
 }

@@ -1,13 +1,9 @@
-
 import React, { useState, useEffect, Suspense, lazy } from "react";
-import { QuizResult } from "@/api/entities";
-import { User } from "@/api/entities";
 import { motion } from "framer-motion";
 import { Stars, Moon, Heart, Sparkles, Loader2 } from "lucide-react";
 
 // Carregar apenas o VideoStep imediatamente (primeira etapa)
 import VideoStep from "../components/quiz/VideoStep";
-import StepTracker from '../components/quiz/StepTracker';
 
 // Lazy loading para todas as outras etapas do funil
 const NameCollection = lazy(() => import("../components/quiz/NameCollection"));
@@ -34,69 +30,14 @@ export default function Funnel1Page() {
     birth_time: "",
     love_situation: ""
   });
-  const [quizResultId, setQuizResultId] = useState(null);
-  const [src, setSrc] = useState('');
 
   const totalSteps = 8; // Video, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
   const progress = currentStep / totalSteps * 100;
 
-  const isBot = () => {
-    if (typeof window === 'undefined') return false;
-    
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    const botPatterns = [
-      'facebookexternalhit',
-      'facebookcatalog',
-      'facebookcrawler',
-      'facebookbot',
-      'facebookplatform',
-      'twitterbot',
-      'linkedinbot',
-      'whatsapp',
-      'telegrambot',
-      'skypeuripreview',
-      'slackbot',
-      'discordbot',
-      'googlebot',
-      'bingbot',
-      'yandexbot',
-      'baiduspider',
-      'ia_archiver',
-      'crawler',
-      'spider',
-      'bot/',
-      'crawl',
-      'preview',
-      'scraper'
-    ];
-    
-    const isBot = botPatterns.some(pattern => userAgent.includes(pattern));
-    
-    if (isBot) {
-      console.log('Bot detectado:', userAgent);
-    }
-    
-    return isBot;
-  };
-
-  const getNextVisitorId = async () => {
-    try {
-      const allResults = await QuizResult.list('-visitor_id', 1);
-      if (allResults.length === 0) {
-        return 1;
-      }
-      return (allResults[0].visitor_id || 0) + 1;
-    } catch (error) {
-      console.warn("Erro ao obter visitor_id, usando fallback:", error);
-      return Date.now() % 1000000;
-    }
-  };
-
   useEffect(() => {
     // Save state up to the PaywallStep (step 8), clear on ThankYouStep (step 9)
-    if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode' && currentStep < 9) {
+    if (currentStep < 9) {
         const stateToSave = {
-            id: quizResultId,
             step: currentStep,
             data: formData
         };
@@ -104,15 +45,7 @@ export default function Funnel1Page() {
     } else if (currentStep === 9) { // ThankYouStep
         localStorage.removeItem('holymind_quiz_state');
     }
-  }, [currentStep, formData, quizResultId]);
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const srcParam = urlParams.get('src');
-    if (srcParam) {
-        setSrc(srcParam);
-    }
-  }, []);
+  }, [currentStep, formData]);
 
   useEffect(() => {
     const initializeQuizSession = async () => {
@@ -120,94 +53,17 @@ export default function Funnel1Page() {
       if (savedStateJSON) {
           try {
               const savedState = JSON.parse(savedStateJSON);
-              if (savedState && savedState.id && savedState.step) {
+              if (savedState && savedState.step) {
                   console.log("Sessão anterior encontrada. Restaurando progresso.", savedState);
-                  
-                  // Verificar se o registro ainda existe antes de tentar atualizar
-                  if (savedState.id !== 'offline-mode' && savedState.id !== 'admin-mode' && savedState.id !== 'bot-mode') {
-                      try {
-                          const existingRecord = await QuizResult.get(savedState.id);
-                          if (existingRecord) {
-                              setQuizResultId(savedState.id);
-                              setFormData(savedState.data || { name: "", birth_date: "", birth_time: "", love_situation: "" });
-                              setCurrentStep(savedState.step);
-                              await QuizResult.update(savedState.id, { last_resumed_at: new Date().toISOString() }).catch(e => console.warn("Failed to update resumed session timestamp", e));
-                              return;
-                          } else {
-                            console.warn("Registro salvo não existe mais, iniciando nova sessão: Registro não encontrado na base.");
-                            localStorage.removeItem('holymind_quiz_state');
-                          }
-                      } catch (error) {
-                          console.warn("Registro salvo não existe mais, iniciando nova sessão:", error);
-                          localStorage.removeItem('holymind_quiz_state');
-                      }
-                  } else {
-                      // Para modos especiais, não precisa verificar no banco
-                      setQuizResultId(savedState.id);
-                      setFormData(savedState.data || { name: "", birth_date: "", birth_time: "", love_situation: "" });
-                      setCurrentStep(savedState.step);
-                      return;
-                  }
+                  setFormData(savedState.data || { name: "", birth_date: "", birth_time: "", love_situation: "" });
+                  setCurrentStep(savedState.step);
+                  return;
               }
           } catch (e) {
               console.warn("Erro ao parsear estado salvo do quiz, iniciando nova sessão.", e);
               localStorage.removeItem('holymind_quiz_state');
           }
       }
-
-      if (isBot()) {
-        console.log('Bot detectado - não criando registro de analytics');
-        setQuizResultId('bot-mode');
-        return;
-      }
-
-      try {
-        const user = await User.me();
-        if (user && user.role === 'admin') {
-          console.log('Admin detectado - não criando registro de analytics');
-          setQuizResultId('admin-mode');
-          return;
-        }
-      } catch (error) {
-        // User not logged in or cannot be checked
-      }
-
-      const lastQuizId = localStorage.getItem('holymind_last_quiz_id');
-      if (lastQuizId) {
-          try {
-              const lastResult = await QuizResult.get(lastQuizId);
-              if (lastResult && lastResult.purchased) {
-                  console.log("Compra anterior detectada. Pulando para a página de agradecimento.");
-                  setFormData(prev => ({ ...prev, name: lastResult.name || 'Amigo(a)' }));
-                  setCurrentStep(9); // ThankYouStep
-                  return;
-              }
-          } catch (error) {
-              console.warn("Não foi possível recuperar o último resultado do quiz. Iniciando nova sessão.", error);
-              localStorage.removeItem('holymind_last_quiz_id');
-          }
-      }
-      
-      const createNewRecord = async () => {
-        try {
-          const nextId = await getNextVisitorId();
-          const urlParams = new URLSearchParams(window.location.search);
-          const srcParam = urlParams.get('src');
-          const utmContentParam = urlParams.get('utm_content');
-          const newRecord = await QuizResult.create({ 
-            visitor_id: nextId,
-            src: srcParam || null,
-            utm_content: utmContentParam || null,
-            funnel_variant: 'funnel-1' 
-          });
-          setQuizResultId(newRecord.id);
-        } catch (creationError) {
-          console.warn("Erro ao criar novo registro de quiz, operando em modo offline:", creationError);
-          setQuizResultId('offline-mode');
-        }
-      };
-      
-      await createNewRecord();
     };
     
     initializeQuizSession();
@@ -224,78 +80,25 @@ export default function Funnel1Page() {
           top: 0, 
           behavior: 'smooth' 
         });
-      }, 50); // Reduzido de 100 para 50ms para scroll mais imediato
+      }, 50);
     }
   };
 
   const handleNameSubmit = async (name) => {
     const updatedData = { ...formData, name };
     setFormData(updatedData);
-
-    try {
-      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-        // Verificar se o registro ainda existe antes de atualizar
-        const existingRecord = await QuizResult.get(quizResultId);
-        if (existingRecord) {
-          await QuizResult.update(quizResultId, { name });
-        } else {
-          console.warn("Registro não encontrado, continuando em modo offline");
-          setQuizResultId('offline-mode');
-        }
-      }
-    } catch (error) {
-      console.warn("Erro ao salvar nome, continuando offline:", error);
-      setQuizResultId('offline-mode');
-    }
-    
     nextStep();
   };
 
   const handleBirthDataSubmit = async (birthData) => {
     const updatedData = { ...formData, ...birthData };
     setFormData(updatedData);
-
-    try {
-      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-        // Verificar se o registro ainda existe antes de atualizar
-        const existingRecord = await QuizResult.get(quizResultId);
-        if (existingRecord) {
-          await QuizResult.update(quizResultId, {
-            birth_date: birthData.birth_date
-            // Agora inclui o ano completo no birth_date
-          });
-        } else {
-          console.warn("Registro não encontrado, continuando em modo offline");
-          setQuizResultId('offline-mode');
-        }
-      }
-    } catch (error) {
-      console.warn("Erro ao salvar dados de nascimento, continuando offline:", error);
-      setQuizResultId('offline-mode');
-    }
-
     nextStep();
   };
 
   const handleLoveSituationSubmit = async (loveSituation) => {
     const updatedData = { ...formData, love_situation: loveSituation };
     setFormData(updatedData);
-
-    try {
-      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-        // Verificar se o registro ainda existe antes de atualizar
-        const existingRecord = await QuizResult.get(quizResultId);
-        if (existingRecord) {
-          await QuizResult.update(quizResultId, { love_situation: loveSituation });
-        } else {
-          console.warn("Registro não encontrado, continuando em modo offline");
-          setQuizResultId('offline-mode');
-        }
-      }
-    } catch (error) {
-      console.warn("Erro ao salvar situação amorosa, continuando offline:", error);
-      setQuizResultId('offline-mode');
-    }
     nextStep();
   };
   
@@ -342,60 +145,14 @@ export default function Funnel1Page() {
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
         <div className="max-w-lg mx-auto">
           <Suspense fallback={<StepLoader />}>
-            {/* Renderização condicional com StepTracker para rastrear visualizações */}
-            {currentStep === 1 && (
-                <>
-                    <StepTracker quizResultId={quizResultId} stepName="video" />
-                    <VideoStep onContinue={nextStep} />
-                </>
-            )}
-            {currentStep === 2 && (
-                <>
-                    <StepTracker quizResultId={quizResultId} stepName="testimonials" />
-                    <TestimonialsCarousel onContinue={nextStep} />
-                </>
-            )}
-            {currentStep === 3 && (
-                <>
-                    <StepTracker quizResultId={quizResultId} stepName="name" />
-                    <NameCollection onNameSubmit={handleNameSubmit} />
-                </>
-            )}
-            {currentStep === 4 && (
-                <>
-                    <StepTracker quizResultId={quizResultId} stepName="birth" />
-                    <BirthDataCollection onSubmit={handleBirthDataSubmit} />
-                </>
-            )}
-            {currentStep === 5 && (
-                <>
-                    <StepTracker quizResultId={quizResultId} stepName="love" />
-                    <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />
-                </>
-            )}
-            {currentStep === 6 && (
-                <>
-                    <StepTracker quizResultId={quizResultId} stepName="palm" />
-                    <PalmReadingResults onContinue={nextStep} userName={formData.name} />
-                </>
-            )}
-            {currentStep === 7 && (
-                <>
-                    <StepTracker quizResultId={quizResultId} stepName="revelation" />
-                    <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} />
-                </>
-            )}
-            {currentStep === 8 && (
-              <>
-                  <StepTracker quizResultId={quizResultId} stepName="paywall" />
-                  <PaywallStep 
-                    userName={formData.name}
-                    birthDate={formData.birth_date}
-                    quizResultId={quizResultId}
-                    src={src}
-                  />
-              </>
-            )}
+            {currentStep === 1 && <VideoStep onContinue={nextStep} />}
+            {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
+            {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
+            {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
+            {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
+            {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
+            {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} />}
+            {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} />}
             {currentStep === 9 && <ThankYouStep userName={formData.name} />}
           </Suspense>
         </div>

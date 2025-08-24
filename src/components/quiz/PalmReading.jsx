@@ -1,11 +1,9 @@
-
 import React, { useState, useRef } from "react";
-import { UploadFile } from "@/api/integrations";
 import { Button } from "@/components/ui/button";
 import { Camera, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function PalmReading({ onPhotoTaken }) { // Removed userCity from props
+export default function PalmReading({ onPhotoTaken }) {
   const [isCapturing, setIsCapturing] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
   const [photoUrl, setPhotoUrl] = useState(null);
@@ -24,18 +22,19 @@ export default function PalmReading({ onPhotoTaken }) { // Removed userCity from
     setUploadError(false);
 
     try {
-      const { file_url } = await UploadFile({ file });
+      // Simulate upload delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
       setIsCapturing(false);
 
       setTimeout(() => {
         setIsScanning(true);
         setTimeout(() => {
-          onPhotoTaken(file_url);
+          onPhotoTaken(localUrl);
         }, 3000);
       }, 500);
 
     } catch (error) {
-      console.warn("Erro ao fazer upload da foto, continuando sem salvar:", error);
+      console.warn("Erro ao fazer upload da foto:", error);
       setIsCapturing(false);
       setUploadError(true);
       
