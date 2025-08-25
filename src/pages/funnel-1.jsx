@@ -1,6 +1,8 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import { motion } from "framer-motion";
 import { Stars, Moon, Heart, Sparkles, Loader2 } from "lucide-react";
+import { QuizResult } from '@/entities/QuizResult';
+import StepTracker from '../components/quiz/StepTracker';
 
 // Carregar apenas o VideoStep imediatamente (primeira etapa)
 import VideoStep from "../components/quiz/VideoStep";
@@ -28,7 +30,8 @@ export default function Funnel1Page() {
     name: "",
     birth_date: "",
     birth_time: "",
-    love_situation: ""
+    love_situation: "",
+    quizResultId: null
   });
 
   const totalSteps = 8; // Video, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
@@ -63,6 +66,31 @@ export default function Funnel1Page() {
               console.warn("Erro ao parsear estado salvo do quiz, iniciando nova sessão.", e);
               localStorage.removeItem('holymind_quiz_state');
           }
+      }
+      
+      // Create new QuizResult if no saved session
+      try {
+        const currentUrl = new URL(window.location.href);
+        const utmSource = currentUrl.searchParams.get('utm_source') || 'direct';
+        const utmMedium = currentUrl.searchParams.get('utm_medium') || 'organic';
+        const utmCampaign = currentUrl.searchParams.get('utm_campaign') || 'none';
+        const src = currentUrl.searchParams.get('src') || '';
+        
+        const newQuizResult = await QuizResult.create({
+          funnel_type: 'funnel-1',
+          utm_source: utmSource,
+          utm_medium: utmMedium,
+          utm_campaign: utmCampaign,
+          src: src,
+          current_step: 1,
+          started_at: new Date().toISOString()
+        });
+        
+        setFormData(prev => ({ ...prev, quizResultId: newQuizResult.id }));
+        console.log('New QuizResult created:', newQuizResult.id);
+      } catch (error) {
+        console.warn('Failed to create QuizResult, using offline mode:', error);
+        setFormData(prev => ({ ...prev, quizResultId: 'offline-mode' }));
       }
     };
     
@@ -144,6 +172,7 @@ export default function Funnel1Page() {
 
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
         <div className="max-w-lg mx-auto">
+          <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
           <Suspense fallback={<StepLoader />}>
             {currentStep === 1 && <VideoStep onContinue={nextStep} />}
             {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
@@ -151,8 +180,8 @@ export default function Funnel1Page() {
             {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
             {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
             {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
-            {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} />}
-            {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} />}
+            {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+            {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
             {currentStep === 9 && <ThankYouStep userName={formData.name} />}
           </Suspense>
         </div>
