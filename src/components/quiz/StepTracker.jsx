@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { QuizResult } from '@/entities/QuizResult';
+import { HybridQuizResult } from '@/entities/HybridQuizResult';
 
 export default function StepTracker({ currentStep, quizResultId }) {
     useEffect(() => {
@@ -10,12 +10,12 @@ export default function StepTracker({ currentStep, quizResultId }) {
             }
 
             try {
-                await QuizResult.update(quizResultId, { 
+                await HybridQuizResult.update(quizResultId, { 
                     current_step: currentStep,
                     last_step_viewed: currentStep,
                     updated_at: new Date().toISOString()
                 });
-                console.log(`Step ${currentStep} tracked successfully in Base44`);
+                console.log(`Step ${currentStep} tracked successfully in hybrid storage`);
             } catch (error) {
                 console.warn(`Failed to track step ${currentStep}:`, error);
             }

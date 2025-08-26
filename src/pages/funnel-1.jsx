@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import { motion } from "framer-motion";
 import { Stars, Moon, Heart, Sparkles, Loader2 } from "lucide-react";
-import { QuizResult } from '@/entities/QuizResult';
+import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import StepTracker from '../components/quiz/StepTracker';
 
 // Carregar apenas o VideoStep imediatamente (primeira etapa)
@@ -76,7 +76,7 @@ export default function Funnel1Page() {
         const utmCampaign = currentUrl.searchParams.get('utm_campaign') || 'none';
         const src = currentUrl.searchParams.get('src') || '';
         
-        const newQuizResult = await QuizResult.create({
+        const newQuizResult = await HybridQuizResult.create({
           funnel_type: 'funnel-1',
           utm_source: utmSource,
           utm_medium: utmMedium,
@@ -87,9 +87,9 @@ export default function Funnel1Page() {
         });
         
         setFormData(prev => ({ ...prev, quizResultId: newQuizResult.id }));
-        console.log('New QuizResult created:', newQuizResult.id);
+        console.log('New QuizResult created in hybrid storage:', newQuizResult.id);
       } catch (error) {
-        console.warn('Failed to create QuizResult, using offline mode:', error);
+        console.warn('Failed to create QuizResult in hybrid storage, using offline mode:', error);
         setFormData(prev => ({ ...prev, quizResultId: 'offline-mode' }));
       }
     };

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar, Heart, Sparkles, Shield, Clock } from 'lucide-react';
-import { QuizResult } from '@/entities/QuizResult';
+import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import SalesSection from './SalesSection';
 
 export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
@@ -16,7 +16,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
       
       // Track pitch step view when sales section appears
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-        QuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e => 
+        HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e => 
           console.warn("Failed to update pitch step view:", e)
         );
       }
@@ -30,7 +30,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
     const trackCheckout = async () => {
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
         try {
-          await QuizResult.update(quizResultId, { checkout_step_clicked: true });
+          await HybridQuizResult.update(quizResultId, { checkout_step_clicked: true });
           console.log('Checkout click tracked successfully');
         } catch (error) {
           console.warn("Falha ao rastrear clique de checkout:", error);

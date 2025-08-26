@@ -121,15 +121,15 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
           // Use Promise.resolve to avoid blocking redirect
           Promise.resolve().then(async () => {
             try {
-              const { QuizResult } = await import('@/entities/QuizResult');
-              await QuizResult.update(quizResultId, { pitch_step_viewed: true });
+              const { HybridQuizResult } = await import('@/entities/HybridQuizResult');
+              await HybridQuizResult.update(quizResultId, { pitch_step_viewed: true });
               console.log('Pitch view tracked successfully');
             } catch (error) {
               console.warn("Failed to track pitch view:", error);
             }
           });
         } catch (error) {
-          console.warn("Failed to import QuizResult:", error);
+          console.warn("Failed to import HybridQuizResult:", error);
         }
       }
 
