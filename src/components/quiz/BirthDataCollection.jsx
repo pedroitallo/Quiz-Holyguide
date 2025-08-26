@@ -177,7 +177,7 @@ export default function BirthDataCollection({ onSubmit }) {
           {/* Seletores de Dia, Mês e Ano */}
           <div className="space-y-4">
             <label className="block text-lg font-semibold text-gray-800">
-              Birth Date
+              Select your date of birth
             </label>
 
             <div className="grid grid-cols-3 gap-3">
