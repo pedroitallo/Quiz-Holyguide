@@ -77,8 +77,8 @@ export default function NameCollection({ onNameSubmit }) {
         <div className="space-y-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex flex-col items-center">
-              <p className="text-sm text-gray-500 mb-2">
-                Enter your name below to find your divine soul.
+              <p className="text-sm text-gray-500 mb-2 font-bold">
+                Enter your name below to find your divine soul 👇
               </p>
               <Input
                 type="text"
