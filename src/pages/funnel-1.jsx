@@ -6,23 +6,14 @@ import StepTracker from '../components/quiz/StepTracker';
 
 // Carregar apenas o VideoStep imediatamente (primeira etapa)
 import VideoStep from "../components/quiz/VideoStep";
-
-// Lazy loading para todas as outras etapas do funil
-const NameCollection = lazy(() => import("../components/quiz/NameCollection"));
-const BirthDataCollection = lazy(() => import("../components/quiz/BirthDataCollection"));
-const LoveSituationStep = lazy(() => import("../components/quiz/LoveSituationStep"));
-const PalmReadingResults = lazy(() => import("../components/quiz/PalmReadingResults"));
-const LoadingRevelation = lazy(() => import("../components/quiz/LoadingRevelation"));
-const TestimonialsCarousel = lazy(() => import("../components/quiz/TestimonialsCarousel"));
-const PaywallStep = lazy(() => import("../components/quiz/PaywallStep"));
-const ThankYouStep = lazy(() => import("../components/quiz/ThankYouStep"));
-
-// Componente de loading para as etapas sendo carregadas
-const StepLoader = () => (
-  <div className="flex items-center justify-center min-h-[400px]">
-    <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
-  </div>
-);
+import NameCollection from "../components/quiz/NameCollection";
+import BirthDataCollection from "../components/quiz/BirthDataCollection";
+import LoveSituationStep from "../components/quiz/LoveSituationStep";
+import PalmReadingResults from "../components/quiz/PalmReadingResults";
+import LoadingRevelation from "../components/quiz/LoadingRevelation";
+import TestimonialsCarousel from "../components/quiz/TestimonialsCarousel";
+import PaywallStep from "../components/quiz/PaywallStep";
+import ThankYouStep from "../components/quiz/ThankYouStep";
 
 export default function Funnel1Page() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -173,17 +164,15 @@ export default function Funnel1Page() {
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
         <div className="max-w-lg mx-auto">
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
-          <Suspense fallback={<StepLoader />}>
-            {currentStep === 1 && <VideoStep onContinue={nextStep} />}
-            {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
-            {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
-            {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
-            {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
-            {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
-            {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-            {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-            {currentStep === 9 && <ThankYouStep userName={formData.name} />}
-          </Suspense>
+          {currentStep === 1 && <VideoStep onContinue={nextStep} />}
+          {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
+          {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
+          {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
+          {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
+          {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
+          {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 9 && <ThankYouStep userName={formData.name} />}
         </div>
       </div>
     </div>
