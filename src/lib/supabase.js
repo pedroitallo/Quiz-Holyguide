@@ -4,24 +4,56 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('Supabase environment variables not found. Using offline mode.')
+  console.error('❌ CRITICAL: Supabase environment variables not found!', {
+    url: supabaseUrl ? 'SET' : 'MISSING',
+    key: supabaseAnonKey ? 'SET' : 'MISSING'
+  })
 }
 
-export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '', {
+export const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    persistSession: false // We don't need user sessions for this use case
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false
+  },
+  db: {
+    schema: 'public'
+  },
+  global: {
+    headers: {
+      'x-client-info': 'holymind-quiz@1.0.0'
+    }
   }
-})
+}) : null
 
 // Test connection function
 export const testSupabaseConnection = async () => {
-  try {
-    const { data, error } = await supabase.from('Funnel01').select('count').limit(1)
-    if (error) throw error
-    console.log('✅ Supabase connection successful')
-    return true
-  } catch (error) {
-    console.warn('❌ Supabase connection failed:', error.message)
+  if (!supabase) {
+    console.error('❌ Supabase client not initialized - missing environment variables')
     return false
   }
+
+  try {
+    console.log('🔄 Testing Supabase connection...')
+    const { data, error } = await supabase
+      .from('Funnel01')
+      .select('id')
+      .limit(1)
+    
+    if (error) {
+      console.error('❌ Supabase connection test failed:', error)
+      return false
+    }
+    
+    console.log('✅ Supabase connection successful', { recordsFound: data?.length || 0 })
+    return true
+  } catch (error) {
+    console.error('❌ Supabase connection failed:', error.message, error)
+    return false
+  }
+}
+
+// Initialize connection test on module load
+if (typeof window !== 'undefined') {
+  testSupabaseConnection()
 }

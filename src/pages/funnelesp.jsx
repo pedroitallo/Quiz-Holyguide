@@ -61,11 +61,14 @@ export default function FunnelEspPage() {
       
       // Create new QuizResult if no saved session
       try {
+        console.log('🚀 Creating new quiz session (funnelesp)...');
         const currentUrl = new URL(window.location.href);
         const utmSource = currentUrl.searchParams.get('utm_source') || 'direct';
         const utmMedium = currentUrl.searchParams.get('utm_medium') || 'organic';
         const utmCampaign = currentUrl.searchParams.get('utm_campaign') || 'none';
         const src = currentUrl.searchParams.get('src') || '';
+        
+        console.log('📊 UTM Parameters (funnelesp):', { utmSource, utmMedium, utmCampaign, src });
         
         const newQuizResult = await HybridQuizResult.create({
           funnel_type: 'funnelesp',
@@ -78,9 +81,9 @@ export default function FunnelEspPage() {
         });
         
         setFormData(prev => ({ ...prev, quizResultId: newQuizResult.id }));
-        console.log('New QuizResult created in hybrid storage:', newQuizResult.id);
+        console.log('✅ New QuizResult created successfully (funnelesp):', newQuizResult.id);
       } catch (error) {
-        console.warn('Failed to create QuizResult in hybrid storage, using offline mode:', error);
+        console.error('❌ CRITICAL: Failed to create QuizResult (funnelesp), using offline mode:', error.message, error);
         setFormData(prev => ({ ...prev, quizResultId: 'offline-mode' }));
       }
     };

@@ -14,7 +14,13 @@ export const SupabaseQuizResult = {
    * @returns {Promise} - Promise that resolves with the created record
    */
   async create(data) {
+    if (!supabase) {
+      throw new Error('Supabase client not initialized - check environment variables')
+    }
+
     try {
+      console.log('🔄 Creating quiz result in Supabase...', data)
+      
       const { data: result, error } = await supabase
         .from('Funnel01')
         .insert([{
@@ -30,13 +36,14 @@ export const SupabaseQuizResult = {
         .single()
 
       if (error) {
-        throw new Error(`Supabase error: ${error.message}`)
+        console.error('❌ Supabase INSERT error:', error)
+        throw new Error(`Supabase INSERT error: ${error.message} (Code: ${error.code})`)
       }
 
-      console.log('✅ Quiz result created in Supabase:', result.id)
+      console.log('✅ Quiz result created in Supabase:', result.id, result)
       return result
     } catch (error) {
-      console.error('❌ Error creating quiz result in Supabase:', error)
+      console.error('❌ Error creating quiz result in Supabase:', error.message, error)
       throw error
     }
   },
@@ -48,7 +55,13 @@ export const SupabaseQuizResult = {
    * @returns {Promise} - Promise that resolves with the updated record
    */
   async update(id, data) {
+    if (!supabase) {
+      throw new Error('Supabase client not initialized - check environment variables')
+    }
+
     try {
+      console.log('🔄 Updating quiz result in Supabase:', id, data)
+      
       const updateData = {
         ...data,
         updated_at: new Date().toISOString()
@@ -62,13 +75,14 @@ export const SupabaseQuizResult = {
         .single()
 
       if (error) {
-        throw new Error(`Supabase error: ${error.message}`)
+        console.error('❌ Supabase UPDATE error:', error)
+        throw new Error(`Supabase UPDATE error: ${error.message} (Code: ${error.code})`)
       }
 
-      console.log('✅ Quiz result updated in Supabase:', id)
+      console.log('✅ Quiz result updated in Supabase:', id, result)
       return result
     } catch (error) {
-      console.error('❌ Error updating quiz result in Supabase:', error)
+      console.error('❌ Error updating quiz result in Supabase:', error.message, error)
       throw error
     }
   },
@@ -79,6 +93,10 @@ export const SupabaseQuizResult = {
    * @returns {Promise} - Promise that resolves with the quiz result
    */
   async getById(id) {
+    if (!supabase) {
+      throw new Error('Supabase client not initialized - check environment variables')
+    }
+
     try {
       const { data: result, error } = await supabase
         .from('Funnel01')
@@ -87,12 +105,12 @@ export const SupabaseQuizResult = {
         .single()
 
       if (error) {
-        throw new Error(`Supabase error: ${error.message}`)
+        throw new Error(`Supabase SELECT error: ${error.message} (Code: ${error.code})`)
       }
 
       return result
     } catch (error) {
-      console.error('❌ Error fetching quiz result from Supabase:', error)
+      console.error('❌ Error fetching quiz result from Supabase:', error.message, error)
       throw error
     }
   },
@@ -103,6 +121,10 @@ export const SupabaseQuizResult = {
    * @returns {Promise} - Promise that resolves with quiz results array
    */
   async getAll(filters = {}) {
+    if (!supabase) {
+      throw new Error('Supabase client not initialized - check environment variables')
+    }
+
     try {
       let query = supabase.from('Funnel01').select('*')
 
@@ -126,12 +148,12 @@ export const SupabaseQuizResult = {
       const { data: results, error } = await query
 
       if (error) {
-        throw new Error(`Supabase error: ${error.message}`)
+        throw new Error(`Supabase SELECT error: ${error.message} (Code: ${error.code})`)
       }
 
       return results || []
     } catch (error) {
-      console.error('❌ Error fetching quiz results from Supabase:', error)
+      console.error('❌ Error fetching quiz results from Supabase:', error.message, error)
       throw error
     }
   }

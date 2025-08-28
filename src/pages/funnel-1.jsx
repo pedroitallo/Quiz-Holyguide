@@ -61,11 +61,14 @@ export default function Funnel1Page() {
       
       // Create new QuizResult if no saved session
       try {
+        console.log('🚀 Creating new quiz session...');
         const currentUrl = new URL(window.location.href);
         const utmSource = currentUrl.searchParams.get('utm_source') || 'direct';
         const utmMedium = currentUrl.searchParams.get('utm_medium') || 'organic';
         const utmCampaign = currentUrl.searchParams.get('utm_campaign') || 'none';
         const src = currentUrl.searchParams.get('src') || '';
+        
+        console.log('📊 UTM Parameters:', { utmSource, utmMedium, utmCampaign, src });
         
         const newQuizResult = await HybridQuizResult.create({
           funnel_type: 'funnel-1',
@@ -78,9 +81,9 @@ export default function Funnel1Page() {
         });
         
         setFormData(prev => ({ ...prev, quizResultId: newQuizResult.id }));
-        console.log('New QuizResult created in hybrid storage:', newQuizResult.id);
+        console.log('✅ New QuizResult created successfully:', newQuizResult.id);
       } catch (error) {
-        console.warn('Failed to create QuizResult in hybrid storage, using offline mode:', error);
+        console.error('❌ CRITICAL: Failed to create QuizResult, using offline mode:', error.message, error);
         setFormData(prev => ({ ...prev, quizResultId: 'offline-mode' }));
       }
     };

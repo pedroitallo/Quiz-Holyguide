@@ -18,9 +18,11 @@ export default function StepTracker({ currentStep, quizResultId }) {
     useEffect(() => {
         const trackStep = async () => {
             if (!quizResultId || quizResultId === 'offline-mode' || quizResultId === 'admin-mode' || quizResultId === 'bot-mode') {
-                console.log(`Step ${currentStep} viewed (no tracking - invalid ID)`);
+                console.warn(`⚠️ Step ${currentStep} viewed (no tracking - invalid ID: ${quizResultId})`);
                 return;
             }
+
+            console.log(`🔄 Tracking step ${currentStep} for quiz result: ${quizResultId}`);
 
             // Prepare update data with step tracking
             const updateData = {
@@ -33,20 +35,15 @@ export default function StepTracker({ currentStep, quizResultId }) {
             const stepTrackingColumn = STEP_TRACKING_MAP[currentStep];
             if (stepTrackingColumn) {
                 updateData[stepTrackingColumn] = true;
+                console.log(`📊 Adding step tracking: ${stepTrackingColumn} = true`);
             }
 
             try {
-                // Use Promise.resolve to make this truly non-blocking
-                Promise.resolve().then(async () => {
-                    try {
-                        await HybridQuizResult.update(quizResultId, updateData);
-                        console.log(`Step ${currentStep} tracked successfully in hybrid storage${stepTrackingColumn ? ` (${stepTrackingColumn}: true)` : ''}`);
-                    } catch (error) {
-                        console.warn(`Failed to track step ${currentStep}:`, error);
-                    }
-                });
+                // Make this synchronous and immediate for better reliability
+                await HybridQuizResult.update(quizResultId, updateData);
+                console.log(`✅ Step ${currentStep} tracked successfully${stepTrackingColumn ? ` (${stepTrackingColumn}: true)` : ''}`);
             } catch (error) {
-                console.warn(`Failed to initiate step ${currentStep} tracking:`, error);
+                console.error(`❌ Failed to track step ${currentStep}:`, error.message, error);
             }
         };
 
