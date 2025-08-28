@@ -16,7 +16,7 @@ export const SupabaseQuizResult = {
   async create(data) {
     try {
       const { data: result, error } = await supabase
-        .from('quiz_results')
+        .from('Funnel01')
         .insert([{
           funnel_type: data.funnel_type || '',
           utm_source: data.utm_source || 'direct',
@@ -55,7 +55,7 @@ export const SupabaseQuizResult = {
       }
 
       const { data: result, error } = await supabase
-        .from('quiz_results')
+        .from('Funnel01')
         .update(updateData)
         .eq('id', id)
         .select()
@@ -81,7 +81,7 @@ export const SupabaseQuizResult = {
   async getById(id) {
     try {
       const { data: result, error } = await supabase
-        .from('quiz_results')
+        .from('Funnel01')
         .select('*')
         .eq('id', id)
         .single()
@@ -105,6 +105,7 @@ export const SupabaseQuizResult = {
   async getAll(filters = {}) {
     try {
       let query = supabase.from('quiz_results').select('*')
+      let query = supabase.from('Funnel01').select('*')
 
       // Apply filters
       if (filters.funnel_type) {

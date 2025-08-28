@@ -16,7 +16,7 @@ export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '', {
 // Test connection function
 export const testSupabaseConnection = async () => {
   try {
-    const { data, error } = await supabase.from('quiz_results').select('count').limit(1)
+    const { data, error } = await supabase.from('Funnel01').select('count').limit(1)
     if (error) throw error
     console.log('✅ Supabase connection successful')
     return true
