@@ -20,6 +20,11 @@ export const SupabaseQuizResult = {
 
     try {
       console.log('🔄 Creating quiz result in Supabase...', data)
+      console.log('🔍 Supabase client status:', { 
+        clientExists: !!supabase,
+        url: supabase?.supabaseUrl?.substring(0, 30) + '...',
+        keyExists: !!supabase?.supabaseKey
+      })
       
       const { data: result, error } = await supabase
         .from('Funnel01')
@@ -37,6 +42,12 @@ export const SupabaseQuizResult = {
 
       if (error) {
         console.error('❌ Supabase INSERT error:', error)
+        console.error('🔍 Error details:', {
+          code: error.code,
+          message: error.message,
+          details: error.details,
+          hint: error.hint
+        })
         throw new Error(`Supabase INSERT error: ${error.message} (Code: ${error.code})`)
       }
 

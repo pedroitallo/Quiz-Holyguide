@@ -19,6 +19,10 @@ export const HybridQuizResult = {
    */
   async create(data) {
     console.log('🚀 HybridQuizResult.create called with:', data)
+    console.log('🔍 Environment check:', {
+      supabaseUrl: import.meta.env.VITE_SUPABASE_URL ? 'SET' : 'MISSING',
+      supabaseKey: import.meta.env.VITE_SUPABASE_ANON_KEY ? 'SET' : 'MISSING'
+    })
     
     let supabaseResult = null
     let base44Result = null
@@ -30,6 +34,7 @@ export const HybridQuizResult = {
       console.log('✅ Quiz result created in Supabase:', supabaseResult.id)
     } catch (supabaseError) {
       console.error('❌ CRITICAL: Failed to create in Supabase:', supabaseError.message, supabaseError)
+      console.error('🔍 Supabase error stack:', supabaseError.stack)
       // Don't continue if Supabase fails - this is critical
       throw new Error(`Supabase creation failed: ${supabaseError.message}`)
     }

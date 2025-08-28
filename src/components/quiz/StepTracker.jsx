@@ -17,6 +17,8 @@ const STEP_TRACKING_MAP = {
 export default function StepTracker({ currentStep, quizResultId }) {
     useEffect(() => {
         const trackStep = async () => {
+            console.log('🎯 StepTracker called:', { currentStep, quizResultId })
+            
             if (!quizResultId || quizResultId === 'offline-mode' || quizResultId === 'admin-mode' || quizResultId === 'bot-mode') {
                 console.warn(`⚠️ Step ${currentStep} viewed (no tracking - invalid ID: ${quizResultId})`);
                 return;
@@ -38,16 +40,20 @@ export default function StepTracker({ currentStep, quizResultId }) {
                 console.log(`📊 Adding step tracking: ${stepTrackingColumn} = true`);
             }
 
+            console.log('📤 Sending update data:', updateData);
+
             try {
                 // Make this synchronous and immediate for better reliability
                 await HybridQuizResult.update(quizResultId, updateData);
                 console.log(`✅ Step ${currentStep} tracked successfully${stepTrackingColumn ? ` (${stepTrackingColumn}: true)` : ''}`);
             } catch (error) {
                 console.error(`❌ Failed to track step ${currentStep}:`, error.message, error);
+                console.error('🔍 Step tracking error stack:', error.stack);
             }
         };
 
         if (currentStep && quizResultId) {
+            console.log('🚀 Initiating step tracking...');
             trackStep();
         }
     }, [currentStep, quizResultId]);
