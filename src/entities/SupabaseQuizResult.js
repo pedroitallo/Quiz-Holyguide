@@ -104,7 +104,6 @@ export const SupabaseQuizResult = {
    */
   async getAll(filters = {}) {
     try {
-      let query = supabase.from('quiz_results').select('*')
       let query = supabase.from('Funnel01').select('*')
 
       // Apply filters
