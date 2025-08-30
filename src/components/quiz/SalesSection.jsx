@@ -21,7 +21,7 @@ import { Button } from '@/components/ui/button';
 
 // Checkout configuration
 const CHECKOUT_CONFIG = {
-  baseUrl: "https://payments.holymind.life/checkout/map-of-the-divine-soul"
+  baseUrl: "https://pay.hotmart.com/A101302550P"
   // Add more checkout URLs here if needed for different products
   // premiumUrl: "https://pay.hotmart.com/PREMIUM123",
   // basicUrl: "https://pay.hotmart.com/BASIC456",
