@@ -246,10 +246,6 @@ export default function Up3SoulmatePage() {
             <p className="benefit">
               This instant revelation gives you the certainty you need to recognize the right person — and avoid heartbreak or wasted years with the wrong one.
             </p>
-
-            <div className="price-line">
-              <span className="price-badge">Today only</span>
-              <span className="one-time">one-time only</span>
             </div>
 
             <p className="tiny">
