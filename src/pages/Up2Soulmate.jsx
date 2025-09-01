@@ -220,7 +220,7 @@ export default function Up2SoulmatePage() {
             <li>A <strong>simple gesture</strong> that can bring the real-life meeting closer.</li>
           </ul>
           <p className="lede" style={{ marginTop: '12px' }}>
-            Imagine holding in your hands the most intimate piece of this person's soul… feeling each word move through your heart—and realizing this connection is real and alive <em>right now</em>.
+            Imagine holding in your hands the most intimate piece of this person's soul… feeling each word move through your heart—and realizing this connection is real and alive <em>right now</em> for only $3.9 in 12x
           </p>
         </section>
            
