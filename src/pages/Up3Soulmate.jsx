@@ -256,10 +256,6 @@ export default function Up3SoulmatePage() {
               Complete compatibility blueprint delivered instantly
             </p>
           </div>
-
-          <div className="footer">
-            Secure checkout • 30-day guarantee
-          </div>
         </section>
       </main>
 
