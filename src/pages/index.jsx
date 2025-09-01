@@ -3,6 +3,7 @@ import Home from "./Home";
 import Funnel1 from "./funnel-1";
 import FunnelEsp from "./funnelesp";
 import Up1Soulmate from "./Up1Soulmate";
+import Up2Soulmate from "./Up2Soulmate";
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
 const PAGES = {
@@ -10,6 +11,7 @@ const PAGES = {
     "funnel-1": Funnel1,
     funnelesp: FunnelEsp,
     "up1-soulmate": Up1Soulmate,
+    "up2-soulmate": lazy(() => import("./Up2Soulmate")),
 }
 
 function _getCurrentPage(url) {
@@ -38,6 +40,7 @@ function PagesContent() {
                 <Route path="/funnel-1" element={<Funnel1 />} />
                 <Route path="/funnelesp" element={<FunnelEsp />} />
                 <Route path="/up1-soulmate" element={<Up1Soulmate />} />
+                <Route path="/up2-soulmate" element={<Up2Soulmate />} />
             </Routes>
         </Layout>
     );
