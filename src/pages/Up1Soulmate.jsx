@@ -1,6 +1,61 @@
 import React from 'react';
 
+import React, { useEffect } from 'react';
+
 export default function Up1SoulmatePage() {
+  useEffect(() => {
+    // Carregar script do Hotmart quando o componente montar
+    const loadHotmartScript = () => {
+      // Verificar se o script já existe
+      if (document.querySelector('script[src*="hotmart-checkout-elements"]')) {
+        // Se já existe, apenas inicializar
+        if (window.checkoutElements) {
+          try {
+            window.checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel');
+          } catch (error) {
+            console.warn('Erro ao inicializar Hotmart checkout:', error);
+          }
+        }
+        return;
+      }
+
+      // Criar e carregar o script
+      const script = document.createElement('script');
+      script.src = 'https://checkout.hotmart.com/lib/hotmart-checkout-elements.js';
+      script.async = true;
+      script.onload = () => {
+        console.log('Script Hotmart carregado com sucesso');
+        // Aguardar um pouco para garantir que o script foi processado
+        setTimeout(() => {
+          if (window.checkoutElements) {
+            try {
+              window.checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel');
+              console.log('Hotmart checkout inicializado com sucesso');
+            } catch (error) {
+              console.error('Erro ao inicializar Hotmart checkout:', error);
+            }
+          } else {
+            console.error('checkoutElements não está disponível');
+          }
+        }, 500);
+      };
+      script.onerror = () => {
+        console.error('Erro ao carregar script do Hotmart');
+      };
+      document.head.appendChild(script);
+    };
+
+    loadHotmartScript();
+
+    // Cleanup quando o componente for desmontado
+    return () => {
+      const hotmartContainer = document.getElementById('hotmart-sales-funnel');
+      if (hotmartContainer) {
+        hotmartContainer.innerHTML = '';
+      }
+    };
+  }, []);
+
   return (
     <div style={{
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
