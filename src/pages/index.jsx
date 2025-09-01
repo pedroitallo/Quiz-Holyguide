@@ -5,6 +5,7 @@ import FunnelEsp from "./funnelesp";
 import Up1Soulmate from "./Up1Soulmate";
 import Up2Soulmate from "./Up2Soulmate";
 import Up3Soulmate from "./Up3Soulmate";
+import React, { lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
 const PAGES = {
