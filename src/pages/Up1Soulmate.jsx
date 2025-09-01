@@ -1,5 +1,3 @@
-import React from 'react';
-
 import React, { useEffect } from 'react';
 
 export default function Up1SoulmatePage() {
