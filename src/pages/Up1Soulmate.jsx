@@ -140,6 +140,17 @@ export default function Up1SoulmatePage() {
       </p>
 
       <p style={{ textAlign: 'center' }}>
+        You will have access to all of this within my exclusive app called <strong>Holy Guide</strong>, which you will receive access to via email for free.
+      </p>
+
+      <p style={{ textAlign: 'center' }}>
+        Click below to discover everything about your soul mate now. Available for just $29
+      </p>
+
+      {/* Hotmart Sales Funnel */}
+      <div id="hotmart-sales-funnel"></div>
+    </div>
+  );
 }
   )
 }
