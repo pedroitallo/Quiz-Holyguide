@@ -198,6 +198,7 @@ export default function Up1SoulmatePage() {
 
       <p style={{ textAlign: 'center' }}>
         Click below to discover everything about your soul mate now. Available for just $29
+        Click below to discover everything about your soul mate now. Available for just $29
       </p>
 
       {/* Hotmart Sales Funnel */}
