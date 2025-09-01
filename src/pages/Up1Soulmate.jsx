@@ -151,3 +151,4 @@ export default function Up1SoulmatePage() {
       <div id="hotmart-sales-funnel"></div>
     </div>
   );
+}
