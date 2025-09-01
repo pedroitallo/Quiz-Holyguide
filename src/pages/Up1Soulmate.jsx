@@ -141,3 +141,5 @@ export default function Up1SoulmatePage() {
 
       <p style={{ textAlign: 'center' }}>
 }
+  )
+}
