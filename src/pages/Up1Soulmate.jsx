@@ -67,6 +67,20 @@ export default function Up1SoulmatePage() {
         .lock-emoji {
           flex: 0 0 auto;
         }
+        #hotmart-sales-funnel {
+          position: relative;
+        }
+        #hotmart-sales-funnel::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 119px;
+          width: 100%;
+          background-color: white;
+          z-index: 999;
+          pointer-events: none;
+        }
         @media (min-width: 640px) {
           .locked-card {
             grid-template-columns: 1fr auto;
@@ -132,6 +146,8 @@ export default function Up1SoulmatePage() {
       <p style={{ textAlign: 'center' }}>
         Click below to discover everything about your soul mate now. Available for just $29
       </p>
+      
+      {/* Hotmart Sales Funnel Widget */}
+      <div id="hotmart-sales-funnel"></div>
     </div>
   );
-}
