@@ -1,10 +1,10 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Heart, Users, Search, Check } from "lucide-react";
 import TypingIndicator from './TypingIndicator';
-import { trackButtonClick } from '@/utils/buttonTracking'; // Importar a função de tracking
 
 const getZodiacSign = (dateString) => {
   if (!dateString) return "Signo";
@@ -26,23 +26,25 @@ const getZodiacSign = (dateString) => {
   { name: "Scorpio", start: [10, 23], end: [11, 21] },
   { name: "Sagittarius", start: [11, 22], end: [12, 21] }];
 
+
   for (let sign of signs) {
     const [startMonth, startDay] = sign.start;
     const [endMonth, endDay] = sign.end;
     if (sign.name === "Capricorn") {
-      if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return sign.name;
+      if (month === 12 && day >= 22 || month === 1 && day <= 19) return sign.name;
     } else {
-      if ((month === startMonth && day >= startDay) || (month === endMonth && day <= endDay && month !== startMonth)) return sign.name;
+      if (month === startMonth && day >= startDay || month === endMonth && day <= endDay) return sign.name;
     }
   }
   return "Capricorn";
-}
+};
 
 const loveSituationOptions = [
 { id: "single", label: "I am single", icon: Search, description: "Looking for love" },
 { id: "dating", label: "I am dating or talking to someone", icon: Users, description: "Exploring connections" },
 { id: "relationship_missing", label: "I am in a relationship, but I feel like something is missing", icon: Heart, description: "Seeking completeness" },
 { id: "happy_relationship", label: "I am in a happy relationship and want to confirm if this is my Divine Soulmate", icon: Check, description: "Seeking confirmation" }];
+
 
 export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
   const [selectedOption, setSelectedOption] = useState("");
@@ -67,7 +69,6 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
   };
 
   const handleContinue = () => {
-    trackButtonClick('Continue (Love Situation)', 'LoveSituationStep'); // Tracking do botão 'Continue'
     // The selected option is already saved by being passed to the onSubmit prop.
     // This correctly implements the "Salvar Progresso" requirement.
     onSubmit(selectedOption);
@@ -118,15 +119,15 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
           })}
         </div>
 
-        {showMessage && (
+        {showMessage &&
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-6">
 
-            {isTyping ? (
-          <TypingIndicator /> ) : (
+            {isTyping ?
+          <TypingIndicator /> :
 
           <>
                     <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 mb-6 max-w-md mx-auto">
@@ -138,7 +139,7 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
 
                         <div className="text-left">
                         <p className="text-base text-gray-700 leading-relaxed">
-                            {userName ? (<><span className="font-bold">{userName}</span>, I am delighted to hear that things are progressing in your life.</>) : "I am delighted to hear that things are progressing in your life."} People of the <span className="font-bold">{zodiacSign}</span> sign tend to have a deeper romantic journey, and <strong>my vision indicates that you are about to have a transformative revelation!</strong>
+                            {userName ? <><span className="font-bold">{userName}</span>, I am delighted to hear that things are progressing in your life.</> : "I am delighted to hear that things are progressing in your life."} People of the <span className="font-bold">{zodiacSign}</span> sign tend to have a deeper romantic journey, and <strong>my vision indicates that you are about to have a transformative revelation!</strong>
                         </p>
                         </div>
                     </div>
@@ -150,10 +151,10 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
                     Continue
                     </Button>
                 </>
-          )}
+          }
           </motion.div>
-        )}
+        }
       </motion.div>
-    </div>
-  );
+    </div>);
+
 }

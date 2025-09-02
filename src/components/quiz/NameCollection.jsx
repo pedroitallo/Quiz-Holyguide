@@ -1,9 +1,9 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import TypingIndicator from './TypingIndicator';
-import { trackButtonClick } from '@/utils/buttonTracking'; // Importar a função de tracking
 
 export default function NameCollection({ onNameSubmit }) {
   const [name, setName] = useState("");
@@ -27,7 +27,6 @@ export default function NameCollection({ onNameSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    trackButtonClick('Send Name', 'NameCollection'); // Tracking do botão 'Send'
     setNameSubmitted(true);
     setShowTypingAfterName(true);
 
@@ -40,7 +39,6 @@ export default function NameCollection({ onNameSubmit }) {
   };
 
   const handleFinalContinue = () => {
-    trackButtonClick('Yes! Continue', 'NameCollection'); // Tracking do botão 'Yes! Continue'
     // Execução imediata sem delay
     onNameSubmit(name.trim() || "");
   };

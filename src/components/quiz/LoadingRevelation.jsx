@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import TypingIndicator from './TypingIndicator';
-import { trackButtonClick } from '@/utils/buttonTracking'; // Importar a função de tracking
 
 export default function LoadingRevelation({ onContinue, userName, birthDate, quizResultId }) {
   const [userCity, setUserCity] = useState("your city");
@@ -191,13 +190,12 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         className="mt-8">
 
           <button
-          onClick={() => { onContinue(); trackButtonClick('Discover the face of my divine soul', 'LoadingRevelation'); }}
+          onClick={onContinue}
           id="btn-vsl"
           className="btn-primary w-full max-w-sm md:w-auto">
             Discover the face of my divine soul
           </button>
         </motion.div>
       }
-    </div>
-  );
+    </div>);
 }

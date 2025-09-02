@@ -1,9 +1,9 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Pause, Mic } from "lucide-react";
 import TypingIndicator from './TypingIndicator';
-import { trackButtonClick } from '@/utils/buttonTracking'; // Importar a função de tracking
 
 const CustomAudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -136,6 +136,7 @@ const RecordingIndicator = () => (
     </motion.div>
 );
 
+
 export default function PalmReadingResults({ onContinue, userName }) {
     const [showTyping, setShowTyping] = useState(true);
     const [showMessage, setShowMessage] = useState(false);
@@ -199,7 +200,7 @@ export default function PalmReadingResults({ onContinue, userName }) {
                         className="mt-4 w-full flex justify-center"
                     >
                         <Button
-                            onClick={() => { onContinue(); trackButtonClick('Go to Full Disclosure Now', 'PalmReadingResults'); }}
+                            onClick={onContinue}
                             className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
                         >
                             Go to Full Disclosure Now

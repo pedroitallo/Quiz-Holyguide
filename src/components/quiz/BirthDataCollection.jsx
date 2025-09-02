@@ -1,10 +1,10 @@
+
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar, ChevronRight } from "lucide-react";
 import TypingIndicator from './TypingIndicator';
-import { trackButtonClick } from '@/utils/buttonTracking'; // Importar a função de tracking
 
 const months = [
   { value: "01", label: "January" },
@@ -21,7 +21,7 @@ const months = [
   { value: "12", label: "December" }
 ];
 
-// Generate days from 1 to 31
+
 const days = Array.from({ length: 31 }, (_, i) => {
   const day = i + 1;
   return { value: day.toString().padStart(2, '0'), label: day.toString() };
@@ -53,6 +53,7 @@ const getZodiacSign = (dateString) => {
     { name: "Scorpio", start: [10, 23], end: [11, 21] },
     { name: "Sagittarius", start: [11, 22], end: [12, 21] }
   ];
+
 
   for (let sign of signs) {
     const [startMonth, startDay] = sign.start;
@@ -103,8 +104,6 @@ export default function BirthDataCollection({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!selectedDay || !selectedMonth || !selectedYear) return;
-
-    trackButtonClick('Continue to Next Step (Birth Data)', 'BirthDataCollection'); // Tracking do botão 'Continue to Next Step'
 
     setIsSubmitting(true);
     setShowForm(false); // Hide the form once submitted
@@ -261,7 +260,7 @@ export default function BirthDataCollection({ onSubmit }) {
                 </> :
                 <>
                   Continue to Next Step
-                  <Calendar className="w-5 h-5 ml-2" />
+                  <ChevronRight className="w-5 h-5 ml-2" />
                 </>
               }
             </Button>
@@ -304,21 +303,18 @@ export default function BirthDataCollection({ onSubmit }) {
           {/* Botão Continue após a mensagem do signo */}
           <div className="mt-6">
             <Button
-              onClick={() => {
-                onSubmit({
-                  birth_date: `${selectedYear}-${selectedMonth}-${selectedDay}`,
-                  birth_day: selectedDay,
-                  birth_month: selectedMonth,
-                  birth_year: selectedYear
-                });
-                trackButtonClick('Continue (Zodiac Message)', 'BirthDataCollection'); // Tracking do botão 'Continue'
-              }}
+              onClick={() => onSubmit({
+                birth_date: `${selectedYear}-${selectedMonth}-${selectedDay}`,
+                birth_day: selectedDay,
+                birth_month: selectedMonth,
+                birth_year: selectedYear
+              })}
               className="btn-primary">
               Continue
             </Button>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }

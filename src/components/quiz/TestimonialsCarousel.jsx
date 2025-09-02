@@ -1,8 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from 'framer-motion';
-import { trackButtonClick } from '@/utils/buttonTracking'; // Importar a função de tracking
 
 const testimonials = [
 {
@@ -161,7 +161,7 @@ export default function TestimonialsCarousel({ onContinue }) {
         </p>
 
         <button
-          onClick={() => { onContinue(); trackButtonClick('Yes, I am ready!', 'TestimonialsCarousel'); }}
+          onClick={onContinue}
           id="btn-vsl" 
           className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle">
 
@@ -172,6 +172,6 @@ export default function TestimonialsCarousel({ onContinue }) {
 
         </p>
       </motion.div>
-    </div>
-  );
+    </div>);
+
 }

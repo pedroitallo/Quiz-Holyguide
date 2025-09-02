@@ -1,3 +1,4 @@
+
 /*
  * SalesSection Component
  *
@@ -17,7 +18,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { ChevronDown, ChevronUp, Clock, Shield, UserCheck, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { trackButtonClick } from '@/utils/buttonTracking'; // Importar a função de tracking
 
 // Checkout configuration
 const CHECKOUT_CONFIG = {
@@ -77,6 +77,7 @@ const TextOverlay = ({ name, date }) => {
   );
 };
 
+
 const CountdownTimer = () => {
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
 
@@ -110,9 +111,9 @@ const PulsatingButton = ({ children, onClick, className = "" }) => (
   </Button>
 );
 
+
 export default function SalesSection({ userName, birthDate, quizResultId, src, onCheckout }) {
   const handleCheckout = async () => {
-    trackButtonClick('Claim My Divine Soul Drawing', 'PaywallStep/SalesSection'); // Tracking do botão 'Claim My Divine Soul Drawing'
     try {
       // Track pitch view IMMEDIATELY when checkout is initiated
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
@@ -176,6 +177,11 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
         }
       });
       
+      // Add src parameter if provided separately
+      if (src && !allUtms.src) {
+        url.searchParams.set('src', src);
+      }
+
       // Add quiz_result_id for webhook connection
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
         url.searchParams.set('quiz_result_id', quizResultId);
