@@ -66,7 +66,7 @@ const TextOverlay = ({ name, date }) => {
           }}
         >
           <div style={{ marginBottom: '2px' }}>
-            {name || 'pe'}
+            {name || ''}
           </div>
           <div>
             {formatDate(date)}

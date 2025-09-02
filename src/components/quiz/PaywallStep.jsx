@@ -151,7 +151,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                     </div>
                     <div className="text-left">
                         <p className="text-xs text-gray-500">Name</p>
-                        <p className="text-sm font-semibold text-gray-800">{userName || 'Not provided'}</p>
+                        <p className="text-sm font-semibold text-gray-800">{userName || ''}</p>
                     </div>
                 </div>
                 <div className="h-8 w-px bg-purple-200"></div>

@@ -47,7 +47,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
           transform: 'rotate(-1deg)'
         }}>
           <div style={{ marginBottom: '2px' }}>
-            {userName || '...'}
+            {userName || ''}
           </div>
           <div>
             {formatDate(birthDate) || '...'}
@@ -169,7 +169,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  <span className="font-bold">{userName || 'Friend'}</span>, something special is unfolding...
+                  {userName ? <><span className="font-bold">{userName}</span>, something special is unfolding...</> : "Something special is unfolding..."}
                   <br /><br />
                   Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate. Everything points to a meeting in <span className="font-bold">{userCity}</span> — or somewhere very close.
                   <br /><br />

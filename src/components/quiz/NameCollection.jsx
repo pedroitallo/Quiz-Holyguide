@@ -27,22 +27,20 @@ export default function NameCollection({ onNameSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name.trim()) {
-      setNameSubmitted(true);
-      setShowTypingAfterName(true);
+    setNameSubmitted(true);
+    setShowTypingAfterName(true);
 
-      // After 1 second of typing, show final message
-      // Reduzido para resposta mais rápida
-      setTimeout(() => {
-        setShowTypingAfterName(false);
-        setShowFinalMessage(true);
-      }, 500); // Reduzido de 1000 para 500ms
-    }
+    // After 1 second of typing, show final message
+    // Reduzido para resposta mais rápida
+    setTimeout(() => {
+      setShowTypingAfterName(false);
+      setShowFinalMessage(true);
+    }, 500); // Reduzido de 1000 para 500ms
   };
 
   const handleFinalContinue = () => {
     // Execução imediata sem delay
-    onNameSubmit(name.trim());
+    onNameSubmit(name.trim() || "");
   };
 
   return (
@@ -91,7 +89,7 @@ export default function NameCollection({ onNameSubmit }) {
             </div>
             <Button
               type="submit"
-              disabled={!name.trim()}
+              disabled={false}
               className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 px-12 py-4 text-xl disabled:opacity-50 disabled:cursor-not-allowed">
               Send
             </Button>
@@ -104,7 +102,7 @@ export default function NameCollection({ onNameSubmit }) {
         {nameSubmitted && (
           <div className="flex justify-end mb-2">
             <div className="bg-purple-600 text-white p-3 rounded-xl max-w-xs mr-4">
-              <p className="text-base">{name}</p>
+              <p className="text-base">{name.trim() || "[No name provided]"}</p>
             </div>
           </div>
         )}

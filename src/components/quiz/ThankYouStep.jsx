@@ -13,7 +13,7 @@ export default function ThankYouStep({ userName }) {
             >
                 <CheckCircle className="w-20 h-20 mx-auto text-green-500 mb-6" />
                 <h1 className="text-3xl font-bold text-gray-800 mb-4 leading-tight">
-                    Obrigado, {userName}!
+                    {userName ? `Obrigado, ${userName}!` : 'Obrigado!'}
                 </h1>
                 <p className="text-gray-600 text-lg mb-8 leading-relaxed max-w-md mx-auto">
                     Sua leitura espiritual completa foi desbloqueada. O universo está agora conspirando a seu favor.

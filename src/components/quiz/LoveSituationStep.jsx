@@ -139,7 +139,7 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
 
                         <div className="text-left">
                         <p className="text-base text-gray-700 leading-relaxed">
-                            <span className="font-bold">{userName || "Friend"}</span>, I am delighted to hear that things are progressing in your life. People of the <span className="font-bold">{zodiacSign}</span> sign tend to have a deeper romantic journey, and <strong>my vision indicates that you are about to have a transformative revelation!</strong>
+                            {userName ? <><span className="font-bold">{userName}</span>, I am delighted to hear that things are progressing in your life.</> : "I am delighted to hear that things are progressing in your life."} People of the <span className="font-bold">{zodiacSign}</span> sign tend to have a deeper romantic journey, and <strong>my vision indicates that you are about to have a transformative revelation!</strong>
                         </p>
                         </div>
                     </div>

@@ -107,7 +107,7 @@ const ChatBubble = ({ userName }) => (
             />
             <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                    Wow {userName || "Friend"}... <strong>The Results Of Your Birth Chart Were Surprising!</strong> I'll send you a short audio talking a little about your love destiny
+                    {userName ? <>Wow {userName}...</> : "Wow..."} <strong>The Results Of Your Birth Chart Were Surprising!</strong> I'll send you a short audio talking a little about your love destiny
                 </p>
             </div>
         </div>
