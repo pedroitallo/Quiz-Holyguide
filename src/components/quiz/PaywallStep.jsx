@@ -42,7 +42,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
     trackCheckout().then(() => {
       try {
         // Corrected URL: removed extra '}'
-        const checkoutUrl = "https://payments.securitysacred.online/checkout/184553763:1";
+        const checkoutUrl = "https://pay.hotmart.com/A101302550P?checkoutMode=10";
         const url = new URL(checkoutUrl);
 
         // Capturar e passar TODAS as UTMs da URL atual
@@ -84,7 +84,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
     }).catch((error) => {
       console.error("Erro ao rastrear checkout, mas redirecionando mesmo assim:", error);
       // Se o tracking falhar, ainda assim redireciona
-      window.location.href = "https://payments.securitysacred.online/checkout/184553763:1";
+      window.location.href = "https://pay.hotmart.com/A101302550P?checkoutMode=10";
     });
   };
 
