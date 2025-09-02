@@ -58,6 +58,20 @@ export default function Layout({ children, currentPageName }) {
           animation: bounce-subtle 2s ease-in-out infinite;
         }
         
+        /* Animação de pulsação suave para botões */
+        @keyframes pulse-gentle {
+          0%, 100% { 
+            transform: scale(1);
+          }
+          50% { 
+            transform: scale(1.02);
+          }
+        }
+        
+        .animate-pulse-gentle {
+          animation: pulse-gentle 2s ease-in-out infinite;
+        }
+        
         /* Lazy load placeholder */
         .lazy-placeholder {
           background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);

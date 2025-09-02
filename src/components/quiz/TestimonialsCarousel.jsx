@@ -157,13 +157,13 @@ export default function TestimonialsCarousel({ onContinue }) {
         className="mt-12">
 
         <p className="text-gray-700 text-lg mb-6 leading-relaxed max-w-md mx-auto font-semibold">
-          Are You Ready To Receive The Drawing Of Your Soulmate?
+          Are You Ready To Receive The Drawing Of Your Soulmate? 👇🏼
         </p>
 
         <button
           onClick={onContinue}
           id="btn-vsl" 
-          className="btn-primary w-full max-w-sm md:w-auto">
+          className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle">
 
           Yes, I am ready!
         </button>
