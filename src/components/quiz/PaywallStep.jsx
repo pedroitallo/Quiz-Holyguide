@@ -79,7 +79,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
       } catch (error) {
         console.error("Erro ao construir URL de checkout:", error);
         // Fallback para garantir que o usuário seja redirecionado mesmo em caso de erro
-        window.location.href = "https://payments.securitysacred.online/checkout/184553763:1";
+        window.location.href = "https://pay.hotmart.com/A101302550P?checkoutMode=10";
       }
     }).catch((error) => {
       console.error("Erro ao rastrear checkout, mas redirecionando mesmo assim:", error);
