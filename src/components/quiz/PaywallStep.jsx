@@ -45,24 +45,45 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         const checkoutUrl = "https://payments.securitysacred.online/checkout/184553763:1";
         const url = new URL(checkoutUrl);
 
-        // Capturar e passar TODAS as UTMs da URL atual
-        const currentUrl = new URL(window.location.href);
+        // Use UTMIFY to get all UTM parameters
+        let allUtms = {};
         
-        // Parâmetros UTM padrão
-        const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-        utmParams.forEach(param => {
-          const value = currentUrl.searchParams.get(param);
-          if (value) {
-            url.searchParams.set(param, value);
+        // Try to get UTMs from UTMIFY if available
+        if (typeof window !== 'undefined' && window.utmify) {
+          try {
+            allUtms = window.utmify.getUtms() || {};
+            console.log('UTMs from UTMIFY:', allUtms);
+          } catch (error) {
+            console.warn('Failed to get UTMs from UTMIFY:', error);
           }
-        });
-
-        // Parâmetros específicos de tracking (fbclid, src, xcod, etc.)
-        const specificParams = ['fbclid', 'src', 'xcod']; 
-        specificParams.forEach(param => {
-          const value = currentUrl.searchParams.get(param);
-          if (value) {
-            url.searchParams.set(param, value);
+        }
+        
+        // Fallback: get UTMs from URL if UTMIFY is not available
+        if (Object.keys(allUtms).length === 0) {
+          const currentUrl = new URL(window.location.href);
+          const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+          
+          utmParams.forEach(param => {
+            const value = currentUrl.searchParams.get(param);
+            if (value) {
+              allUtms[param] = value;
+            }
+          });
+          
+          // Also get other tracking parameters
+          const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'xcod'];
+          otherParams.forEach(param => {
+            const value = currentUrl.searchParams.get(param);
+            if (value) {
+              allUtms[param] = value;
+            }
+          });
+        }
+        
+        // Add all UTM parameters directly to the checkout URL
+        Object.keys(allUtms).forEach((key) => {
+          if (allUtms[key]) {
+            url.searchParams.set(key, allUtms[key]);
           }
         });
         
@@ -71,6 +92,18 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           url.searchParams.set('quiz_result_id', quizResultId);
         }
 
+        // Track InitiateCheckout event with Facebook Pixel
+        if (typeof window !== 'undefined' && window.fbq) {
+          try {
+            window.fbq('track', 'InitiateCheckout', {
+              currency: 'USD',
+              value: 19.00
+            });
+            console.log('InitiateCheckout tracked with Facebook Pixel');
+          } catch (error) {
+            console.warn("Failed to track InitiateCheckout with Facebook Pixel:", error);
+          }
+        }
         console.log('Redirecting to checkout:', url.toString());
         // Limpar estado do quiz em andamento antes de redirecionar
         localStorage.removeItem('holymind_quiz_state');

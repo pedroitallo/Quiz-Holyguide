@@ -135,62 +135,51 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
 
       const url = new URL(CHECKOUT_CONFIG.baseUrl);
 
-      // Get Metrito Lead ID from localStorage or URL parameter
-      let metritoLeadId = localStorage.getItem('metrito_lead_id');
-      if (!metritoLeadId) {
-        const urlParams = new URLSearchParams(window.location.search);
-        metritoLeadId = urlParams.get('mlid');
-        if (metritoLeadId) {
-          localStorage.setItem('metrito_lead_id', metritoLeadId);
-        }
-      }
-
-      // Always pass the Metrito Lead ID if available
-      if (metritoLeadId) {
-        url.searchParams.set('xcod', metritoLeadId);
-      }
-
-      // Track InitiateCheckout event with Metrito
-      if (typeof window !== 'undefined' && window.metrito && typeof window.metrito.track === 'function') {
+      // Use UTMIFY to get all UTM parameters
+      let allUtms = {};
+      
+      // Try to get UTMs from UTMIFY if available
+      if (typeof window !== 'undefined' && window.utmify) {
         try {
-         window.metrito.track('InitiateCheckout', {
-            lead: {
-              id: metritoLeadId
-            },
-            event: {
-              facebook:{
-                data: {
-                  currency: 'USD',
-                  value: 19.00
-                }
-              }
-            }
-          });
+          allUtms = window.utmify.getUtms() || {};
+          console.log('UTMs from UTMIFY:', allUtms);
         } catch (error) {
-          console.warn("Failed to track InitiateCheckout with Metrito:", error);
+          console.warn('Failed to get UTMs from UTMIFY:', error);
         }
       }
-
-      // Collect all UTM parameters and consolidate them in src
-      const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-      const currentUrlParams = new URLSearchParams(window.location.search);
-      const utmValues = [];
-
-      utmParams.forEach((param) => {
-        const value = currentUrlParams.get(param);
-        if (value) {
-          utmValues.push(`${param}=${value}`);
+      
+      // Fallback: get UTMs from URL if UTMIFY is not available
+      if (Object.keys(allUtms).length === 0) {
+        const currentUrlParams = new URLSearchParams(window.location.search);
+        const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+        
+        utmParams.forEach((param) => {
+          const value = currentUrlParams.get(param);
+          if (value) {
+            allUtms[param] = value;
+          }
+        });
+        
+        // Also get other tracking parameters
+        const otherParams = ['fbclid', 'gclid', 'ttclid', 'src'];
+        otherParams.forEach((param) => {
+          const value = currentUrlParams.get(param);
+          if (value) {
+            allUtms[param] = value;
+          }
+        });
+      }
+      
+      // Add all UTM parameters directly to the checkout URL
+      Object.keys(allUtms).forEach((key) => {
+        if (allUtms[key]) {
+          url.searchParams.set(key, allUtms[key]);
         }
       });
-
-      // Add src parameter if it exists
-      if (src) {
-        utmValues.push(`src=${src}`);
-      }
-
-      // Consolidate all UTM parameters into the src parameter
-      if (utmValues.length > 0) {
-        url.searchParams.set('src', utmValues.join('|'));
+      
+      // Add src parameter if provided separately
+      if (src && !allUtms.src) {
+        url.searchParams.set('src', src);
       }
 
       // Add quiz_result_id for webhook connection
@@ -198,14 +187,18 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
         url.searchParams.set('quiz_result_id', quizResultId);
       }
 
-      // Add other tracking parameters
-      const otherParams = ['fbclid', 'gclid', 'ttclid'];
-      otherParams.forEach((param) => {
-        const value = currentUrlParams.get(param);
-        if (value) {
-          url.searchParams.set(param, value);
+      // Track InitiateCheckout event with Facebook Pixel
+      if (typeof window !== 'undefined' && window.fbq) {
+        try {
+          window.fbq('track', 'InitiateCheckout', {
+            currency: 'USD',
+            value: 19.00
+          });
+          console.log('InitiateCheckout tracked with Facebook Pixel');
+        } catch (error) {
+          console.warn("Failed to track InitiateCheckout with Facebook Pixel:", error);
         }
-      });
+      }
 
       console.log('Redirecting to checkout:', url.toString());
 
