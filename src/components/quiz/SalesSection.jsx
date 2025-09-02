@@ -80,6 +80,7 @@ const PulsatingButton = ({ children, onClick, className = \"\" }) => (
   >
     <span className=\"block text-center leading-tight\">{children}</span>
   </Button>
+}
 );
 
 
@@ -98,10 +99,12 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
               console.log('Pitch view tracked successfully');
             } catch (error) {
               console.warn(\"Failed to track pitch view:\", error);
+              )
             }
           });
         } catch (error) {
           console.warn(\"Failed to import HybridQuizResult:\", error);
+          )
         }
       }
 
@@ -161,6 +164,7 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
       window.location.href = url.toString();
     } catch (error) {
       console.error(\"Error building checkout URL:\", error);
+      )
       // Fallback redirect
       window.location.href = CHECKOUT_CONFIG.baseUrl;
     }
