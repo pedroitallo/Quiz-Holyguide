@@ -187,19 +187,6 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
         url.searchParams.set('quiz_result_id', quizResultId);
       }
 
-      // Track InitiateCheckout event with Facebook Pixel
-      if (typeof window !== 'undefined' && window.fbq) {
-        try {
-          window.fbq('track', 'InitiateCheckout', {
-            currency: 'USD',
-            value: 19.00
-          });
-          console.log('InitiateCheckout tracked with Facebook Pixel');
-        } catch (error) {
-          console.warn("Failed to track InitiateCheckout with Facebook Pixel:", error);
-        }
-      }
-
       console.log('Redirecting to checkout:', url.toString());
 
       // Clean state and redirect
