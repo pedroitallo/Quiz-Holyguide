@@ -151,23 +151,23 @@ export default function PalmReadingResults({ onContinue, userName }) {
         timers.push(setTimeout(() => {
             setShowTyping(false);
             setShowMessage(true);
-        }, 2000)); // Changed from 3000 to 2000
+        }, 1500)); // Changed from 2000 to 1500
         
         // After showing message, start recording indicator
         timers.push(setTimeout(() => {
             setShowRecording(true);
-        }, 2500)); // 0.5s after message appears
+        }, 2000)); // 0.5s after message appears
 
         // Recording for 8s, then hide it and show audio
         timers.push(setTimeout(() => {
             setShowRecording(false);
             setShowAudio(true);
-        }, 2500 + 3000));
+        }, 2000 + 3000));
 
         // Show button after audio appears (0.5s after audio appears)
         timers.push(setTimeout(() => {
             setShowButton(true);
-        }, 2500 + 3000 + 500));
+        }, 2000 + 3000 + 500));
 
         return () => timers.forEach(clearTimeout);
     }, []);
