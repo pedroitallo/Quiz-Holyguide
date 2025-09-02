@@ -15,6 +15,13 @@ const testimonials = [
   imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/80e6a766a_DEP3.webp"
 }];
 
+// Preload all testimonial images immediately when component loads
+const preloadImages = () => {
+  testimonials.forEach((testimonial) => {
+    const img = new Image();
+    img.src = testimonial.imageUrl;
+  });
+};
 const variants = {
   enter: (direction) => ({
     x: direction > 0 ? 1000 : -1000,
@@ -35,6 +42,10 @@ const variants = {
 export default function TestimonialsCarousel({ onContinue }) {
   const [[page, direction], setPage] = useState([0, 0]);
 
+  // Preload images on component mount
+  useEffect(() => {
+    preloadImages();
+  }, []);
   const paginate = (newDirection) => {
     setPage([(page + newDirection + testimonials.length) % testimonials.length, newDirection]);
   };
@@ -48,6 +59,19 @@ export default function TestimonialsCarousel({ onContinue }) {
 
   return (
     <div className="text-center py-8">
+      {/* Preload all images invisibly */}
+      <div className="hidden">
+        {testimonials.map((testimonial, index) => (
+          <img
+            key={`preload-${index}`}
+            src={testimonial.imageUrl}
+            alt=""
+            loading="eager"
+            decoding="async"
+          />
+        ))}
+      </div>
+
       {/* Mensagem da Madame Aura */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -73,31 +97,30 @@ export default function TestimonialsCarousel({ onContinue }) {
       </motion.div>
 
       <div className="relative h-[320px] mb-4 flex items-center justify-center">
-        <AnimatePresence initial={false} custom={direction}>
-          <motion.div
-            key={page}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 }
-            }}
-            className="absolute w-full flex flex-col items-center">
-
-            {/* Only image - no quote or caption */}
+        {/* Render all images but only show the current one - this keeps them in DOM and cached */}
+        {testimonials.map((testimonial, index) => (
+          <div
+            key={index}
+            className={`absolute w-full flex flex-col items-center transition-opacity duration-300 ${
+              index === testimonialIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+            }`}
+          >
             <div className="mb-3">
               <img
-                src={testimonials[testimonialIndex].imageUrl}
+                src={testimonial.imageUrl}
                 alt="Testimonial couple"
                 className="w-64 h-80 object-cover rounded-xl shadow-lg"
-                loading="lazy"
-                decoding="async" />
+                loading="eager"
+                decoding="async"
+                style={{
+                  imageRendering: 'crisp-edges',
+                  backfaceVisibility: 'hidden',
+                  transform: 'translateZ(0)'
+                }}
+              />
             </div>
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        ))}
 
         {/* Navigation buttons */}
         <button
