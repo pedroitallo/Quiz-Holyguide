@@ -1,4 +1,11 @@
-{
+import React, { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
+import { Play, Pause, Mic } from "lucide-react";
+import TypingIndicator from './TypingIndicator';
+import { trackButtonClick } from '@/utils/buttonTracking'; // Importar a função de tracking
+
+const CustomAudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -128,7 +135,6 @@ const RecordingIndicator = () => (
         </div>
     </motion.div>
 );
-
 
 export default function PalmReadingResults({ onContinue, userName }) {
     const [showTyping, setShowTyping] = useState(true);

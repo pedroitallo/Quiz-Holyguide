@@ -1,5 +1,5 @@
-{
-  console.log(`[BUTTON CLICK TRACKING] Button: \"${buttonName}\" clicked on Step: \"${stepName}\"`);
+export const trackButtonClick = (buttonName, stepName) => {
+  console.log(`[BUTTON CLICK TRACKING] Button: "${buttonName}" clicked on Step: "${stepName}"`);
   // Você pode estender isso para enviar dados para outras ferramentas de analytics aqui.
   // Exemplo para Google Analytics (se gtag.js estiver carregado):
   // if (typeof window.gtag === 'function') {
@@ -17,4 +17,3 @@
   //   });
   // }
 };
-">

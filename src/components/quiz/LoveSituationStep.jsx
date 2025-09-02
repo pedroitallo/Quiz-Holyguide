@@ -1,4 +1,12 @@
-{
+import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { Heart, Users, Search, Check } from "lucide-react";
+import TypingIndicator from './TypingIndicator';
+import { trackButtonClick } from '@/utils/buttonTracking'; // Importar a função de tracking
+
+const getZodiacSign = (dateString) => {
   if (!dateString) return "Signo";
   const date = new Date(dateString);
   const day = date.getUTCDate();
@@ -18,7 +26,6 @@
   { name: "Scorpio", start: [10, 23], end: [11, 21] },
   { name: "Sagittarius", start: [11, 22], end: [12, 21] }];
 
-
   for (let sign of signs) {
     const [startMonth, startDay] = sign.start;
     const [endMonth, endDay] = sign.end;
@@ -36,7 +43,6 @@ const loveSituationOptions = [
 { id: "dating", label: "I am dating or talking to someone", icon: Users, description: "Exploring connections" },
 { id: "relationship_missing", label: "I am in a relationship, but I feel like something is missing", icon: Heart, description: "Seeking completeness" },
 { id: "happy_relationship", label: "I am in a happy relationship and want to confirm if this is my Divine Soulmate", icon: Check, description: "Seeking confirmation" }];
-
 
 export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
   const [selectedOption, setSelectedOption] = useState("");
@@ -148,6 +154,6 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
           </motion.div>
         )}
       </motion.div>
-    </div>);
-
+    </div>
+  );
 }
