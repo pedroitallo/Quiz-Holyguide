@@ -162,12 +162,12 @@ export default function PalmReadingResults({ onContinue, userName }) {
         timers.push(setTimeout(() => {
             setShowRecording(false);
             setShowAudio(true);
-        }, 2500 + 8000));
+        }, 2500 + 3000));
 
         // Show button after audio appears (0.5s after audio appears)
         timers.push(setTimeout(() => {
             setShowButton(true);
-        }, 2500 + 8000 + 500));
+        }, 2500 + 3000 + 500));
 
         return () => timers.forEach(clearTimeout);
     }, []);
