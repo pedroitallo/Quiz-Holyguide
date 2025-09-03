@@ -128,7 +128,9 @@ export default function Funnel1Page() {
   return (
     <div className="min-h-screen bg-[#f9f5ff] relative overflow-hidden" style={{ userSelect: 'none' }}>
       <Helmet>
-        <script async src="https://sst.holymind.life/mtrtprxy/tag?id=685d94c5b4f48be86e0eb114"></script>
+        {window.location.hostname === 'quiz.holymind.life' && (
+          <script async src="https://sst.holymind.life/mtrtprxy/tag?id=685d94c5b4f48be86e0eb114"></script>
+        )}
       </Helmet>
       
       <div className="absolute inset-0 pointer-events-none">
