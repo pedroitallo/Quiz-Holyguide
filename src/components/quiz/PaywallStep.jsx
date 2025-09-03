@@ -195,10 +195,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
               display: 'block',
               margin: '0 auto',
               width: '100%',
-              maxWidth: '100%',
-              minHeight: '300px',
-              height: 'auto',
-              aspectRatio: '16/9'
+              maxWidth: '400px',
+              minHeight: '250px'
             }}>
           </vturb-smartplayer>
         </div>
