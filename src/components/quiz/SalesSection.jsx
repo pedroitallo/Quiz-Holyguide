@@ -223,7 +223,7 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
 
   <PulsatingButton
     onClick={() => {
-      window.metrito.track('Checkout'); // evento de checkout
+      window.metrito.track('checkout'); // evento de checkout
       handleCheckout(); // mantém sua função normal
     }}
   >
