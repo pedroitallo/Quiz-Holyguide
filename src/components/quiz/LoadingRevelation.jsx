@@ -189,12 +189,17 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         transition={{ duration: 0.5 }}
         className="mt-8">
 
-          <button
-          onClick={onContinue}
-          id="btn-vsl"
-          className="btn-primary btn-paywall w-full max-w-sm md:w-auto">
-            Discover the face of my divine soul
-          </button>
+         <button
+  id="btn-vsl"
+  className="btn-primary btn-paywall w-full max-w-sm md:w-auto"
+  onClick={() => {
+    onContinue(); // mantém sua ação normal
+    window.metrito.track('Paywall'); // dispara apenas o evento
+  }}
+>
+  Discover the face of my divine soul
+</button>
+
         </motion.div>
       }
     </div>);
