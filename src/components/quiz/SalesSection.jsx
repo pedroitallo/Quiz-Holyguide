@@ -214,14 +214,6 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
         .animate-bounce-subtle { animation: bounce-subtle 1.5s infinite ease-in-out; }
       `}</style>
 
-      {/* Main CTA Section - Moved closer to VSL */}
-      <div className="space-y-3 -mt-4">
-        <p className="text-gray-700 text-sm font-bold">Click Below To Secure Your Drawing👇🏻</p>
-        <PulsatingButton onClick={handleCheckout}>
-          YES! Claim My Divine<br/>Soul Drawing
-        </PulsatingButton>
-      </div>
-
       {/* High Demand Warning with Countdown - Single line format */}
       <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto">
         <div className="text-center space-y-3">
