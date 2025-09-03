@@ -191,7 +191,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
           <button
           onClick={onContinue}
-          id="btn-step8"
+          id="btn-vsl"
           className="btn-primary w-full max-w-sm md:w-auto">
             Discover the face of my divine soul
           </button>
