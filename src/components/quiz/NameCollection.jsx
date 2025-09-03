@@ -138,6 +138,7 @@ Are you ready to <strong>discover who is the divine love that God has destined f
             
             {/* BOTÃO "Yes! Continue" */}
             <Button onClick={handleFinalContinue}
+            id="btn-step4"
             className="bg-gradient-to-r from-purple-400 to-purple-600 hover:from-purple-500 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 px-12 py-4 text-xl">
               Yes! Continue
             </Button>
