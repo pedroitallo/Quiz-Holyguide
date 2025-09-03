@@ -104,36 +104,6 @@ export default function Layout({ children, currentPageName }) {
           content-visibility: auto;
           contain-intrinsic-size: 1px 250px;
         }
-        
-        /* Garantir que VTurb funcione em desktop */
-        vturb-smartplayer {
-          display: block !important;
-          width: 100% !important;
-          max-width: 100% !important;
-          height: auto !important;
-          min-height: 300px !important;
-        }
-        
-        vturb-smartplayer iframe,
-        vturb-smartplayer video,
-        vturb-smartplayer div {
-          width: 100% !important;
-          height: auto !important;
-          min-height: 300px !important;
-          pointer-events: auto !important;
-          user-select: auto !important;
-        }
-        
-        /* Garantir que botões internos do VTurb sejam clicáveis */
-        vturb-smartplayer button,
-        vturb-smartplayer [role="button"],
-        vturb-smartplayer .checkout-button,
-        vturb-smartplayer .cta-button {
-          pointer-events: auto !important;
-          user-select: auto !important;
-          cursor: pointer !important;
-          z-index: 999 !important;
-        }
       `}</style>
       {children}
     </div>
