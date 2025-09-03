@@ -127,9 +127,11 @@ export default function Funnel1Page() {
   
   return (
     <div className="min-h-screen bg-[#f9f5ff] relative overflow-hidden" style={{ userSelect: 'none' }}>
-      <Helmet>
-        <script async src="https://sst.holymind.life/mtrtprxy/tag?id=685d94c5b4f48be86e0eb114"></script>
-      </Helmet>
+      {import.meta.env.PROD && (
+        <Helmet>
+          <script async src="https://sst.holymind.life/mtrtprxy/tag?id=685d94c5b4f48be86e0eb114"></script>
+        </Helmet>
+      )}
       
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-10 left-10 text-purple-200/40"><Stars className="w-6 h-6 animate-pulse" /></div>
