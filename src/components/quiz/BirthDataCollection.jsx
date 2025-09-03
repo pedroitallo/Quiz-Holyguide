@@ -309,7 +309,7 @@ export default function BirthDataCollection({ onSubmit }) {
                 birth_month: selectedMonth,
                 birth_year: selectedYear
               })}
-              id="btn-step4">
+              id="btn-step5">
               Continue
             </Button>
           </div>
