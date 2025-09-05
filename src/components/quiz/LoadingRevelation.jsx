@@ -208,7 +208,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     window.metrito.track('paywall'); // dispara apenas o evento
   }}
 >
-  Discover the face of my divine soul
+  DISCOVER NOW MY SOULMATE'S FACE
 </button>
 
         </motion.div>
