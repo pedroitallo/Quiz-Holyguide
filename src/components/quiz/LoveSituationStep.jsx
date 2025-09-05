@@ -112,7 +112,7 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
                   className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    {userName}, in just 2 minutes, I will visualize and draw the face of your soulmate…
+                    {userName}, in just <strong>2 minutes</strong>, I will visualize and draw the <strong>soulmate's face</strong>…
                     <br /><br />
                     Now, let's uncover your love life at this very moment 💞✨
                   </p>
@@ -124,7 +124,7 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
         
         {/* Options - only show after initial message */}
         {showOptions && (
-        <div className="space-y-2 max-w-md mx-auto">
+        <div className="space-y-3 max-w-md mx-auto">
           {loveSituationOptions.map((option, index) => {
             const IconComponent = option.icon;
             const isSelected = selectedOption === option.id;
@@ -141,12 +141,12 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
                   onClick={() => !showResponseMessage && handleOptionSelect(option.id)}>
 
                   <CardContent className="p-3">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 min-h-[60px]">
                       <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
                         <IconComponent className="w-4 h-4 text-purple-600" />
                       </div>
                       <div className="text-left">
-                        <h3 className="text-sm font-semibold text-gray-800">
+                        <h3 className="text-sm font-semibold text-gray-800 leading-relaxed">
                           {option.label}
                         </h3>
                       </div>
