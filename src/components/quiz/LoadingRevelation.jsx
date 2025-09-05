@@ -8,6 +8,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showFirstTyping, setShowFirstTyping] = useState(true);
   const [showFirstMessage, setShowFirstMessage] = useState(false);
   const [showImage, setShowImage] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [showSecondTyping, setShowSecondTyping] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
@@ -73,24 +74,29 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       setShowImage(true);
     }, 1500));
 
-    // Start second typing after image appears
-    timers.push(setTimeout(() => {
-      setShowSecondTyping(true);
-    }, 2000));
-
-    // Second typing (1s) then final message
-    timers.push(setTimeout(() => {
-      setShowSecondTyping(false);
-      setShowFinalMessage(true);
-    }, 3000));
-
-    // Start third typing after final message
-    timers.push(setTimeout(() => {
-      setShowNextButton(true);
-    }, 3500));
-
     return () => timers.forEach(clearTimeout);
   }, []);
+
+  // Handle image load and trigger second message
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+    
+    // Start second typing after image loads
+    setTimeout(() => {
+      setShowSecondTyping(true);
+    }, 500);
+
+    // Second typing (1s) then final message
+    setTimeout(() => {
+      setShowSecondTyping(false);
+      setShowFinalMessage(true);
+    }, 1500);
+
+    // Show button after final message
+    setTimeout(() => {
+      setShowNextButton(true);
+    }, 2000);
+  };
 
   return (
     <div className="py-8 w-full max-w-lg mx-auto flex flex-col items-center gap-4">
@@ -113,9 +119,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
             <div className="flex items-start gap-3">
               <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
               alt="Madame Aura"
-              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+              loading="eager"
+              decoding="async" />
 
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, I am preparing a portrait of your divine soul. I'm starting right now👇🔮
@@ -138,9 +146,10 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             src={imageUrl}
             alt="Preparing your revelation"
             className="w-full rounded-lg"
+            onLoad={handleImageLoad}
+            loading="eager"
+            decoding="async"
             style={{
-              loading: 'lazy',
-              decoding: 'async',
               imageRendering: 'crisp-edges',
               backfaceVisibility: 'hidden',
               transform: 'translateZ(0)'
@@ -166,9 +175,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
             <div className="flex items-start gap-3">
               <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
               alt="Madame Aura"
-              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+              loading="eager"
+              decoding="async" />
 
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
