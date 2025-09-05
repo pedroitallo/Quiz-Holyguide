@@ -24,7 +24,9 @@ export default function Funnel1Page() {
     quizResultId: null
   });
 
-  const totalSteps = 8; // Video, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
+  const totalSteps = 7; // Video, Testimonials, Name, Birth, Love, Revelation, Paywall
+
+  const progress = (currentStep / totalSteps) * 100;
 
   useEffect(() => {
     // Save state up to the PaywallStep (step 8), clear on ThankYouStep (step 9)
