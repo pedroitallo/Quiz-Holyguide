@@ -317,7 +317,12 @@ export default function NameCollection({ onNameSubmit }) {
           {showReadyButton && (
             <Button
               onClick={handleReadyClick}
-              className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
+              disabled={!showReadyButton}
+              className={`w-full max-w-sm md:w-auto font-bold rounded-full shadow-lg transition-all duration-300 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl ${
+                showReadyButton 
+                  ? "bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white hover:shadow-xl transform hover:scale-105" 
+                  : "bg-gray-400 text-gray-600 cursor-not-allowed"
+              }`}
             >
               YES! I am Ready!
             </Button>
