@@ -160,6 +160,9 @@ export default function TestimonialsCarousel({ onContinue }) {
           Are You Ready To Receive The Drawing Of Your Soulmate? 👇🏼
         </p>
 
+        <p className="text-gray-500 text-sm mb-4 leading-relaxed max-w-md mx-auto">
+          (Don't cross your arms or legs…)
+        </p>
         <button
           onClick={onContinue}
           id="btn-step3" 
