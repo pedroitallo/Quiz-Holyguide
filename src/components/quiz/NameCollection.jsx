@@ -221,7 +221,7 @@ export default function NameCollection({ onNameSubmit }) {
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  In the next step, I will reveal everything I've just discovered about your soulmate!
+                  In the next step, I will reveal everything I've just <strong>discovered about your soulmate!</strong>
                 </p>
               </div>
             </div>
@@ -230,14 +230,14 @@ export default function NameCollection({ onNameSubmit }) {
       </div>
 
       {/* BEFORE TYPING */}
-      <div className="min-h-[120px] mb-6">
+      <div className="min-h-[120px] mb-2">
         <div className={`transition-opacity duration-300 ${showBeforeTyping ? 'opacity-100' : 'opacity-0'} ${showBeforeMessage ? 'hidden' : ''}`}>
           <TypingIndicator />
         </div>
 
         {/* BEFORE MESSAGE AND NAME INPUT */}
         <div className={`transition-opacity duration-300 ${showBeforeMessage ? 'opacity-100' : 'opacity-0'} ${!showBeforeMessage ? 'hidden' : ''}`}>
-          <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
+          <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4">
             <div className="flex items-start gap-3">
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
