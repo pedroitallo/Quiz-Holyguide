@@ -25,7 +25,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     return `${day}/${month}`;
   };
 
-  const TextOverlay = () =>
+  const TextOverlay = () => (
   <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
       <div
       className="absolute"
@@ -59,7 +59,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
           </div>
         </div>
       </div>
-    </div>;
+    </div>);
 
   useEffect(() => {
     const timers = [];
@@ -118,7 +118,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
       {/* First message */}
       <AnimatePresence>
-        {showFirstMessage &&
+        {showFirstMessage && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -136,12 +136,12 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               </div>
             </div>
           </motion.div>
-        }
+        )}
       </AnimatePresence>
 
       {/* Image */}
       <AnimatePresence>
-        {showImage &&
+        {showImage && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -161,7 +161,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
             <TextOverlay />
           </motion.div>
-        }
+        )}
       </AnimatePresence>
 
       {/* Second typing indicator */}
@@ -171,7 +171,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
       {/* Final message */}
       <AnimatePresence>
-        {showFinalMessage &&
+        {showFinalMessage && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -194,7 +194,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               </div>
             </div>
           </motion.div>
-        }
+        )}
       </AnimatePresence>
 
       {/* Third typing indicator */}
@@ -204,7 +204,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
       {/* Third message */}
       <AnimatePresence>
-        {showThirdMessage &&
+        {showThirdMessage && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -224,14 +224,15 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                 The universe is aligning the perfect moment for you two to meet.
                   This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨
                 Are you ready to see their face? ✨
+                </p>
               </div>
             </div>
           </motion.div>
-        }
+        )}
       </AnimatePresence>
 
       {/* Continue button */}
-      {showNextButton &&
+      {showNextButton && (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -250,6 +251,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 </button>
 
         </motion.div>
-      }
+      )}
     </div>);
 }
