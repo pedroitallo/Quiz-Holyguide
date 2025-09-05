@@ -48,24 +48,39 @@ const loveSituationOptions = [
 
 export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
   const [selectedOption, setSelectedOption] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
+  const [showInitialTyping, setShowInitialTyping] = useState(true);
+  const [showInitialMessage, setShowInitialMessage] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+  const [showResponseMessage, setShowResponseMessage] = useState(false);
+  const [isResponseTyping, setIsResponseTyping] = useState(false);
   const zodiacSign = getZodiacSign(birthDate);
 
   useEffect(() => {
+    // Initial typing (1s) then show message and options
+    const timer = setTimeout(() => {
+      setShowInitialTyping(false);
+      setShowInitialMessage(true);
+      setShowOptions(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     let timer;
-    if (showMessage) {
-      setIsTyping(true);
+    if (showResponseMessage) {
+      setIsResponseTyping(true);
       timer = setTimeout(() => {
-        setIsTyping(false);
+        setIsResponseTyping(false);
       }, 3000);
     }
     return () => clearTimeout(timer);
-  }, [showMessage]);
+  }, [showResponseMessage]);
 
   const handleOptionSelect = (optionId) => {
     setSelectedOption(optionId);
-    setShowMessage(true);
+    setShowOptions(false);
+    setShowResponseMessage(true);
   };
 
   const handleContinue = () => {
@@ -81,10 +96,34 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}>
 
-        <h1 className="text-purple-600 mb-2 text-xl font-bold leading-tight">HOW IS YOUR LOVE LIFE AT THIS MOMENT?
+        {/* Initial typing indicator */}
+        <div className="min-h-[120px] mb-6">
+          <div className={`transition-opacity duration-300 ${showInitialTyping ? 'opacity-100' : 'opacity-0'} ${showInitialMessage ? 'hidden' : ''}`}>
+            <TypingIndicator />
+          </div>
 
-        </h1>
+          {/* Initial message */}
+          <div className={`transition-opacity duration-300 ${showInitialMessage ? 'opacity-100' : 'opacity-0'} ${!showInitialMessage ? 'hidden' : ''}`}>
+            <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto">
+              <div className="flex items-start gap-3">
+                <img
+                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
+                  alt="Madame Aura"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+                <div className="text-left">
+                  <p className="text-base text-gray-700 leading-relaxed">
+                    {userName}, in just 2 minutes, I will visualize and draw the face of your soulmate…
+                    <br /><br />
+                    Now, let's uncover your love life at this very moment 💞✨
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         
+        {/* Options - only show after initial message */}
+        {showOptions && (
         <div className="space-y-2 max-w-md mx-auto">
           {loveSituationOptions.map((option, index) => {
             const IconComponent = option.icon;
@@ -99,7 +138,7 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
 
                 <Card
                   className={`cursor-pointer transition-all duration-300 border-2 ${isSelected ? 'border-purple-400 bg-purple-50' : 'hover:border-purple-300'} ${showMessage ? 'pointer-events-none opacity-70' : ''}`}
-                  onClick={() => !showMessage && handleOptionSelect(option.id)}>
+                  onClick={() => !showResponseMessage && handleOptionSelect(option.id)}>
 
                   <CardContent className="p-3">
                     <div className="flex items-center gap-3">
@@ -118,15 +157,16 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
 
           })}
         </div>
+        )}
 
-        {showMessage &&
+        {showResponseMessage &&
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-6">
 
-            {isTyping ?
+            {isResponseTyping ?
           <TypingIndicator /> :
 
           <>
