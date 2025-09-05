@@ -42,7 +42,7 @@ const loveSituationOptions = [
   { id: "single", label: "I am single", icon: Search },
   { id: "dating", label: "I am dating or talking to someone", icon: Users },
   { id: "relationship_missing", label: "I am in a relationship, but I feel like something is missing", icon: Heart },
-  { id: "happy_relationship", label: "I am in a happy relationship and want to confirm if this is my Divine Soulmate", icon: Check }
+  { id: "happy_relationship", label: "I am in a happy relationship, but I want to confirm if he is my true love", icon: Check }
 ];
 
 export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
