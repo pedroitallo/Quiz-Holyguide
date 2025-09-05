@@ -126,7 +126,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               decoding="async" />
 
               <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, <strong>I am preparing a drawing of your soulmate </strong>. I'm starting right now👇🔮
+                <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, <strong>I am preparing a drawing of your soulmate</strong>. I'm starting right now👇🔮
               </p>
               </div>
             </div>
