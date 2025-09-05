@@ -294,7 +294,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    First, I ask that you <strong>don't cross your arms or legs</strong> so I can visualize your soulmate faster.🔮
+                    First, I ask that you <strong>don't cross your arms or legs</strong> so I can visualize your soulmate faster🔮
                   </p>
                 </div>
               </div>
