@@ -4,6 +4,8 @@ import { Stars, Moon, Heart, Sparkles, Loader2 } from "lucide-react";
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import StepTracker from '../components/quiz/StepTracker';
 
+// Carregar apenas o VideoStep imediatamente (primeira etapa)
+import VideoStep from "../components/quiz/VideoStep";
 import NameCollection from "../components/quiz/NameCollection";
 import BirthDataCollection from "../components/quiz/BirthDataCollection";
 import LoveSituationStep from "../components/quiz/LoveSituationStep";
@@ -23,7 +25,7 @@ export default function FunnelEspPage() {
     quizResultId: null
   });
 
-  const totalSteps = 7; // Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
+  const totalSteps = 8; // Video, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
   const progress = currentStep / totalSteps * 100;
 
   useEffect(() => {
@@ -165,13 +167,15 @@ export default function FunnelEspPage() {
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
         <div className="max-w-lg mx-auto">
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
-          {currentStep === 1 && <TestimonialsCarousel onContinue={nextStep} />}
-          {currentStep === 2 && <NameCollection onNameSubmit={handleNameSubmit} />}
-          {currentStep === 3 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
-          {currentStep === 4 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
-          {currentStep === 5 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 6 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 7 && <ThankYouStep userName={formData.name} />}
+          {currentStep === 1 && <VideoStep onContinue={nextStep} />}
+          {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
+          {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
+          {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
+          {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
+          {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
+          {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 9 && <ThankYouStep userName={formData.name} />}
         </div>
       </div>
     </div>
