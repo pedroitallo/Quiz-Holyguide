@@ -145,16 +145,14 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             <img
             src={imageUrl}
             alt="Preparing your revelation"
-            className="w-[95%] mx-auto rounded-lg"
+            className="w-full rounded-lg"
             onLoad={handleImageLoad}
             loading="eager"
             decoding="async"
             style={{
               imageRendering: 'crisp-edges',
               backfaceVisibility: 'hidden',
-              transform: 'translateZ(0)',
-              maxWidth: '380px',
-              height: 'auto'
+              transform: 'translateZ(0)'
             }} />
 
             <TextOverlay />
