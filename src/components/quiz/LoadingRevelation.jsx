@@ -11,8 +11,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showSecondTyping, setShowSecondTyping] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
-  const [showThirdTyping, setShowThirdTyping] = useState(false);
-  const [showThirdMessage, setShowThirdMessage] = useState(false);
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
@@ -88,19 +86,8 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
     // Start third typing after final message
     timers.push(setTimeout(() => {
-      setShowThirdTyping(true);
-    }, 3500));
-
-    // Third typing (1.5s) then third message
-    timers.push(setTimeout(() => {
-      setShowThirdTyping(false);
-      setShowThirdMessage(true);
-    }, 5000));
-
-    // Show button after third message
-    timers.push(setTimeout(() => {
       setShowNextButton(true);
-    }, 5500));
+    }, 3500));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -190,40 +177,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                   Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate.
                   <br /><br />
                   This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Third typing indicator */}
-      <AnimatePresence>
-        {showThirdTyping && <TypingIndicator />}
-      </AnimatePresence>
-
-      {/* Third message */}
-      <AnimatePresence>
-        {showThirdMessage && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
-
-            <div className="flex items-start gap-3">
-              <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
-              alt="Madame Aura"
-              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
-
-              <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">
-                  I can see that your soulmate has been thinking about you lately...
-                  <br /><br />
-                  Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate.
-                  The universe is aligning the perfect moment for you two to meet.
-                  This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨
-                  Are you ready to see their face? ✨
                 </p>
               </div>
             </div>
