@@ -11,13 +11,18 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showSecondTyping, setShowSecondTyping] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
+  const [showThirdTyping, setShowThirdTyping] = useState(false);
+  const [showThirdMessage, setShowThirdMessage] = useState(false);
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toLocaleDateString('pt-BR');
+    // Retorna apenas dia e mês (formato DD/MM)
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    return `${day}/${month}`;
   };
 
   const TextOverlay = () =>
@@ -81,10 +86,21 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       setShowFinalMessage(true);
     }, 3000));
 
-    // Show button after final message
+    // Start third typing after final message
+    timers.push(setTimeout(() => {
+      setShowThirdTyping(true);
+    }, 3500));
+
+    // Third typing (1.5s) then third message
+    timers.push(setTimeout(() => {
+      setShowThirdTyping(false);
+      setShowThirdMessage(true);
+    }, 5000));
+
+    // Show button after third message
     timers.push(setTimeout(() => {
       setShowNextButton(true);
-    }, 3500));
+    }, 5500));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -170,6 +186,39 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   {userName ? <><span className="font-bold">{userName}</span>, something special is unfolding...</> : "Something special is unfolding..."}
+                  <br /><br />
+                  Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate.
+                  <br /><br />
+                  This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        }
+      </AnimatePresence>
+
+      {/* Third typing indicator */}
+      <AnimatePresence>
+        {showThirdTyping && <TypingIndicator />}
+      </AnimatePresence>
+
+      {/* Third message */}
+      <AnimatePresence>
+        {showThirdMessage &&
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+
+            <div className="flex items-start gap-3">
+              <img
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
+              alt="Madame Aura"
+              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">
+                  {userName}, something special is unfolding...
                   <br /><br />
                   Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate.
                   <br /><br />
