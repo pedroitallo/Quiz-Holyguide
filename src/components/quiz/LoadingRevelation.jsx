@@ -186,7 +186,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                   {userName ? <><span className="font-bold">{userName}</span>, something special is unfolding...</> : "Something special is unfolding..."}
                   <br /><br />
                   <br /><br />
-                  Your birth chart shows that your soulmate has a <strong>beautiful energy and is closer than you think</strong>strong>… patiently waiting for you. ✨
+                  Your birth chart shows that your soulmate has a <strong>beautiful energy and is closer than you think</strong>strong>… ✨
                 </p>
               </div>
             </div>
