@@ -166,12 +166,6 @@ export default function TestimonialsCarousel({ onContinue }) {
 
         <button
           onClick={onContinue}
-          onClick={() => {
-            if (window.metrito && typeof window.metrito.track === 'function') {
-              window.metrito.track('startquiz');
-            }
-            onContinue();
-          }}
           id="btn-step3" 
           className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle">
 

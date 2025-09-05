@@ -193,11 +193,9 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   id="btn-vsl"
   className="btn-primary btn-paywall w-full max-w-sm md:w-auto"
   onClick={() => {
-            if (window.metrito && typeof window.metrito.track === 'function') {
-              window.metrito.track('paywall');
-            }
-            onContinue();
-          }}
+    onContinue(); // mantém sua ação normal
+    window.metrito.track('paywall'); // dispara apenas o evento
+  }}
 >
   Discover the face of my divine soul
 </button>
