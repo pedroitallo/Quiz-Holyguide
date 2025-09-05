@@ -53,6 +53,7 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
   const [optionSelected, setOptionSelected] = useState(false);
   const [showResponseTyping, setShowResponseTyping] = useState(false);
   const [showResponseMessage, setShowResponseMessage] = useState(false);
+  const [selectedOptionLabel, setSelectedOptionLabel] = useState("");
   
   const zodiacSign = getZodiacSign(birthDate);
 
@@ -68,7 +69,9 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
   }, []);
 
   const handleOptionSelect = (optionId) => {
+    const selectedOption = loveSituationOptions.find(opt => opt.id === optionId);
     setSelectedOption(optionId);
+    setSelectedOptionLabel(selectedOption?.label || "");
     setOptionSelected(true);
     setShowOptions(false);
     
@@ -157,6 +160,15 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
                 </motion.div>
               );
             })}
+          </div>
+        )}
+
+        {/* User's selected option message */}
+        {optionSelected && selectedOptionLabel && (
+          <div className="flex justify-end mb-4">
+            <div className="bg-purple-600 text-white p-3 rounded-xl max-w-xs mr-4">
+              <p className="text-sm">{selectedOptionLabel}</p>
+            </div>
           </div>
         )}
 
