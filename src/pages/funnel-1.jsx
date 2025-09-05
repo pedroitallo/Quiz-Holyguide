@@ -9,7 +9,6 @@ import VideoStep from "../components/quiz/VideoStep";
 import NameCollection from "../components/quiz/NameCollection";
 import BirthDataCollection from "../components/quiz/BirthDataCollection";
 import LoveSituationStep from "../components/quiz/LoveSituationStep";
-import PalmReadingResults from "../components/quiz/PalmReadingResults";
 import LoadingRevelation from "../components/quiz/LoadingRevelation";
 import TestimonialsCarousel from "../components/quiz/TestimonialsCarousel";
 import PaywallStep from "../components/quiz/PaywallStep";
@@ -26,7 +25,7 @@ export default function Funnel1Page() {
   });
 
   const totalSteps = 8; // Video, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
-  const progress = currentStep / totalSteps * 100;
+  const totalSteps = 7; // Video, Testimonials, Name, Birth, Love, Revelation, Paywall
 
   useEffect(() => {
     // Save state up to the PaywallStep (step 8), clear on ThankYouStep (step 9)
@@ -172,10 +171,9 @@ export default function Funnel1Page() {
           {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
           {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
           {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
-          {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
-          {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 9 && <ThankYouStep userName={formData.name} />}
+          {currentStep === 6 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 7 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 8 && <ThankYouStep userName={formData.name} />}
         </div>
       </div>
     </div>

@@ -8,9 +8,8 @@ const STEP_TRACKING_MAP = {
     3: 'name_collection_step_viewed',
     4: 'birth_data_collection_step_viewed',
     5: 'love_situation_step_viewed',
-    6: 'palm_reading_results_step_viewed',
-    7: 'loading_revelation_step_viewed',
-    8: 'paywall_step_viewed'
+    6: 'loading_revelation_step_viewed',
+    7: 'paywall_step_viewed'
     // Note: No step 9 (ThankYouStep) tracking as requested
 };
 
