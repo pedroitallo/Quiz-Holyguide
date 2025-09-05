@@ -115,7 +115,7 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
                   <p className="text-base text-gray-700 leading-relaxed">
                     {userName}, in just <strong>2 minutes</strong>, I will visualize and draw the <strong>soulmate's face</strong>…
                     <br /><br />
-                    Now, let's uncover your love life at this very moment 💞✨
+                    Now, let's see how is your love life at this very moment 💞✨
                   </p>
                 </div>
               </div>
