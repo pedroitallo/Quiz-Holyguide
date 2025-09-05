@@ -424,7 +424,7 @@ export default function NameCollection({ onNameSubmit }) {
                 disabled={!selectedDay || !selectedMonth}
                 className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Continue to Next Step
+                Continue
               </Button>
             </motion.form>
           )}
