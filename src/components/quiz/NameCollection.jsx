@@ -69,12 +69,18 @@ export default function NameCollection({ onNameSubmit }) {
   // Flow control states
   const [showFirstTyping, setShowFirstTyping] = useState(true);
   const [showFirstMessage, setShowFirstMessage] = useState(false);
+  const [showBeforeTyping, setShowBeforeTyping] = useState(false);
+  const [showBeforeMessage, setShowBeforeMessage] = useState(false);
   const [showNameInput, setShowNameInput] = useState(false);
   const [nameSubmitted, setNameSubmitted] = useState(false);
-  const [showSecondMessage, setShowSecondMessage] = useState(false);
-  const [showThirdMessage, setShowThirdMessage] = useState(false);
+  const [showGreatTyping, setShowGreatTyping] = useState(false);
+  const [showGreatMessage, setShowGreatMessage] = useState(false);
+  const [showReadyButton, setShowReadyButton] = useState(false);
+  const [showWeAllTyping, setShowWeAllTyping] = useState(false);
+  const [showWeAllMessage, setShowWeAllMessage] = useState(false);
   const [showDateInput, setShowDateInput] = useState(false);
   const [dateSubmitted, setDateSubmitted] = useState(false);
+  const [showWowTyping, setShowWowTyping] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
 
   useEffect(() => {
@@ -82,13 +88,30 @@ export default function NameCollection({ onNameSubmit }) {
     const timer1 = setTimeout(() => {
       setShowFirstTyping(false);
       setShowFirstMessage(true);
-      setShowNameInput(true);
+      
+      // Start "Before" typing after first message
+      setTimeout(() => {
+        setShowBeforeTyping(true);
+      }, 500);
     }, 1000);
 
     return () => {
       clearTimeout(timer1);
     };
   }, []);
+
+  useEffect(() => {
+    if (showBeforeTyping) {
+      // Before typing (1s) then before message
+      const timer = setTimeout(() => {
+        setShowBeforeTyping(false);
+        setShowBeforeMessage(true);
+        setShowNameInput(true);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showBeforeTyping]);
 
   const handleNameSubmit = (e) => {
     e.preventDefault();
@@ -97,17 +120,46 @@ export default function NameCollection({ onNameSubmit }) {
     setNameSubmitted(true);
     setShowNameInput(false);
     
-    // Show second message after name submission
+    // Show "great" typing after name submission
     setTimeout(() => {
-      setShowSecondMessage(true);
+      setShowGreatTyping(true);
     }, 500);
-    
-    // Show third message and date input
-    setTimeout(() => {
-      setShowThirdMessage(true);
-      setShowDateInput(true);
-    }, 1500);
   };
+
+  useEffect(() => {
+    if (showGreatTyping) {
+      // Great typing (1s) then great message
+      const timer = setTimeout(() => {
+        setShowGreatTyping(false);
+        setShowGreatMessage(true);
+        setShowReadyButton(true);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showGreatTyping]);
+
+  const handleReadyClick = () => {
+    setShowReadyButton(false);
+    
+    // Show "We all have" typing
+    setTimeout(() => {
+      setShowWeAllTyping(true);
+    }, 500);
+  };
+
+  useEffect(() => {
+    if (showWeAllTyping) {
+      // We all typing (1.5s) then we all message
+      const timer = setTimeout(() => {
+        setShowWeAllTyping(false);
+        setShowWeAllMessage(true);
+        setShowDateInput(true);
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showWeAllTyping]);
 
   const handleDateSubmit = (e) => {
     e.preventDefault();
@@ -116,11 +168,23 @@ export default function NameCollection({ onNameSubmit }) {
     setDateSubmitted(true);
     setShowDateInput(false);
     
-    // Show final message with zodiac sign
+    // Show "Wow" typing after date submission
     setTimeout(() => {
-      setShowFinalMessage(true);
+      setShowWowTyping(true);
     }, 500);
   };
+
+  useEffect(() => {
+    if (showWowTyping) {
+      // Wow typing (1s) then final message
+      const timer = setTimeout(() => {
+        setShowWowTyping(false);
+        setShowFinalMessage(true);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showWowTyping]);
 
   const handleFinalContinue = () => {
     const zodiacSign = getZodiacSign(selectedMonth, selectedDay);
@@ -165,10 +229,15 @@ export default function NameCollection({ onNameSubmit }) {
         </div>
       </div>
 
-      {/* NAME INPUT SECTION */}
-      {showNameInput && !nameSubmitted && (
-        <div className="space-y-6">
-          <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto">
+      {/* BEFORE TYPING */}
+      <div className="min-h-[120px] mb-6">
+        <div className={`transition-opacity duration-300 ${showBeforeTyping ? 'opacity-100' : 'opacity-0'} ${showBeforeMessage ? 'hidden' : ''}`}>
+          <TypingIndicator />
+        </div>
+
+        {/* BEFORE MESSAGE AND NAME INPUT */}
+        <div className={`transition-opacity duration-300 ${showBeforeMessage ? 'opacity-100' : 'opacity-0'} ${!showBeforeMessage ? 'hidden' : ''}`}>
+          <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
             <div className="flex items-start gap-3">
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
@@ -182,29 +251,32 @@ export default function NameCollection({ onNameSubmit }) {
             </div>
           </div>
 
-          <form onSubmit={handleNameSubmit} className="space-y-6">
-            <div className="flex flex-col items-center">
-              <p className="text-sm text-gray-500 mb-2 font-bold">
-                Enter your name below to find your divine soul 👇
-              </p>
-              <Input
-                type="text"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="text-lg py-4 px-6 rounded-full border-2 border-purple-300 focus:border-purple-500 text-center w-full max-w-md h-14 bg-white placeholder:text-gray-400 placeholder:text-sm"
-                required
-                autoFocus />
-            </div>
-            <Button
-              type="submit"
-              disabled={!name.trim()}
-              className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 px-12 py-4 text-xl disabled:opacity-50 disabled:cursor-not-allowed">
-              Send
-            </Button>
-          </form>
+          {/* NAME INPUT SECTION */}
+          {showNameInput && !nameSubmitted && (
+            <form onSubmit={handleNameSubmit} className="space-y-6">
+              <div className="flex flex-col items-center">
+                <p className="text-sm text-gray-500 mb-2 font-bold">
+                  Enter your name below to find your divine soul 👇
+                </p>
+                <Input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="text-lg py-4 px-6 rounded-full border-2 border-purple-300 focus:border-purple-500 text-center w-full max-w-md h-14 bg-white placeholder:text-gray-400 placeholder:text-sm"
+                  required
+                  autoFocus />
+              </div>
+              <Button
+                type="submit"
+                disabled={!name.trim()}
+                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 px-12 py-4 text-xl disabled:opacity-50 disabled:cursor-not-allowed">
+                Send
+              </Button>
+            </form>
+          )}
         </div>
-      )}
+      </div>
 
       {/* USER'S NAME MESSAGE */}
       <AnimatePresence>
@@ -217,14 +289,15 @@ export default function NameCollection({ onNameSubmit }) {
         )}
       </AnimatePresence>
 
-      {/* SECOND MESSAGE */}
-      <AnimatePresence>
-        {showSecondMessage && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
-          >
+      {/* GREAT TYPING */}
+      <div className="min-h-[120px] mb-6">
+        <div className={`transition-opacity duration-300 ${showGreatTyping ? 'opacity-100' : 'opacity-0'} ${showGreatMessage ? 'hidden' : ''}`}>
+          <TypingIndicator />
+        </div>
+
+        {/* GREAT MESSAGE */}
+        <div className={`transition-opacity duration-300 ${showGreatMessage ? 'opacity-100' : 'opacity-0'} ${!showGreatMessage ? 'hidden' : ''}`}>
+          <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
             <div className="flex items-start gap-3">
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
@@ -238,18 +311,29 @@ export default function NameCollection({ onNameSubmit }) {
                 </p>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
 
-      {/* THIRD MESSAGE */}
-      <AnimatePresence>
-        {showThirdMessage && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6"
-          >
+          {/* YES BUTTON */}
+          {showReadyButton && (
+            <Button
+              onClick={handleReadyClick}
+              className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
+            >
+              YES! I am Ready!
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* WE ALL TYPING */}
+      <div className="min-h-[120px] mb-6">
+        <div className={`transition-opacity duration-300 ${showWeAllTyping ? 'opacity-100' : 'opacity-0'} ${showWeAllMessage ? 'hidden' : ''}`}>
+          <TypingIndicator />
+        </div>
+
+        {/* WE ALL MESSAGE */}
+        <div className={`transition-opacity duration-300 ${showWeAllMessage ? 'opacity-100' : 'opacity-0'} ${!showWeAllMessage ? 'hidden' : ''}`}>
+          <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
             <div className="flex items-start gap-3">
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
@@ -261,75 +345,75 @@ export default function NameCollection({ onNameSubmit }) {
                 </p>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* DATE INPUT SECTION */}
-      {showDateInput && !dateSubmitted && (
-        <motion.form
-          onSubmit={handleDateSubmit}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-sm mx-auto space-y-8"
-        >
-          <div className="space-y-4">
-            <label className="block text-lg font-semibold text-gray-800">
-              Select your date of birth
-            </label>
-
-            <div className="grid grid-cols-2 gap-3">
-              {/* Day selector */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-600">Day</label>
-                <Select value={selectedDay} onValueChange={setSelectedDay}>
-                  <SelectTrigger className="border-2 border-purple-200 focus:border-purple-400 rounded-xl py-3">
-                    <SelectValue placeholder="Day ↓" />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-48">
-                    <div className="text-xs text-gray-500 px-2 py-1 border-b">
-                      ↓ Scroll to find your day ↓
-                    </div>
-                    {days.map((day) => (
-                      <SelectItem key={day.value} value={day.value}>
-                        {day.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Month selector */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-600">Month</label>
-                <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-                  <SelectTrigger className="border-2 border-purple-200 focus:border-purple-400 rounded-xl py-3">
-                    <SelectValue placeholder="Month ↓" />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-48">
-                    <div className="text-xs text-gray-500 px-2 py-1 border-b">
-                      ↓ Scroll to find your month ↓
-                    </div>
-                    {months.map((month) => (
-                      <SelectItem key={month.value} value={month.value}>
-                        {month.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
           </div>
 
-          <Button
-            type="submit"
-            disabled={!selectedDay || !selectedMonth}
-            className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Continue to Next Step
-          </Button>
-        </motion.form>
-      )}
+          {/* DATE INPUT SECTION */}
+          {showDateInput && !dateSubmitted && (
+            <motion.form
+              onSubmit={handleDateSubmit}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-sm mx-auto space-y-8"
+            >
+              <div className="space-y-4">
+                <label className="block text-lg font-semibold text-gray-800">
+                  Select your date of birth
+                </label>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Day selector */}
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-600">Day</label>
+                    <Select value={selectedDay} onValueChange={setSelectedDay}>
+                      <SelectTrigger className="border-2 border-purple-200 focus:border-purple-400 rounded-xl py-3">
+                        <SelectValue placeholder="Day ↓" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-48">
+                        <div className="text-xs text-gray-500 px-2 py-1 border-b">
+                          ↓ Scroll to find your day ↓
+                        </div>
+                        {days.map((day) => (
+                          <SelectItem key={day.value} value={day.value}>
+                            {day.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Month selector */}
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-600">Month</label>
+                    <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+                      <SelectTrigger className="border-2 border-purple-200 focus:border-purple-400 rounded-xl py-3">
+                        <SelectValue placeholder="Month ↓" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-48">
+                        <div className="text-xs text-gray-500 px-2 py-1 border-b">
+                          ↓ Scroll to find your month ↓
+                        </div>
+                        {months.map((month) => (
+                          <SelectItem key={month.value} value={month.value}>
+                            {month.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={!selectedDay || !selectedMonth}
+                className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Continue to Next Step
+              </Button>
+            </motion.form>
+          )}
+        </div>
+      </div>
 
       {/* USER'S DATE MESSAGE */}
       <AnimatePresence>
@@ -342,38 +426,37 @@ export default function NameCollection({ onNameSubmit }) {
         )}
       </AnimatePresence>
 
-      {/* FINAL MESSAGE WITH ZODIAC SIGN */}
-      <AnimatePresence>
-        {showFinalMessage && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="space-y-6"
-          >
-            <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto">
-              <div className="flex items-start gap-3">
-                <img
-                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
-                  alt="Madame Aura"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
-                <div className="text-left">
-                  <p className="text-base text-gray-700 leading-relaxed">
-                    Wow, that's amazing! You're a <strong>{zodiacSign}</strong>{zodiacSign === 'Capricorn' ? ' just like me' : ''}! The <strong>{zodiacSign}</strong> is one of the few signs that has a special sensitivity and connection with their soulmate. <strong>I feel like you're on the right path to meeting your Divine Soul.</strong>
-                  </p>
-                </div>
+      {/* WOW TYPING */}
+      <div className="min-h-[120px] mb-6">
+        <div className={`transition-opacity duration-300 ${showWowTyping ? 'opacity-100' : 'opacity-0'} ${showFinalMessage ? 'hidden' : ''}`}>
+          <TypingIndicator />
+        </div>
+
+        {/* FINAL MESSAGE WITH ZODIAC SIGN */}
+        <div className={`transition-opacity duration-300 ${showFinalMessage ? 'opacity-100' : 'opacity-0'} ${!showFinalMessage ? 'hidden' : ''}`}>
+          <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
+            <div className="flex items-start gap-3">
+              <img
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
+                alt="Madame Aura"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">
+                  Wow, that's amazing! You're a <strong>{zodiacSign}</strong>{zodiacSign === 'Capricorn' ? ' just like me' : ''}! The <strong>{zodiacSign}</strong> is one of the few signs that has a special sensitivity and connection with their soulmate. <strong>I feel like you're on the right path to meeting your Divine Soul.</strong>
+                </p>
               </div>
             </div>
+          </div>
 
-            <Button
-              onClick={handleFinalContinue}
-              id="btn-step4"
-              className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
-            >
-              Continue
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <Button
+            onClick={handleFinalContinue}
+            id="btn-step4"
+            className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
+          >
+            Continue
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
