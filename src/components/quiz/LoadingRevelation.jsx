@@ -185,7 +185,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                 <p className="text-base text-gray-700 leading-relaxed">
                   {userName ? <><span className="font-bold">{userName}</span>, something special is unfolding...</> : "Something special is unfolding..."}
                   <br /><br />
-                  Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate.
                   <br /><br />
                   This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨
                 </p>
