@@ -330,6 +330,17 @@ export default function NameCollection({ onNameSubmit }) {
         </div>
       </div>
 
+      {/* USER'S "YES! I am ready" MESSAGE */}
+      <AnimatePresence>
+        {!showReadyButton && showGreatMessage && (
+          <div className="flex justify-end mb-4">
+            <div className="bg-purple-600 text-white p-3 rounded-xl max-w-xs mr-4">
+              <p className="text-base">YES! I am Ready!</p>
+            </div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* WE ALL TYPING */}
       <div className="min-h-[120px] mb-6">
         <div className={`transition-opacity duration-300 ${showWeAllTyping ? 'opacity-100' : 'opacity-0'} ${showWeAllMessage ? 'hidden' : ''}`}>

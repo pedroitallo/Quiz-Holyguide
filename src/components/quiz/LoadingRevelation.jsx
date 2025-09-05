@@ -218,12 +218,12 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  {userName}, something special is unfolding...
+                I can see that your soulmate has been thinking about you lately...
                   <br /><br />
                   Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate.
-                  <br /><br />
+                The universe is aligning the perfect moment for you two to meet.
                   This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨
-                </p>
+                Are you ready to see their face? ✨
               </div>
             </div>
           </motion.div>
