@@ -132,7 +132,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    Hello, I'm Madame Aura and in the next <strong>2 minutes</strong> I will reveal your <strong>soulmate's face</strong>✨
+                    Hello, I'm Madam Aura and in the next <strong>2 minutes</strong> I will reveal your <strong>soulmate's face</strong>✨
                   </p>
                 </div>
               </div>
