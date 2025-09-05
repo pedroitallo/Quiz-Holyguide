@@ -159,6 +159,10 @@ export default function TestimonialsCarousel({ onContinue }) {
         <p className="text-gray-700 text-lg mb-6 leading-relaxed max-w-md mx-auto font-semibold">
           Are You Ready To Receive The Drawing Of Your Soulmate? 👇🏼
         </p>
+        
+        <p className="text-gray-500 text-sm mb-6">
+          (Don't cross your arms or legs…)
+        </p>
 
         <button
           onClick={onContinue}
