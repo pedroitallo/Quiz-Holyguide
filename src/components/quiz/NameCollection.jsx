@@ -84,19 +84,13 @@ export default function NameCollection({ onNameSubmit }) {
   const [showFinalMessage, setShowFinalMessage] = useState(false);
 
   useEffect(() => {
-    // First typing (1s) then first message
-    const timer1 = setTimeout(() => {
-      setShowFirstTyping(false);
-      setShowFirstMessage(true);
-      
-      // Start "Before" typing after first message
-      setTimeout(() => {
-        setShowBeforeTyping(true);
-      }, 500);
+    // Start "Before" typing immediately
+    const timer = setTimeout(() => {
+      setShowBeforeTyping(true);
     }, 1000);
 
     return () => {
-      clearTimeout(timer1);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -223,27 +217,6 @@ export default function NameCollection({ onNameSubmit }) {
 
       {/* CONTAINER FIXO PARA PRIMEIRA MENSAGEM */}
       <div className="min-h-[120px] mb-2">
-        {/* First typing */}
-        <div className={`transition-opacity duration-300 ${showFirstTyping ? 'opacity-100' : 'opacity-0'} ${showFirstMessage ? 'hidden' : ''}`}>
-          <TypingIndicator />
-        </div>
-
-        {/* First message */}
-        <div className={`transition-opacity duration-300 ${showFirstMessage ? 'opacity-100' : 'opacity-0'} ${!showFirstMessage ? 'hidden' : ''}`}>
-          <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto">
-            <div className="flex items-start gap-3">
-              <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
-                alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
-              <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">
-                  In the next step, I will reveal everything I've just <strong>discovered about your soulmate!</strong>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* BEFORE TYPING */}
