@@ -13,6 +13,10 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
   const [showBlurredCards, setShowBlurredCards] = useState(false);
+  const [showAudioTyping, setShowAudioTyping] = useState(false);
+  const [showAudioMessage, setShowAudioMessage] = useState(false);
+  const [showRecordingAudio, setShowRecordingAudio] = useState(false);
+  const [showGreenButton, setShowGreenButton] = useState(false);
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
@@ -102,12 +106,55 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
     // Show button after blurred cards
     timers.push(setTimeout(() => {
-      setShowNextButton(true);
+      setShowAudioTyping(true);
     }, 3500));
+
+    // Show audio message after typing (2s)
+    timers.push(setTimeout(() => {
+      setShowAudioTyping(false);
+      setShowAudioMessage(true);
+    }, 5500));
+
+    // Show recording audio after message
+    timers.push(setTimeout(() => {
+      setShowRecordingAudio(true);
+    }, 6000));
+
+    // Show green button after recording (5s)
+    timers.push(setTimeout(() => {
+      setShowRecordingAudio(false);
+      setShowGreenButton(true);
+    }, 11000));
 
     return () => timers.forEach(clearTimeout);
   }, []);
 
+
+  const RecordingAudioIndicator = () => (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full"
+    >
+      <div className="flex items-start gap-3">
+        <img
+          src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+          alt="Madame Aura"
+          loading="lazy"
+          decoding="async"
+          className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+        />
+        <div className="flex items-center gap-2 mt-2">
+          <div className="w-5 h-5 text-red-500 animate-pulse">🎤</div>
+          <span className="text-sm text-gray-500 ml-2">Madame Aura is recording an audio...</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const handleCheckoutRedirect = () => {
+    window.open('https://payments.securitysacred.online/checkout/184553763:1', '_blank');
+  };
 
   return (
     <div className="py-8 w-full max-w-lg mx-auto flex flex-col items-center gap-4">
@@ -213,8 +260,42 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         )}
       </AnimatePresence>
 
+      {/* Audio typing indicator */}
+      <AnimatePresence>
+        {showAudioTyping && <TypingIndicator />}
+      </AnimatePresence>
+
+      {/* Audio message */}
+      <AnimatePresence>
+        {showAudioMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+            <div className="flex items-start gap-3">
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                alt="Madame Aura"
+                loading="eager"
+                decoding="async"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">
+                  Listen to the audio below to learn how to receive the face of your soulmate and all the complete details.👇🏼
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Recording audio indicator */}
+      <AnimatePresence>
+        {showRecordingAudio && <RecordingAudioIndicator />}
+      </AnimatePresence>
+
       {/* Continue button */}
-      {showNextButton && (
+      {showGreenButton && (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -222,17 +303,8 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         className="mt-8">
 
         <Button
-          onClick={() => {
-            // Scroll to top before moving to next step
-            setTimeout(() => {
-              window.scrollTo({ 
-                top: 0, 
-                behavior: 'smooth' 
-              });
-            }, 50);
-            onContinue();
-          }}
-          className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl mt-6"
+          onClick={handleCheckoutRedirect}
+          className="w-full max-w-sm md:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl mt-6"
         >
           Continue to Full Revelation
         </Button>
