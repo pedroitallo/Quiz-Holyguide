@@ -275,14 +275,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               </div>
             </div>
 
-            {/* Meeting Place */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-              <div className="font-semibold text-gray-800 mb-2">Meeting Place:</div>
-              <div className="text-gray-600">
-                The connection will happen at <span className="blur-sm bg-gray-300 px-2 py-0.5 rounded">a coffee shop downtown</span>, bringing an unexpected and transformative encounter.
-              </div>
-            </div>
-
             {/* Main Characteristics */}
             <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
               <div className="font-semibold text-gray-800 mb-2">Main Characteristics of your Soulmate:</div>
