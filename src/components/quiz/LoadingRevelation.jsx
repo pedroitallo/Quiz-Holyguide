@@ -200,16 +200,26 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         transition={{ duration: 0.5 }}
         className="mt-8">
 
-         <button
-  id="btn-vsl"
-  className="btn-primary btn-paywall w-full max-w-sm md:w-auto"
-  onClick={() => {
-    onContinue(); // mantém sua ação normal
-    window.metrito.track('paywall'); // dispara apenas o evento
-  }}
->
-  DISCOVER NOW MY SOULMATE'S FACE
-</button>
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-purple-600 mb-4">
+            ✨ Your Divine Soul Drawing Is Complete! ✨
+          </h2>
+          <p className="text-gray-700 text-lg mb-6 max-w-md mx-auto">
+            {userName ? `${userName}, your` : "Your"} personalized soulmate drawing has been prepared based on your unique spiritual energy and birth chart.
+          </p>
+          <div className="bg-gradient-to-br from-purple-50 to-white p-6 rounded-xl shadow-sm border border-purple-100 mb-6">
+            <p className="text-gray-600 text-base leading-relaxed">
+              🎨 <strong>Your complete revelation includes:</strong>
+              <br />• Detailed drawing of your soulmate's face
+              <br />• When and where you'll meet them
+              <br />• Their personality traits and characteristics
+              <br />• How to recognize them when you meet
+            </p>
+          </div>
+          <p className="text-purple-600 font-semibold text-lg">
+            Your divine connection awaits! 💜
+          </p>
+        </div>
 
         </motion.div>
       )}
