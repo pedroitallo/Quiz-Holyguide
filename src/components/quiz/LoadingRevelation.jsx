@@ -190,7 +190,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
               <div className="font-semibold text-gray-800 mb-2">Name of your Soulmate:</div>
               <div className="text-gray-600">
-                The revealed name was <span className="blur-sm bg-gray-300 px-2 py-1 rounded">Alexander</span>, this person is closer than you can imagine.
+                The revealed name was <span className="blur-sm bg-gray-300 px-2 py-0.5 rounded">Alexander</span>, this person is closer than you can imagine.
               </div>
             </div>
 
@@ -198,7 +198,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
               <div className="font-semibold text-gray-800 mb-2">Meeting Place:</div>
               <div className="text-gray-600">
-                The connection will happen at <span className="blur-sm bg-gray-300 px-2 py-1 rounded">a coffee shop downtown</span>, bringing an unexpected and transformative encounter.
+                The connection will happen at <span className="blur-sm bg-gray-300 px-2 py-0.5 rounded">a coffee shop downtown</span>, bringing an unexpected and transformative encounter.
               </div>
             </div>
 
@@ -206,7 +206,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
               <div className="font-semibold text-gray-800 mb-2">Main Characteristics of your Soulmate:</div>
               <div className="text-gray-600">
-                {userName}, your soulmate has <span className="blur-sm bg-gray-300 px-2 py-1 rounded">brown</span> eyes, a remarkable smile, and a special mark <span className="blur-sm bg-gray-300 px-2 py-1 rounded">on their left hand</span>.
+                {userName}, your soulmate has <span className="blur-sm bg-gray-300 px-2 py-0.5 rounded">brown</span> eyes, a remarkable smile, and a special mark <span className="blur-sm bg-gray-300 px-2 py-0.5 rounded">on their left hand</span>.
               </div>
             </div>
           </motion.div>
