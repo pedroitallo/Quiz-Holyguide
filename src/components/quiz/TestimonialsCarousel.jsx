@@ -73,55 +73,57 @@ export default function TestimonialsCarousel({ onContinue }) {
     timers.push(setTimeout(() => {
       setShowFirstTyping(false);
       setShowFirstMessage(true);
+      
+      // Start second typing after first message
+      setTimeout(() => {
+        setShowSecondTyping(true);
+      }, 500);
     }, 1500));
 
-    // Second typing (1s after first message) then second message (Aura introduction)
-    timers.push(setTimeout(() => {
-      setShowSecondTyping(true);
-    }, 2000));
-
+    // Second typing (1.5s) then second message (Aura introduction)
     timers.push(setTimeout(() => {
       setShowSecondTyping(false);
       setShowSecondMessage(true);
-    }, 3000));
+      
+      // Start third typing after second message
+      setTimeout(() => {
+        setShowThirdTyping(true);
+      }, 500);
+    }, 2500));
 
-    // Third typing (1s after second message) then third message (This Year Alone)
-    timers.push(setTimeout(() => {
-      setShowThirdTyping(true);
-    }, 3500));
-
+    // Third typing (1.5s) then third message (In just 2 minutes)
     timers.push(setTimeout(() => {
       setShowThirdTyping(false);
       setShowThirdMessage(true);
+      
+      // Start fourth typing after third message
+      setTimeout(() => {
+        setShowFourthTyping(true);
+      }, 500);
     }, 4500));
 
-    // Show testimonials after third message
-    timers.push(setTimeout(() => {
-      setShowTestimonials(true);
-    }, 5000));
-
-    // Fourth typing (1.5s after testimonials appear)
-    timers.push(setTimeout(() => {
-      setShowFourthTyping(true);
-    }, 6500));
-
-    // Fourth message (1.5s after fourth typing starts)
+    // Fourth typing (1.5s) then fourth message (This Year Alone)
     timers.push(setTimeout(() => {
       setShowFourthTyping(false);
       setShowFourthMessage(true);
-    }, 8000));
+      
+      // Show testimonials after fourth message
+      setTimeout(() => {
+        setShowTestimonials(true);
+      }, 500);
+    }, 6500));
 
     // Fifth typing (1s after fourth message)
     timers.push(setTimeout(() => {
       setShowFifthTyping(true);
-    }, 8500));
+    }, 8000));
 
     // Fifth message (1s after fifth typing starts)
     timers.push(setTimeout(() => {
       setShowFifthTyping(false);
       setShowFifthMessage(true);
       setShowFirstButton(true);
-    }, 9500));
+    }, 9000));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -168,7 +170,7 @@ export default function TestimonialsCarousel({ onContinue }) {
   return (
     <div className="text-center py-8">
       {/* Astral Reading Card */}
-      <div className="mb-6">
+      <div className="mb-4">
         <div className="bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200 rounded-full px-4 py-2 inline-block shadow-sm">
           <p className="text-purple-700 text-sm font-medium">
             ✨ Your astral reading is starting...
@@ -253,41 +255,14 @@ export default function TestimonialsCarousel({ onContinue }) {
           )}
         </AnimatePresence>
 
-        {/* New third message - 2 minutes */}
+        {/* Fourth typing indicator */}
         <AnimatePresence>
-          {showSecondMessage && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
-            >
-              <div className="flex items-start gap-3">
-                <img
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                  alt="Madame Aura"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                  loading="eager"
-                  decoding="async"
-                />
-                <div className="text-left">
-                  <p className="text-base text-gray-700 leading-relaxed">
-                    In just 2 minutes, I will visualize and sketch the face of your soulmate…
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Third typing indicator */}
-        <AnimatePresence>
-          {showThirdTyping && <TypingIndicator />}
+          {showFourthTyping && <TypingIndicator />}
         </AnimatePresence>
 
         {/* Fourth message - This Year Alone */}
         <AnimatePresence>
-          {showThirdMessage && (
+          {showFourthMessage && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -379,11 +354,6 @@ export default function TestimonialsCarousel({ onContinue }) {
 
       {/* Container fixo para mensagens após depoimentos */}
       <div className="min-h-[200px] mt-8">
-        {/* Fourth typing indicator */}
-        <AnimatePresence>
-          {showFourthTyping && <TypingIndicator />}
-        </AnimatePresence>
-
         {/* Fifth typing indicator */}
         <AnimatePresence>
           {showFifthTyping && <TypingIndicator />}
