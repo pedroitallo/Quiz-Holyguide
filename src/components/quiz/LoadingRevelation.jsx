@@ -12,6 +12,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showSecondTyping, setShowSecondTyping] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
+  const [showSendingTyping, setShowSendingTyping] = useState(false);
   const [showBlurredCards, setShowBlurredCards] = useState(false);
   const [showAudioTyping, setShowAudioTyping] = useState(false);
   const [showAudioMessage, setShowAudioMessage] = useState(false);
@@ -101,30 +102,36 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
     // Show blurred cards after final message
     timers.push(setTimeout(() => {
+      setShowSendingTyping(true);
+    }, 5000)); // 3s after final message
+
+    // Show blurred cards after sending typing (1s typing)
+    timers.push(setTimeout(() => {
+      setShowSendingTyping(false);
       setShowBlurredCards(true);
-    }, 2500));
+    }, 6000));
 
     // Show button after blurred cards
     timers.push(setTimeout(() => {
       setShowAudioTyping(true);
-    }, 3500));
+    }, 7000));
 
     // Show audio message after typing (2s)
     timers.push(setTimeout(() => {
       setShowAudioTyping(false);
       setShowAudioMessage(true);
-    }, 5500));
+    }, 9000));
 
     // Show recording audio after message
     timers.push(setTimeout(() => {
       setShowRecordingAudio(true);
-    }, 6000));
+    }, 9500));
 
     // Show green button after recording (5s)
     timers.push(setTimeout(() => {
       setShowRecordingAudio(false);
       setShowGreenButton(true);
-    }, 11000));
+    }, 14500));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -204,12 +211,39 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  {userName ? <><span className="font-bold">{userName}</span>, based on the reading of your destiny and your date of birth, I've started sketching the face of your soulmate.</> : "Based on the reading of your destiny and your date of birth, I've started sketching the face of your soulmate."}
+                  {userName ? <><span className="font-bold">{userName}</span>, based on the <strong>reading of your destiny</strong> and your <strong>date of birth</strong>, I've started sketching the <strong>face of your soulmate</strong>. 🔮</> : "Based on the reading of your destiny and your date of birth, I've started sketching the face of your soulmate. 🔮"}
                   <br />
-                  Everything points to a meeting in <strong>{userCity}</strong> — or somewhere very close.
                   <br />
-                  And since you've made it this far, I won't just reveal the face... but also the name, age, meeting date, and unique characteristics. Take a look:
+                  Everything points to a <strong>meeting in {userCity}</strong> — or somewhere very close. 👆
+                  <br />
+                  <br />
+                  And since you've made it this far, I won't just reveal the face... but also the <strong>name</strong>, <strong>age</strong>, <strong>meeting date</strong>, and <strong>unique characteristics</strong>. Take a look: 👇
                 </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Sending details typing indicator */}
+      <AnimatePresence>
+        {showSendingTyping && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full"
+          >
+            <div className="flex items-start gap-3">
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                alt="Madame Aura"
+                loading="eager"
+                decoding="async"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+              />
+              <div className="flex items-center gap-2 mt-2">
+                <div className="w-5 h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                <span className="text-sm text-gray-500 ml-2">Sending details of your soulmate...</span>
               </div>
             </div>
           </motion.div>
