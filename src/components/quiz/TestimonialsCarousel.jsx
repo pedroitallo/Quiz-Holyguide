@@ -132,14 +132,6 @@ export default function TestimonialsCarousel({ onContinue }) {
     setFirstButtonClicked(true);
     setShowFirstButton(false);
     
-    // Scroll to top when moving to next phase
-    setTimeout(() => {
-      window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
-      });
-    }, 100);
-    
     // Show sixth typing after button click
     setTimeout(() => {
       setShowSixthTyping(true);
