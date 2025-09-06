@@ -25,7 +25,7 @@ export default function Funnel1Page() {
     quizResultId: null
   });
 
-  const totalSteps = 8; // Video, Testimonials, Name, Love, Revelation, Audio, Paywall, ThankYou
+  const totalSteps = 5; // Testimonials, Name, Love, Audio, Revelation
 
   const progress = (currentStep / totalSteps) * 100;
 
@@ -175,12 +175,11 @@ export default function Funnel1Page() {
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
         <div className="max-w-lg mx-auto">
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
-          {currentStep === 1 && <VideoStep onContinue={nextStep} />}
-          {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
-          {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
-          {currentStep === 4 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
-          {currentStep === 5 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
-          {currentStep === 6 && <LoadingRevelation onContinue={() => {}} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 1 && <TestimonialsCarousel onContinue={nextStep} />}
+          {currentStep === 2 && <NameCollection onNameSubmit={handleNameSubmit} />}
+          {currentStep === 3 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
+          {currentStep === 4 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
+          {currentStep === 5 && <LoadingRevelation onContinue={() => {}} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
         </div>
       </div>
     </div>
