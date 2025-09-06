@@ -96,6 +96,7 @@ export default function TestimonialsCarousel({ onContinue }) {
   const [showFifthMessage, setShowFifthMessage] = useState(false);
   const [showFirstButton, setShowFirstButton] = useState(false);
   const [firstButtonClicked, setFirstButtonClicked] = useState(false);
+  const [showTestimonials, setShowTestimonials] = useState(false);
   const [showSixthTyping, setShowSixthTyping] = useState(false);
   const [showSixthMessage, setShowSixthMessage] = useState(false);
   const [showSeventhTyping, setShowSeventhTyping] = useState(false);
