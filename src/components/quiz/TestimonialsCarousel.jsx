@@ -377,7 +377,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    May I begin your drawing? Now, I must warn you: this may bring you to tears or awaken deep emotions, but I believe you'll want to see it… 💞✨
+                    <strong>May I begin your drawing?</strong> Now, I must warn you: this may bring you to tears or awaken <strong>deep emotions</strong>, but I believe you'll want to see it… 💞✨
                   </p>
                 </div>
               </div>
