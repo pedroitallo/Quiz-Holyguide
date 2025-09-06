@@ -89,8 +89,6 @@ export default function TestimonialsCarousel({ onContinue }) {
   const [showFirstMessage, setShowFirstMessage] = useState(false);
   const [showSecondTyping, setShowSecondTyping] = useState(false);
   const [showSecondMessage, setShowSecondMessage] = useState(false);
-  const [showTestimonials, setShowTestimonials] = useState(false);
-  const [showThirdTyping, setShowThirdTyping] = useState(false);
   const [showThirdMessage, setShowThirdMessage] = useState(false);
   const [showFourthTyping, setShowFourthTyping] = useState(false);
   const [showFourthMessage, setShowFourthMessage] = useState(false);
@@ -128,24 +126,13 @@ export default function TestimonialsCarousel({ onContinue }) {
       setShowSecondTyping(false);
       setShowSecondMessage(true);
       
-      // Start third typing after second message
-      setTimeout(() => {
-        setShowThirdTyping(true);
-      }, 500);
-    }, 2500));
-
-    // Third typing (1.5s) then third message (In just 2 minutes)
-    timers.push(setTimeout(() => {
-      setShowThirdTyping(false);
-      setShowThirdMessage(true);
-      
-      // Start fourth typing after third message
+      // Start fourth typing immediately after second message (2s duration)
       setTimeout(() => {
         setShowFourthTyping(true);
-      }, 500);
-    }, 4500));
+      }, 100);
+    }, 2500));
 
-    // Fourth typing (1.5s) then fourth message (This Year Alone)
+    // Fourth typing (2s) then fourth message (This Year Alone)
     timers.push(setTimeout(() => {
       setShowFourthTyping(false);
       setShowFourthMessage(true);
@@ -153,8 +140,8 @@ export default function TestimonialsCarousel({ onContinue }) {
       // Show testimonials after fourth message
       setTimeout(() => {
         setShowTestimonials(true);
-      }, 500);
-    }, 6500));
+      }, 1500);
+    }, 4600)); // 2500 + 100 + 2000 = 4600
 
     // Fifth typing (1s after fourth message)
     timers.push(setTimeout(() => {
@@ -279,37 +266,6 @@ export default function TestimonialsCarousel({ onContinue }) {
         </AnimatePresence>
 
         {/* Second typing indicator */}
-        <AnimatePresence>
-          {showSecondTyping && <TypingIndicator />}
-        </AnimatePresence>
-
-        {/* Second message */}
-        <AnimatePresence>
-          {showSecondMessage && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
-            >
-              <div className="flex items-start gap-3">
-                <img
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                  alt="Madame Aura"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                  loading="eager"
-                  decoding="async"
-                />
-                <div className="text-left">
-                  <p className="text-base text-gray-700 leading-relaxed">
-                    My name is Aura, and I became famous in <strong>2024 as Hollywood's #1 medium</strong>, bringing soulmates together through my drawings.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Fourth typing indicator */}
         <AnimatePresence>
           {showFourthTyping && <TypingIndicator />}
         </AnimatePresence>
