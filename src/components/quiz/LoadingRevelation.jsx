@@ -204,11 +204,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  {userName ? <><span className="font-bold">{userName}</span>, something special is happening...</> : "Something special is happening..."}
-                  <br /><br />
-                  Based on the reading of your destiny and your date of birth, I've started to sketch the face of your soulmate. Everything points to a meeting in <strong>{userCity}</strong>—or somewhere very close.
-                  <br /><br />
-                  This person carries a beautiful energy and is closer than you think... patiently waiting for you. ✨
+                  {userName ? <><span className="font-bold">{userName}</span>, based on the reading of your destiny and your date of birth, I've started sketching the face of your soulmate.</> : "Based on the reading of your destiny and your date of birth, I've started sketching the face of your soulmate."}
+                  <br />
+                  Everything points to a meeting in <strong>{userCity}</strong> — or somewhere very close.
+                  <br />
+                  And since you've made it this far, I won't just reveal the face... but also the name, age, meeting date, and unique characteristics. Take a look:
                 </p>
               </div>
             </div>
