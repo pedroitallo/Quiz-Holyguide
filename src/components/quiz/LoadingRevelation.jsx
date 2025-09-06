@@ -252,7 +252,26 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       {/* Final message */}
       <AnimatePresence>
         {showFinalMessage && (
-          <div></div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+
+            <div className="flex items-start gap-3">
+              <img
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+              alt="Madame Aura"
+              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+              loading="eager"
+              decoding="async" />
+
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">
+                  {userName ? <><span className="font-bold">{userName}</span>, based on the <strong>reading of your destiny</strong> and your <strong>date of birth</strong>, I've started sketching the <strong>face of your soulmate</strong>. 🔮</> : "Based on the reading of your destiny and your date of birth, I've started sketching the face of your soulmate. 🔮"}
+                </p>
+              </div>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
