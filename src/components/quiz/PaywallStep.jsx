@@ -110,10 +110,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return "Não informado";
+    if (!dateString) return "Not informed";
     const [year, month, day] = dateString.split('-');
     if (day && month && year) {
-        return `${day}/${month}/${year}`;
+        return `${day}/${month}`;
     }
     return dateString;
   };
