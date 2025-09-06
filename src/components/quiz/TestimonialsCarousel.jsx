@@ -5,6 +5,49 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from 'framer-motion';
 import TypingIndicator from './TypingIndicator';
 
+// Scroll Indicator Component
+const ScrollIndicator = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Hide indicator when user scrolls down
+      if (window.scrollY > 50) {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  if (!isVisible) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.5, delay: 1 }}
+      className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50"
+    >
+      <div className="bg-purple-600 text-white rounded-full p-3 shadow-lg animate-bounce">
+        <div className="flex flex-col items-center">
+          <span className="text-sm font-bold mb-1">1</span>
+          <motion.div
+            animate={{ y: [0, 5, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const testimonials = [
 {
   imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/14ed61e13_DEP1.webp"
@@ -393,6 +436,13 @@ export default function TestimonialsCarousel({ onContinue }) {
                 </div>
               </div>
             </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Scroll indicator - appears after "May I begin" message */}
+        <AnimatePresence>
+          {showFifthMessage && !showFirstButton && (
+            <ScrollIndicator />
           )}
         </AnimatePresence>
 
