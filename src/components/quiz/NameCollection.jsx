@@ -75,7 +75,6 @@ export default function NameCollection({ onNameSubmit }) {
   const [nameSubmitted, setNameSubmitted] = useState(false);
   const [showGreatTyping, setShowGreatTyping] = useState(false);
   const [showGreatMessage, setShowGreatMessage] = useState(false);
-  const [showReadyButton, setShowReadyButton] = useState(false);
   const [showWeAllTyping, setShowWeAllTyping] = useState(false);
   const [showWeAllMessage, setShowWeAllMessage] = useState(false);
   const [showDateInput, setShowDateInput] = useState(false);
@@ -298,34 +297,8 @@ export default function NameCollection({ onNameSubmit }) {
               </div>
             </div>
           </div>
-
-          {/* YES BUTTON */}
-          {showReadyButton && (
-            <Button
-              onClick={handleReadyClick}
-              disabled={!showReadyButton}
-              className={`w-full max-w-sm md:w-auto font-bold rounded-full shadow-lg transition-all duration-300 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl ${
-                showReadyButton 
-                  ? "bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white hover:shadow-xl transform hover:scale-105" 
-                  : "bg-gray-400 text-gray-600 cursor-not-allowed"
-              }`}
-            >
-              YES! I am Ready!
-            </Button>
-          )}
         </div>
       </div>
-
-      {/* USER'S "YES! I am ready" MESSAGE */}
-      <AnimatePresence>
-        {!showReadyButton && showGreatMessage && (
-          <div className="flex justify-end mb-4">
-            <div className="bg-purple-600 text-white p-3 rounded-xl max-w-xs mr-4">
-              <p className="text-base">YES! I am Ready!</p>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
 
       {/* WE ALL TYPING */}
       <div className="min-h-[120px] mb-6">
