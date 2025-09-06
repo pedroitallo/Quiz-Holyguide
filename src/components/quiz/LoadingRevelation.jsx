@@ -7,9 +7,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [userCity, setUserCity] = useState("your city");
   const [showFirstTyping, setShowFirstTyping] = useState(true);
   const [showFirstMessage, setShowFirstMessage] = useState(false);
+  const [showSecondTyping, setShowSecondTyping] = useState(false);
+  const [showSecondMessage, setShowSecondMessage] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [showSecondTyping, setShowSecondTyping] = useState(false);
+  const [showThirdTyping, setShowThirdTyping] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
   const [showSendingTyping, setShowSendingTyping] = useState(false);
@@ -87,51 +89,66 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   useEffect(() => {
     const timers = [];
 
-    // Skip first message and image since they moved to audio step
-    // Go directly to second typing
+    // First typing (1s) then first message
     timers.push(setTimeout(() => {
       setShowFirstTyping(false);
-      setShowSecondTyping(true);
+      setShowFirstMessage(true);
     }, 1000));
 
-    // Second typing (1s) then final message
+    // Second typing after first message (1.5s)
+    timers.push(setTimeout(() => {
+      setShowSecondTyping(true);
+    }, 2000));
+
+    // Second message after second typing (1.5s)
     timers.push(setTimeout(() => {
       setShowSecondTyping(false);
+      setShowSecondMessage(true);
+    }, 3500));
+
+    // Third typing after second message (1.5s)
+    timers.push(setTimeout(() => {
+      setShowThirdTyping(true);
+    }, 5000));
+
+    // Final message after third typing (1.5s)
+    timers.push(setTimeout(() => {
+      setShowThirdTyping(false);
       setShowFinalMessage(true);
-    }, 2000));
+    }, 6500));
 
     // Show blurred cards after final message
     timers.push(setTimeout(() => {
       setShowSendingTyping(true);
-    }, 5000)); // 3s after final message
+    }, 9500)); // 3s after final message
 
     // Show blurred cards after sending typing (1s typing)
     timers.push(setTimeout(() => {
       setShowSendingTyping(false);
       setShowBlurredCards(true);
-    }, 6000));
+    }, 10500));
 
     // Show button after blurred cards
     timers.push(setTimeout(() => {
       setShowAudioTyping(true);
-    }, 7000));
+    }, 11500));
 
     // Show audio message after typing (2s)
     timers.push(setTimeout(() => {
       setShowAudioTyping(false);
       setShowAudioMessage(true);
-    }, 9000));
+    }, 13500));
 
     // Show recording audio after message
     timers.push(setTimeout(() => {
       setShowRecordingAudio(true);
-    }, 9500));
+    }, 14000));
 
     // Show green button after recording (5s)
     timers.push(setTimeout(() => {
       setShowRecordingAudio(false);
       setShowGreenButton(true);
-    }, 14500));
+    }, 19000));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -177,20 +194,59 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       {/* First message */}
       <AnimatePresence>
         {showFirstMessage && (
-          <div style={{ display: 'none' }}>
-            {/* Message moved to audio step */}
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+            <div className="flex items-start gap-3">
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                alt="Madame Aura"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                loading="eager"
+                decoding="async" />
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">
+                  {userName ? <><span className="font-bold">{userName}</span>, I've already connected with the astrological chart between you and your soulmate. Everything points to a meeting in <strong>{userCity}</strong> — or somewhere very close.</> : "I've already connected with the astrological chart between you and your soulmate. Everything points to a meeting in your city — or somewhere very close."}
+                </p>
+              </div>
+            </div>
+          </motion.div>
         )}
-      </AnimatePresence>
-
-      {/* Image - removed as it was moved to audio step */}
-      <AnimatePresence>
-        {showImage && <div style={{ display: 'none' }} />}
       </AnimatePresence>
 
       {/* Second typing indicator */}
       <AnimatePresence>
         {showSecondTyping && <TypingIndicator />}
+      </AnimatePresence>
+
+      {/* Second message */}
+      <AnimatePresence>
+        {showSecondMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+            <div className="flex items-start gap-3">
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                alt="Madame Aura"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                loading="eager"
+                decoding="async" />
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">
+                  In this astrological chart, besides revealing the face of your soulmate... I will also reveal their <strong>name</strong>, <strong>age</strong>, <strong>date of the encounter</strong>, and <strong>unique characteristics</strong>. Take a look:
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Third typing indicator */}
+      <AnimatePresence>
+        {showThirdTyping && <TypingIndicator />}
       </AnimatePresence>
 
       {/* Final message */}
@@ -212,12 +268,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   {userName ? <><span className="font-bold">{userName}</span>, based on the <strong>reading of your destiny</strong> and your <strong>date of birth</strong>, I've started sketching the <strong>face of your soulmate</strong>. 🔮</> : "Based on the reading of your destiny and your date of birth, I've started sketching the face of your soulmate. 🔮"}
-                  <br />
-                  <br />
-                  Everything points to a <strong>meeting in {userCity}</strong> — or somewhere very close. 👆
-                  <br />
-                  <br />
-                  And since you've made it this far, I won't just reveal the face... but also the <strong>name</strong>, <strong>age</strong>, <strong>meeting date</strong>, and <strong>unique characteristics</strong>. Take a look: 👇
                 </p>
               </div>
             </div>
