@@ -34,24 +34,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     // Get user location when component mounts
     getUserLocation();
   }, []);
-  // Function to get user's location by IP
-  const getUserLocation = async () => {
-    try {
-      const response = await fetch('https://ipapi.co/json/');
-      const data = await response.json();
-      if (data.city) {
-        setUserCity(data.city);
-      }
-    } catch (error) {
-      console.warn('Failed to get user location:', error);
-      // Keep default "your city"
-    }
-  };
-
-  useEffect(() => {
-    // Get user location when component mounts
-    getUserLocation();
-  }, []);
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
