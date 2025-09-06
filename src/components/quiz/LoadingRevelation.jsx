@@ -5,6 +5,7 @@ import TypingIndicator from './TypingIndicator';
 
 export default function LoadingRevelation({ onContinue, userName, birthDate, quizResultId }) {
   const [userCity, setUserCity] = useState("your city");
+  const [userCity, setUserCity] = useState("your city");
   const [showFirstTyping, setShowFirstTyping] = useState(true);
   const [showFirstMessage, setShowFirstMessage] = useState(false);
   const [showImage, setShowImage] = useState(false);
@@ -12,9 +13,28 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showSecondTyping, setShowSecondTyping] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
+  const [showBlurredCards, setShowBlurredCards] = useState(false);
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
+  // Function to get user's location by IP
+  const getUserLocation = async () => {
+    try {
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      if (data.city) {
+        setUserCity(data.city);
+      }
+    } catch (error) {
+      console.warn('Failed to get user location:', error);
+      // Keep default "your city"
+    }
+  };
+
+  useEffect(() => {
+    // Get user location when component mounts
+    getUserLocation();
+  }, []);
   // Function to get user's location by IP
   const getUserLocation = async () => {
     try {
@@ -94,10 +114,15 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       setShowFinalMessage(true);
     }, 2000));
 
-    // Show button after final message
+    // Show blurred cards after final message
+    timers.push(setTimeout(() => {
+      setShowBlurredCards(true);
+    }, 2500));
+
+    // Show button after blurred cards
     timers.push(setTimeout(() => {
       setShowNextButton(true);
-    }, 2500));
+    }, 3500));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -157,6 +182,50 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                   <br /><br />
                   This person carries a beautiful energy and is closer than you think... patiently waiting for you. ✨
                 </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Blurred Cards */}
+      <AnimatePresence>
+        {showBlurredCards && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-4 w-full"
+          >
+            {/* Expected Date of Meeting */}
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+              <div className="font-semibold text-gray-800 mb-2">Expected Date of Meeting:</div>
+              <div className="text-gray-600">
+                {userName} will meet <span className="blur-sm bg-gray-300 px-2 py-1 rounded">someone special</span> at <strong>{userCity}</strong> on <span className="blur-sm bg-gray-300 px-2 py-1 rounded">March 2025</span>.
+              </div>
+            </div>
+
+            {/* Name of Soulmate */}
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+              <div className="font-semibold text-gray-800 mb-2">Name of your Soulmate:</div>
+              <div className="text-gray-600">
+                The revealed name was <span className="blur-sm bg-gray-300 px-2 py-1 rounded">Alexander</span>, this person is closer than you can imagine.
+              </div>
+            </div>
+
+            {/* Meeting Place */}
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+              <div className="font-semibold text-gray-800 mb-2">Meeting Place:</div>
+              <div className="text-gray-600">
+                The connection will happen at <span className="blur-sm bg-gray-300 px-2 py-1 rounded">a coffee shop downtown</span>, bringing an unexpected and transformative encounter.
+              </div>
+            </div>
+
+            {/* Main Characteristics */}
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+              <div className="font-semibold text-gray-800 mb-2">Main Characteristics of your Soulmate:</div>
+              <div className="text-gray-600">
+                {userName}, your soulmate has <span className="blur-sm bg-gray-300 px-2 py-1 rounded">brown</span> eyes, a remarkable smile, and a special mark <span className="blur-sm bg-gray-300 px-2 py-1 rounded">on their left hand</span>.
               </div>
             </div>
           </motion.div>
