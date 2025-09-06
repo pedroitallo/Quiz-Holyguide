@@ -51,7 +51,13 @@ export default function TestimonialsCarousel({ onContinue }) {
   const [showThirdMessage, setShowThirdMessage] = useState(false);
   const [showFourthTyping, setShowFourthTyping] = useState(false);
   const [showFourthMessage, setShowFourthMessage] = useState(false);
-  const [showButton, setShowButton] = useState(false);
+  const [showFifthTyping, setShowFifthTyping] = useState(false);
+  const [showFifthMessage, setShowFifthMessage] = useState(false);
+  const [showFirstButton, setShowFirstButton] = useState(false);
+  const [firstButtonClicked, setFirstButtonClicked] = useState(false);
+  const [showSixthTyping, setShowSixthTyping] = useState(false);
+  const [showSixthMessage, setShowSixthMessage] = useState(false);
+  const [showFinalButton, setShowFinalButton] = useState(false);
 
   // Preload images on component mount
   useEffect(() => {
@@ -103,14 +109,45 @@ export default function TestimonialsCarousel({ onContinue }) {
       setShowFourthMessage(true);
     }, 8000));
 
-    // Show button after fourth message
+    // Fifth typing (1s after fourth message)
     timers.push(setTimeout(() => {
-      setShowButton(true);
+      setShowFifthTyping(true);
     }, 8500));
+
+    // Fifth message (1s after fifth typing starts)
+    timers.push(setTimeout(() => {
+      setShowFifthTyping(false);
+      setShowFifthMessage(true);
+    }, 9500));
+
+    // Show first button after fifth message
+    timers.push(setTimeout(() => {
+      setShowFirstButton(true);
+    }, 10000));
 
     return () => timers.forEach(clearTimeout);
   }, []);
 
+  const handleFirstButtonClick = () => {
+    setFirstButtonClicked(true);
+    setShowFirstButton(false);
+    
+    // Show sixth typing after button click
+    setTimeout(() => {
+      setShowSixthTyping(true);
+    }, 500);
+    
+    // Show sixth message after typing
+    setTimeout(() => {
+      setShowSixthTyping(false);
+      setShowSixthMessage(true);
+    }, 1500);
+    
+    // Show final button after sixth message
+    setTimeout(() => {
+      setShowFinalButton(true);
+    }, 2000);
+  };
   const paginate = (newDirection) => {
     setPage([(page + newDirection + testimonials.length) % testimonials.length, newDirection]);
   };
@@ -343,9 +380,100 @@ export default function TestimonialsCarousel({ onContinue }) {
           )}
         </AnimatePresence>
 
-        {/* Button appears after fourth message */}
+        {/* Fifth typing indicator */}
         <AnimatePresence>
-          {showButton && (
+          {showFifthTyping && <TypingIndicator />}
+        </AnimatePresence>
+
+        {/* Fifth message - Drawing permission */}
+        <AnimatePresence>
+          {showFifthMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
+            >
+              <div className="flex items-start gap-3">
+                <img
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                  alt="Madame Aura"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div className="text-left">
+                  <p className="text-base text-gray-700 leading-relaxed">
+                    May I begin your drawing? Now, I must warn you: this may bring you to tears or awaken deep emotions, but I believe you'll want to see it… 💞✨
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* First button - Drawing permission */}
+        <AnimatePresence>
+          {showFirstButton && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mt-6 text-center"
+            >
+              <button
+                onClick={handleFirstButtonClick}
+                className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
+              >
+                Yes, I want to discover my soulmate!
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* User's response message */}
+        <AnimatePresence>
+          {firstButtonClicked && (
+            <div className="flex justify-end mb-4">
+              <div className="bg-purple-600 text-white p-3 rounded-xl max-w-xs mr-4">
+                <p className="text-sm">Yes, I want to discover my soulmate!</p>
+              </div>
+            </div>
+          )}
+        </AnimatePresence>
+
+        {/* Sixth typing indicator */}
+        <AnimatePresence>
+          {showSixthTyping && <TypingIndicator />}
+        </AnimatePresence>
+
+        {/* Sixth message - Arms/legs instruction */}
+        <AnimatePresence>
+          {showSixthMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
+            >
+              <div className="flex items-start gap-3">
+                <img
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                  alt="Madame Aura"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div className="text-left">
+                  <p className="text-base text-gray-700 leading-relaxed">
+                    First, I ask that you <strong>don't cross your arms or legs</strong> so I can visualize your soulmate faster🔮
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {/* Final button appears after sixth message */}
+        <AnimatePresence>
+          {showFinalButton && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
