@@ -67,7 +67,7 @@ export default function TestimonialsCarousel({ onContinue }) {
       setShowFirstMessage(true);
     }, 1500));
 
-    // Second typing (1s after first message) then second message
+    // Second typing (1s after first message) then second message (Aura introduction)
     timers.push(setTimeout(() => {
       setShowSecondTyping(true);
     }, 2000));
@@ -77,37 +77,36 @@ export default function TestimonialsCarousel({ onContinue }) {
       setShowSecondMessage(true);
     }, 3000));
 
-    // Show testimonials after second message
-    timers.push(setTimeout(() => {
-      setShowTestimonials(true);
-    }, 3500));
-
-    // Third typing (1.5s after testimonials appear)
+    // Third typing (1s after second message) then third message (This Year Alone)
     timers.push(setTimeout(() => {
       setShowThirdTyping(true);
-    }, 5000));
+    }, 3500));
 
-    // Third message (1.5s after third typing starts)
     timers.push(setTimeout(() => {
       setShowThirdTyping(false);
       setShowThirdMessage(true);
-    }, 6500));
+    }, 4500));
 
-    // Fourth typing (1s after third message)
+    // Show testimonials after third message
+    timers.push(setTimeout(() => {
+      setShowTestimonials(true);
+    }, 5000));
+
+    // Fourth typing (1.5s after testimonials appear)
     timers.push(setTimeout(() => {
       setShowFourthTyping(true);
-    }, 7500));
+    }, 6500));
 
-    // Fourth message (1s after fourth typing starts)
+    // Fourth message (1.5s after fourth typing starts)
     timers.push(setTimeout(() => {
       setShowFourthTyping(false);
       setShowFourthMessage(true);
-    }, 8500));
+    }, 8000));
 
     // Show button after fourth message
     timers.push(setTimeout(() => {
       setShowButton(true);
-    }, 9000));
+    }, 8500));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -189,6 +188,39 @@ export default function TestimonialsCarousel({ onContinue }) {
         {/* Second message */}
         <AnimatePresence>
           {showSecondMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
+            >
+              <div className="flex items-start gap-3">
+                <img
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                  alt="Madame Aura"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div className="text-left">
+                  <p className="text-base text-gray-700 leading-relaxed">
+                    My name is Aura, and I became famous in 2024 as Hollywood's #1 medium, bringing soulmates together through my drawings.
+                    <br /><br />
+                    In just 2 minutes, I will visualize and sketch the face of your soulmate…
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Third typing indicator */}
+        <AnimatePresence>
+          {showThirdTyping && <TypingIndicator />}
+        </AnimatePresence>
+
+        {/* Third message - This Year Alone */}
+        <AnimatePresence>
+          {showThirdMessage && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -280,14 +312,14 @@ export default function TestimonialsCarousel({ onContinue }) {
 
       {/* Container fixo para mensagens após depoimentos */}
       <div className="min-h-[200px] mt-8">
-        {/* Third typing indicator */}
+        {/* Fourth typing indicator */}
         <AnimatePresence>
-          {showThirdTyping && <TypingIndicator />}
+          {showFourthTyping && <TypingIndicator />}
         </AnimatePresence>
 
-        {/* Third message */}
+        {/* Fourth message */}
         <AnimatePresence>
-          {showThirdMessage && (
+          {showFourthMessage && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -311,37 +343,6 @@ export default function TestimonialsCarousel({ onContinue }) {
           )}
         </AnimatePresence>
 
-        {/* Fourth typing indicator */}
-        <AnimatePresence>
-          {showFourthTyping && <TypingIndicator />}
-        </AnimatePresence>
-
-        {/* Fourth message */}
-        <AnimatePresence>
-          {showFourthMessage && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto"
-            >
-              <div className="flex items-start gap-3">
-                <img
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                  alt="Madame Aura"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                  loading="eager"
-                  decoding="async"
-                />
-                <div className="text-left">
-                  <p className="text-base text-gray-700 leading-relaxed">
-                    Are you ready to see <strong>your soulmate's face</strong>?💕
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         {/* Button appears after fourth message */}
         <AnimatePresence>
           {showButton && (
@@ -351,6 +352,22 @@ export default function TestimonialsCarousel({ onContinue }) {
               transition={{ duration: 0.6 }}
               className="mt-6 text-center"
             >
+              <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
+                <div className="flex items-start gap-3">
+                  <img
+                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                    alt="Madame Aura"
+                    className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                    loading="eager"
+                    decoding="async"
+                  />
+                  <div className="text-left">
+                    <p className="text-base text-gray-700 leading-relaxed">
+                      Are you ready to see <strong>your soulmate's face</strong>?💕
+                    </p>
+                  </div>
+                </div>
+              </div>
               <button
                 onClick={onContinue}
                 id="btn-step3" 
