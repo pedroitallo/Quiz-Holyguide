@@ -26,7 +26,6 @@ export default function Funnel1Page() {
   });
 
   const totalSteps = 8; // Video, Testimonials, Name, Love, Revelation, Audio, Paywall, ThankYou
-  const totalSteps = 6; // Video, Testimonials, Name, Love, Audio, Revelation
 
   const progress = (currentStep / totalSteps) * 100;
 
