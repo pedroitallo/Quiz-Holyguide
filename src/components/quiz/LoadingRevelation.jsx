@@ -5,7 +5,6 @@ import TypingIndicator from './TypingIndicator';
 
 export default function LoadingRevelation({ onContinue, userName, birthDate, quizResultId }) {
   const [userCity, setUserCity] = useState("your city");
-  const [userCity, setUserCity] = useState("your city");
   const [showFirstTyping, setShowFirstTyping] = useState(true);
   const [showFirstMessage, setShowFirstMessage] = useState(false);
   const [showImage, setShowImage] = useState(false);
