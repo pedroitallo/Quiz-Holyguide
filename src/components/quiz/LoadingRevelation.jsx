@@ -15,6 +15,24 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
+  // Function to get user's location by IP
+  const getUserLocation = async () => {
+    try {
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      if (data.city) {
+        setUserCity(data.city);
+      }
+    } catch (error) {
+      console.warn('Failed to get user location:', error);
+      // Keep default "your city"
+    }
+  };
+
+  useEffect(() => {
+    // Get user location when component mounts
+    getUserLocation();
+  }, []);
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -183,8 +201,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  {userName ? <><span className="font-bold">{userName}</span>, something special is unfolding...</> : "Something special is unfolding..."}
-                  Your birth chart shows that your soulmate has a <strong>beautiful energy and is closer than you think</strong>✨
+                  {userName ? <><span className="font-bold">{userName}</span>, something special is happening...</> : "Something special is happening..."}
+                  <br /><br />
+                  Based on the reading of your destiny and your date of birth, I've started to sketch the face of your soulmate. Everything points to a meeting in <strong>{userCity}</strong>—or somewhere very close.
+                  <br /><br />
+                  This person carries a beautiful energy and is closer than you think... patiently waiting for you. ✨
                 </p>
               </div>
             </div>
