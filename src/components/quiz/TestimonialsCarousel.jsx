@@ -247,7 +247,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    My name is Aura, and I became famous in 2024 as Hollywood's #1 medium, bringing soulmates together through my drawings.
+                    My name is Aura, and I became famous in <strong>2024 as Hollywood's #1 medium</strong>, bringing soulmates together through my drawings.
                   </p>
                 </div>
               </div>
