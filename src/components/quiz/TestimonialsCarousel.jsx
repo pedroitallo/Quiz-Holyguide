@@ -57,12 +57,6 @@ const testimonials = [
 },
 {
   imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/80e6a766a_DEP3.webp"
-},
-{
-  imageUrl: "/Captura de Tela 2025-09-06 às 19.00.35.png"
-},
-{
-  imageUrl: "/Captura de Tela 2025-09-06 às 19.00.13.png"
 }];
 
 // Preload all testimonial images immediately when component loads
