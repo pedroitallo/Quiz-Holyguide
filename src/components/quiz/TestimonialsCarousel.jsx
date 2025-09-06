@@ -57,6 +57,8 @@ export default function TestimonialsCarousel({ onContinue }) {
   const [firstButtonClicked, setFirstButtonClicked] = useState(false);
   const [showSixthTyping, setShowSixthTyping] = useState(false);
   const [showSixthMessage, setShowSixthMessage] = useState(false);
+  const [showSeventhTyping, setShowSeventhTyping] = useState(false);
+  const [showSeventhMessage, setShowSeventhMessage] = useState(false);
   const [showFinalButton, setShowFinalButton] = useState(false);
 
   // Preload images on component mount
@@ -118,12 +120,8 @@ export default function TestimonialsCarousel({ onContinue }) {
     timers.push(setTimeout(() => {
       setShowFifthTyping(false);
       setShowFifthMessage(true);
-    }, 9500));
-
-    // Show first button after fifth message
-    timers.push(setTimeout(() => {
       setShowFirstButton(true);
-    }, 10000));
+    }, 9500));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -143,10 +141,17 @@ export default function TestimonialsCarousel({ onContinue }) {
       setShowSixthMessage(true);
     }, 1500);
     
-    // Show final button after sixth message
+    // Show seventh typing after sixth message
     setTimeout(() => {
-      setShowFinalButton(true);
+      setShowSeventhTyping(true);
     }, 2000);
+    
+    // Show seventh message and final button after typing
+    setTimeout(() => {
+      setShowSeventhTyping(false);
+      setShowSeventhMessage(true);
+      setShowFinalButton(true);
+    }, 3000);
   };
   const paginate = (newDirection) => {
     setPage([(page + newDirection + testimonials.length) % testimonials.length, newDirection]);
@@ -471,7 +476,39 @@ export default function TestimonialsCarousel({ onContinue }) {
             </motion.div>
           )}
         </AnimatePresence>
-        {/* Final button appears after sixth message */}
+
+        {/* Seventh typing indicator */}
+        <AnimatePresence>
+          {showSeventhTyping && <TypingIndicator />}
+        </AnimatePresence>
+
+        {/* Seventh message - Are you ready */}
+        <AnimatePresence>
+          {showSeventhMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
+            >
+              <div className="flex items-start gap-3">
+                <img
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                  alt="Madame Aura"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div className="text-left">
+                  <p className="text-base text-gray-700 leading-relaxed">
+                    Are you ready to see <strong>your soulmate's face</strong>?💕
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Final button appears after seventh message */}
         <AnimatePresence>
           {showFinalButton && (
             <motion.div
@@ -480,22 +517,6 @@ export default function TestimonialsCarousel({ onContinue }) {
               transition={{ duration: 0.6 }}
               className="mt-6 text-center"
             >
-              <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
-                <div className="flex items-start gap-3">
-                  <img
-                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                    alt="Madame Aura"
-                    className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                    loading="eager"
-                    decoding="async"
-                  />
-                  <div className="text-left">
-                    <p className="text-base text-gray-700 leading-relaxed">
-                      Are you ready to see <strong>your soulmate's face</strong>?💕
-                    </p>
-                  </div>
-                </div>
-              </div>
               <button
                 onClick={onContinue}
                 id="btn-step3" 
