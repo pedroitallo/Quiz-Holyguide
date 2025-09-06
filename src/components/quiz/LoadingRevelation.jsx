@@ -81,40 +81,27 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   useEffect(() => {
     const timers = [];
 
-    // First typing (1s) then first message
+    // Skip first message and image since they moved to audio step
+    // Go directly to second typing
     timers.push(setTimeout(() => {
       setShowFirstTyping(false);
-      setShowFirstMessage(true);
+      setShowSecondTyping(true);
     }, 1000));
 
-    // Show image immediately after first message
+    // Second typing (1s) then final message
     timers.push(setTimeout(() => {
-      setShowImage(true);
-    }, 1500));
+      setShowSecondTyping(false);
+      setShowFinalMessage(true);
+    }, 2000));
+
+    // Show button after final message
+    timers.push(setTimeout(() => {
+      setShowNextButton(true);
+    }, 2500));
 
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  // Handle image load and trigger second message
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-    
-    // Start second typing after image loads
-    setTimeout(() => {
-      setShowSecondTyping(true);
-    }, 500);
-
-    // Second typing (1s) then final message
-    setTimeout(() => {
-      setShowSecondTyping(false);
-      setShowFinalMessage(true);
-    }, 1500);
-
-    // Show button after final message
-    setTimeout(() => {
-      setShowNextButton(true);
-    }, 2000);
-  };
 
   return (
     <div className="py-8 w-full max-w-lg mx-auto flex flex-col items-center gap-4">
@@ -130,52 +117,15 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       {/* First message */}
       <AnimatePresence>
         {showFirstMessage && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
-
-            <div className="flex items-start gap-3">
-              <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-              alt="Madame Aura"
-              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-              loading="eager"
-              decoding="async" />
-
-              <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, <strong>I am preparing a drawing of your soulmate</strong>. I'm starting right now👇🔮
-              </p>
-              </div>
-            </div>
-          </motion.div>
+          <div style={{ display: 'none' }}>
+            {/* Message moved to audio step */}
+          </div>
         )}
       </AnimatePresence>
 
-      {/* Image */}
+      {/* Image - removed as it was moved to audio step */}
       <AnimatePresence>
-        {showImage && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-lg p-2 shadow-sm border border-gray-200 mb-4 relative w-full">
-
-            <img
-            src={imageUrl}
-            alt="Preparing your revelation"
-            className="w-full rounded-lg"
-            onLoad={handleImageLoad}
-            loading="eager"
-            decoding="async"
-            style={{
-              imageRendering: 'crisp-edges',
-              backfaceVisibility: 'hidden',
-              transform: 'translateZ(0)'
-            }} />
-
-            <TextOverlay />
-          </motion.div>
-        )}
+        {showImage && <div style={{ display: 'none' }} />}
       </AnimatePresence>
 
       {/* Second typing indicator */}
