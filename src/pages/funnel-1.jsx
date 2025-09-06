@@ -13,6 +13,7 @@ import LoadingRevelation from "../components/quiz/LoadingRevelation";
 import TestimonialsCarousel from "../components/quiz/TestimonialsCarousel";
 import PaywallStep from "../components/quiz/PaywallStep";
 import ThankYouStep from "../components/quiz/ThankYouStep";
+import PalmReadingResults from "../components/quiz/PalmReadingResults";
 
 export default function Funnel1Page() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -24,7 +25,7 @@ export default function Funnel1Page() {
     quizResultId: null
   });
 
-  const totalSteps = 7; // Video, Testimonials, Name, Birth, Love, Revelation, Paywall
+  const totalSteps = 8; // Video, Testimonials, Name, Love, Revelation, Audio, Paywall, ThankYou
 
   const progress = (currentStep / totalSteps) * 100;
 
@@ -179,8 +180,9 @@ export default function Funnel1Page() {
           {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
           {currentStep === 4 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
           {currentStep === 5 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 6 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 7 && <ThankYouStep userName={formData.name} />}
+          {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
+          {currentStep === 7 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 8 && <ThankYouStep userName={formData.name} />}
         </div>
       </div>
     </div>
