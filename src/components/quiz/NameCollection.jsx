@@ -190,6 +190,14 @@ export default function NameCollection({ onNameSubmit }) {
     const zodiacSign = getZodiacSign(selectedMonth, selectedDay);
     const birthDate = `2000-${selectedMonth}-${selectedDay}`; // Using 2000 as default year
     
+    // Scroll to top before moving to next step
+    setTimeout(() => {
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
+    }, 50);
+    
     onNameSubmit({
       name: name.trim(),
       birth_date: birthDate,

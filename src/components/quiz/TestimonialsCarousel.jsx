@@ -132,6 +132,14 @@ export default function TestimonialsCarousel({ onContinue }) {
     setFirstButtonClicked(true);
     setShowFirstButton(false);
     
+    // Scroll to top when moving to next phase
+    setTimeout(() => {
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
+    }, 100);
+    
     // Show sixth typing after button click
     setTimeout(() => {
       setShowSixthTyping(true);
@@ -157,6 +165,17 @@ export default function TestimonialsCarousel({ onContinue }) {
   };
   const paginate = (newDirection) => {
     setPage([(page + newDirection + testimonials.length) % testimonials.length, newDirection]);
+  };
+
+  // Scroll to top when final button is clicked (moving to next step)
+  const handleFinalButtonClick = () => {
+    setTimeout(() => {
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
+    }, 50);
+    onContinue();
   };
 
   useEffect(() => {
@@ -487,7 +506,7 @@ export default function TestimonialsCarousel({ onContinue }) {
               className="mt-6 text-center"
             >
               <button
-                onClick={onContinue}
+                onClick={handleFinalButtonClick}
                 id="btn-step3" 
                 className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
               >

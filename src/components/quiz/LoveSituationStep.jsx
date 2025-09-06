@@ -88,6 +88,14 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
   };
 
   const handleContinue = () => {
+    // Scroll to top before moving to next step
+    setTimeout(() => {
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
+    }, 50);
+    
     onSubmit(selectedOption);
   };
 
