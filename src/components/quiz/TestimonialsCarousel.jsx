@@ -216,7 +216,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                   Hello, my dear! I’m so happy and grateful that you chose to follow your heart and find me here today. 🙏
+                   Hello, my dear! I’m so <strong>happy and grateful</strong> that you chose to follow your heart and find me here today. 🙏
                   </p>
                 </div>
               </div>
