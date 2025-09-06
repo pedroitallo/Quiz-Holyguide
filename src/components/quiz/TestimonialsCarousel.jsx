@@ -246,7 +246,32 @@ export default function TestimonialsCarousel({ onContinue }) {
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
                     My name is Aura, and I became famous in 2024 as Hollywood's #1 medium, bringing soulmates together through my drawings.
-                    <br /><br />
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* New third message - 2 minutes */}
+        <AnimatePresence>
+          {showSecondMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
+            >
+              <div className="flex items-start gap-3">
+                <img
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                  alt="Madame Aura"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div className="text-left">
+                  <p className="text-base text-gray-700 leading-relaxed">
                     In just 2 minutes, I will visualize and sketch the face of your soulmate…
                   </p>
                 </div>
@@ -260,7 +285,7 @@ export default function TestimonialsCarousel({ onContinue }) {
           {showThirdTyping && <TypingIndicator />}
         </AnimatePresence>
 
-        {/* Third message - This Year Alone */}
+        {/* Fourth message - This Year Alone */}
         <AnimatePresence>
           {showThirdMessage && (
             <motion.div
