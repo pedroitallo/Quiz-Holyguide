@@ -204,6 +204,15 @@ export default function NameCollection({ onNameSubmit }) {
 
   return (
     <div className="text-center py-8 min-h-[600px]">
+      {/* Reading Progress Card */}
+      <div className="mb-6">
+        <div className="bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200 rounded-full px-4 py-2 inline-block shadow-sm">
+          <p className="text-purple-700 text-sm font-medium">
+            ✨ Reading in progress, stay on this page.
+          </p>
+        </div>
+      </div>
+
       {/* CONTAINER FIXO PARA PRIMEIRA MENSAGEM */}
       <div className="min-h-[120px] mb-6">
         {/* First typing */}
