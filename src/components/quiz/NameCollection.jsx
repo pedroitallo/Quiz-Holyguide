@@ -205,7 +205,7 @@ export default function NameCollection({ onNameSubmit }) {
   const zodiacSign = selectedDay && selectedMonth ? getZodiacSign(selectedMonth, selectedDay) : "";
 
   return (
-    <div className="text-center py-8 min-h-[600px]">
+    <div className="text-center py-2 min-h-[600px]">
       {/* Reading Progress Card */}
       <div className="mb-6">
         <div className="bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200 rounded-full px-4 py-2 inline-block shadow-sm">
@@ -215,12 +215,8 @@ export default function NameCollection({ onNameSubmit }) {
         </div>
       </div>
 
-      {/* CONTAINER FIXO PARA PRIMEIRA MENSAGEM */}
-      <div className="min-h-[120px] mb-2">
-      </div>
-
       {/* BEFORE TYPING */}
-      <div className="min-h-[120px] mb-6">
+      <div className="min-h-[120px] mb-4">
         <div className={`transition-opacity duration-300 ${showBeforeTyping ? 'opacity-100' : 'opacity-0'} ${showBeforeMessage ? 'hidden' : ''}`}>
           <TypingIndicator />
         </div>
