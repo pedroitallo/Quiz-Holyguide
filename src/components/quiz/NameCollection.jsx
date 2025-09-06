@@ -222,7 +222,7 @@ export default function NameCollection({ onNameSubmit }) {
       </div>
 
       {/* CONTAINER FIXO PARA PRIMEIRA MENSAGEM */}
-      <div className="min-h-[120px] mb-6">
+      <div className="min-h-[120px] mb-2">
         {/* First typing */}
         <div className={`transition-opacity duration-300 ${showFirstTyping ? 'opacity-100' : 'opacity-0'} ${showFirstMessage ? 'hidden' : ''}`}>
           <TypingIndicator />
@@ -247,7 +247,7 @@ export default function NameCollection({ onNameSubmit }) {
       </div>
 
       {/* BEFORE TYPING */}
-      <div className="min-h-[120px] mb-2">
+      <div className="min-h-[120px] mb-6">
         <div className={`transition-opacity duration-300 ${showBeforeTyping ? 'opacity-100' : 'opacity-0'} ${showBeforeMessage ? 'hidden' : ''}`}>
           <TypingIndicator />
         </div>
