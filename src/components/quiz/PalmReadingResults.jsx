@@ -138,8 +138,6 @@ const RecordingIndicator = () => (
 
 const BirthChartMessage = ({ userName }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
-    const [showSecondTyping, setShowSecondTyping] = useState(false);
-    const [showSecondMessage, setShowSecondMessage] = useState(false);
     
     const formatDate = (dateString) => {
         if (!dateString) return "";
@@ -188,31 +186,6 @@ const BirthChartMessage = ({ userName }) => {
         </div>
     );
 
-    // Trigger second typing after image loads
-    useEffect(() => {
-        if (imageLoaded) {
-            // Start second typing 1s after image loads
-            const timer = setTimeout(() => {
-                setShowSecondTyping(true);
-            }, 1000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [imageLoaded]);
-
-    // Handle second typing completion
-    useEffect(() => {
-        if (showSecondTyping) {
-            // Show second message after 3s of typing
-            const timer = setTimeout(() => {
-                setShowSecondTyping(false);
-                setShowSecondMessage(true);
-            }, 3000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [showSecondTyping]);
-
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -260,36 +233,6 @@ const BirthChartMessage = ({ userName }) => {
                 <TextOverlay />
             </div>
 
-            {/* Second typing indicator */}
-            <AnimatePresence>
-                {showSecondTyping && <TypingIndicator />}
-            </AnimatePresence>
-
-            {/* Second message */}
-            <AnimatePresence>
-                {showSecondMessage && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full"
-                    >
-                        <div className="flex items-start gap-3">
-                            <img
-                                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                                alt="Madame Aura"
-                                loading="lazy"
-                                decoding="async"
-                                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                            />
-                            <div className="text-left">
-                                <p className="text-base text-gray-700 leading-relaxed">
-                                    Through this reading, I was able to deeply connect with the <strong>energy of your soulmate</strong>... and I've already discovered <strong>surprising details</strong> about them.✨
-                                </p>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </motion.div>
     );
 };
@@ -299,8 +242,10 @@ export default function PalmReadingResults({ onContinue, userName }) {
     const [showMessage, setShowMessage] = useState(false);
     const [showRecording, setShowRecording] = useState(false);
     const [showAudio, setShowAudio] = useState(false);
-    const [showButton, setShowButton] = useState(false);
     const [showBirthChart, setShowBirthChart] = useState(false);
+    const [showThroughTyping, setShowThroughTyping] = useState(false);
+    const [showThroughMessage, setShowThroughMessage] = useState(false);
+    const [showButton, setShowButton] = useState(false);
 
     useEffect(() => {
         const timers = [];
@@ -327,10 +272,21 @@ export default function PalmReadingResults({ onContinue, userName }) {
             setShowBirthChart(true);
         }, 2000 + 3000 + 500));
         
-        // Show button after birth chart appears (6s after birth chart appears to account for new message)
+        // Show "Through reading" typing 5s after birth chart appears
+        timers.push(setTimeout(() => {
+            setShowThroughTyping(true);
+        }, 2000 + 3000 + 500 + 5000)); // 5s after birth chart
+        
+        // Show "Through reading" message after 1.5s of typing
+        timers.push(setTimeout(() => {
+            setShowThroughTyping(false);
+            setShowThroughMessage(true);
+        }, 2000 + 3000 + 500 + 5000 + 1500));
+        
+        // Show button after "Through reading" message
         timers.push(setTimeout(() => {
             setShowButton(true);
-        }, 2000 + 3000 + 500 + 6000)); // 1s + 3s typing + 2s delay = 6s total
+        }, 2000 + 3000 + 500 + 5000 + 1500 + 500));
 
         return () => timers.forEach(clearTimeout);
     }, []);
@@ -356,6 +312,38 @@ export default function PalmReadingResults({ onContinue, userName }) {
             <AnimatePresence>
                 {showBirthChart && <BirthChartMessage userName={userName} />}
             </AnimatePresence>
+
+            {/* Through reading typing */}
+            <AnimatePresence>
+                {showThroughTyping && <TypingIndicator />}
+            </AnimatePresence>
+
+            {/* Through reading message */}
+            <AnimatePresence>
+                {showThroughMessage && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full"
+                    >
+                        <div className="flex items-start gap-3">
+                            <img
+                                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                                alt="Madame Aura"
+                                loading="lazy"
+                                decoding="async"
+                                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                            />
+                            <div className="text-left">
+                                <p className="text-base text-gray-700 leading-relaxed">
+                                    Through this reading, I was able to deeply connect with the <strong>energy of your soulmate</strong>... and I've already discovered <strong>surprising details</strong> about them.✨
+                                </p>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+            
             {/* BOTÃO APARECE APENAS APÓS O ÁUDIO */}
             <AnimatePresence>
                 {showButton && (

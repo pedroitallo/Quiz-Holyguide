@@ -41,50 +41,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     // Get user location when component mounts
     getUserLocation();
   }, []);
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    // Retorna apenas dia e mês (formato DD/MM)
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    return `${day}/${month}`;
-  };
-
-  const TextOverlay = () => (
-  <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-      <div
-      className="absolute"
-      style={{
-        top: '22%',
-        right: '13%',
-        width: '18%',
-        height: '18%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden'
-      }}>
-        <div
-        style={{
-          fontFamily: 'Dancing Script, cursive',
-          fontWeight: '600',
-          fontSize: 'clamp(7px, 2.2vw, 11px)',
-          lineHeight: '1.3',
-          textAlign: 'center',
-          color: '#4a4a4a',
-          textShadow: '0.5px 0.5px 1px rgba(0,0,0,0.1)',
-          filter: 'sepia(10%) contrast(1.1)',
-          transform: 'rotate(-1deg)'
-        }}>
-          <div style={{ marginBottom: '2px' }}>
-            {userName || ''}
-          </div>
-          <div>
-            {formatDate(birthDate) || '...'}
-          </div>
-        </div>
-      </div>
-    </div>);
 
   useEffect(() => {
     const timers = [];
