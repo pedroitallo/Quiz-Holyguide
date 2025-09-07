@@ -341,7 +341,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       {/* Final message */}
       <AnimatePresence>
         {showFinalMessage && (
-          <div></div>
         )}
       </AnimatePresence>
 
