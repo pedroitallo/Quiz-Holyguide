@@ -4,6 +4,93 @@ import { Button } from "@/components/ui/button";
 import { Play, Pause } from "lucide-react";
 import TypingIndicator from './TypingIndicator';
 
+// Move CustomAudioPlayer component outside to prevent recreation
+const CustomAudioPlayer = ({ audioUrl, title = "Audio Message" }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef(null);
+
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white p-4 rounded-2xl shadow-sm border border-purple-100 w-full"
+    >
+      <div className="flex items-center gap-4">
+        <img
+          src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
+          alt="Madame Aura"
+          loading="lazy"
+          decoding="async"
+          className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
+        />
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-2">
+            <button
+              onClick={togglePlay}
+              className="w-10 h-10 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center transition-colors"
+            >
+              {isPlaying ? <Pause className="w-5 h-5 text-white" /> : <Play className="w-5 h-5 text-white ml-0.5" />}
+            </button>
+            <div className="flex-1">
+              <div className="flex justify-between text-xs text-gray-500 mb-1">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-purple-600 h-2 rounded-full"
+                  style={{ width: `${progressPercentage}%` }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <audio
+        ref={audioRef}
+        src={audioUrl}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={() => setIsPlaying(false)}
+        preload="metadata"
+      />
+    </motion.div>
+  );
+};
+
 export default function LoadingRevelation({ onContinue, userName, birthDate, quizResultId }) {
   const [userCity, setUserCity] = useState("your city");
   const [showFirstTyping, setShowFirstTyping] = useState(true);
@@ -155,92 +242,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     return () => timers.forEach(clearTimeout);
   }, []);
 
-
-  const CustomAudioPlayer = ({ audioUrl, title = "Audio Message" }) => {
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [currentTime, setCurrentTime] = useState(0);
-    const [duration, setDuration] = useState(0);
-    const audioRef = useRef(null);
-
-    const togglePlay = () => {
-      if (audioRef.current) {
-        if (isPlaying) {
-          audioRef.current.pause();
-        } else {
-          audioRef.current.play();
-        }
-        setIsPlaying(!isPlaying);
-      }
-    };
-
-    const handleTimeUpdate = () => {
-      if (audioRef.current) {
-        setCurrentTime(audioRef.current.currentTime);
-      }
-    };
-
-    const handleLoadedMetadata = () => {
-      if (audioRef.current) {
-        setDuration(audioRef.current.duration);
-      }
-    };
-
-    const formatTime = (time) => {
-      const minutes = Math.floor(time / 60);
-      const seconds = Math.floor(time % 60);
-      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    };
-
-    const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
-
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white p-4 rounded-2xl shadow-sm border border-purple-100 w-full"
-      >
-        <div className="flex items-center gap-4">
-          <img
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
-            alt="Madame Aura"
-            loading="lazy"
-            decoding="async"
-            className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
-          />
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <button
-                onClick={togglePlay}
-                className="w-10 h-10 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center transition-colors"
-              >
-                {isPlaying ? <Pause className="w-5 h-5 text-white" /> : <Play className="w-5 h-5 text-white ml-0.5" />}
-              </button>
-              <div className="flex-1">
-                <div className="flex justify-between text-xs text-gray-500 mb-1">
-                  <span>{formatTime(currentTime)}</span>
-                  <span>{formatTime(duration)}</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-purple-600 h-2 rounded-full"
-                    style={{ width: `${progressPercentage}%` }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <audio
-          ref={audioRef}
-          src={audioUrl}
-          onTimeUpdate={handleTimeUpdate}
-          onLoadedMetadata={handleLoadedMetadata}
-          onEnded={() => setIsPlaying(false)}
-          preload="metadata"
-        />
-      </motion.div>
-    );
-  };
 
   const RecordingAudioIndicator = () => (
     <motion.div
@@ -442,7 +443,8 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       {/* First Audio Player */}
       <AnimatePresence>
         {showFirstAudio && (
-          <CustomAudioPlayer 
+          <CustomAudioPlayer
+            key="first-audio"
             audioUrl="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/1f01ac4a5_Audio1.mp3"
             title="First Audio Message"
           />
@@ -486,7 +488,8 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       {/* Second Audio Player */}
       <AnimatePresence>
         {showSecondAudio && (
-          <CustomAudioPlayer 
+          <CustomAudioPlayer
+            key="second-audio"
             audioUrl="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/b664913a8_Audio2.mp3"
             title="Second Audio Message"
           />
