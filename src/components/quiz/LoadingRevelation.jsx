@@ -420,7 +420,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                   listen to the following short audio to understand how you can access this complete revelation.👇🏼
+                   listen to the following short audio to understand how <strong>you can access this complete revelation.</strong>👇🏼
                 </p>
               </div>
             </div>
