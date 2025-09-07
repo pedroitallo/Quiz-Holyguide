@@ -50,7 +50,7 @@ const ScrollIndicator = () => {
 
 const testimonials = [
 {
-  imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/84336022e_CapturadeTela2025-09-06as190035.png"
+  imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7701cbbfc_CapturadeTela2025-09-06as190013.png"
 },
 {
   imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7701cbbfc_CapturadeTela2025-09-06as190013.png"
