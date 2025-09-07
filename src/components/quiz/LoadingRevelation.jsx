@@ -534,7 +534,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
           onClick={handleCheckoutRedirect}
           className="w-full max-w-sm md:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl mt-6"
         >
-         YES! Reveal My Soulmate Now
+         YES! REVEAL MY SOULMATE NOW
         </Button>
 
         </motion.div>
