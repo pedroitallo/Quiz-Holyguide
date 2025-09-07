@@ -510,7 +510,6 @@ export default function TestimonialsCarousel({ onContinue }) {
                 className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
               >
                 Yes, I am ready!
-                window.metrito.track('startquiz')
               </button>
             </motion.div>
           )}
