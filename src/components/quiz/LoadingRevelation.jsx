@@ -84,13 +84,13 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     // Show blurred cards after final message
     timers.push(setTimeout(() => {
       setShowSendingTyping(true);
-    }, 9500)); // 3s after final message
+    }, 5500)); // 0.5s after final message
 
     // Show blurred cards after sending typing (1s typing)
     timers.push(setTimeout(() => {
       setShowSendingTyping(false);
       setShowBlurredCards(true);
-    }, 10500));
+    }, 6500));
 
     // Show button after blurred cards
     timers.push(setTimeout(() => {
