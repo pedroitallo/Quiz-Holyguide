@@ -512,7 +512,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                 <p className="text-base text-gray-700 leading-relaxed">
                   I will leave a button below for you to make the payment.
                   <br /><br />
-                  After that, the drawing and all the information about your soul mate will be instantly sent by email, as well as my own personal guidance so that you can meet your soul mate more quickly.
+                  After that, the drawing and all the <strong>information about your soul mate will be instantly sent by email</strong>, as well as my own personal guidance so that you can meet your soul mate more quickly.
                   <br /><br />
                   Click the button below ⬇️
                 </p>
