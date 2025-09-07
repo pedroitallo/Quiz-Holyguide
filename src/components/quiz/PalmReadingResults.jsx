@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -272,21 +271,10 @@ export default function PalmReadingResults({ onContinue, userName }) {
             setShowBirthChart(true);
         }, 2000 + 3000 + 500));
         
-        // Show "Through reading" typing 5s after birth chart appears
-        timers.push(setTimeout(() => {
-            setShowThroughTyping(true);
-        }, 2000 + 3000 + 500 + 5000)); // 5s after birth chart
-        
-        // Show "Through reading" message after 1.5s of typing
-        timers.push(setTimeout(() => {
-            setShowThroughTyping(false);
-            setShowThroughMessage(true);
-        }, 2000 + 3000 + 500 + 5000 + 1500));
-        
-        // Show button after "Through reading" message
+        // Show button after birth chart message
         timers.push(setTimeout(() => {
             setShowButton(true);
-        }, 2000 + 3000 + 500 + 5000 + 1500 + 500));
+        }, 2000 + 3000 + 500 + 1000)); // 1s after birth chart appears
 
         return () => timers.forEach(clearTimeout);
     }, []);
