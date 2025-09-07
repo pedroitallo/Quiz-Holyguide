@@ -24,6 +24,10 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showSecondRecording, setShowSecondRecording] = useState(false);
   const [showSecondAudio, setShowSecondAudio] = useState(false);
   const [showGreenButton, setShowGreenButton] = useState(false);
+  const [showFirstAudioMessageTyping, setShowFirstAudioMessageTyping] = useState(false);
+  const [showFirstAudioMessage, setShowFirstAudioMessage] = useState(false);
+  const [showSecondAudioMessageTyping, setShowSecondAudioMessageTyping] = useState(false);
+  const [showSecondAudioMessage, setShowSecondAudioMessage] = useState(false);
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
@@ -110,21 +114,43 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       setShowFirstAudio(true);
     }, 17000));
 
-    // Show second recording after first audio (2s)
+    // Show first audio message typing after first audio (2s)
+    timers.push(setTimeout(() => {
+      setShowFirstAudioMessageTyping(true);
+    }, 19000));
+
+    // Show first audio message after typing (1s)
+    timers.push(setTimeout(() => {
+      setShowFirstAudioMessageTyping(false);
+      setShowFirstAudioMessage(true);
+    }, 20000));
+
+    // Show second recording after first audio message (1s)
     timers.push(setTimeout(() => {
       setShowSecondRecording(true);
-    }, 19000));
+    }, 21000));
 
     // Show second audio after second recording (3s)
     timers.push(setTimeout(() => {
       setShowSecondRecording(false);
       setShowSecondAudio(true);
-    }, 22000));
+    }, 24000));
 
-    // Show green button after second audio (2s)
+    // Show second audio message typing after second audio (2s)
+    timers.push(setTimeout(() => {
+      setShowSecondAudioMessageTyping(true);
+    }, 26000));
+
+    // Show second audio message after typing (1s)
+    timers.push(setTimeout(() => {
+      setShowSecondAudioMessageTyping(false);
+      setShowSecondAudioMessage(true);
+    }, 27000));
+
+    // Show green button after second audio message (1s)
     timers.push(setTimeout(() => {
       setShowGreenButton(true);
-    }, 24000));
+    }, 28000));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -423,6 +449,35 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         )}
       </AnimatePresence>
 
+      {/* First Audio Message Typing */}
+      <AnimatePresence>
+        {showFirstAudioMessageTyping && <TypingIndicator />}
+      </AnimatePresence>
+
+      {/* First Audio Message */}
+      <AnimatePresence>
+        {showFirstAudioMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+            <div className="flex items-start gap-3">
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                alt="Madame Aura"
+                loading="eager"
+                decoding="async"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">
+                  The fee to unlock this revelation is only <strong>$19</strong>
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Second Recording audio indicator */}
       <AnimatePresence>
         {showSecondRecording && <RecordingAudioIndicator />}
@@ -435,6 +490,39 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             audioUrl="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/b664913a8_Audio2.mp3"
             title="Second Audio Message"
           />
+        )}
+      </AnimatePresence>
+
+      {/* Second Audio Message Typing */}
+      <AnimatePresence>
+        {showSecondAudioMessageTyping && <TypingIndicator />}
+      </AnimatePresence>
+
+      {/* Second Audio Message */}
+      <AnimatePresence>
+        {showSecondAudioMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+            <div className="flex items-start gap-3">
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                alt="Madame Aura"
+                loading="eager"
+                decoding="async"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">
+                  I will leave a button below for you to make the payment.
+                  <br /><br />
+                  After that, the drawing and all the information about your soul mate will be instantly sent by email, as well as my own personal guidance so that you can meet your soul mate more quickly.
+                  <br /><br />
+                  Click the button below ⬇️
+                </p>
+              </div>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
