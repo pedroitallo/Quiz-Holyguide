@@ -338,12 +338,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         {showThirdTyping && <TypingIndicator />}
       </AnimatePresence>
 
-      {/* Final message */}
-      <AnimatePresence>
-        {showFinalMessage && (
-        )}
-      </AnimatePresence>
-
       {/* Sending details typing indicator */}
       <AnimatePresence>
         {showSendingTyping && (
