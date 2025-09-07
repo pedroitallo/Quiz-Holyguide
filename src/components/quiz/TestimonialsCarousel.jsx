@@ -192,6 +192,7 @@ export default function TestimonialsCarousel({ onContinue }) {
 
   // Scroll to top when final button is clicked (moving to next step)
   const handleFinalButtonClick = () => {
+    window.metrito.track('startquiz');
     setTimeout(() => {
       window.scrollTo({ 
         top: 0, 
@@ -506,7 +507,6 @@ export default function TestimonialsCarousel({ onContinue }) {
             >
               <button
                 onClick={handleFinalButtonClick}
-                window.metrito.track('startquiz);
                 id="btn-step3" 
                 className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
               >
