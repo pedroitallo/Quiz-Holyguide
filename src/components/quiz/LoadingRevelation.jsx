@@ -201,43 +201,43 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       setShowFirstAudio(true);
     }, 17000));
 
-    // Show first audio message typing after first audio (2s)
+    // Show first audio message typing 25s after first audio starts
     timers.push(setTimeout(() => {
       setShowFirstAudioMessageTyping(true);
-    }, 19000));
+    }, 42000)); // 17000 + 25000 = 42000
 
-    // Show first audio message after typing (1s)
+    // Show first audio message after typing (1s) 
     timers.push(setTimeout(() => {
       setShowFirstAudioMessageTyping(false);
       setShowFirstAudioMessage(true);
-    }, 20000));
+    }, 43000)); // 42000 + 1000 = 43000
 
-    // Show second recording after first audio message (1s)
+    // Show second recording 3s after first audio message
     timers.push(setTimeout(() => {
       setShowSecondRecording(true);
-    }, 21000));
+    }, 46000)); // 43000 + 3000 = 46000
 
     // Show second audio after second recording (3s)
     timers.push(setTimeout(() => {
       setShowSecondRecording(false);
       setShowSecondAudio(true);
-    }, 24000));
+    }, 49000)); // 46000 + 3000 = 49000
 
-    // Show second audio message typing after second audio (2s)
+    // Show second audio message typing 15s after second audio starts
     timers.push(setTimeout(() => {
       setShowSecondAudioMessageTyping(true);
-    }, 26000));
+    }, 64000)); // 49000 + 15000 = 64000
 
     // Show second audio message after typing (1s)
     timers.push(setTimeout(() => {
       setShowSecondAudioMessageTyping(false);
       setShowSecondAudioMessage(true);
-    }, 27000));
+    }, 65000)); // 64000 + 1000 = 65000
 
     // Show green button after second audio message (1s)
     timers.push(setTimeout(() => {
       setShowGreenButton(true);
-    }, 28000));
+    }, 66000)); // 65000 + 1000 = 66000
 
     return () => timers.forEach(clearTimeout);
   }, []);
