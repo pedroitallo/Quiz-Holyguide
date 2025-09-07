@@ -507,7 +507,6 @@ export default function TestimonialsCarousel({ onContinue }) {
             >
               <button
                 onClick={handleFinalButtonClick}
-                id="btn-step3"
                 className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
               >
                 Yes, I am ready!
