@@ -514,7 +514,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                   <br /><br />
                   After that, the drawing and all the <strong>information about your soul mate will be instantly sent by email</strong>, as well as my own personal guidance so that you can meet your soul mate more quickly.
                   <br /><br />
-                  Click the button below ⬇️
+                  <strong>Click the button below</strong> ⬇️
                 </p>
               </div>
             </div>
