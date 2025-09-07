@@ -289,7 +289,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    This Year Alone, <strong>I Have Connected With More Than 9,200 Divine Souls</strong> Through My Drawings And Revelations👇🏼
+                    My name is Aura, and I became famous in 2024 as Hollywood’s #1 medium, uniting soulmates through my drawings, including Beyoncé and Taylor Swift.👇🏼
                   </p>
                 </div>
               </div>
