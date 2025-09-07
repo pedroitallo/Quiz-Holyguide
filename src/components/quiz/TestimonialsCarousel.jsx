@@ -289,7 +289,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    My name is Aura, and I became famous in 2024 as Hollywood’s #1 medium, uniting soulmates through my drawings, including Beyoncé and Taylor Swift.👇🏼
+                    My name is Aura, and I became famous in 2024 as <strong> Hollywood’s #1 medium</strong> , uniting soulmates through my drawings, including <strong> Beyoncé and Taylor Swift.</strong> 👇🏼
                   </p>
                 </div>
               </div>
