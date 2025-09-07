@@ -290,7 +290,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    My name is Aura, and I became famous in 2024 as <strong> Hollywood’s #1 phychic</strong> , uniting soulmates through my drawings, including <strong> Beyonce and Taylor Swift.</strong> 👇🏼
+                    My name is Aura, and I became famous in 2024 as <strong> Hollywood’s #1 phychic</strong> , uniting soulmates through my drawings👇🏼
                   </p>
                 </div>
               </div>
