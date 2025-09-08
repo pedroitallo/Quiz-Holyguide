@@ -1,35 +1,24 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause } from "lucide-react";
+import { Play, Pause, Mic } from "lucide-react";
 import TypingIndicator from './TypingIndicator';
 
-// Move CustomAudioPlayer component outside to prevent recreation
-const CustomAudioPlayer = ({ audioUrl, title = "Audio Message", onPlay, isOtherPlaying }) => {
+const CustomAudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
 
-  // Pause this audio if another one is playing
-  useEffect(() => {
-    if (isOtherPlaying && isPlaying && audioRef.current) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    }
-  }, [isOtherPlaying, isPlaying]);
-
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
-        setIsPlaying(false);
       } else {
-        // Notify parent that this audio is starting to play
-        onPlay && onPlay();
         audioRef.current.play();
-        setIsPlaying(true);
       }
+      setIsPlaying(!isPlaying);
     }
   };
 
@@ -92,7 +81,7 @@ const CustomAudioPlayer = ({ audioUrl, title = "Audio Message", onPlay, isOtherP
       </div>
       <audio
         ref={audioRef}
-        src={audioUrl}
+        src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/c02056bf8_NovoAudio.mp3"
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onEnded={() => setIsPlaying(false)}
@@ -140,7 +129,7 @@ const RecordingIndicator = () => (
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
             />
             <div className="flex items-center gap-2 mt-2">
-                <div className="w-5 h-5 text-red-500 animate-pulse">🎤</div>
+                <Mic className="w-5 h-5 text-red-500 animate-pulse" />
                 <span className="text-sm text-gray-500 ml-2">Madame Aura is recording an audio...</span>
             </div>
         </div>
@@ -257,57 +246,6 @@ export default function PalmReadingResults({ onContinue, userName }) {
     const [showThroughTyping, setShowThroughTyping] = useState(false);
     const [showThroughMessage, setShowThroughMessage] = useState(false);
     const [showButton, setShowButton] = useState(false);
-    const [showAudioTyping, setShowAudioTyping] = useState(false);
-    const [showAudioMessage, setShowAudioMessage] = useState(false);
-    const [showRecordingAudio, setShowRecordingAudio] = useState(false);
-    const [showFirstAudio, setShowFirstAudio] = useState(false);
-    const [showFirstAudioMessage, setShowFirstAudioMessage] = useState(false);
-    const [showSecondAudio, setShowSecondAudio] = useState(false);
-    const [showSecondAudioMessage, setShowSecondAudioMessage] = useState(false);
-    const [showCheckoutButton, setShowCheckoutButton] = useState(false);
-    const [currentPlayingAudio, setCurrentPlayingAudio] = useState(null);
-
-    const handleAudioPlay = (audioId) => {
-        setCurrentPlayingAudio(audioId);
-    };
-
-    const RecordingAudioIndicator = () => (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full"
-        >
-            <div className="flex items-start gap-3">
-                <img
-                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                    alt="Madame Aura"
-                    loading="lazy"
-                    decoding="async"
-                    className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                />
-                <div className="flex items-center gap-2 mt-2">
-                    <div className="w-5 h-5 text-red-500 animate-pulse">🎤</div>
-                    <span className="text-sm text-gray-500 ml-2">Madame Aura is recording an audio...</span>
-                </div>
-            </div>
-        </motion.div>
-    );
-
-    const handleCheckoutRedirect = () => {
-        try {
-            // Track checkout event if metrito is available
-            if (typeof window !== 'undefined' && window.metrito && typeof window.metrito.track === 'function') {
-                window.metrito.track('checkout');
-            }
-            
-            // Redirect to checkout page
-            window.location.href = 'https://payments.securitysacred.online/checkout/184553763:1';
-        } catch (error) {
-            console.error('Error during checkout redirect:', error);
-            // Fallback redirect even if tracking fails
-            window.location.href = 'https://payments.securitysacred.online/checkout/184553763:1';
-        }
-    };
 
     useEffect(() => {
         const timers = [];
@@ -350,50 +288,11 @@ export default function PalmReadingResults({ onContinue, userName }) {
             setShowButton(true);
         }, 2000 + 3000 + 500 + 5000 + 1500 + 500));
 
-        // Show audio typing 1s after button appears
-        timers.push(setTimeout(() => {
-            setShowAudioTyping(true);
-        }, 2000 + 3000 + 500 + 5000 + 1500 + 500 + 1000));
-
-        // Show audio message after typing (2s)
-        timers.push(setTimeout(() => {
-            setShowAudioTyping(false);
-            setShowAudioMessage(true);
-        }, 2000 + 3000 + 500 + 5000 + 1500 + 500 + 1000 + 2000));
-
-        // Show recording audio after message
-        timers.push(setTimeout(() => {
-            setShowRecordingAudio(true);
-        }, 2000 + 3000 + 500 + 5000 + 1500 + 500 + 1000 + 2000 + 500));
-
-        // Show first audio after recording (3s)
-        timers.push(setTimeout(() => {
-            setShowRecordingAudio(false);
-            setShowFirstAudio(true);
-        }, 2000 + 3000 + 500 + 5000 + 1500 + 500 + 1000 + 2000 + 500 + 3000));
-
-        // Show all remaining messages 5s after first audio starts
-        timers.push(setTimeout(() => {
-            setShowFirstAudioMessage(true);
-            setShowSecondAudio(true);
-            setShowSecondAudioMessage(true);
-            setShowCheckoutButton(true);
-        }, 2000 + 3000 + 500 + 5000 + 1500 + 500 + 1000 + 2000 + 500 + 3000 + 5000));
-
         return () => timers.forEach(clearTimeout);
     }, []);
 
     return (
         <div className="py-8 w-full max-w-lg mx-auto flex flex-col items-center gap-4">
-            {/* Card superior centralizado */}
-            <div className="mb-4">
-                <div className="bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200 rounded-full px-4 py-2 inline-block shadow-sm">
-                    <p className="text-purple-700 text-sm font-medium">
-                        ✨ Surprising results from your reading...
-                    </p>
-                </div>
-            </div>
-
             <AnimatePresence>
                 {showTyping && <TypingIndicator />}
             </AnimatePresence>
@@ -407,7 +306,7 @@ export default function PalmReadingResults({ onContinue, userName }) {
             </AnimatePresence>
             
             <AnimatePresence>
-                {showAudio && <CustomAudioPlayer audioUrl="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/c02056bf8_NovoAudio.mp3" />}
+                {showAudio && <CustomAudioPlayer />}
             </AnimatePresence>
 
             <AnimatePresence>
@@ -470,137 +369,6 @@ export default function PalmReadingResults({ onContinue, userName }) {
                             }}
                         >
                             Go to Full Disclosure Now
-                        </Button>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* Audio typing indicator */}
-            <AnimatePresence>
-                {showAudioTyping && <TypingIndicator />}
-            </AnimatePresence>
-
-            {/* Audio message */}
-            <AnimatePresence>
-                {showAudioMessage && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
-                        <div className="flex items-start gap-3">
-                            <img
-                                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                                alt="Madame Aura"
-                                loading="eager"
-                                decoding="async"
-                                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
-                            <div className="text-left">
-                                <p className="text-base text-gray-700 leading-relaxed">
-                                    listen to the following short audio to understand how <strong>you can access this complete revelation.</strong>👇🏼
-                                </p>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* Recording audio indicator */}
-            <AnimatePresence>
-                {showRecordingAudio && <RecordingAudioIndicator />}
-            </AnimatePresence>
-
-            {/* First Audio Player */}
-            <AnimatePresence>
-                {showFirstAudio && (
-                    <CustomAudioPlayer
-                        key="first-audio"
-                        audioUrl="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/1f01ac4a5_Audio1.mp3"
-                        title="First Audio Message"
-                        onPlay={() => handleAudioPlay('first')}
-                        isOtherPlaying={currentPlayingAudio === 'second'}
-                    />
-                )}
-            </AnimatePresence>
-
-            {/* First Audio Message */}
-            <AnimatePresence>
-                {showFirstAudioMessage && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
-                        <div className="flex items-start gap-3">
-                            <img
-                                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                                alt="Madame Aura"
-                                loading="eager"
-                                decoding="async"
-                                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
-                            <div className="text-left">
-                                <p className="text-base text-gray-700 leading-relaxed">
-                                    The fee to unlock this revelation is only <strong>$19</strong>
-                                </p>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* Second Audio Player */}
-            <AnimatePresence>
-                {showSecondAudio && (
-                    <CustomAudioPlayer
-                        key="second-audio"
-                        audioUrl="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/b664913a8_Audio2.mp3"
-                        title="Second Audio Message"
-                        onPlay={() => handleAudioPlay('second')}
-                        isOtherPlaying={currentPlayingAudio === 'first'}
-                    />
-                )}
-            </AnimatePresence>
-
-            {/* Second Audio Message */}
-            <AnimatePresence>
-                {showSecondAudioMessage && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
-                        <div className="flex items-start gap-3">
-                            <img
-                                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                                alt="Madame Aura"
-                                loading="eager"
-                                decoding="async"
-                                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
-                            <div className="text-left">
-                                <p className="text-base text-gray-700 leading-relaxed">
-                                    I will leave a button below for you to make the payment.
-                                    <br /><br />
-                                    After that, the drawing and all the <strong>information about your soul mate will be instantly sent by email</strong>, as well as my own personal guidance so that you can meet your soul mate more quickly.
-                                    <br /><br />
-                                    <strong>Click the button below</strong> ⬇️
-                                </p>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* Checkout button */}
-            <AnimatePresence>
-                {showCheckoutButton && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="mt-4 w-full flex justify-center"
-                    >
-                        <Button
-                            onClick={handleCheckoutRedirect}
-                            className="w-full max-w-sm md:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
-                        >
-                            YES! REVEAL MY SOULMATE NOW
                         </Button>
                     </motion.div>
                 )}

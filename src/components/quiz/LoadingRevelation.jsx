@@ -55,9 +55,9 @@ const CustomAudioPlayer = ({ audioUrl, title = "Audio Message", onPlay, isOtherP
 
   return (
     <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white p-4 rounded-2xl shadow-sm border border-purple-100 w-full"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white p-4 rounded-2xl shadow-sm border border-purple-100 w-full"
     >
       <div className="flex items-center gap-4">
         <img
@@ -102,28 +102,6 @@ const CustomAudioPlayer = ({ audioUrl, title = "Audio Message", onPlay, isOtherP
   );
 };
 
-const RecordingAudioIndicator = () => (
-    <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full"
-    >
-        <div className="flex items-start gap-3">
-            <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                alt="Madame Aura"
-                loading="lazy"
-                decoding="async"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-            />
-            <div className="flex items-center gap-2 mt-2">
-                <div className="w-5 h-5 text-red-500 animate-pulse">🎤</div>
-                <span className="text-sm text-gray-500 ml-2">Madame Aura is recording an audio...</span>
-            </div>
-        </div>
-    </motion.div>
-);
-
 export default function LoadingRevelation({ onContinue, userName, birthDate, quizResultId }) {
   const [userCity, setUserCity] = useState("your city");
   const [showFirstTyping, setShowFirstTyping] = useState(true);
@@ -135,35 +113,22 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showThirdTyping, setShowThirdTyping] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
+  const [showSendingTyping, setShowSendingTyping] = useState(false);
+  const [showBlurredCards, setShowBlurredCards] = useState(false);
   const [showAudioTyping, setShowAudioTyping] = useState(false);
   const [showAudioMessage, setShowAudioMessage] = useState(false);
   const [showRecordingAudio, setShowRecordingAudio] = useState(false);
   const [showFirstAudio, setShowFirstAudio] = useState(false);
-  const [showFirstAudioMessage, setShowFirstAudioMessage] = useState(false);
+  const [showSecondRecording, setShowSecondRecording] = useState(false);
   const [showSecondAudio, setShowSecondAudio] = useState(false);
+  const [showGreenButton, setShowGreenButton] = useState(false);
+  const [showFirstAudioMessageTyping, setShowFirstAudioMessageTyping] = useState(false);
+  const [showFirstAudioMessage, setShowFirstAudioMessage] = useState(false);
+  const [showSecondAudioMessageTyping, setShowSecondAudioMessageTyping] = useState(false);
   const [showSecondAudioMessage, setShowSecondAudioMessage] = useState(false);
-  const [showCheckoutButton, setShowCheckoutButton] = useState(false);
   const [currentPlayingAudio, setCurrentPlayingAudio] = useState(null);
 
-  const handleAudioPlay = (audioId) => {
-    setCurrentPlayingAudio(audioId);
-  };
-
-  const handleCheckoutRedirect = () => {
-    try {
-      // Track checkout event if metrito is available
-      if (typeof window !== 'undefined' && window.metrito && typeof window.metrito.track === 'function') {
-        window.metrito.track('checkout');
-      }
-      
-      // Redirect to checkout page
-      window.location.href = 'https://payments.securitysacred.online/checkout/184553763:1';
-    } catch (error) {
-      console.error('Error during checkout redirect:', error);
-      // Fallback redirect even if tracking fails
-      window.location.href = 'https://payments.securitysacred.online/checkout/184553763:1';
-    }
-  };
+  const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
   // Function to get user's location by IP
   const getUserLocation = async () => {
@@ -215,40 +180,59 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       setShowFinalMessage(true);
     }, 6500));
 
-    // Show audio typing 1s after final message appears
+    // Show blurred cards after final message
+    timers.push(setTimeout(() => {
+      setShowSendingTyping(true);
+    }, 5500)); // 0.5s after final message
+
+    // Show blurred cards after sending typing (1s typing)
+    timers.push(setTimeout(() => {
+      setShowSendingTyping(false);
+      setShowBlurredCards(true);
+    }, 6500));
+
+    // Show button after blurred cards
     timers.push(setTimeout(() => {
       setShowAudioTyping(true);
-    }, 6500 + 1000));
+    }, 11500));
 
     // Show audio message after typing (2s)
     timers.push(setTimeout(() => {
       setShowAudioTyping(false);
       setShowAudioMessage(true);
-    }, 6500 + 1000 + 2000));
+    }, 13500));
 
     // Show recording audio after message
     timers.push(setTimeout(() => {
       setShowRecordingAudio(true);
-    }, 6500 + 1000 + 2000 + 500));
+    }, 14000));
 
     // Show first audio after recording (3s)
     timers.push(setTimeout(() => {
       setShowRecordingAudio(false);
       setShowFirstAudio(true);
-    }, 6500 + 1000 + 2000 + 500 + 3000));
+    }, 17000));
 
     // Show all remaining messages 5s after first audio starts
     timers.push(setTimeout(() => {
+      setShowFirstAudioMessageTyping(true);
+      setShowFirstAudioMessageTyping(false);
       setShowFirstAudioMessage(true);
       setShowSecondAudio(true);
+      setShowSecondAudioMessageTyping(true);
+      setShowSecondAudioMessageTyping(false);
       setShowSecondAudioMessage(true);
-      setShowCheckoutButton(true);
-    }, 6500 + 1000 + 2000 + 500 + 3000 + 5000));
+      setShowGreenButton(true);
+    }, 22000)); // 17000 + 5000 = 22000
 
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  const TypingIndicator = () => (
+  const handleAudioPlay = (audioId) => {
+    setCurrentPlayingAudio(audioId);
+  };
+
+  const RecordingAudioIndicator = () => (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -269,6 +253,22 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       </div>
     </motion.div>
   );
+
+  const handleCheckoutRedirect = () => {
+    try {
+      // Track checkout event if metrito is available
+      if (typeof window !== 'undefined' && window.metrito) {
+        window.metrito.track('checkout');
+      }
+      
+      // Redirect to checkout page
+      window.location.href = 'https://payments.securitysacred.online/checkout/184553763:1';
+    } catch (error) {
+      console.error('Error during checkout redirect:', error);
+      // Fallback redirect even if tracking fails
+      window.location.href = 'https://payments.securitysacred.online/checkout/184553763:1';
+    }
+  };
 
   return (
     <div className="py-8 w-full max-w-lg mx-auto flex flex-col items-center gap-4">
@@ -339,24 +339,61 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         {showThirdTyping && <TypingIndicator />}
       </AnimatePresence>
 
-      {/* Final message */}
+      {/* Sending details typing indicator */}
       <AnimatePresence>
-        {showFinalMessage && (
+        {showSendingTyping && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full"
+          >
             <div className="flex items-start gap-3">
               <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
-                decoding="async" />
-              <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">
-                  In this astrological chart, besides revealing the face of your soulmate... I will also reveal their <strong>name</strong>, <strong>age</strong>, <strong>date of the encounter</strong>, and <strong>unique characteristics</strong>. Take a look:
-                </p>
+                decoding="async"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+              />
+              <div className="flex items-center gap-2 mt-2">
+                <div className="w-5 h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                <span className="text-sm text-gray-500 ml-2">Sending details of your soulmate...</span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Blurred Cards */}
+      <AnimatePresence>
+        {showBlurredCards && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-4 w-full"
+          >
+            {/* Expected Date of Meeting */}
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+              <div className="font-semibold text-gray-800 mb-2">Expected Date of Meeting:</div>
+              <div className="text-gray-600">
+                {userName} will meet <span className="blur-sm bg-gray-300 px-2 py-1 rounded">someone special</span> at <strong>{userCity}</strong> on <span className="blur-sm bg-gray-300 px-2 py-1 rounded">March 2025</span>.
+              </div>
+            </div>
+
+            {/* Name of Soulmate */}
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+              <div className="font-semibold text-gray-800 mb-2">Name of your Soulmate:</div>
+              <div className="text-gray-600">
+                The revealed name was <span className="blur-sm bg-gray-300 px-2 py-0.5 rounded">Alexander</span>, this person is closer than you can imagine.
+              </div>
+            </div>
+
+            {/* Main Characteristics */}
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+              <div className="font-semibold text-gray-800 mb-2">Main Characteristics of your Soulmate:</div>
+              <div className="text-gray-600">
+                {userName}, your soulmate has <span className="blur-sm bg-gray-300 px-2 py-0.5 rounded">brown</span> eyes, a remarkable smile, and a special mark <span className="blur-sm bg-gray-300 px-2 py-0.5 rounded">on their left hand</span>.
               </div>
             </div>
           </motion.div>
@@ -384,7 +421,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  listen to the following short audio to understand how <strong>you can access this complete revelation.</strong>👇🏼
+                   listen to the following short audio to understand how <strong>you can access this complete revelation.</strong>👇🏼
                 </p>
               </div>
             </div>
@@ -475,25 +512,22 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         )}
       </AnimatePresence>
 
-      {/* Checkout button */}
-      <AnimatePresence>
-        {showCheckoutButton && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mt-4 w-full flex justify-center"
-          >
-            <Button
-              onClick={handleCheckoutRedirect}
-              className="w-full max-w-sm md:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
-            >
-              YES! REVEAL MY SOULMATE NOW
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Continue button */}
+      {showGreenButton && (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mt-8">
 
-    </div>
-  );
+        <Button
+          onClick={handleCheckoutRedirect}
+          className="w-full max-w-sm md:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl mt-6"
+        >
+         YES! REVEAL MY SOULMATE NOW
+        </Button>
+
+        </motion.div>
+      )}
+    </div>);
 }
