@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -99,7 +98,7 @@ const ChatBubble = ({ userName }) => (
     >
         <div className="flex items-start gap-3">
             <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
                 alt="Madame Aura"
                 loading="lazy"
                 decoding="async"
@@ -201,7 +200,7 @@ const BirthChartMessage = ({ userName }) => {
             <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
                 <div className="flex items-start gap-3">
                     <img
-                        src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                        src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
                         alt="Madame Aura"
                         loading="lazy"
                         decoding="async"
@@ -281,7 +280,7 @@ export default function PalmReadingResults({ onContinue, userName }) {
         timers.push(setTimeout(() => {
             setShowThroughTyping(false);
             setShowThroughMessage(true);
-        }, 2000 + 3000 + 500 + 5000 + 1500));
+        }, 2000 + 3000 + 500 + 5000 + 1500);
         
         // Show button after "Through reading" message
         timers.push(setTimeout(() => {
@@ -328,7 +327,7 @@ export default function PalmReadingResults({ onContinue, userName }) {
                     >
                         <div className="flex items-start gap-3">
                             <img
-                                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
                                 alt="Madame Aura"
                                 loading="lazy"
                                 decoding="async"
