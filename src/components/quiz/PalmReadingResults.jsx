@@ -280,7 +280,7 @@ export default function PalmReadingResults({ onContinue, userName }) {
         timers.push(setTimeout(() => {
             setShowThroughTyping(false);
             setShowThroughMessage(true);
-        }, 2000 + 3000 + 500 + 5000 + 1500);
+        }, 2000 + 3000 + 500 + 5000 + 1500));
         
         // Show button after "Through reading" message
         timers.push(setTimeout(() => {
