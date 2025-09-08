@@ -63,9 +63,12 @@ const CustomAudioPlayer = ({ audioUrl, title = "Audio Message", onPlay, isOtherP
         <img
           src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
           alt="Madame Aura"
-          loading="lazy"
-          decoding="async"
           className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          width="48"
+          height="48"
         />
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
@@ -242,7 +245,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         <img
           src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
           alt="Madame Aura"
-          loading="lazy"
+          loading="eager"
           decoding="async"
           className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
         />
@@ -294,7 +297,10 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                 alt="Madame Aura"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
-                decoding="async" />
+                decoding="async"
+                fetchpriority="high"
+                width="40"
+                height="40" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   {userName ? <><span className="font-bold">{userName}</span>, I've already connected with the astrological chart between you and your soulmate. Everything points to a meeting in <strong>{userCity}</strong> — or somewhere very close.</> : "I've already connected with the astrological chart between you and your soulmate. Everything points to a meeting in your city — or somewhere very close."}
@@ -323,7 +329,10 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                 alt="Madame Aura"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
-                decoding="async" />
+                decoding="async"
+                fetchpriority="high"
+                width="40"
+                height="40" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   In this astrological chart, besides revealing the face of your soulmate... I will also reveal their <strong>name</strong>, <strong>age</strong>, <strong>date of the encounter</strong>, and <strong>unique characteristics</strong>. Take a look:
@@ -351,9 +360,12 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
                 alt="Madame Aura"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
                 decoding="async"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                fetchpriority="high"
+                width="40"
+                height="40"
               />
               <div className="flex items-center gap-2 mt-2">
                 <div className="w-5 h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
@@ -416,9 +428,12 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
                 alt="Madame Aura"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
                 decoding="async"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+                fetchpriority="high"
+                width="40"
+                height="40" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                    listen to the following short audio to understand how <strong>you can access this complete revelation.</strong>👇🏼
@@ -458,9 +473,12 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
                 alt="Madame Aura"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
                 decoding="async"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+                fetchpriority="high"
+                width="40"
+                height="40" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   The fee to unlock this revelation is only <strong>$19</strong>
@@ -495,9 +513,12 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
                 alt="Madame Aura"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
                 decoding="async"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+                fetchpriority="high"
+                width="40"
+                height="40" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   I will leave a button below for you to make the payment.
