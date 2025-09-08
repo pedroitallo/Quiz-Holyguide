@@ -192,7 +192,9 @@ export default function TestimonialsCarousel({ onContinue }) {
 
   // Scroll to top when final button is clicked (moving to next step)
   const handleFinalButtonClick = () => {
-    window.metrito.track('startquiz');
+    if (window.metrito && typeof window.metrito.track === 'function') {
+      window.metrito.track('startquiz');
+    }
     setTimeout(() => {
       window.scrollTo({ 
         top: 0, 
