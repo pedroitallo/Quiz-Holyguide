@@ -13,6 +13,9 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showThirdTyping, setShowThirdTyping] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
+
+  // Function to get user's location by IP
+  const getUserLocation = async () => {
     try {
       const response = await fetch('https://ipapi.co/json/');
       const data = await response.json();
@@ -24,9 +27,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       // Keep default "your city"
     }
   };
-
-  // Function to get user's location by IP
-  const getUserLocation = async () => {
 
   useEffect(() => {
     // Get user location when component mounts
@@ -66,6 +66,8 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
     return () => timers.forEach(clearTimeout);
   }, []);
+
+  const TypingIndicator = () => (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -156,5 +158,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         {showThirdTyping && <TypingIndicator />}
       </AnimatePresence>
 
-    </div>);
+    </div>
+  );
 }
