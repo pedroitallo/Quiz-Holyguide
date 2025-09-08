@@ -145,12 +145,12 @@ export default function FunnelEspPage() {
         <div className="px-4 md:px-6 py-3">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <img src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png" alt="Madame Aura" className="w-10 md:w-12 h-10 md:h-12 rounded-full object-cover border-2 border-purple-200" />
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp" alt="Madame Aura" className="w-10 md:w-12 h-10 md:h-12 rounded-full object-cover border-2 border-purple-200" />
               <div className="absolute -bottom-1 -right-1 w-3 md:w-4 h-3 md:h-4 bg-green-500 border-2 border-white rounded-full" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <h3 className="text-sm md:text-base font-semibold text-gray-800">Master Aura</h3>
+                <h3 className="text-sm md:text-base font-semibold text-gray-800">Madame Aura</h3>
                 <div className="w-3 md:w-4 h-3 md:h-4 bg-green-500 rounded-full flex items-center justify-center">
                   <svg className="w-2 md:w-2.5 h-2 md:h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
                 </div>

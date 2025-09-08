@@ -221,7 +221,7 @@ export default function NameCollection({ onNameSubmit }) {
             <div className="flex items-start gap-3">
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
-                alt="Master Aura"
+                alt="Madame Aura"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
@@ -281,7 +281,7 @@ export default function NameCollection({ onNameSubmit }) {
             <div className="flex items-start gap-3">
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
-                alt="Master Aura"
+                alt="Madame Aura"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
@@ -312,7 +312,7 @@ export default function NameCollection({ onNameSubmit }) {
             <div className="flex items-start gap-3">
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
-                alt="Master Aura"
+                alt="Madame Aura"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
@@ -413,7 +413,7 @@ export default function NameCollection({ onNameSubmit }) {
             <div className="flex items-start gap-3">
               <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
-                alt="Master Aura"
+                alt="Madame Aura"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
