@@ -51,9 +51,12 @@ const CustomAudioPlayer = () => {
         <img
           src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
           alt="Madame Aura"
-          loading="lazy"
-          decoding="async"
           className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          width="48"
+          height="48"
         />
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
@@ -100,9 +103,12 @@ const ChatBubble = ({ userName }) => (
             <img
                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
                 alt="Madame Aura"
-                loading="lazy"
-                decoding="async"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+                width="40"
+                height="40"
             />
             <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
@@ -123,9 +129,12 @@ const RecordingIndicator = () => (
             <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
                 alt="Madame Aura"
-                loading="lazy"
-                decoding="async"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+                width="40"
+                height="40"
             />
             <div className="flex items-center gap-2 mt-2">
                 <Mic className="w-5 h-5 text-red-500 animate-pulse" />
@@ -202,9 +211,12 @@ const BirthChartMessage = ({ userName }) => {
                     <img
                         src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
                         alt="Madame Aura"
-                        loading="lazy"
-                        decoding="async"
                         className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                        loading="eager"
+                        decoding="async"
+                        fetchpriority="high"
+                        width="40"
+                        height="40"
                     />
                     <div className="text-left">
                         <p className="text-base text-gray-700 leading-relaxed">
@@ -329,9 +341,12 @@ export default function PalmReadingResults({ onContinue, userName }) {
                             <img
                                 src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
                                 alt="Madame Aura"
-                                loading="lazy"
-                                decoding="async"
                                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                                loading="eager"
+                                decoding="async"
+                                fetchpriority="high"
+                                width="40"
+                                height="40"
                             />
                             <div className="text-left">
                                 <p className="text-base text-gray-700 leading-relaxed">
