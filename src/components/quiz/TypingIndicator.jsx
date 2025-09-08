@@ -12,6 +12,7 @@ export default function TypingIndicator() {
       />
       <div className="flex flex-col pt-1">
         <p className="text-sm text-gray-600">Madame Aura is typing...</p>
+         <p className="text-sm text-gray-600">Master Aura is typing...</p>
       </div>
     </div>
   );
