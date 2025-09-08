@@ -385,15 +385,6 @@ export default function PalmReadingResults({ onContinue, userName }) {
 
     return (
         <div className="py-8 w-full max-w-lg mx-auto flex flex-col items-center gap-4">
-            {/* Surprising Results Card */}
-            <div className="mb-4 w-full">
-                <div className="bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200 rounded-full px-4 py-2 inline-block shadow-sm">
-                    <p className="text-purple-700 text-sm font-medium">
-                        ✨ Surprising results from your reading...
-                    </p>
-                </div>
-            </div>
-
             <AnimatePresence>
                 {showTyping && <TypingIndicator />}
             </AnimatePresence>
