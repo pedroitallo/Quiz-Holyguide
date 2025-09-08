@@ -259,13 +259,65 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
   const handleCheckoutRedirect = () => {
     try {
+      const url = new URL('https://payments.securitysacred.online/checkout/184553763:1');
+
+      // Use UTMIFY to get all UTM parameters
+      let allUtms = {};
+      
+      // Try to get UTMs from UTMIFY if available
+      if (typeof window !== 'undefined' && window.utmify) {
+        try {
+          allUtms = window.utmify.getUtms() || {};
+          console.log('UTMs from UTMIFY:', allUtms);
+        } catch (error) {
+          console.warn('Failed to get UTMs from UTMIFY:', error);
+        }
+      }
+      
+      // Fallback: get UTMs from URL if UTMIFY is not available
+      if (Object.keys(allUtms).length === 0) {
+        const currentUrl = new URL(window.location.href);
+        const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+        
+        utmParams.forEach(param => {
+          const value = currentUrl.searchParams.get(param);
+          if (value) {
+            allUtms[param] = value;
+          }
+        });
+        
+        // Also get other tracking parameters
+        const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'xcod'];
+        otherParams.forEach(param => {
+          const value = currentUrl.searchParams.get(param);
+          if (value) {
+            allUtms[param] = value;
+          }
+        });
+      }
+      
+      // Add all UTM parameters directly to the checkout URL
+      Object.keys(allUtms).forEach((key) => {
+        if (allUtms[key]) {
+          url.searchParams.set(key, allUtms[key]);
+        }
+      });
+      
+      // Add quiz_result_id for webhook connection
+      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
+        url.searchParams.set('quiz_result_id', quizResultId);
+      }
+
+      console.log('Redirecting to checkout with UTMs:', url.toString());
+      
       // Track checkout event if metrito is available
       if (typeof window !== 'undefined' && window.metrito) {
         window.metrito.track('checkout');
       }
       
-      // Redirect to checkout page
-      window.location.href = 'https://payments.securitysacred.online/checkout/184553763:1';
+      // Clean state and redirect
+      localStorage.removeItem('holymind_quiz_state');
+      window.location.href = url.toString();
     } catch (error) {
       console.error('Error during checkout redirect:', error);
       // Fallback redirect even if tracking fails

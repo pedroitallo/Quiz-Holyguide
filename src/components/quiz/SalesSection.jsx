@@ -116,24 +116,6 @@ const PulsatingButton = ({ children, onClick, className = "" }) => (
 export default function SalesSection({ userName, birthDate, quizResultId, src, onCheckout }) {
   const handleCheckout = async () => {
     try {
-      // Track pitch view IMMEDIATELY when checkout is initiated
-      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-        try {
-          // Use Promise.resolve to avoid blocking redirect
-          Promise.resolve().then(async () => {
-            try {
-              const { HybridQuizResult } = await import('@/entities/HybridQuizResult');
-              await HybridQuizResult.update(quizResultId, { pitch_step_viewed: true });
-              console.log('Pitch view tracked successfully');
-            } catch (error) {
-              console.warn("Failed to track pitch view:", error);
-            }
-          });
-        } catch (error) {
-          console.warn("Failed to import HybridQuizResult:", error);
-        }
-      }
-
       const url = new URL(CHECKOUT_CONFIG.baseUrl);
 
       // Use UTMIFY to get all UTM parameters
@@ -151,20 +133,20 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
       
       // Fallback: get UTMs from URL if UTMIFY is not available
       if (Object.keys(allUtms).length === 0) {
-        const currentUrlParams = new URLSearchParams(window.location.search);
+        const currentUrl = new URL(window.location.href);
         const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
         
         utmParams.forEach((param) => {
-          const value = currentUrlParams.get(param);
+          const value = currentUrl.searchParams.get(param);
           if (value) {
             allUtms[param] = value;
           }
         });
         
         // Also get other tracking parameters
-        const otherParams = ['fbclid', 'gclid', 'ttclid', 'src'];
+        const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'xcod'];
         otherParams.forEach((param) => {
-          const value = currentUrlParams.get(param);
+          const value = currentUrl.searchParams.get(param);
           if (value) {
             allUtms[param] = value;
           }
@@ -178,17 +160,12 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
         }
       });
       
-      // Add src parameter if provided separately
-      if (src && !allUtms.src) {
-        url.searchParams.set('src', src);
-      }
-
       // Add quiz_result_id for webhook connection
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
         url.searchParams.set('quiz_result_id', quizResultId);
       }
 
-      console.log('Redirecting to checkout:', url.toString());
+      console.log('Redirecting to checkout with UTMs:', url.toString());
 
       // Clean state and redirect
       localStorage.removeItem('holymind_quiz_state');
