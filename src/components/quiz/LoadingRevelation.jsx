@@ -266,8 +266,19 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   );
 
   const handleCheckoutRedirect = () => {
-    window.metrito('checkout');
-    window.open('https://payments.securitysacred.online/checkout/184553763:1', '_blank');
+    try {
+      // Track checkout event if metrito is available
+      if (typeof window !== 'undefined' && window.metrito) {
+        window.metrito.track('checkout');
+      }
+      
+      // Redirect to checkout page
+      window.location.href = 'https://payments.securitysacred.online/checkout/184553763:1';
+    } catch (error) {
+      console.error('Error during checkout redirect:', error);
+      // Fallback redirect even if tracking fails
+      window.location.href = 'https://payments.securitysacred.online/checkout/184553763:1';
+    }
   };
 
   return (
