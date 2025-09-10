@@ -533,7 +533,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                 height="40" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  The fee to unlock this revelation is only <strong>$9</strong>
+                  The fee to unlock this revelation is only <strong>$19</strong>
                 </p>
               </div>
             </div>
