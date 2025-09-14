@@ -88,28 +88,11 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
   };
 
   const handleContinue = () => {
-    // Scroll to top before moving to next step
-    setTimeout(() => {
-      window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
-      });
-    }, 50);
-    
     onSubmit(selectedOption);
   };
 
   return (
     <div className="text-center py-8">
-      {/* Finalizing Details Card */}
-      <div className="mb-4">
-        <div className="bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200 rounded-full px-4 py-2 inline-block shadow-sm">
-          <p className="text-purple-700 text-sm font-medium">
-            ✨ Finalizing details of your reading...
-          </p>
-        </div>
-      </div>
-
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}

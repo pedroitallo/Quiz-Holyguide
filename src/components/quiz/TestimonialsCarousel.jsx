@@ -5,49 +5,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from 'framer-motion';
 import TypingIndicator from './TypingIndicator';
 
-// Scroll Indicator Component
-const ScrollIndicator = () => {
-  const [isVisible, setIsVisible] = useState(true);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Hide indicator when user scrolls down
-      if (window.scrollY > 50) {
-        setIsVisible(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  if (!isVisible) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.5, delay: 1 }}
-      className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50"
-    >
-      <div className="bg-purple-600 text-white rounded-full p-3 shadow-lg animate-bounce">
-        <div className="flex flex-col items-center">
-          <span className="text-sm font-bold mb-1">1</span>
-          <motion.div
-            animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-          </motion.div>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
 const testimonials = [
 {
   imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/14ed61e13_DEP1.webp"
@@ -89,19 +46,12 @@ export default function TestimonialsCarousel({ onContinue }) {
   const [showFirstMessage, setShowFirstMessage] = useState(false);
   const [showSecondTyping, setShowSecondTyping] = useState(false);
   const [showSecondMessage, setShowSecondMessage] = useState(false);
+  const [showTestimonials, setShowTestimonials] = useState(false);
+  const [showThirdTyping, setShowThirdTyping] = useState(false);
   const [showThirdMessage, setShowThirdMessage] = useState(false);
   const [showFourthTyping, setShowFourthTyping] = useState(false);
   const [showFourthMessage, setShowFourthMessage] = useState(false);
-  const [showFifthTyping, setShowFifthTyping] = useState(false);
-  const [showFifthMessage, setShowFifthMessage] = useState(false);
-  const [showFirstButton, setShowFirstButton] = useState(false);
-  const [firstButtonClicked, setFirstButtonClicked] = useState(false);
-  const [showTestimonials, setShowTestimonials] = useState(false);
-  const [showSixthTyping, setShowSixthTyping] = useState(false);
-  const [showSixthMessage, setShowSixthMessage] = useState(false);
-  const [showSeventhTyping, setShowSeventhTyping] = useState(false);
-  const [showSeventhMessage, setShowSeventhMessage] = useState(false);
-  const [showFinalButton, setShowFinalButton] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
   // Preload images on component mount
   useEffect(() => {
@@ -115,90 +65,55 @@ export default function TestimonialsCarousel({ onContinue }) {
     timers.push(setTimeout(() => {
       setShowFirstTyping(false);
       setShowFirstMessage(true);
-      
-      // Start second typing after first message
-      setTimeout(() => {
-        setShowSecondTyping(true);
-      }, 500);
     }, 1500));
 
-    // Second typing (1.5s) then second message (Aura introduction)
+    // Second typing (1s after first message) then second message
+    timers.push(setTimeout(() => {
+      setShowSecondTyping(true);
+    }, 2000));
+
     timers.push(setTimeout(() => {
       setShowSecondTyping(false);
       setShowSecondMessage(true);
-      
-      // Start fourth typing immediately after second message (2s duration)
-      setTimeout(() => {
-        setShowFourthTyping(true);
-      }, 100);
-    }, 2500));
+    }, 3000));
 
-    // Fourth typing (2s) then fourth message (This Year Alone)
+    // Show testimonials after second message
+    timers.push(setTimeout(() => {
+      setShowTestimonials(true);
+    }, 3500));
+
+    // Third typing (1.5s after testimonials appear)
+    timers.push(setTimeout(() => {
+      setShowThirdTyping(true);
+    }, 5000));
+
+    // Third message (1.5s after third typing starts)
+    timers.push(setTimeout(() => {
+      setShowThirdTyping(false);
+      setShowThirdMessage(true);
+    }, 6500));
+
+    // Fourth typing (1s after third message)
+    timers.push(setTimeout(() => {
+      setShowFourthTyping(true);
+    }, 7500));
+
+    // Fourth message (1s after fourth typing starts)
     timers.push(setTimeout(() => {
       setShowFourthTyping(false);
       setShowFourthMessage(true);
-      
-      // Show testimonials after fourth message
-      setTimeout(() => {
-        setShowTestimonials(true);
-      }, 1500);
-    }, 4600)); // 2500 + 100 + 2000 = 4600
+    }, 8500));
 
-    // Fifth typing (1s after fourth message)
+    // Show button after fourth message
     timers.push(setTimeout(() => {
-      setShowFifthTyping(true);
-    }, 8000));
-
-    // Fifth message (1s after fifth typing starts)
-    timers.push(setTimeout(() => {
-      setShowFifthTyping(false);
-      setShowFifthMessage(true);
-      setShowFirstButton(true);
+      setShowButton(true);
     }, 9000));
 
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  const handleFirstButtonClick = () => {
-    setFirstButtonClicked(true);
-    setShowFirstButton(false);
-    
-    // Show sixth typing after button click
-    setTimeout(() => {
-      setShowSixthTyping(true);
-    }, 500);
-    
-    // Show sixth message after typing
-    setTimeout(() => {
-      setShowSixthTyping(false);
-      setShowSixthMessage(true);
-    }, 1500);
-    
-    // Show seventh typing after sixth message
-    setTimeout(() => {
-      setShowSeventhTyping(true);
-    }, 2000);
-    
-    // Show seventh message and final button after typing
-    setTimeout(() => {
-      setShowSeventhTyping(false);
-      setShowSeventhMessage(true);
-      setShowFinalButton(true);
-    }, 3000);
-  };
   const paginate = (newDirection) => {
     setPage([(page + newDirection + testimonials.length) % testimonials.length, newDirection]);
-  };
-
-  // Scroll to top when final button is clicked (moving to next step)
-  const handleFinalButtonClick = () => {
-    setTimeout(() => {
-      window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
-      });
-    }, 50);
-    onContinue();
   };
 
   useEffect(() => {
@@ -211,15 +126,6 @@ export default function TestimonialsCarousel({ onContinue }) {
 
   return (
     <div className="text-center py-8">
-      {/* Astral Reading Card */}
-      <div className="mb-4">
-        <div className="bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200 rounded-full px-4 py-2 inline-block shadow-sm">
-          <p className="text-purple-700 text-sm font-medium">
-            ✨ Your astral reading is starting...
-          </p>
-        </div>
-      </div>
-
       {/* Preload all images invisibly */}
       <div className="hidden">
         {testimonials.map((testimonial, index) => (
@@ -258,7 +164,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                   Hello, my dear! I’m so <strong>happy and grateful</strong> that you chose to follow your heart and find me here today. 🙏
+                    Hello, I'm Madam Aura and in the next <strong>2 minutes</strong> I will reveal your <strong>soulmate's face</strong>✨
                   </p>
                 </div>
               </div>
@@ -268,12 +174,12 @@ export default function TestimonialsCarousel({ onContinue }) {
 
         {/* Second typing indicator */}
         <AnimatePresence>
-          {showFourthTyping && <TypingIndicator />}
+          {showSecondTyping && <TypingIndicator />}
         </AnimatePresence>
 
-        {/* Fourth message - This Year Alone */}
+        {/* Second message */}
         <AnimatePresence>
-          {showFourthMessage && (
+          {showSecondMessage && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -365,82 +271,14 @@ export default function TestimonialsCarousel({ onContinue }) {
 
       {/* Container fixo para mensagens após depoimentos */}
       <div className="min-h-[200px] mt-8">
-        {/* Fifth typing indicator */}
+        {/* Third typing indicator */}
         <AnimatePresence>
-          {showFifthTyping && <TypingIndicator />}
+          {showThirdTyping && <TypingIndicator />}
         </AnimatePresence>
 
-        {/* Fifth message - Drawing permission */}
+        {/* Third message */}
         <AnimatePresence>
-          {showFifthMessage && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
-            >
-              <div className="flex items-start gap-3">
-                <img
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                  alt="Madame Aura"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                  loading="eager"
-                  decoding="async"
-                />
-                <div className="text-left">
-                  <p className="text-base text-gray-700 leading-relaxed">
-                    <strong>May I begin your drawing?</strong> Now, I must warn you: this may bring you to tears or awaken <strong>deep emotions</strong>, but I believe you'll want to see it… 💞✨
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Scroll indicator - appears after "May I begin" message */}
-        <AnimatePresence>
-          {showFifthMessage && !showFirstButton && (
-            <ScrollIndicator />
-          )}
-        </AnimatePresence>
-
-        {/* First button - Drawing permission */}
-        <AnimatePresence>
-          {showFirstButton && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mt-6 text-center"
-            >
-              <button
-                onClick={handleFirstButtonClick}
-                className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
-              >
-                Yes, I want to discover my soulmate!
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* User's response message */}
-        <AnimatePresence>
-          {firstButtonClicked && (
-            <div className="flex justify-end mb-4">
-              <div className="bg-purple-600 text-white p-3 rounded-xl max-w-xs mr-4">
-                <p className="text-sm">Yes, I want to discover my soulmate!</p>
-              </div>
-            </div>
-          )}
-        </AnimatePresence>
-
-        {/* Sixth typing indicator */}
-        <AnimatePresence>
-          {showSixthTyping && <TypingIndicator />}
-        </AnimatePresence>
-
-        {/* Sixth message - Arms/legs instruction */}
-        <AnimatePresence>
-          {showSixthMessage && (
+          {showThirdMessage && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -464,18 +302,18 @@ export default function TestimonialsCarousel({ onContinue }) {
           )}
         </AnimatePresence>
 
-        {/* Seventh typing indicator */}
+        {/* Fourth typing indicator */}
         <AnimatePresence>
-          {showSeventhTyping && <TypingIndicator />}
+          {showFourthTyping && <TypingIndicator />}
         </AnimatePresence>
 
-        {/* Seventh message - Are you ready */}
+        {/* Fourth message */}
         <AnimatePresence>
-          {showSeventhMessage && (
+          {showFourthMessage && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
+              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto"
             >
               <div className="flex items-start gap-3">
                 <img
@@ -495,9 +333,9 @@ export default function TestimonialsCarousel({ onContinue }) {
           )}
         </AnimatePresence>
 
-        {/* Final button appears after seventh message */}
+        {/* Button appears after fourth message */}
         <AnimatePresence>
-          {showFinalButton && (
+          {showButton && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -505,7 +343,7 @@ export default function TestimonialsCarousel({ onContinue }) {
               className="mt-6 text-center"
             >
               <button
-                onClick={handleFinalButtonClick}
+                onClick={onContinue}
                 id="btn-step3" 
                 className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
               >
