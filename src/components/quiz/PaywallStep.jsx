@@ -80,11 +80,11 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
       // Clean state and redirect
       localStorage.removeItem('holymind_quiz_state');
       localStorage.setItem('holymind_last_quiz_id', quizResultId);
-      window.location.href = "https://payments.securitysacred.online/checkout/184553763:1";
+      window.location.href = "https://pay.hotmart.com/A101302550P?checkoutMode=10";
     } catch (error) {
       console.error("Error building checkout URL:", error);
       // Fallback redirect
-      window.location.href = "https://payments.securitysacred.online/checkout/184553763:1";
+      window.location.href = "https://pay.hotmart.com/A101302550P?checkoutMode=10";
     }
   };
 

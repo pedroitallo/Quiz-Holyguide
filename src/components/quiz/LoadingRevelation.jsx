@@ -259,7 +259,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
   const handleCheckoutRedirect = () => {
     try {
-      const url = new URL('https://payments.securitysacred.online/checkout/184553763:1');
+      const url = new URL('https://pay.hotmart.com/A101302550P?checkoutMode=10');
 
       // Use UTMIFY to get all UTM parameters
       let allUtms = {};
@@ -321,7 +321,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     } catch (error) {
       console.error('Error during checkout redirect:', error);
       // Fallback redirect even if tracking fails
-      window.location.href = 'https://payments.securitysacred.online/checkout/184553763:1';
+      window.location.href = 'https://pay.hotmart.com/A101302550P?checkoutMode=10';
     }
   };
 
