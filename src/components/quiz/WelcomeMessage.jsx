@@ -8,6 +8,22 @@ export default function WelcomeMessage({ userName, onContinue }) {
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
+    // Add CartPanda script to head
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://assets.mycartpanda.com/cartx-ecomm-ui-assets/js/cpsales.js';
+    document.head.appendChild(script);
+
+    // Cleanup function to remove script when component unmounts
+    return () => {
+      const existingScript = document.querySelector('script[src="https://assets.mycartpanda.com/cartx-ecomm-ui-assets/js/cpsales.js"]');
+      if (existingScript && document.head.contains(existingScript)) {
+        document.head.removeChild(existingScript);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       setIsTyping(false);
       setShowContent(true);
