@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -49,14 +50,11 @@ const CustomAudioPlayer = () => {
     >
       <div className="flex items-center gap-4">
         <img
-          src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+          src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
           alt="Madame Aura"
-          className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
-          loading="eager"
+          loading="lazy"
           decoding="async"
-          fetchpriority="high"
-          width="48"
-          height="48"
+          className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
         />
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
@@ -101,14 +99,11 @@ const ChatBubble = ({ userName }) => (
     >
         <div className="flex items-start gap-3">
             <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                loading="eager"
+                loading="lazy"
                 decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
             />
             <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
@@ -129,12 +124,9 @@ const RecordingIndicator = () => (
             <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                loading="eager"
+                loading="lazy"
                 decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
             />
             <div className="flex items-center gap-2 mt-2">
                 <Mic className="w-5 h-5 text-red-500 animate-pulse" />
@@ -209,14 +201,11 @@ const BirthChartMessage = ({ userName }) => {
             <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
                 <div className="flex items-start gap-3">
                     <img
-                        src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                        src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                         alt="Madame Aura"
-                        className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                        loading="eager"
+                        loading="lazy"
                         decoding="async"
-                        fetchpriority="high"
-                        width="40"
-                        height="40"
+                        className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                     />
                     <div className="text-left">
                         <p className="text-base text-gray-700 leading-relaxed">
@@ -339,14 +328,11 @@ export default function PalmReadingResults({ onContinue, userName }) {
                     >
                         <div className="flex items-start gap-3">
                             <img
-                                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                                 alt="Madame Aura"
-                                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                                loading="eager"
+                                loading="lazy"
                                 decoding="async"
-                                fetchpriority="high"
-                                width="40"
-                                height="40"
+                                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                             />
                             <div className="text-left">
                                 <p className="text-base text-gray-700 leading-relaxed">
@@ -372,11 +358,6 @@ export default function PalmReadingResults({ onContinue, userName }) {
                             id="btn-step7"
                             className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
                             onClick={() => {
-                                // Track paywall event if metrito is available
-                                if (typeof window !== 'undefined' && window.metrito) {
-                                    window.metrito.track('paywall');
-                                }
-                                
                                 // Scroll to top before moving to next step
                                 setTimeout(() => {
                                     window.scrollTo({ 

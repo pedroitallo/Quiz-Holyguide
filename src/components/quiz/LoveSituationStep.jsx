@@ -124,14 +124,9 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
             <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto">
               <div className="flex items-start gap-3">
                 <img
-                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
                   alt="Madame Aura"
                   className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                  loading="eager"
-                  decoding="async"
-                  fetchpriority="high"
-                  width="40"
-                  height="40"
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
@@ -211,14 +206,9 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
             <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 mb-6 max-w-md mx-auto">
               <div className="flex items-start gap-3">
                 <img
-                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
                   alt="Madame Aura"
                   className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                  loading="eager"
-                  decoding="async"
-                  fetchpriority="high"
-                  width="40"
-                  height="40"
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">

@@ -8,84 +8,87 @@ import { HybridQuizResult } from '@/entities/HybridQuizResult';
 export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
 
   const handleCheckout = async () => {
-    try {
-      // Track checkout click IMMEDIATELY before any redirect
+    // Track checkout click IMMEDIATELY before any redirect
+    const trackCheckout = async () => {
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
         try {
-          // Use Promise.resolve to avoid blocking redirect
-          Promise.resolve().then(async () => {
-            try {
-              await HybridQuizResult.update(quizResultId, { checkout_step_clicked: true });
-              console.log('Checkout click tracked successfully');
-            } catch (error) {
-              console.warn("Failed to track checkout click:", error);
+          await HybridQuizResult.update(quizResultId, { checkout_step_clicked: true });
+          console.log('Checkout click tracked successfully');
+        } catch (error) {
+          console.warn("Falha ao rastrear clique de checkout:", error);
+        }
+      }
+    };
+
+    // Execute tracking synchronously and then redirect
+    trackCheckout().then(() => {
+      try {
+        // Corrected URL: removed extra '}'
+        const checkoutUrl = "https://payments.securitysacred.online/checkout/184553763:1";
+        const url = new URL(checkoutUrl);
+
+        // Use UTMIFY to get all UTM parameters
+        let allUtms = {};
+        
+        // Try to get UTMs from UTMIFY if available
+        if (typeof window !== 'undefined' && window.utmify) {
+          try {
+            allUtms = window.utmify.getUtms() || {};
+            console.log('UTMs from UTMIFY:', allUtms);
+          } catch (error) {
+            console.warn('Failed to get UTMs from UTMIFY:', error);
+          }
+        }
+        
+        // Fallback: get UTMs from URL if UTMIFY is not available
+        if (Object.keys(allUtms).length === 0) {
+          const currentUrl = new URL(window.location.href);
+          const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+          
+          utmParams.forEach(param => {
+            const value = currentUrl.searchParams.get(param);
+            if (value) {
+              allUtms[param] = value;
             }
           });
-        } catch (error) {
-          console.warn("Failed to initiate checkout tracking:", error);
+          
+          // Also get other tracking parameters
+          const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'xcod'];
+          otherParams.forEach(param => {
+            const value = currentUrl.searchParams.get(param);
+            if (value) {
+              allUtms[param] = value;
+            }
+          });
         }
-      }
-
-      const url = new URL("https://payments.securitysacred.online/checkout/184553763:1");
-
-      // Use UTMIFY to get all UTM parameters
-      let allUtms = {};
-      
-      // Try to get UTMs from UTMIFY if available
-      if (typeof window !== 'undefined' && window.utmify) {
-        try {
-          allUtms = window.utmify.getUtms() || {};
-          console.log('UTMs from UTMIFY:', allUtms);
-        } catch (error) {
-          console.warn('Failed to get UTMs from UTMIFY:', error);
-        }
-      }
-      
-      // Fallback: get UTMs from URL if UTMIFY is not available
-      if (Object.keys(allUtms).length === 0) {
-        const currentUrl = new URL(window.location.href);
-        const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
         
-        utmParams.forEach(param => {
-          const value = currentUrl.searchParams.get(param);
+        // Add all UTM parameters directly to the checkout URL
+        Object.keys(allUtms).forEach((key) => {
           if (allUtms[key]) {
-            allUtms[param] = value;
+            url.searchParams.set(key, allUtms[key]);
           }
         });
         
-        // Also get other tracking parameters
-        const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'xcod'];
-        otherParams.forEach(param => {
-          const value = currentUrl.searchParams.get(param);
-          if (value) {
-            allUtms[param] = value;
-          }
-        });
-      }
-      
-      // Add all UTM parameters directly to the checkout URL
-      Object.keys(allUtms).forEach((key) => {
-        if (allUtms[key]) {
-          url.searchParams.set(key, allUtms[key]);
+        // Adicionar quiz_result_id como parâmetro para conectar com o webhook
+        if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
+          url.searchParams.set('quiz_result_id', quizResultId);
         }
-      });
-      
-      // Add quiz_result_id for webhook connection
-      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-        url.searchParams.set('quiz_result_id', quizResultId);
-      }
 
-      console.log('Redirecting to checkout with UTMs:', url.toString());
-      
-      // Clean state and redirect
-      localStorage.removeItem('holymind_quiz_state');
-      localStorage.setItem('holymind_last_quiz_id', quizResultId);
-      window.location.href = "https://pay.hotmart.com/A101302550P?checkoutMode=10";
-    } catch (error) {
-      console.error("Error building checkout URL:", error);
-      // Fallback redirect
-      window.location.href = "https://pay.hotmart.com/A101302550P?checkoutMode=10";
-    }
+        console.log('Redirecting to checkout:', url.toString());
+        // Limpar estado do quiz em andamento antes de redirecionar
+        localStorage.removeItem('holymind_quiz_state');
+        localStorage.setItem('holymind_last_quiz_id', quizResultId);
+        window.location.href = url.toString();
+      } catch (error) {
+        console.error("Erro ao construir URL de checkout:", error);
+        // Fallback para garantir que o usuário seja redirecionado mesmo em caso de erro
+        window.location.href = "https://payments.securitysacred.online/checkout/184553763:1";
+      }
+    }).catch((error) => {
+      console.error("Erro ao rastrear checkout, mas redirecionando mesmo assim:", error);
+      // Se o tracking falhar, ainda assim redireciona
+      window.location.href = "https://payments.securitysacred.online/checkout/184553763:1";
+    });
   };
 
   const formatDate = (dateString) => {

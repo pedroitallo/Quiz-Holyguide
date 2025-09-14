@@ -5,31 +5,20 @@ import { Play, Pause } from "lucide-react";
 import TypingIndicator from './TypingIndicator';
 
 // Move CustomAudioPlayer component outside to prevent recreation
-const CustomAudioPlayer = ({ audioUrl, title = "Audio Message", onPlay, isOtherPlaying }) => {
+const CustomAudioPlayer = ({ audioUrl, title = "Audio Message" }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
 
-  // Pause this audio if another one is playing
-  useEffect(() => {
-    if (isOtherPlaying && isPlaying && audioRef.current) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    }
-  }, [isOtherPlaying, isPlaying]);
-
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
-        setIsPlaying(false);
       } else {
-        // Notify parent that this audio is starting to play
-        onPlay && onPlay();
         audioRef.current.play();
-        setIsPlaying(true);
       }
+      setIsPlaying(!isPlaying);
     }
   };
 
@@ -61,14 +50,11 @@ const CustomAudioPlayer = ({ audioUrl, title = "Audio Message", onPlay, isOtherP
     >
       <div className="flex items-center gap-4">
         <img
-          src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+          src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
           alt="Madame Aura"
-          className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
-          loading="eager"
+          loading="lazy"
           decoding="async"
-          fetchpriority="high"
-          width="48"
-          height="48"
+          className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
         />
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
@@ -129,7 +115,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showFirstAudioMessage, setShowFirstAudioMessage] = useState(false);
   const [showSecondAudioMessageTyping, setShowSecondAudioMessageTyping] = useState(false);
   const [showSecondAudioMessage, setShowSecondAudioMessage] = useState(false);
-  const [currentPlayingAudio, setCurrentPlayingAudio] = useState(null);
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
@@ -216,24 +201,47 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       setShowFirstAudio(true);
     }, 17000));
 
-    // Show all remaining messages 5s after first audio starts
+    // Show first audio message typing 25s after first audio starts
     timers.push(setTimeout(() => {
       setShowFirstAudioMessageTyping(true);
+    }, 42000)); // 17000 + 25000 = 42000
+
+    // Show first audio message after typing (1s) 
+    timers.push(setTimeout(() => {
       setShowFirstAudioMessageTyping(false);
       setShowFirstAudioMessage(true);
+    }, 43000)); // 42000 + 1000 = 43000
+
+    // Show second recording 3s after first audio message
+    timers.push(setTimeout(() => {
+      setShowSecondRecording(true);
+    }, 46000)); // 43000 + 3000 = 46000
+
+    // Show second audio after second recording (3s)
+    timers.push(setTimeout(() => {
+      setShowSecondRecording(false);
       setShowSecondAudio(true);
+    }, 49000)); // 46000 + 3000 = 49000
+
+    // Show second audio message typing 15s after second audio starts
+    timers.push(setTimeout(() => {
       setShowSecondAudioMessageTyping(true);
+    }, 64000)); // 49000 + 15000 = 64000
+
+    // Show second audio message after typing (1s)
+    timers.push(setTimeout(() => {
       setShowSecondAudioMessageTyping(false);
       setShowSecondAudioMessage(true);
+    }, 65000)); // 64000 + 1000 = 65000
+
+    // Show green button after second audio message (1s)
+    timers.push(setTimeout(() => {
       setShowGreenButton(true);
-    }, 22000)); // 17000 + 5000 = 22000
+    }, 66000)); // 65000 + 1000 = 66000
 
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  const handleAudioPlay = (audioId) => {
-    setCurrentPlayingAudio(audioId);
-  };
 
   const RecordingAudioIndicator = () => (
     <motion.div
@@ -243,9 +251,9 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     >
       <div className="flex items-start gap-3">
         <img
-          src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+          src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
           alt="Madame Aura"
-          loading="eager"
+          loading="lazy"
           decoding="async"
           className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
         />
@@ -258,71 +266,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   );
 
   const handleCheckoutRedirect = () => {
-    try {
-      const url = new URL('https://pay.hotmart.com/A101302550P?checkoutMode=10');
-
-      // Use UTMIFY to get all UTM parameters
-      let allUtms = {};
-      
-      // Try to get UTMs from UTMIFY if available
-      if (typeof window !== 'undefined' && window.utmify) {
-        try {
-          allUtms = window.utmify.getUtms() || {};
-          console.log('UTMs from UTMIFY:', allUtms);
-        } catch (error) {
-          console.warn('Failed to get UTMs from UTMIFY:', error);
-        }
-      }
-      
-      // Fallback: get UTMs from URL if UTMIFY is not available
-      if (Object.keys(allUtms).length === 0) {
-        const currentUrl = new URL(window.location.href);
-        const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-        
-        utmParams.forEach(param => {
-          const value = currentUrl.searchParams.get(param);
-          if (value) {
-            allUtms[param] = value;
-          }
-        });
-        
-        // Also get other tracking parameters
-        const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'xcod'];
-        otherParams.forEach(param => {
-          const value = currentUrl.searchParams.get(param);
-          if (value) {
-            allUtms[param] = value;
-          }
-        });
-      }
-      
-      // Add all UTM parameters directly to the checkout URL
-      Object.keys(allUtms).forEach((key) => {
-        if (allUtms[key]) {
-          url.searchParams.set(key, allUtms[key]);
-        }
-      });
-      
-      // Add quiz_result_id for webhook connection
-      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-        url.searchParams.set('quiz_result_id', quizResultId);
-      }
-
-      console.log('Redirecting to checkout with UTMs:', url.toString());
-      
-      // Track checkout event if metrito is available
-      if (typeof window !== 'undefined' && window.metrito) {
-        window.metrito.track('checkout');
-      }
-      
-      // Clean state and redirect
-      localStorage.removeItem('holymind_quiz_state');
-      window.location.href = url.toString();
-    } catch (error) {
-      console.error('Error during checkout redirect:', error);
-      // Fallback redirect even if tracking fails
-      window.location.href = 'https://pay.hotmart.com/A101302550P?checkoutMode=10';
-    }
+    window.open('https://payments.securitysacred.online/checkout/184553763:1', '_blank');
   };
 
   return (
@@ -345,14 +289,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                 alt="Madame Aura"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                decoding="async" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   {userName ? <><span className="font-bold">{userName}</span>, I've already connected with the astrological chart between you and your soulmate. Everything points to a meeting in <strong>{userCity}</strong> — or somewhere very close.</> : "I've already connected with the astrological chart between you and your soulmate. Everything points to a meeting in your city — or somewhere very close."}
@@ -377,14 +318,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                 alt="Madame Aura"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                decoding="async" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   In this astrological chart, besides revealing the face of your soulmate... I will also reveal their <strong>name</strong>, <strong>age</strong>, <strong>date of the encounter</strong>, and <strong>unique characteristics</strong>. Take a look:
@@ -410,14 +348,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
           >
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
                 decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
               />
               <div className="flex items-center gap-2 mt-2">
                 <div className="w-5 h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
@@ -478,14 +413,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
                 decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                    listen to the following short audio to understand how <strong>you can access this complete revelation.</strong>👇🏼
@@ -508,10 +440,13 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             key="first-audio"
             audioUrl="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/1f01ac4a5_Audio1.mp3"
             title="First Audio Message"
-            onPlay={() => handleAudioPlay('first')}
-            isOtherPlaying={currentPlayingAudio === 'second'}
           />
         )}
+      </AnimatePresence>
+
+      {/* First Audio Message Typing */}
+      <AnimatePresence>
+        {showFirstAudioMessageTyping && <TypingIndicator />}
       </AnimatePresence>
 
       {/* First Audio Message */}
@@ -523,14 +458,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
                 decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   The fee to unlock this revelation is only <strong>$19</strong>
@@ -541,6 +473,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         )}
       </AnimatePresence>
 
+      {/* Second Recording audio indicator */}
+      <AnimatePresence>
+        {showSecondRecording && <RecordingAudioIndicator />}
+      </AnimatePresence>
+
       {/* Second Audio Player */}
       <AnimatePresence>
         {showSecondAudio && (
@@ -548,10 +485,13 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             key="second-audio"
             audioUrl="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/b664913a8_Audio2.mp3"
             title="Second Audio Message"
-            onPlay={() => handleAudioPlay('second')}
-            isOtherPlaying={currentPlayingAudio === 'first'}
           />
         )}
+      </AnimatePresence>
+
+      {/* Second Audio Message Typing */}
+      <AnimatePresence>
+        {showSecondAudioMessageTyping && <TypingIndicator />}
       </AnimatePresence>
 
       {/* Second Audio Message */}
@@ -563,14 +503,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                 loading="eager"
                 decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   I will leave a button below for you to make the payment.

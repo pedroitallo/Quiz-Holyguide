@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -49,13 +50,13 @@ const ScrollIndicator = () => {
 
 const testimonials = [
 {
+  imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7701cbbfc_CapturadeTela2025-09-06as190013.png"
+},
+{
+  imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/84336022e_CapturadeTela2025-09-06as190035.png"
+},
+{
   imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/14ed61e13_DEP1.webp"
-},
-{
-  imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/e858f01a6_DEP2.webp"
-},
-{
-  imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/b8307ece9_DEP4.webp"
 }];
 
 // Preload all testimonial images immediately when component loads
@@ -191,9 +192,6 @@ export default function TestimonialsCarousel({ onContinue }) {
 
   // Scroll to top when final button is clicked (moving to next step)
   const handleFinalButtonClick = () => {
-    if (window.metrito && typeof window.metrito.track === 'function') {
-      window.metrito.track('startquiz');
-    }
     setTimeout(() => {
       window.scrollTo({ 
         top: 0, 
@@ -252,18 +250,15 @@ export default function TestimonialsCarousel({ onContinue }) {
             >
               <div className="flex items-start gap-3">
                 <img
-                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                   alt="Madame Aura"
                   className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                   loading="eager"
                   decoding="async"
-                  fetchpriority="high"
-                  width="40"
-                  height="40"
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                   Hello, my dear! I'm so <strong>happy and grateful</strong> that you chose to follow your heart and find me here today. 🙏
+                   Hello, my dear! I’m so <strong>happy and grateful</strong> that you chose to follow your heart and find me here today. 🙏
                   </p>
                 </div>
               </div>
@@ -286,18 +281,15 @@ export default function TestimonialsCarousel({ onContinue }) {
             >
               <div className="flex items-start gap-3">
                 <img
-                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                   alt="Madame Aura"
                   className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                   loading="eager"
                   decoding="async"
-                  fetchpriority="high"
-                  width="40"
-                  height="40"
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    My name is Aura, and I became famous in 2024 as <strong> Hollywood's #1 phychic</strong> , uniting soulmates through my drawings👇🏼
+                    My name is Aura, and I became famous in 2024 as <strong> Hollywood’s #1 phychic</strong> , uniting soulmates through my drawings, including <strong> Beyonce and Taylor Swift.</strong> 👇🏼
                   </p>
                 </div>
               </div>
@@ -388,14 +380,11 @@ export default function TestimonialsCarousel({ onContinue }) {
             >
               <div className="flex items-start gap-3">
                 <img
-                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                   alt="Madame Aura"
                   className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                   loading="eager"
                   decoding="async"
-                  fetchpriority="high"
-                  width="40"
-                  height="40"
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
@@ -459,14 +448,11 @@ export default function TestimonialsCarousel({ onContinue }) {
             >
               <div className="flex items-start gap-3">
                 <img
-                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                   alt="Madame Aura"
                   className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                   loading="eager"
                   decoding="async"
-                  fetchpriority="high"
-                  width="40"
-                  height="40"
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
@@ -493,14 +479,11 @@ export default function TestimonialsCarousel({ onContinue }) {
             >
               <div className="flex items-start gap-3">
                 <img
-                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
                   alt="Madame Aura"
                   className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
                   loading="eager"
                   decoding="async"
-                  fetchpriority="high"
-                  width="40"
-                  height="40"
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
@@ -523,6 +506,7 @@ export default function TestimonialsCarousel({ onContinue }) {
             >
               <button
                 onClick={handleFinalButtonClick}
+                id="btn-step3" 
                 className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
               >
                 Yes, I am ready!

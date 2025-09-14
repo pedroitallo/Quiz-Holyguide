@@ -220,14 +220,9 @@ export default function NameCollection({ onNameSubmit }) {
           <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   Before We Begin This Sacred Journey Of Love, <strong>What Is Your Name?</strong>
@@ -285,14 +280,9 @@ export default function NameCollection({ onNameSubmit }) {
           <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   It is a great pleasure to have you here, {name}. 
@@ -321,14 +311,9 @@ export default function NameCollection({ onNameSubmit }) {
           <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   We all have a <strong>divine soul from the day we are born</strong>. So, please enter your date of birth below so that <strong>I can visualize your soul mate</strong>.
@@ -427,14 +412,9 @@ export default function NameCollection({ onNameSubmit }) {
           <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   Wow, that's amazing! You're a <strong>{zodiacSign}</strong>{zodiacSign === 'Capricorn' ? ' just like me' : ''}! The <strong>{zodiacSign}</strong> is one of the few signs that has a special sensitivity and connection with their soulmate. <strong>I feel like you're on the right path to meeting your Divine Soul.</strong>
