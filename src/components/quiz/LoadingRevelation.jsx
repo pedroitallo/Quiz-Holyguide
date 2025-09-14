@@ -126,7 +126,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               decoding="async" />
 
               <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, I am preparing a portrait of your divine soul. I'm starting right now👇🔮
+                <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, <strong>I am preparing a drawing of your soulmate</strong>. I'm starting right now👇🔮
               </p>
               </div>
             </div>
@@ -184,10 +184,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   {userName ? <><span className="font-bold">{userName}</span>, something special is unfolding...</> : "Something special is unfolding..."}
-                  <br /><br />
-                  Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate.
-                  <br /><br />
-                  This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨
+                  Your birth chart shows that your soulmate has a <strong>beautiful energy and is closer than you think</strong>✨
                 </p>
               </div>
             </div>
@@ -211,7 +208,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     window.metrito.track('paywall'); // dispara apenas o evento
   }}
 >
-  Discover the face of my divine soul
+  DISCOVER NOW MY SOULMATE'S FACE
 </button>
 
         </motion.div>

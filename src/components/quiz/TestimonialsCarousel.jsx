@@ -47,6 +47,11 @@ export default function TestimonialsCarousel({ onContinue }) {
   const [showSecondTyping, setShowSecondTyping] = useState(false);
   const [showSecondMessage, setShowSecondMessage] = useState(false);
   const [showTestimonials, setShowTestimonials] = useState(false);
+  const [showThirdTyping, setShowThirdTyping] = useState(false);
+  const [showThirdMessage, setShowThirdMessage] = useState(false);
+  const [showFourthTyping, setShowFourthTyping] = useState(false);
+  const [showFourthMessage, setShowFourthMessage] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
   // Preload images on component mount
   useEffect(() => {
@@ -76,6 +81,33 @@ export default function TestimonialsCarousel({ onContinue }) {
     timers.push(setTimeout(() => {
       setShowTestimonials(true);
     }, 3500));
+
+    // Third typing (1.5s after testimonials appear)
+    timers.push(setTimeout(() => {
+      setShowThirdTyping(true);
+    }, 5000));
+
+    // Third message (1.5s after third typing starts)
+    timers.push(setTimeout(() => {
+      setShowThirdTyping(false);
+      setShowThirdMessage(true);
+    }, 6500));
+
+    // Fourth typing (1s after third message)
+    timers.push(setTimeout(() => {
+      setShowFourthTyping(true);
+    }, 7500));
+
+    // Fourth message (1s after fourth typing starts)
+    timers.push(setTimeout(() => {
+      setShowFourthTyping(false);
+      setShowFourthMessage(true);
+    }, 8500));
+
+    // Show button after fourth message
+    timers.push(setTimeout(() => {
+      setShowButton(true);
+    }, 9000));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -132,7 +164,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    Hello, I'm Madame Aura and in the next <strong>2 minutes</strong> I will reveal your <strong>soulmate's face</strong>✨
+                    Hello, I'm Madam Aura and in the next <strong>2 minutes</strong> I will reveal your <strong>soulmate's face</strong>✨
                   </p>
                 </div>
               </div>
@@ -234,33 +266,93 @@ export default function TestimonialsCarousel({ onContinue }) {
             ))}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="mt-12"
-          >
-            <p className="text-gray-700 text-lg mb-6 leading-relaxed max-w-md mx-auto font-semibold">
-              Are You Ready To Receive The Drawing Of Your Soulmate? 👇🏼
-            </p>
-
-            <p className="text-gray-500 text-sm mb-4 leading-relaxed max-w-md mx-auto">
-              (Don't cross your arms or legs…)
-            </p>
-            <button
-              onClick={onContinue}
-              id="btn-step3" 
-              className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
-            >
-              Yes, I am ready!
-            </button>
-            
-            <p className="text-sm text-gray-500 mt-4">
-
-            </p>
-          </motion.div>
         </motion.div>
       )}
+
+      {/* Container fixo para mensagens após depoimentos */}
+      <div className="min-h-[200px] mt-8">
+        {/* Third typing indicator */}
+        <AnimatePresence>
+          {showThirdTyping && <TypingIndicator />}
+        </AnimatePresence>
+
+        {/* Third message */}
+        <AnimatePresence>
+          {showThirdMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
+            >
+              <div className="flex items-start gap-3">
+                <img
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                  alt="Madame Aura"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div className="text-left">
+                  <p className="text-base text-gray-700 leading-relaxed">
+                    First, I ask that you <strong>don't cross your arms or legs</strong> so I can visualize your soulmate faster🔮
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Fourth typing indicator */}
+        <AnimatePresence>
+          {showFourthTyping && <TypingIndicator />}
+        </AnimatePresence>
+
+        {/* Fourth message */}
+        <AnimatePresence>
+          {showFourthMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto"
+            >
+              <div className="flex items-start gap-3">
+                <img
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+                  alt="Madame Aura"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div className="text-left">
+                  <p className="text-base text-gray-700 leading-relaxed">
+                    Are you ready to see <strong>your soulmate's face</strong>?💕
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Button appears after fourth message */}
+        <AnimatePresence>
+          {showButton && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mt-6 text-center"
+            >
+              <button
+                onClick={onContinue}
+                id="btn-step3" 
+                className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
+              >
+                Yes, I am ready!
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>);
 
 }

@@ -42,7 +42,7 @@ const loveSituationOptions = [
   { id: "single", label: "I am single", icon: Search },
   { id: "dating", label: "I am dating or talking to someone", icon: Users },
   { id: "relationship_missing", label: "I am in a relationship, but I feel like something is missing", icon: Heart },
-  { id: "happy_relationship", label: "I am in a happy relationship and want to confirm if this is my Divine Soulmate", icon: Check }
+  { id: "happy_relationship", label: "I am in a happy relationship, but I want to confirm if he is my true love", icon: Check }
 ];
 
 export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
@@ -113,9 +113,9 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    {userName}, in just <strong>2 minutes</strong>, I will visualize and draw the <strong>soulmate's face</strong>…
+                    {userName}, in just <strong>2 minutes</strong>, I will visualize and draw your <strong>soulmate's face</strong>…
                     <br /><br />
-                    Now, let's uncover your love life at this very moment 💞✨
+                    Now, let's see how is your love life at this very moment 💞✨
                   </p>
                 </div>
               </div>
@@ -212,7 +212,7 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
               id="btn-step6"
               className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
             >
-              Continue
+              Go to full revelation
             </Button>
           </motion.div>
         )}
