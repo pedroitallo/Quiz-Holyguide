@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -50,11 +49,14 @@ const CustomAudioPlayer = () => {
     >
       <div className="flex items-center gap-4">
         <img
-          src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
+          src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
           alt="Madame Aura"
-          loading="lazy"
-          decoding="async"
           className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          width="48"
+          height="48"
         />
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
@@ -99,11 +101,14 @@ const ChatBubble = ({ userName }) => (
     >
         <div className="flex items-start gap-3">
             <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
                 alt="Madame Aura"
-                loading="lazy"
-                decoding="async"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+                width="40"
+                height="40"
             />
             <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
@@ -124,9 +129,12 @@ const RecordingIndicator = () => (
             <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
                 alt="Madame Aura"
-                loading="lazy"
-                decoding="async"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+                width="40"
+                height="40"
             />
             <div className="flex items-center gap-2 mt-2">
                 <Mic className="w-5 h-5 text-red-500 animate-pulse" />
@@ -136,12 +144,118 @@ const RecordingIndicator = () => (
     </motion.div>
 );
 
+const BirthChartMessage = ({ userName }) => {
+    const [imageLoaded, setImageLoaded] = useState(false);
+    
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        return `${day}/${month}`;
+    };
+
+    const TextOverlay = () => (
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+            <div
+                className="absolute"
+                style={{
+                    top: '22%',
+                    right: '13%',
+                    width: '18%',
+                    height: '18%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden'
+                }}
+            >
+                <div
+                    style={{
+                        fontFamily: 'Dancing Script, cursive',
+                        fontWeight: '600',
+                        fontSize: 'clamp(7px, 2.2vw, 11px)',
+                        lineHeight: '1.3',
+                        textAlign: 'center',
+                        color: '#4a4a4a',
+                        textShadow: '0.5px 0.5px 1px rgba(0,0,0,0.1)',
+                        filter: 'sepia(10%) contrast(1.1)',
+                        transform: 'rotate(-1deg)'
+                    }}
+                >
+                    <div style={{ marginBottom: '2px' }}>
+                        {userName || ''}
+                    </div>
+                    <div>
+                        {formatDate(new Date()) || '...'}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full space-y-4"
+        >
+            <link
+                href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&display=swap"
+                rel="stylesheet"
+            />
+            
+            {/* Message */}
+            <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+                <div className="flex items-start gap-3">
+                    <img
+                        src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                        alt="Madame Aura"
+                        className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                        loading="eager"
+                        decoding="async"
+                        fetchpriority="high"
+                        width="40"
+                        height="40"
+                    />
+                    <div className="text-left">
+                        <p className="text-base text-gray-700 leading-relaxed">
+                            Based on your birth chart, <strong>I am preparing a drawing of your soulmate</strong>. I'm starting right now👇🔮
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Image with overlay */}
+            <div className="bg-white rounded-lg p-2 shadow-sm border border-gray-200 relative w-full">
+                <img
+                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png"
+                    alt="Preparing your revelation"
+                    className="w-full rounded-lg"
+                    onLoad={() => setImageLoaded(true)}
+                    loading="eager"
+                    decoding="async"
+                    style={{
+                        imageRendering: 'crisp-edges',
+                        backfaceVisibility: 'hidden',
+                        transform: 'translateZ(0)'
+                    }}
+                />
+                <TextOverlay />
+            </div>
+
+        </motion.div>
+    );
+};
 
 export default function PalmReadingResults({ onContinue, userName }) {
     const [showTyping, setShowTyping] = useState(true);
     const [showMessage, setShowMessage] = useState(false);
     const [showRecording, setShowRecording] = useState(false);
     const [showAudio, setShowAudio] = useState(false);
+    const [showBirthChart, setShowBirthChart] = useState(false);
+    const [showThroughTyping, setShowThroughTyping] = useState(false);
+    const [showThroughMessage, setShowThroughMessage] = useState(false);
     const [showButton, setShowButton] = useState(false);
 
     useEffect(() => {
@@ -164,10 +278,26 @@ export default function PalmReadingResults({ onContinue, userName }) {
             setShowAudio(true);
         }, 2000 + 3000));
 
-        // Show button after audio appears (0.5s after audio appears)
+        // Show birth chart message after audio appears (0.5s after audio appears)
+        timers.push(setTimeout(() => {
+            setShowBirthChart(true);
+        }, 2000 + 3000 + 500));
+        
+        // Show "Through reading" typing 5s after birth chart appears
+        timers.push(setTimeout(() => {
+            setShowThroughTyping(true);
+        }, 2000 + 3000 + 500 + 5000)); // 5s after birth chart
+        
+        // Show "Through reading" message after 1.5s of typing
+        timers.push(setTimeout(() => {
+            setShowThroughTyping(false);
+            setShowThroughMessage(true);
+        }, 2000 + 3000 + 500 + 5000 + 1500));
+        
+        // Show button after "Through reading" message
         timers.push(setTimeout(() => {
             setShowButton(true);
-        }, 2000 + 3000 + 500));
+        }, 2000 + 3000 + 500 + 5000 + 1500 + 500));
 
         return () => timers.forEach(clearTimeout);
     }, []);
@@ -190,6 +320,44 @@ export default function PalmReadingResults({ onContinue, userName }) {
                 {showAudio && <CustomAudioPlayer />}
             </AnimatePresence>
 
+            <AnimatePresence>
+                {showBirthChart && <BirthChartMessage userName={userName} />}
+            </AnimatePresence>
+
+            {/* Through reading typing */}
+            <AnimatePresence>
+                {showThroughTyping && <TypingIndicator />}
+            </AnimatePresence>
+
+            {/* Through reading message */}
+            <AnimatePresence>
+                {showThroughMessage && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full"
+                    >
+                        <div className="flex items-start gap-3">
+                            <img
+                                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                                alt="Madame Aura"
+                                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                                loading="eager"
+                                decoding="async"
+                                fetchpriority="high"
+                                width="40"
+                                height="40"
+                            />
+                            <div className="text-left">
+                                <p className="text-base text-gray-700 leading-relaxed">
+                                    Through this reading, I was able to deeply connect with the <strong>energy of your soulmate</strong>... and I've already discovered <strong>surprising details</strong> about them.✨
+                                </p>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+            
             {/* BOTÃO APARECE APENAS APÓS O ÁUDIO */}
             <AnimatePresence>
                 {showButton && (
@@ -203,6 +371,21 @@ export default function PalmReadingResults({ onContinue, userName }) {
                             onClick={onContinue}
                             id="btn-step7"
                             className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
+                            onClick={() => {
+                                // Track paywall event if metrito is available
+                                if (typeof window !== 'undefined' && window.metrito) {
+                                    window.metrito.track('paywall');
+                                }
+                                
+                                // Scroll to top before moving to next step
+                                setTimeout(() => {
+                                    window.scrollTo({ 
+                                        top: 0, 
+                                        behavior: 'smooth' 
+                                    });
+                                }, 50);
+                                onContinue();
+                            }}
                         >
                             Go to Full Disclosure Now
                         </Button>
