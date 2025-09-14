@@ -50,13 +50,13 @@ const ScrollIndicator = () => {
 
 const testimonials = [
 {
-  imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7701cbbfc_CapturadeTela2025-09-06as190013.png"
-},
-{
-  imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/84336022e_CapturadeTela2025-09-06as190035.png"
-},
-{
   imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/14ed61e13_DEP1.webp"
+},
+{
+  imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/e858f01a6_DEP2.webp"
+},
+{
+  imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/80e6a766a_DEP3.webp"
 }];
 
 // Preload all testimonial images immediately when component loads
@@ -289,7 +289,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                    My name is Aura, and I became famous in 2024 as <strong> Hollywood’s #1 medium</strong> , uniting soulmates through my drawings, including <strong> Beyonce and Taylor Swift.</strong> 👇🏼
+                    This Year Alone, <strong>I Have Connected With More Than 9,200 Divine Souls</strong> Through My Drawings And Revelations👇🏼
                   </p>
                 </div>
               </div>

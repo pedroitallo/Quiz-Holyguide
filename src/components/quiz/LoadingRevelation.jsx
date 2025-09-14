@@ -1,95 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Play, Pause } from "lucide-react";
 import TypingIndicator from './TypingIndicator';
-
-// Move CustomAudioPlayer component outside to prevent recreation
-const CustomAudioPlayer = ({ audioUrl, title = "Audio Message" }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const audioRef = useRef(null);
-
-  const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  };
-
-  const handleLoadedMetadata = () => {
-    if (audioRef.current) {
-      setDuration(audioRef.current.duration);
-    }
-  };
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  };
-
-  const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-white p-4 rounded-2xl shadow-sm border border-purple-100 w-full"
-    >
-      <div className="flex items-center gap-4">
-        <img
-          src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
-          alt="Madame Aura"
-          loading="lazy"
-          decoding="async"
-          className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
-        />
-        <div className="flex-1">
-          <div className="flex items-center gap-3 mb-2">
-            <button
-              onClick={togglePlay}
-              className="w-10 h-10 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center transition-colors"
-            >
-              {isPlaying ? <Pause className="w-5 h-5 text-white" /> : <Play className="w-5 h-5 text-white ml-0.5" />}
-            </button>
-            <div className="flex-1">
-              <div className="flex justify-between text-xs text-gray-500 mb-1">
-                <span>{formatTime(currentTime)}</span>
-                <span>{formatTime(duration)}</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-purple-600 h-2 rounded-full"
-                  style={{ width: `${progressPercentage}%` }}
-                ></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <audio
-        ref={audioRef}
-        src={audioUrl}
-        onTimeUpdate={handleTimeUpdate}
-        onLoadedMetadata={handleLoadedMetadata}
-        onEnded={() => setIsPlaying(false)}
-        preload="metadata"
-      />
-    </motion.div>
-  );
-};
 
 export default function LoadingRevelation({ onContinue, userName, birthDate, quizResultId }) {
   const [userCity, setUserCity] = useState("your city");
@@ -107,14 +19,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showAudioTyping, setShowAudioTyping] = useState(false);
   const [showAudioMessage, setShowAudioMessage] = useState(false);
   const [showRecordingAudio, setShowRecordingAudio] = useState(false);
-  const [showFirstAudio, setShowFirstAudio] = useState(false);
-  const [showSecondRecording, setShowSecondRecording] = useState(false);
-  const [showSecondAudio, setShowSecondAudio] = useState(false);
   const [showGreenButton, setShowGreenButton] = useState(false);
-  const [showFirstAudioMessageTyping, setShowFirstAudioMessageTyping] = useState(false);
-  const [showFirstAudioMessage, setShowFirstAudioMessage] = useState(false);
-  const [showSecondAudioMessageTyping, setShowSecondAudioMessageTyping] = useState(false);
-  const [showSecondAudioMessage, setShowSecondAudioMessage] = useState(false);
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
@@ -136,6 +41,50 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     // Get user location when component mounts
     getUserLocation();
   }, []);
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    // Retorna apenas dia e mês (formato DD/MM)
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    return `${day}/${month}`;
+  };
+
+  const TextOverlay = () => (
+  <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+      <div
+      className="absolute"
+      style={{
+        top: '22%',
+        right: '13%',
+        width: '18%',
+        height: '18%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden'
+      }}>
+        <div
+        style={{
+          fontFamily: 'Dancing Script, cursive',
+          fontWeight: '600',
+          fontSize: 'clamp(7px, 2.2vw, 11px)',
+          lineHeight: '1.3',
+          textAlign: 'center',
+          color: '#4a4a4a',
+          textShadow: '0.5px 0.5px 1px rgba(0,0,0,0.1)',
+          filter: 'sepia(10%) contrast(1.1)',
+          transform: 'rotate(-1deg)'
+        }}>
+          <div style={{ marginBottom: '2px' }}>
+            {userName || ''}
+          </div>
+          <div>
+            {formatDate(birthDate) || '...'}
+          </div>
+        </div>
+      </div>
+    </div>);
 
   useEffect(() => {
     const timers = [];
@@ -171,13 +120,13 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     // Show blurred cards after final message
     timers.push(setTimeout(() => {
       setShowSendingTyping(true);
-    }, 5500)); // 0.5s after final message
+    }, 9500)); // 3s after final message
 
     // Show blurred cards after sending typing (1s typing)
     timers.push(setTimeout(() => {
       setShowSendingTyping(false);
       setShowBlurredCards(true);
-    }, 6500));
+    }, 10500));
 
     // Show button after blurred cards
     timers.push(setTimeout(() => {
@@ -195,49 +144,11 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       setShowRecordingAudio(true);
     }, 14000));
 
-    // Show first audio after recording (3s)
+    // Show green button after recording (5s)
     timers.push(setTimeout(() => {
       setShowRecordingAudio(false);
-      setShowFirstAudio(true);
-    }, 17000));
-
-    // Show first audio message typing 25s after first audio starts
-    timers.push(setTimeout(() => {
-      setShowFirstAudioMessageTyping(true);
-    }, 42000)); // 17000 + 25000 = 42000
-
-    // Show first audio message after typing (1s) 
-    timers.push(setTimeout(() => {
-      setShowFirstAudioMessageTyping(false);
-      setShowFirstAudioMessage(true);
-    }, 43000)); // 42000 + 1000 = 43000
-
-    // Show second recording 3s after first audio message
-    timers.push(setTimeout(() => {
-      setShowSecondRecording(true);
-    }, 46000)); // 43000 + 3000 = 46000
-
-    // Show second audio after second recording (3s)
-    timers.push(setTimeout(() => {
-      setShowSecondRecording(false);
-      setShowSecondAudio(true);
-    }, 49000)); // 46000 + 3000 = 49000
-
-    // Show second audio message typing 15s after second audio starts
-    timers.push(setTimeout(() => {
-      setShowSecondAudioMessageTyping(true);
-    }, 64000)); // 49000 + 15000 = 64000
-
-    // Show second audio message after typing (1s)
-    timers.push(setTimeout(() => {
-      setShowSecondAudioMessageTyping(false);
-      setShowSecondAudioMessage(true);
-    }, 65000)); // 64000 + 1000 = 65000
-
-    // Show green button after second audio message (1s)
-    timers.push(setTimeout(() => {
       setShowGreenButton(true);
-    }, 66000)); // 65000 + 1000 = 66000
+    }, 19000));
 
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -338,6 +249,32 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         {showThirdTyping && <TypingIndicator />}
       </AnimatePresence>
 
+      {/* Final message */}
+      <AnimatePresence>
+        {showFinalMessage && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+
+            <div className="flex items-start gap-3">
+              <img
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+              alt="Madame Aura"
+              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+              loading="eager"
+              decoding="async" />
+
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">
+                  {userName ? <><span className="font-bold">{userName}</span>, based on the <strong>reading of your destiny</strong> and your <strong>date of birth</strong>, I've started sketching the <strong>face of your soulmate</strong>. 🔮</> : "Based on the reading of your destiny and your date of birth, I've started sketching the face of your soulmate. 🔮"}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Sending details typing indicator */}
       <AnimatePresence>
         {showSendingTyping && (
@@ -433,95 +370,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         {showRecordingAudio && <RecordingAudioIndicator />}
       </AnimatePresence>
 
-      {/* First Audio Player */}
-      <AnimatePresence>
-        {showFirstAudio && (
-          <CustomAudioPlayer
-            key="first-audio"
-            audioUrl="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/1f01ac4a5_Audio1.mp3"
-            title="First Audio Message"
-          />
-        )}
-      </AnimatePresence>
-
-      {/* First Audio Message Typing */}
-      <AnimatePresence>
-        {showFirstAudioMessageTyping && <TypingIndicator />}
-      </AnimatePresence>
-
-      {/* First Audio Message */}
-      <AnimatePresence>
-        {showFirstAudioMessage && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
-            <div className="flex items-start gap-3">
-              <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                alt="Madame Aura"
-                loading="eager"
-                decoding="async"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
-              <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">
-                  The fee to unlock this revelation is only <strong>$19</strong>
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Second Recording audio indicator */}
-      <AnimatePresence>
-        {showSecondRecording && <RecordingAudioIndicator />}
-      </AnimatePresence>
-
-      {/* Second Audio Player */}
-      <AnimatePresence>
-        {showSecondAudio && (
-          <CustomAudioPlayer
-            key="second-audio"
-            audioUrl="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/b664913a8_Audio2.mp3"
-            title="Second Audio Message"
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Second Audio Message Typing */}
-      <AnimatePresence>
-        {showSecondAudioMessageTyping && <TypingIndicator />}
-      </AnimatePresence>
-
-      {/* Second Audio Message */}
-      <AnimatePresence>
-        {showSecondAudioMessage && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
-            <div className="flex items-start gap-3">
-              <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                alt="Madame Aura"
-                loading="eager"
-                decoding="async"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
-              <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">
-                  I will leave a button below for you to make the payment.
-                  <br /><br />
-                  After that, the drawing and all the information about your soul mate will be instantly sent by email, as well as my own personal guidance so that you can meet your soul mate more quickly.
-                  <br /><br />
-                  Click the button below ⬇️
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Continue button */}
       {showGreenButton && (
       <motion.div
@@ -534,7 +382,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
           onClick={handleCheckoutRedirect}
           className="w-full max-w-sm md:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl mt-6"
         >
-         YES! I WANT TO RECEIVE THE REVELATION OF MY SOULMATE
+          Continue to Full Revelation
         </Button>
 
         </motion.div>
