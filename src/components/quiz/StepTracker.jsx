@@ -7,9 +7,8 @@ const STEP_TRACKING_MAP = {
     2: 'testimonials_step_viewed', 
     3: 'name_collection_step_viewed', // Combined name + birth data
     4: 'love_situation_step_viewed',
-    5: 'loading_revelation_step_viewed',
-    6: 'paywall_step_viewed'
-    // Note: No step 9 (ThankYouStep) tracking as requested
+    5: 'palm_reading_results_step_viewed',
+    6: 'loading_revelation_step_viewed'
 };
 
 export default function StepTracker({ currentStep, quizResultId }) {
