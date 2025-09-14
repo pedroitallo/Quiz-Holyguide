@@ -107,7 +107,14 @@ export default function Funnel1Page() {
   };
 
   const handleNameSubmit = async (name) => {
-    const updatedData = { ...formData, name };
+    const updatedData = { 
+      ...formData, 
+      name: typeof name === 'string' ? name : name.name,
+      birth_date: typeof name === 'object' ? name.birth_date : formData.birth_date,
+      birth_day: typeof name === 'object' ? name.birth_day : formData.birth_day,
+      birth_month: typeof name === 'object' ? name.birth_month : formData.birth_month,
+      birth_year: typeof name === 'object' ? name.birth_year : formData.birth_year
+    };
     setFormData(updatedData);
     nextStep();
   };
@@ -170,11 +177,10 @@ export default function Funnel1Page() {
           {currentStep === 1 && <VideoStep onContinue={nextStep} />}
           {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
           {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
-          {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
-          {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
-          {currentStep === 6 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 7 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 8 && <ThankYouStep userName={formData.name} />}
+          {currentStep === 4 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
+          {currentStep === 5 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 6 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 7 && <ThankYouStep userName={formData.name} />}
         </div>
       </div>
     </div>

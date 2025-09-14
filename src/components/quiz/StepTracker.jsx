@@ -5,11 +5,10 @@ import { HybridQuizResult } from '@/entities/HybridQuizResult';
 const STEP_TRACKING_MAP = {
     1: 'video_step_viewed',
     2: 'testimonials_step_viewed', 
-    3: 'name_collection_step_viewed',
-    4: 'birth_data_collection_step_viewed',
-    5: 'love_situation_step_viewed',
-    6: 'loading_revelation_step_viewed',
-    7: 'paywall_step_viewed'
+    3: 'name_collection_step_viewed', // Combined name + birth data
+    4: 'love_situation_step_viewed',
+    5: 'loading_revelation_step_viewed',
+    6: 'paywall_step_viewed'
     // Note: No step 9 (ThankYouStep) tracking as requested
 };
 
