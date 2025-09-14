@@ -51,15 +51,7 @@ export default function TestimonialsCarousel({ onContinue }) {
   const [showThirdMessage, setShowThirdMessage] = useState(false);
   const [showFourthTyping, setShowFourthTyping] = useState(false);
   const [showFourthMessage, setShowFourthMessage] = useState(false);
-  const [showFifthTyping, setShowFifthTyping] = useState(false);
-  const [showFifthMessage, setShowFifthMessage] = useState(false);
-  const [showFirstButton, setShowFirstButton] = useState(false);
-  const [firstButtonClicked, setFirstButtonClicked] = useState(false);
-  const [showSixthTyping, setShowSixthTyping] = useState(false);
-  const [showSixthMessage, setShowSixthMessage] = useState(false);
-  const [showSeventhTyping, setShowSeventhTyping] = useState(false);
-  const [showSeventhMessage, setShowSeventhMessage] = useState(false);
-  const [showFinalButton, setShowFinalButton] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
   // Preload images on component mount
   useEffect(() => {
@@ -73,101 +65,55 @@ export default function TestimonialsCarousel({ onContinue }) {
     timers.push(setTimeout(() => {
       setShowFirstTyping(false);
       setShowFirstMessage(true);
-      
-      // Start second typing after first message
-      setTimeout(() => {
-        setShowSecondTyping(true);
-      }, 500);
     }, 1500));
 
-    // Second typing (1.5s) then second message (Aura introduction)
+    // Second typing (1s after first message) then second message
+    timers.push(setTimeout(() => {
+      setShowSecondTyping(true);
+    }, 2000));
+
     timers.push(setTimeout(() => {
       setShowSecondTyping(false);
       setShowSecondMessage(true);
-      
-      // Start third typing after second message
-      setTimeout(() => {
-        setShowThirdTyping(true);
-      }, 500);
-    }, 2500));
+    }, 3000));
 
-    // Third typing (1.5s) then third message (In just 2 minutes)
+    // Show testimonials after second message
+    timers.push(setTimeout(() => {
+      setShowTestimonials(true);
+    }, 3500));
+
+    // Third typing (1.5s after testimonials appear)
+    timers.push(setTimeout(() => {
+      setShowThirdTyping(true);
+    }, 5000));
+
+    // Third message (1.5s after third typing starts)
     timers.push(setTimeout(() => {
       setShowThirdTyping(false);
       setShowThirdMessage(true);
-      
-      // Start fourth typing after third message
-      setTimeout(() => {
-        setShowFourthTyping(true);
-      }, 500);
-    }, 4500));
+    }, 6500));
 
-    // Fourth typing (1.5s) then fourth message (This Year Alone)
+    // Fourth typing (1s after third message)
+    timers.push(setTimeout(() => {
+      setShowFourthTyping(true);
+    }, 7500));
+
+    // Fourth message (1s after fourth typing starts)
     timers.push(setTimeout(() => {
       setShowFourthTyping(false);
       setShowFourthMessage(true);
-      
-      // Show testimonials after fourth message
-      setTimeout(() => {
-        setShowTestimonials(true);
-      }, 500);
-    }, 6500));
+    }, 8500));
 
-    // Fifth typing (1s after fourth message)
+    // Show button after fourth message
     timers.push(setTimeout(() => {
-      setShowFifthTyping(true);
-    }, 8000));
-
-    // Fifth message (1s after fifth typing starts)
-    timers.push(setTimeout(() => {
-      setShowFifthTyping(false);
-      setShowFifthMessage(true);
-      setShowFirstButton(true);
+      setShowButton(true);
     }, 9000));
 
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  const handleFirstButtonClick = () => {
-    setFirstButtonClicked(true);
-    setShowFirstButton(false);
-    
-    // Show sixth typing after button click
-    setTimeout(() => {
-      setShowSixthTyping(true);
-    }, 500);
-    
-    // Show sixth message after typing
-    setTimeout(() => {
-      setShowSixthTyping(false);
-      setShowSixthMessage(true);
-    }, 1500);
-    
-    // Show seventh typing after sixth message
-    setTimeout(() => {
-      setShowSeventhTyping(true);
-    }, 2000);
-    
-    // Show seventh message and final button after typing
-    setTimeout(() => {
-      setShowSeventhTyping(false);
-      setShowSeventhMessage(true);
-      setShowFinalButton(true);
-    }, 3000);
-  };
   const paginate = (newDirection) => {
     setPage([(page + newDirection + testimonials.length) % testimonials.length, newDirection]);
-  };
-
-  // Scroll to top when final button is clicked (moving to next step)
-  const handleFinalButtonClick = () => {
-    setTimeout(() => {
-      window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
-      });
-    }, 50);
-    onContinue();
   };
 
   useEffect(() => {
@@ -181,7 +127,7 @@ export default function TestimonialsCarousel({ onContinue }) {
   return (
     <div className="text-center py-8">
       {/* Astral Reading Card */}
-      <div className="mb-4">
+      <div className="mb-6">
         <div className="bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200 rounded-full px-4 py-2 inline-block shadow-sm">
           <p className="text-purple-700 text-sm font-medium">
             ✨ Your astral reading is starting...
@@ -227,7 +173,7 @@ export default function TestimonialsCarousel({ onContinue }) {
                 />
                 <div className="text-left">
                   <p className="text-base text-gray-700 leading-relaxed">
-                   Hello, my dear! I’m so <strong>happy and grateful</strong> that you chose to follow your heart and find me here today. 🙏
+                    Hello, I'm Madam Aura and in the next <strong>2 minutes</strong> I will reveal your <strong>soulmate's face</strong>✨
                   </p>
                 </div>
               </div>
@@ -243,37 +189,6 @@ export default function TestimonialsCarousel({ onContinue }) {
         {/* Second message */}
         <AnimatePresence>
           {showSecondMessage && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
-            >
-              <div className="flex items-start gap-3">
-                <img
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                  alt="Madame Aura"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                  loading="eager"
-                  decoding="async"
-                />
-                <div className="text-left">
-                  <p className="text-base text-gray-700 leading-relaxed">
-                    My name is Aura, and I became famous in <strong>2024 as Hollywood's #1 medium</strong>, bringing soulmates together through my drawings.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Fourth typing indicator */}
-        <AnimatePresence>
-          {showFourthTyping && <TypingIndicator />}
-        </AnimatePresence>
-
-        {/* Fourth message - This Year Alone */}
-        <AnimatePresence>
-          {showFourthMessage && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -365,75 +280,14 @@ export default function TestimonialsCarousel({ onContinue }) {
 
       {/* Container fixo para mensagens após depoimentos */}
       <div className="min-h-[200px] mt-8">
-        {/* Fifth typing indicator */}
+        {/* Third typing indicator */}
         <AnimatePresence>
-          {showFifthTyping && <TypingIndicator />}
+          {showThirdTyping && <TypingIndicator />}
         </AnimatePresence>
 
-        {/* Fifth message - Drawing permission */}
+        {/* Third message */}
         <AnimatePresence>
-          {showFifthMessage && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
-            >
-              <div className="flex items-start gap-3">
-                <img
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
-                  alt="Madame Aura"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                  loading="eager"
-                  decoding="async"
-                />
-                <div className="text-left">
-                  <p className="text-base text-gray-700 leading-relaxed">
-                    <strong>May I begin your drawing?</strong> Now, I must warn you: this may bring you to tears or awaken <strong>deep emotions</strong>, but I believe you'll want to see it… 💞✨
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* First button - Drawing permission */}
-        <AnimatePresence>
-          {showFirstButton && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mt-6 text-center"
-            >
-              <button
-                onClick={handleFirstButtonClick}
-                className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
-              >
-                Yes, I want to discover my soulmate!
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* User's response message */}
-        <AnimatePresence>
-          {firstButtonClicked && (
-            <div className="flex justify-end mb-4">
-              <div className="bg-purple-600 text-white p-3 rounded-xl max-w-xs mr-4">
-                <p className="text-sm">Yes, I want to discover my soulmate!</p>
-              </div>
-            </div>
-          )}
-        </AnimatePresence>
-
-        {/* Sixth typing indicator */}
-        <AnimatePresence>
-          {showSixthTyping && <TypingIndicator />}
-        </AnimatePresence>
-
-        {/* Sixth message - Arms/legs instruction */}
-        <AnimatePresence>
-          {showSixthMessage && (
+          {showThirdMessage && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -457,18 +311,18 @@ export default function TestimonialsCarousel({ onContinue }) {
           )}
         </AnimatePresence>
 
-        {/* Seventh typing indicator */}
+        {/* Fourth typing indicator */}
         <AnimatePresence>
-          {showSeventhTyping && <TypingIndicator />}
+          {showFourthTyping && <TypingIndicator />}
         </AnimatePresence>
 
-        {/* Seventh message - Are you ready */}
+        {/* Fourth message */}
         <AnimatePresence>
-          {showSeventhMessage && (
+          {showFourthMessage && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4"
+              className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto"
             >
               <div className="flex items-start gap-3">
                 <img
@@ -488,9 +342,9 @@ export default function TestimonialsCarousel({ onContinue }) {
           )}
         </AnimatePresence>
 
-        {/* Final button appears after seventh message */}
+        {/* Button appears after fourth message */}
         <AnimatePresence>
-          {showFinalButton && (
+          {showButton && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -498,7 +352,7 @@ export default function TestimonialsCarousel({ onContinue }) {
               className="mt-6 text-center"
             >
               <button
-                onClick={handleFinalButtonClick}
+                onClick={onContinue}
                 id="btn-step3" 
                 className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle"
               >

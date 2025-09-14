@@ -190,14 +190,6 @@ export default function NameCollection({ onNameSubmit }) {
     const zodiacSign = getZodiacSign(selectedMonth, selectedDay);
     const birthDate = `2000-${selectedMonth}-${selectedDay}`; // Using 2000 as default year
     
-    // Scroll to top before moving to next step
-    setTimeout(() => {
-      window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
-      });
-    }, 50);
-    
     onNameSubmit({
       name: name.trim(),
       birth_date: birthDate,
@@ -212,17 +204,8 @@ export default function NameCollection({ onNameSubmit }) {
 
   return (
     <div className="text-center py-8 min-h-[600px]">
-      {/* Reading Progress Card */}
-      <div className="mb-6">
-        <div className="bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200 rounded-full px-4 py-2 inline-block shadow-sm">
-          <p className="text-purple-700 text-sm font-medium">
-            ✨ Reading in progress, stay on this page.
-          </p>
-        </div>
-      </div>
-
       {/* CONTAINER FIXO PARA PRIMEIRA MENSAGEM */}
-      <div className="min-h-[120px] mb-2">
+      <div className="min-h-[120px] mb-6">
         {/* First typing */}
         <div className={`transition-opacity duration-300 ${showFirstTyping ? 'opacity-100' : 'opacity-0'} ${showFirstMessage ? 'hidden' : ''}`}>
           <TypingIndicator />
@@ -247,7 +230,7 @@ export default function NameCollection({ onNameSubmit }) {
       </div>
 
       {/* BEFORE TYPING */}
-      <div className="min-h-[120px] mb-6">
+      <div className="min-h-[120px] mb-2">
         <div className={`transition-opacity duration-300 ${showBeforeTyping ? 'opacity-100' : 'opacity-0'} ${showBeforeMessage ? 'hidden' : ''}`}>
           <TypingIndicator />
         </div>
