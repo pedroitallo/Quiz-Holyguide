@@ -13,7 +13,6 @@ import LoadingRevelation from "../components/quiz/LoadingRevelation";
 import TestimonialsCarousel from "../components/quiz/TestimonialsCarousel";
 import PaywallStep from "../components/quiz/PaywallStep";
 import ThankYouStep from "../components/quiz/ThankYouStep";
-import PalmReadingResults from "../components/quiz/PalmReadingResults";
 
 export default function Funnel1Page() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -25,19 +24,19 @@ export default function Funnel1Page() {
     quizResultId: null
   });
 
-  const totalSteps = 5; // Testimonials, Name, Love, Audio, Revelation
+  const totalSteps = 7; // Video, Testimonials, Name, Birth, Love, Revelation, Paywall
 
   const progress = (currentStep / totalSteps) * 100;
 
   useEffect(() => {
-    // Save state up to the LoadingRevelation (step 6)
-    if (currentStep < 7) {
+    // Save state up to the PaywallStep (step 8), clear on ThankYouStep (step 9)
+    if (currentStep < 9) {
         const stateToSave = {
             step: currentStep,
             data: formData
         };
         localStorage.setItem('holymind_quiz_state', JSON.stringify(stateToSave));
-    } else if (currentStep === 7) { // After final step
+    } else if (currentStep === 9) { // ThankYouStep
         localStorage.removeItem('holymind_quiz_state');
     }
   }, [currentStep, formData]);
@@ -93,7 +92,7 @@ export default function Funnel1Page() {
   }, []);
 
   const nextStep = () => {
-    if (currentStep < totalSteps) {
+    if (currentStep < totalSteps || currentStep === totalSteps) { // Allow advancing from totalSteps (Paywall) to ThankYou
       const newStep = currentStep + 1;
       setCurrentStep(newStep);
       
@@ -149,7 +148,7 @@ export default function Funnel1Page() {
         <div className="px-4 md:px-6 py-3">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <img src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png" alt="Master Aura" className="w-10 md:w-12 h-10 md:h-12 rounded-full object-cover border-2 border-purple-200" />
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp" alt="Madame Aura" className="w-10 md:w-12 h-10 md:h-12 rounded-full object-cover border-2 border-purple-200" />
               <div className="absolute -bottom-1 -right-1 w-3 md:w-4 h-3 md:h-4 bg-green-500 border-2 border-white rounded-full" />
             </div>
             <div className="flex-1">
@@ -175,11 +174,13 @@ export default function Funnel1Page() {
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
         <div className="max-w-lg mx-auto">
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
-          {currentStep === 1 && <TestimonialsCarousel onContinue={nextStep} />}
-          {currentStep === 2 && <NameCollection onNameSubmit={handleNameSubmit} />}
-          {currentStep === 3 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
-          {currentStep === 4 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
-          {currentStep === 5 && <LoadingRevelation onContinue={() => {}} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 1 && <VideoStep onContinue={nextStep} />}
+          {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
+          {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
+          {currentStep === 4 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
+          {currentStep === 5 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 6 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 7 && <ThankYouStep userName={formData.name} />}
         </div>
       </div>
     </div>
