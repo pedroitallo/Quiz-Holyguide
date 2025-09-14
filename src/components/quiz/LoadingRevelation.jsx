@@ -8,41 +8,19 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showFirstTyping, setShowFirstTyping] = useState(true);
   const [showFirstMessage, setShowFirstMessage] = useState(false);
   const [showImage, setShowImage] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [showSecondTyping, setShowSecondTyping] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
-  // Function to get user's location by IP
-  const getUserLocation = async () => {
-    try {
-      const response = await fetch('https://ipapi.co/json/');
-      const data = await response.json();
-      if (data.city) {
-        setUserCity(data.city);
-      }
-    } catch (error) {
-      console.warn('Failed to get user location:', error);
-      // Keep default "your city"
-    }
-  };
-
-  useEffect(() => {
-    // Get user location when component mounts
-    getUserLocation();
-  }, []);
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
-    // Retorna apenas dia e mês (formato DD/MM)
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    return `${day}/${month}`;
+    return date.toLocaleDateString('pt-BR');
   };
 
-  const TextOverlay = () => (
+  const TextOverlay = () =>
   <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
       <div
       className="absolute"
@@ -76,7 +54,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
           </div>
         </div>
       </div>
-    </div>);
+    </div>;
 
   useEffect(() => {
     const timers = [];
@@ -92,29 +70,24 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
       setShowImage(true);
     }, 1500));
 
-    return () => timers.forEach(clearTimeout);
-  }, []);
-
-  // Handle image load and trigger second message
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-    
-    // Start second typing after image loads
-    setTimeout(() => {
+    // Start second typing after image appears
+    timers.push(setTimeout(() => {
       setShowSecondTyping(true);
-    }, 500);
+    }, 2000));
 
     // Second typing (1s) then final message
-    setTimeout(() => {
+    timers.push(setTimeout(() => {
       setShowSecondTyping(false);
       setShowFinalMessage(true);
-    }, 1500);
+    }, 3000));
 
     // Show button after final message
-    setTimeout(() => {
+    timers.push(setTimeout(() => {
       setShowNextButton(true);
-    }, 2000);
-  };
+    }, 3500));
+
+    return () => timers.forEach(clearTimeout);
+  }, []);
 
   return (
     <div className="py-8 w-full max-w-lg mx-auto flex flex-col items-center gap-4">
@@ -129,7 +102,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
       {/* First message */}
       <AnimatePresence>
-        {showFirstMessage && (
+        {showFirstMessage &&
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -137,24 +110,22 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
             <div className="flex items-start gap-3">
               <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
               alt="Madame Aura"
-              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-              loading="eager"
-              decoding="async" />
+              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
 
               <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, <strong>I am preparing a drawing of your soulmate</strong>. I'm starting right now👇🔮
+                <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, I am preparing a portrait of your divine soul. I'm starting right now👇🔮
               </p>
               </div>
             </div>
           </motion.div>
-        )}
+        }
       </AnimatePresence>
 
       {/* Image */}
       <AnimatePresence>
-        {showImage && (
+        {showImage &&
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -164,10 +135,9 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
             src={imageUrl}
             alt="Preparing your revelation"
             className="w-full rounded-lg"
-            onLoad={handleImageLoad}
-            loading="eager"
-            decoding="async"
             style={{
+              loading: 'lazy',
+              decoding: 'async',
               imageRendering: 'crisp-edges',
               backfaceVisibility: 'hidden',
               transform: 'translateZ(0)'
@@ -175,7 +145,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
             <TextOverlay />
           </motion.div>
-        )}
+        }
       </AnimatePresence>
 
       {/* Second typing indicator */}
@@ -185,7 +155,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
       {/* Final message */}
       <AnimatePresence>
-        {showFinalMessage && (
+        {showFinalMessage &&
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -193,56 +163,44 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
             <div className="flex items-start gap-3">
               <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
               alt="Madame Aura"
-              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-              loading="eager"
-              decoding="async" />
+              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
 
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  {userName ? <><span className="font-bold">{userName}</span>, something special is happening...</> : "Something special is happening..."}
+                  {userName ? <><span className="font-bold">{userName}</span>, something special is unfolding...</> : "Something special is unfolding..."}
                   <br /><br />
-                  Based on the reading of your destiny and your date of birth, I've started to sketch the face of your soulmate. Everything points to a meeting in <strong>{userCity}</strong>—or somewhere very close.
+                  Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate.
                   <br /><br />
-                  This person carries a beautiful energy and is closer than you think... patiently waiting for you. ✨
+                  This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨
                 </p>
               </div>
             </div>
           </motion.div>
-        )}
+        }
       </AnimatePresence>
 
       {/* Continue button */}
-      {showNextButton && (
+      {showNextButton &&
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="mt-8">
 
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-purple-600 mb-4">
-            ✨ Your Divine Soul Drawing Is Complete! ✨
-          </h2>
-          <p className="text-gray-700 text-lg mb-6 max-w-md mx-auto">
-            {userName ? `${userName}, your` : "Your"} personalized soulmate drawing has been prepared based on your unique spiritual energy and birth chart.
-          </p>
-          <div className="bg-gradient-to-br from-purple-50 to-white p-6 rounded-xl shadow-sm border border-purple-100 mb-6">
-            <p className="text-gray-600 text-base leading-relaxed">
-              🎨 <strong>Your complete revelation includes:</strong>
-              <br />• Detailed drawing of your soulmate's face
-              <br />• When and where you'll meet them
-              <br />• Their personality traits and characteristics
-              <br />• How to recognize them when you meet
-            </p>
-          </div>
-          <p className="text-purple-600 font-semibold text-lg">
-            Your divine connection awaits! 💜
-          </p>
-        </div>
+         <button
+  id="btn-vsl"
+  className="btn-primary btn-paywall w-full max-w-sm md:w-auto"
+  onClick={() => {
+    onContinue(); // mantém sua ação normal
+    window.metrito.track('paywall'); // dispara apenas o evento
+  }}
+>
+  Discover the face of my divine soul
+</button>
 
         </motion.div>
-      )}
+      }
     </div>);
 }
