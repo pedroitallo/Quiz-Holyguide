@@ -15,24 +15,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
-  // Function to get user's location by IP
-  const getUserLocation = async () => {
-    try {
-      const response = await fetch('https://ipapi.co/json/');
-      const data = await response.json();
-      if (data.city) {
-        setUserCity(data.city);
-      }
-    } catch (error) {
-      console.warn('Failed to get user location:', error);
-      // Keep default "your city"
-    }
-  };
-
-  useEffect(() => {
-    // Get user location when component mounts
-    getUserLocation();
-  }, []);
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -201,11 +183,8 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  {userName ? <><span className="font-bold">{userName}</span>, something special is happening...</> : "Something special is happening..."}
-                  <br /><br />
-                  Based on the reading of your destiny and your date of birth, I've started to sketch the face of your soulmate. Everything points to a meeting in <strong>{userCity}</strong>—or somewhere very close.
-                  <br /><br />
-                  This person carries a beautiful energy and is closer than you think... patiently waiting for you. ✨
+                  {userName ? <><span className="font-bold">{userName}</span>, something special is unfolding...</> : "Something special is unfolding..."}
+                  Your birth chart shows that your soulmate has a <strong>beautiful energy and is closer than you think</strong>✨
                 </p>
               </div>
             </div>
@@ -221,26 +200,16 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         transition={{ duration: 0.5 }}
         className="mt-8">
 
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-purple-600 mb-4">
-            ✨ Your Divine Soul Drawing Is Complete! ✨
-          </h2>
-          <p className="text-gray-700 text-lg mb-6 max-w-md mx-auto">
-            {userName ? `${userName}, your` : "Your"} personalized soulmate drawing has been prepared based on your unique spiritual energy and birth chart.
-          </p>
-          <div className="bg-gradient-to-br from-purple-50 to-white p-6 rounded-xl shadow-sm border border-purple-100 mb-6">
-            <p className="text-gray-600 text-base leading-relaxed">
-              🎨 <strong>Your complete revelation includes:</strong>
-              <br />• Detailed drawing of your soulmate's face
-              <br />• When and where you'll meet them
-              <br />• Their personality traits and characteristics
-              <br />• How to recognize them when you meet
-            </p>
-          </div>
-          <p className="text-purple-600 font-semibold text-lg">
-            Your divine connection awaits! 💜
-          </p>
-        </div>
+         <button
+  id="btn-vsl"
+  className="btn-primary btn-paywall w-full max-w-sm md:w-auto"
+  onClick={() => {
+    onContinue(); // mantém sua ação normal
+    window.metrito.track('paywall'); // dispara apenas o evento
+  }}
+>
+  DISCOVER NOW MY SOULMATE'S FACE
+</button>
 
         </motion.div>
       )}

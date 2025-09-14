@@ -126,15 +126,6 @@ export default function TestimonialsCarousel({ onContinue }) {
 
   return (
     <div className="text-center py-8">
-      {/* Astral Reading Card */}
-      <div className="mb-6">
-        <div className="bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200 rounded-full px-4 py-2 inline-block shadow-sm">
-          <p className="text-purple-700 text-sm font-medium">
-            ✨ Your astral reading is starting...
-          </p>
-        </div>
-      </div>
-
       {/* Preload all images invisibly */}
       <div className="hidden">
         {testimonials.map((testimonial, index) => (
