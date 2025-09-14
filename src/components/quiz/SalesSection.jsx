@@ -105,7 +105,6 @@ const PulsatingButton = ({ children, onClick, className = "" }) => (
   <Button
     onClick={onClick}
     className={`checkout-button w-full max-w-2xl mx-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight ${className}`}
-    id="btn-step9"
     style={{ minHeight: '70px' }}
   >
     <span className="block text-center leading-tight">{children}</span>
@@ -215,22 +214,13 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
         .animate-bounce-subtle { animation: bounce-subtle 1.5s infinite ease-in-out; }
       `}</style>
 
-     {/* Main CTA Section - Moved closer to VSL */}
-<div className="space-y-3 -mt-4">
-  <p className="text-gray-700 text-sm font-bold">
-    Click Below To Secure Your Drawing👇🏻
-  </p>
-
-  <PulsatingButton
-    onClick={() => {
-      window.metrito.track('checkout'); // evento de checkout
-      handleCheckout(); // mantém sua função normal
-    }}
-  >
-    YES! Claim My Divine<br/>Soul Drawing
-  </PulsatingButton>
-</div>
-
+      {/* Main CTA Section - Moved closer to VSL */}
+      <div className="space-y-3 -mt-4">
+        <p className="text-gray-700 text-sm font-bold">Click Below To Secure Your Drawing👇🏻</p>
+        <PulsatingButton onClick={handleCheckout}>
+          YES! Claim My Divine<br/>Soul Drawing
+        </PulsatingButton>
+      </div>
 
       {/* High Demand Warning with Countdown - Single line format */}
       <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto">

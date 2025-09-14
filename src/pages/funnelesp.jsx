@@ -9,6 +9,7 @@ import VideoStep from "../components/quiz/VideoStep";
 import NameCollection from "../components/quiz/NameCollection";
 import BirthDataCollection from "../components/quiz/BirthDataCollection";
 import LoveSituationStep from "../components/quiz/LoveSituationStep";
+import PalmReadingResults from "../components/quiz/PalmReadingResults";
 import LoadingRevelation from "../components/quiz/LoadingRevelation";
 import TestimonialsCarousel from "../components/quiz/TestimonialsCarousel";
 import PaywallStep from "../components/quiz/PaywallStep";
@@ -25,6 +26,8 @@ export default function FunnelEspPage() {
   });
 
   const totalSteps = 8; // Video, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
+  const progress = currentStep / totalSteps * 100;
+
   useEffect(() => {
     // Save state up to the PaywallStep (step 8), clear on ThankYouStep (step 9)
     if (currentStep < 9) {
@@ -104,14 +107,7 @@ export default function FunnelEspPage() {
   };
 
   const handleNameSubmit = async (name) => {
-    const updatedData = { 
-      ...formData, 
-      name: typeof name === 'string' ? name : name.name,
-      birth_date: typeof name === 'object' ? name.birth_date : formData.birth_date,
-      birth_day: typeof name === 'object' ? name.birth_day : formData.birth_day,
-      birth_month: typeof name === 'object' ? name.birth_month : formData.birth_month,
-      birth_year: typeof name === 'object' ? name.birth_year : formData.birth_year
-    };
+    const updatedData = { ...formData, name };
     setFormData(updatedData);
     nextStep();
   };
@@ -174,10 +170,12 @@ export default function FunnelEspPage() {
           {currentStep === 1 && <VideoStep onContinue={nextStep} />}
           {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
           {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
-          {currentStep === 4 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
-          {currentStep === 5 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 6 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 7 && <ThankYouStep userName={formData.name} />}
+          {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
+          {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
+          {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
+          {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 9 && <ThankYouStep userName={formData.name} />}
         </div>
       </div>
     </div>

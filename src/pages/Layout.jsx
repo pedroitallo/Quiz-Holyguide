@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
 
 export default function Layout({ children, currentPageName }) {
   useEffect(() => {
@@ -21,12 +20,6 @@ export default function Layout({ children, currentPageName }) {
 
   return (
     <div style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none' }}>
-      <Helmet>
-        {window.location.hostname === 'quiz.holymind.life' && (
-          <script async src="https://sst.holymind.life/mtrtprxy/tag?id=685d94c5b4f48be86e0eb114"></script>
-        )}
-      </Helmet>
-      
       <style>{`
         /* Critical CSS inline para melhorar FCP */
         .btn-primary { 
