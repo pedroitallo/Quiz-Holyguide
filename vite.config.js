@@ -6,14 +6,7 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   server: {
-    allowedHosts: true,
-    proxy: {
-      '/base44-api': {
-        target: 'https://base44.app',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/base44-api/, '/api')
-      }
-    }
+    allowedHosts: true
   },
   resolve: {
     alias: {

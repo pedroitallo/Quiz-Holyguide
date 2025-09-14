@@ -75,6 +75,7 @@ export default function NameCollection({ onNameSubmit }) {
   const [nameSubmitted, setNameSubmitted] = useState(false);
   const [showGreatTyping, setShowGreatTyping] = useState(false);
   const [showGreatMessage, setShowGreatMessage] = useState(false);
+  const [showReadyButton, setShowReadyButton] = useState(false);
   const [showWeAllTyping, setShowWeAllTyping] = useState(false);
   const [showWeAllMessage, setShowWeAllMessage] = useState(false);
   const [showDateInput, setShowDateInput] = useState(false);
@@ -83,13 +84,19 @@ export default function NameCollection({ onNameSubmit }) {
   const [showFinalMessage, setShowFinalMessage] = useState(false);
 
   useEffect(() => {
-    // Start "Before" typing immediately
-    const timer = setTimeout(() => {
-      setShowBeforeTyping(true);
+    // First typing (1s) then first message
+    const timer1 = setTimeout(() => {
+      setShowFirstTyping(false);
+      setShowFirstMessage(true);
+      
+      // Start "Before" typing after first message
+      setTimeout(() => {
+        setShowBeforeTyping(true);
+      }, 500);
     }, 1000);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timer1);
     };
   }, []);
 
@@ -125,16 +132,21 @@ export default function NameCollection({ onNameSubmit }) {
       const timer = setTimeout(() => {
         setShowGreatTyping(false);
         setShowGreatMessage(true);
-        
-        // Auto proceed to "We all have" after showing great message
-        setTimeout(() => {
-          setShowWeAllTyping(true);
-        }, 2000); // 2s after great message appears
+        setShowReadyButton(true);
       }, 1000);
 
       return () => clearTimeout(timer);
     }
   }, [showGreatTyping]);
+
+  const handleReadyClick = () => {
+    setShowReadyButton(false);
+    
+    // Show "We all have" typing
+    setTimeout(() => {
+      setShowWeAllTyping(true);
+    }, 500);
+  };
 
   useEffect(() => {
     if (showWeAllTyping) {
@@ -178,14 +190,6 @@ export default function NameCollection({ onNameSubmit }) {
     const zodiacSign = getZodiacSign(selectedMonth, selectedDay);
     const birthDate = `2000-${selectedMonth}-${selectedDay}`; // Using 2000 as default year
     
-    // Scroll to top before moving to next step
-    setTimeout(() => {
-      window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
-      });
-    }, 50);
-    
     onNameSubmit({
       name: name.trim(),
       birth_date: birthDate,
@@ -199,18 +203,34 @@ export default function NameCollection({ onNameSubmit }) {
   const zodiacSign = selectedDay && selectedMonth ? getZodiacSign(selectedMonth, selectedDay) : "";
 
   return (
-    <div className="text-center py-2 min-h-[600px]">
-      {/* Reading Progress Card */}
-      <div className="mb-6">
-        <div className="bg-gradient-to-r from-purple-100 to-purple-50 border border-purple-200 rounded-full px-4 py-2 inline-block shadow-sm">
-          <p className="text-purple-700 text-sm font-medium">
-            ✨ Reading in progress, stay on this page.
-          </p>
+    <div className="text-center py-8 min-h-[600px]">
+      {/* CONTAINER FIXO PARA PRIMEIRA MENSAGEM */}
+      <div className="min-h-[120px] mb-6">
+        {/* First typing */}
+        <div className={`transition-opacity duration-300 ${showFirstTyping ? 'opacity-100' : 'opacity-0'} ${showFirstMessage ? 'hidden' : ''}`}>
+          <TypingIndicator />
+        </div>
+
+        {/* First message */}
+        <div className={`transition-opacity duration-300 ${showFirstMessage ? 'opacity-100' : 'opacity-0'} ${!showFirstMessage ? 'hidden' : ''}`}>
+          <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto">
+            <div className="flex items-start gap-3">
+              <img
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
+                alt="Madame Aura"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">
+                  In the next step, I will reveal everything I've just <strong>discovered about your soulmate!</strong>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* BEFORE TYPING */}
-      <div className="min-h-[120px] mb-4">
+      <div className="min-h-[120px] mb-2">
         <div className={`transition-opacity duration-300 ${showBeforeTyping ? 'opacity-100' : 'opacity-0'} ${showBeforeMessage ? 'hidden' : ''}`}>
           <TypingIndicator />
         </div>
@@ -220,14 +240,9 @@ export default function NameCollection({ onNameSubmit }) {
           <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-4">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   Before We Begin This Sacred Journey Of Love, <strong>What Is Your Name?</strong>
@@ -285,14 +300,9 @@ export default function NameCollection({ onNameSubmit }) {
           <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   It is a great pleasure to have you here, {name}. 
@@ -302,12 +312,33 @@ export default function NameCollection({ onNameSubmit }) {
               </div>
             </div>
           </div>
+
+          {/* YES BUTTON */}
+          {showReadyButton && (
+            <Button
+              onClick={handleReadyClick}
+              disabled={!showReadyButton}
+              className={`w-full max-w-sm md:w-auto font-bold rounded-full shadow-lg transition-all duration-300 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl ${
+                showReadyButton 
+                  ? "bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white hover:shadow-xl transform hover:scale-105" 
+                  : "bg-gray-400 text-gray-600 cursor-not-allowed"
+              }`}
+            >
+              YES! I am Ready!
+            </Button>
+          )}
         </div>
       </div>
 
       {/* USER'S "YES! I am ready" MESSAGE */}
       <AnimatePresence>
-        {/* Removed user's ready message since there's no button anymore */}
+        {!showReadyButton && showGreatMessage && (
+          <div className="flex justify-end mb-4">
+            <div className="bg-purple-600 text-white p-3 rounded-xl max-w-xs mr-4">
+              <p className="text-base">YES! I am Ready!</p>
+            </div>
+          </div>
+        )}
       </AnimatePresence>
 
       {/* WE ALL TYPING */}
@@ -321,14 +352,9 @@ export default function NameCollection({ onNameSubmit }) {
           <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   We all have a <strong>divine soul from the day we are born</strong>. So, please enter your date of birth below so that <strong>I can visualize your soul mate</strong>.
@@ -427,14 +453,9 @@ export default function NameCollection({ onNameSubmit }) {
           <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto mb-6">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/7f64f63b1_CapturadeTela2025-09-07as232549.png"
+                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
                 alt="Madame Aura"
-                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                width="40"
-                height="40" />
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
                   Wow, that's amazing! You're a <strong>{zodiacSign}</strong>{zodiacSign === 'Capricorn' ? ' just like me' : ''}! The <strong>{zodiacSign}</strong> is one of the few signs that has a special sensitivity and connection with their soulmate. <strong>I feel like you're on the right path to meeting your Divine Soul.</strong>
