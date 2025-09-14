@@ -4,26 +4,8 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar, Heart, Sparkles, Shield, Clock } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
-import SalesSection from './SalesSection';
 
 export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
-  const [showSales, setShowSales] = useState(false);
-
-  // This useEffect handles timing for SalesSection and tracking pitch step view
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSales(true);
-      
-      // Track pitch step view when sales section appears
-      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-        HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e => 
-          console.warn("Failed to update pitch step view:", e)
-        );
-      }
-    }, 275000); // 4 minutes and 35 seconds = 275000ms
-
-    return () => clearTimeout(timer);
-  }, [quizResultId]);
 
   const handleCheckout = async () => {
     // Track checkout click IMMEDIATELY before any redirect
@@ -118,41 +100,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
     return dateString;
   };
 
+  // Track pitch step view when component mounts
   useEffect(() => {
-    // New script source and player ID - Updated VSL
-    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/68a204ee95de0adfa0e77121/v4/player.js";
-    const playerId = "vid-68a204ee95de0adfa0e77121";
-
-    if (document.querySelector(`script[src="${scriptSrc}"]`)) {
-      return;
+    if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
+      HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e => 
+        console.warn("Failed to update pitch step view:", e)
+      );
     }
-
-    console.log("Carregando script do VSL - PaywallStep montado");
-    const script = document.createElement("script");
-    script.src = scriptSrc;
-    script.async = true;
-    document.head.appendChild(script);
-
-    return () => {
-      console.log("Removendo script do VSL - PaywallStep desmontado");
-      const scriptElements = document.querySelectorAll(`script[src="${scriptSrc}"]`);
-      scriptElements.forEach((s) => {
-        if (document.head.contains(s)) {
-          document.head.removeChild(s);
-        }
-      });
-
-      const playerContainer = document.getElementById(playerId);
-      if (playerContainer) {
-        playerContainer.innerHTML = "";
-      }
-
-      // Limpar variáveis globais do player se existirem
-      if (window.smartplayer) {
-        delete window.smartplayer;
-      }
-    };
-  }, []);
+  }, [quizResultId]);
 
   return (
     <div className="text-center py-8">
@@ -188,28 +143,44 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             </CardContent>
         </Card>
 
-        <div className="mb-2 shadow-lg rounded-xl overflow-hidden bg-gray-200 min-h-[300px] flex items-center justify-center">
-          <vturb-smartplayer
-            id="vid-68a204ee95de0adfa0e77121"
-            style={{
-              display: 'block',
-              margin: '0 auto',
-              width: '100%',
-              maxWidth: '400px',
-              minHeight: '250px'
-            }}>
-          </vturb-smartplayer>
+        <div className="bg-gradient-to-br from-purple-50 to-white p-6 rounded-xl shadow-sm border border-purple-100 mb-8">
+          <div className="text-center space-y-4">
+            <h2 className="text-2xl font-bold text-gray-800">Your Divine Soul Drawing Is Ready!</h2>
+            <p className="text-gray-600 text-lg">
+              Based on your birth chart and spiritual energy, I have prepared a personalized drawing of your soulmate.
+            </p>
+            <div className="flex items-center justify-center gap-2 text-purple-600">
+              <Sparkles className="w-5 h-5" />
+              <span className="font-semibold">Complete revelation includes:</span>
+            </div>
+            <ul className="text-left max-w-md mx-auto space-y-2 text-gray-700">
+              <li className="flex items-center gap-2">
+                <Heart className="w-4 h-4 text-red-500" />
+                Your soulmate's detailed drawing
+              </li>
+              <li className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-blue-500" />
+                When and where you'll meet
+              </li>
+              <li className="flex items-center gap-2">
+                <User className="w-4 h-4 text-green-500" />
+                Their personality and characteristics
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {showSales && (
-          <SalesSection 
-            userName={userName}
-            birthDate={birthDate}
-            quizResultId={quizResultId}
-            src={src}
-            onCheckout={handleCheckout}
-          />
-        )}
+        <div className="text-center">
+          <button
+            onClick={handleCheckout}
+            className="w-full max-w-md bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-8 rounded-full text-xl shadow-2xl transform transition-all duration-300 hover:scale-105 animate-pulse"
+          >
+            🎨 Get My Divine Soul Drawing Now
+          </button>
+          <p className="text-sm text-gray-500 mt-4">
+            ✨ Instant access to your complete spiritual revelation
+          </p>
+        </div>
       </motion.div>
     </div>
   );
