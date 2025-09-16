@@ -5,6 +5,7 @@ Esta pasta contém componentes que são específicos para o funil `/funnel-tt` e
 ## Estrutura
 
 - `VideoStepTt.jsx` - Versão customizada do VideoStep para o funnel-tt
+- `PaywallStepTt.jsx` - Versão customizada do PaywallStep para o funnel-tt
 - Futuros componentes específicos do TT devem ser adicionados aqui
 
 ## Como usar
@@ -18,7 +19,7 @@ Esta pasta contém componentes que são específicos para o funil `/funnel-tt` e
 
 ```javascript
 import VideoStepTt from "../components/quiz/funnel-tt/VideoStepTt";
-import TestimonialsCarouselTt from "../components/quiz/funnel-tt/TestimonialsCarouselTt";
+import PaywallStepTt from "../components/quiz/funnel-tt/PaywallStepTt";
 ```
 
 Isso mantém o código organizado e evita conflitos entre os diferentes funis.

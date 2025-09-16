@@ -11,15 +11,15 @@ export default function VideoStepTt({ onContinue }) {
   }, []);
 
   useEffect(() => {
-    // CARREGAR O SCRIPT DO PLAYER APENAS QUANDO ESTE COMPONENTE ESTÁ MONTADO
-    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/6887d876e08b97c1c6617aab/v4/player.js";
+    // VSL inicial específica do funnel-tt
+    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/68c9cd3fad75e9d1ba465f49/v4/player.js";
 
     // Verificar se o script já existe
     if (document.querySelector(`script[src="${scriptSrc}"]`)) {
       return;
     }
 
-    console.log("Carregando script do VSL - VideoStepTt montado");
+    console.log("Carregando script do VSL inicial - VideoStepTt montado");
     const script = document.createElement("script");
     script.src = scriptSrc;
     script.async = true;
@@ -27,7 +27,7 @@ export default function VideoStepTt({ onContinue }) {
 
     return () => {
       // CLEANUP COMPLETO QUANDO ESTE COMPONENTE É DESMONTADO
-      console.log("Removendo script do VSL - VideoStepTt desmontado");
+      console.log("Removendo script do VSL inicial - VideoStepTt desmontado");
       const scriptElements = document.querySelectorAll(`script[src="${scriptSrc}"]`);
       scriptElements.forEach((s) => {
         if (document.head.contains(s)) {
@@ -36,7 +36,7 @@ export default function VideoStepTt({ onContinue }) {
       });
 
       // Limpar o container do player
-      const playerContainer = document.getElementById("vid-6887d876e08b97c1c6617aab");
+      const playerContainer = document.getElementById("vid-68c9cd3fad75e9d1ba465f49");
       if (playerContainer) {
         playerContainer.innerHTML = "";
       }
@@ -64,7 +64,7 @@ export default function VideoStepTt({ onContinue }) {
         <div className="mb-8 w-full max-w-lg mx-auto">
           <div className="shadow-lg rounded-xl overflow-hidden">
             <vturb-smartplayer
-              id="vid-6887d876e08b97c1c6617aab"
+              id="vid-68c9cd3fad75e9d1ba465f49"
               style={{
                 display: 'block',
                 margin: '0 auto',

@@ -6,6 +6,7 @@ import StepTracker from '../components/quiz/StepTracker';
 
 // Carregar componentes específicos do funnel-tt
 import VideoStepTt from "../components/quiz/funnel-tt/VideoStepTt";
+import PaywallStepTt from "../components/quiz/funnel-tt/PaywallStepTt";
 // Componentes compartilhados
 import NameCollection from "../components/quiz/NameCollection";
 import BirthDataCollection from "../components/quiz/BirthDataCollection";
@@ -13,7 +14,6 @@ import LoveSituationStep from "../components/quiz/LoveSituationStep";
 import PalmReadingResults from "../components/quiz/PalmReadingResults";
 import LoadingRevelation from "../components/quiz/LoadingRevelation";
 import TestimonialsCarousel from "../components/quiz/TestimonialsCarousel";
-import PaywallStep from "../components/quiz/PaywallStep";
 import ThankYouStep from "../components/quiz/ThankYouStep";
 
 export default function FunnelTtPage() {
@@ -175,7 +175,7 @@ export default function FunnelTtPage() {
           {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
           {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
           {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 8 && <PaywallStepTt userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
           {currentStep === 9 && <ThankYouStep userName={formData.name} />}
         </div>
       </div>
