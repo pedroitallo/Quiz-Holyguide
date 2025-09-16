@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 export default function Layout({ children, currentPageName }) {
   useEffect(() => {
@@ -21,6 +22,9 @@ export default function Layout({ children, currentPageName }) {
 
   return (
     <div style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none' }}>
+      <Helmet>
+        <script type="text/javascript" src="https://tkk.holyguide.online/track.js"></script>
+      </Helmet>
       <style>{`
         /* Critical CSS inline para melhorar FCP */
         .btn-primary { 
