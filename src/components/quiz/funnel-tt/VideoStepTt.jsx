@@ -55,12 +55,11 @@ export default function VideoStepTt({ onContinue }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}>
 
-        <h1 className="text-2xl mb-2 font-bold leading-tight">Descubra sua alma gêmea divina AGORA!
+        <h1 className="text-2xl mb-2 font-bold leading-tight">I will use my psychic abilities to reveal the face of your divine soul.
         </h1>
         
-        <p className="text-gray-600 text-base mb-6 max-w-2xl mx-auto leading-relaxed">Pressione play e veja por que mais de 10.000 pessoas confiam na Aura, a vidente #1 de Hollywood
+        <p className="text-gray-600 text-base mb-6 max-w-2xl mx-auto leading-relaxed">Press play and see why over 10,000 people trust Aura, Hollywood's number #1 psychic
         </p>
-        
         <div className="mb-8 w-full max-w-lg mx-auto">
           <div className="shadow-lg rounded-xl overflow-hidden">
             <vturb-smartplayer
