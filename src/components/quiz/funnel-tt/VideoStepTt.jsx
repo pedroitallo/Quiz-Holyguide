@@ -99,7 +99,7 @@ export default function VideoStepTt({ onContinue }) {
         
         {currentDate &&
         <p className="text-red-600 mt-4 text-xs animate-pulse">
-            ⏳ Esta leitura estará disponível até <strong>{currentDate}</strong>, apenas nesta página!
+            ⏳ This reading will be available until <strong>{currentDate}</strong>, only on this page!
           </p>
         }
       </motion.div>
