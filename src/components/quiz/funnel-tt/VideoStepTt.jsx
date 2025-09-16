@@ -92,7 +92,7 @@ export default function VideoStepTt({ onContinue }) {
               userSelect: 'none'
             }}
           >
-            Descobrir minha alma divina AGORA
+            Discover my divine soul
             <span className="ml-2">→</span>
           </button>
         </motion.div>
