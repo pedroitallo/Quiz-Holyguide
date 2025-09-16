@@ -79,7 +79,7 @@ export default function VideoStepTt({ onContinue }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}>
 
-          <p className="text-gray-700 text-sm mb-4 mx-auto max-w-sm leading-relaxed">⏳ Leva apenas 1 minuto
+          <p className="text-gray-700 text-sm mb-4 mx-auto max-w-sm leading-relaxed">⏳Takes just 1 minute
           </p>
 
           <button
