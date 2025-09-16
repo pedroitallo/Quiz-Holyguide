@@ -4,8 +4,9 @@ import { Stars, Moon, Heart, Sparkles, Loader2 } from "lucide-react";
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import StepTracker from '../components/quiz/StepTracker';
 
-// Carregar apenas o VideoStep imediatamente (primeira etapa)
-import VideoStep from "../components/quiz/VideoStep";
+// Carregar componentes específicos do funnel-tt
+import VideoStepTt from "../components/quiz/funnel-tt/VideoStepTt";
+// Componentes compartilhados
 import NameCollection from "../components/quiz/NameCollection";
 import BirthDataCollection from "../components/quiz/BirthDataCollection";
 import LoveSituationStep from "../components/quiz/LoveSituationStep";
@@ -167,7 +168,7 @@ export default function FunnelTtPage() {
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
         <div className="max-w-lg mx-auto">
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
-          {currentStep === 1 && <VideoStep onContinue={nextStep} />}
+          {currentStep === 1 && <VideoStepTt onContinue={nextStep} />}
           {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
           {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
           {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}

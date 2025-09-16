@@ -1,0 +1,109 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+export default function VideoStepTt({ onContinue }) {
+  const [currentDate, setCurrentDate] = useState('');
+
+  useEffect(() => {
+    const today = new Date();
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    setCurrentDate(today.toLocaleDateString('en-US', options));
+  }, []);
+
+  useEffect(() => {
+    // CARREGAR O SCRIPT DO PLAYER APENAS QUANDO ESTE COMPONENTE ESTÁ MONTADO
+    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/6887d876e08b97c1c6617aab/v4/player.js";
+
+    // Verificar se o script já existe
+    if (document.querySelector(`script[src="${scriptSrc}"]`)) {
+      return;
+    }
+
+    console.log("Carregando script do VSL - VideoStepTt montado");
+    const script = document.createElement("script");
+    script.src = scriptSrc;
+    script.async = true;
+    document.head.appendChild(script);
+
+    return () => {
+      // CLEANUP COMPLETO QUANDO ESTE COMPONENTE É DESMONTADO
+      console.log("Removendo script do VSL - VideoStepTt desmontado");
+      const scriptElements = document.querySelectorAll(`script[src="${scriptSrc}"]`);
+      scriptElements.forEach((s) => {
+        if (document.head.contains(s)) {
+          document.head.removeChild(s);
+        }
+      });
+
+      // Limpar o container do player
+      const playerContainer = document.getElementById("vid-6887d876e08b97c1c6617aab");
+      if (playerContainer) {
+        playerContainer.innerHTML = "";
+      }
+
+      // Limpar variáveis globais do player se existirem
+      if (window.smartplayer) {
+        delete window.smartplayer;
+      }
+    };
+  }, []); // Este useEffect roda apenas quando o VideoStepTt é montado/desmontado
+
+  return (
+    <div className="text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}>
+
+        <h1 className="text-2xl mb-2 font-bold leading-tight">Descubra sua alma gêmea divina AGORA!
+        </h1>
+        
+        <p className="text-gray-600 text-base mb-6 max-w-2xl mx-auto leading-relaxed">Pressione play e veja por que mais de 10.000 pessoas confiam na Aura, a vidente #1 de Hollywood
+        </p>
+        
+        <div className="mb-8 w-full max-w-lg mx-auto">
+          <div className="shadow-lg rounded-xl overflow-hidden">
+            <vturb-smartplayer
+              id="vid-6887d876e08b97c1c6617aab"
+              style={{
+                display: 'block',
+                margin: '0 auto',
+                width: '100%'
+              }}>
+            </vturb-smartplayer>
+          </div>
+        </div>
+        
+        {/* Texto e botão aparecem imediatamente - SEM DELAY */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}>
+
+          <p className="text-gray-700 text-sm mb-4 mx-auto max-w-sm leading-relaxed">⏳ Leva apenas 1 minuto
+          </p>
+
+          <button
+            onClick={onContinue} 
+            id="btn-startquiz-tt"
+            className="w-full max-w-sm md:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold whitespace-nowrap inline-flex items-center justify-center rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform active:scale-95 hover:scale-105 px-10 py-5 text-base md:px-16 md:py-6 md:text-lg animate-bounce-subtle cursor-pointer touch-manipulation"
+            style={{ 
+              WebkitTapHighlightColor: 'transparent',
+              touchAction: 'manipulation',
+              userSelect: 'none'
+            }}
+          >
+            Descobrir minha alma divina AGORA
+            <span className="ml-2">→</span>
+          </button>
+        </motion.div>
+        
+        {currentDate &&
+        <p className="text-red-600 mt-4 text-xs animate-pulse">
+            ⏳ Esta leitura estará disponível até <strong>{currentDate}</strong>, apenas nesta página!
+          </p>
+        }
+      </motion.div>
+    </div>);
+
+}
