@@ -40,8 +40,8 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
     // Execute tracking synchronously and then redirect
     trackCheckout().then(() => {
       try {
-        // Corrected URL: removed extra '}'
-        const checkoutUrl = "https://payments.securitysacred.online/checkout/184553763:1";
+        // URL específica para funnel-tt
+        const checkoutUrl = "https://tkk.holyguide.online/click";
         const url = new URL(checkoutUrl);
 
         // Use UTMIFY to get all UTM parameters
@@ -99,12 +99,12 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
       } catch (error) {
         console.error("Erro ao construir URL de checkout:", error);
         // Fallback para garantir que o usuário seja redirecionado mesmo em caso de erro
-        window.location.href = "https://payments.securitysacred.online/checkout/184553763:1";
+        window.location.href = "https://tkk.holyguide.online/click";
       }
     }).catch((error) => {
       console.error("Erro ao rastrear checkout, mas redirecionando mesmo assim:", error);
       // Se o tracking falhar, ainda assim redireciona
-      window.location.href = "https://payments.securitysacred.online/checkout/184553763:1";
+      window.location.href = "https://tkk.holyguide.online/click";
     });
   };
 
