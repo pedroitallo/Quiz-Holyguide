@@ -20,7 +20,7 @@ import { Button } from '@/components/ui/button';
 
 // Checkout configuration específica para funnel-tt
 const CHECKOUT_CONFIG = {
-  baseUrl: "https://tkk.holyguide.com/click"
+  baseUrl: "https://tkk.holyguide.online/click"
 };
 
 const TextOverlay = ({ name, date }) => {
