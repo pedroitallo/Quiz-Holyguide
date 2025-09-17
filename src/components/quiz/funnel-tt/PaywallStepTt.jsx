@@ -170,7 +170,7 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
                         <User className="w-4 h-4 text-purple-600" />
                     </div>
                     <div className="text-left">
-                        <p className="text-xs text-gray-500">Nome</p>
+                        <p className="text-xs text-gray-500">Name</p>
                         <p className="text-sm font-semibold text-gray-800">{userName || ''}</p>
                     </div>
                 </div>
@@ -180,7 +180,7 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
                         <Calendar className="w-4 h-4 text-purple-600" />
                     </div>
                     <div className="text-left">
-                        <p className="text-xs text-gray-500">Data de Nascimento</p>
+                        <p className="text-xs text-gray-500">Date of Birth</p>
                         <p className="text-sm font-semibold text-gray-800">{formatDate(birthDate)}</p>
                     </div>
                 </div>
