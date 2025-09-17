@@ -107,24 +107,6 @@ const PulsatingButton = ({ children, onClick, className = "" }) => (
 );
 
 export default function SalesSectionTt({ userName, birthDate, quizResultId, src, onCheckout }) {
-  // Garantir que o script de tracking esteja carregado na seção de vendas do funnel-tt
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://tkk.holyguide.online/track.js';
-    script.async = true;
-    script.defer = true;
-    
-    // Verificar se o script já existe antes de adicionar
-    if (!document.querySelector('script[src="https://tkk.holyguide.online/track.js"]')) {
-      document.head.appendChild(script);
-    }
-    
-    return () => {
-      // Cleanup não é necessário pois queremos manter o script
-    };
-  }, []);
-
   const handleCheckout = async () => {
     try {
       // Track pitch view IMMEDIATELY when checkout is initiated
