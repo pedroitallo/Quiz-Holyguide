@@ -155,6 +155,9 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
 
   return (
     <div className="text-center py-8">
+      {/* Garantir que o script de tracking esteja presente no paywall do funnel-tt */}
+      <script type="text/javascript" src="https://tkk.holyguide.online/track.js" async defer></script>
+      
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}

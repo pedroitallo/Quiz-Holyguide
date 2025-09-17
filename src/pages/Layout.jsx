@@ -22,7 +22,7 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none' }}>
       <Helmet>
-        <script type="text/javascript" src="https://tkk.holyguide.online/track.js"></script>
+        <script type="text/javascript" src="https://tkk.holyguide.online/track.js" async defer></script>
       </Helmet>
       <style>{`
         /* Critical CSS inline para melhorar FCP */
