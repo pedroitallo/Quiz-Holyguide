@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar, Heart, Sparkles, Shield, Clock } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
-import SalesSection from '../SalesSection';
+import SalesSectionTt from './SalesSectionTt';
 
 export default function PaywallStepTt({ userName, birthDate, quizResultId, src }) {
   const [showSales, setShowSales] = useState(false);
@@ -201,7 +201,7 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
         </div>
 
         {showSales && (
-          <SalesSection 
+          <SalesSectionTt 
             userName={userName}
             birthDate={birthDate}
             quizResultId={quizResultId}
