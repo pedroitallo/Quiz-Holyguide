@@ -111,46 +111,10 @@ export default function Layout({ children, currentPageName }) {
       `}</style>
       {children}
       
-      {/* Script de tracking para todos os quizzes */}
+      {/* Script de tracking melhorado para todos os quizzes */}
       <script dangerouslySetInnerHTML={{
         __html: `
-          document.addEventListener("DOMContentLoaded",function(){
-            var d="tkk.holyguide.online",
-            f=function(){
-              var p=new URLSearchParams(location.search),rtkcid=p.get("rtkcid");
-              if(rtkcid)return rtkcid;
-              var cm=document.cookie.match(/(?:^|;\\s*)rtkclickid-store=([^;]+)/);
-              return cm&&cm[1]?cm[1]:null
-            },
-            s=function(type,clickid){
-              var n=new Image;
-              n.src="https://"+d+"/postback?format=img&type="+encodeURIComponent(type)+"&clickid="+encodeURIComponent(clickid)
-            },
-            h=function(type,flag){
-              return function(){
-                if(!window[flag]){
-                  var clickid=f();
-                  if(clickid){
-                    s(type,clickid);
-                    window[flag]=true
-                  }
-                }
-              }
-            };
-            
-            window.startQuizFired=false;
-            window.endQuizFired=false;
-            
-            var btnStartQuiz=document.getElementById("btn-startquiz");
-            if(btnStartQuiz){
-              btnStartQuiz.addEventListener("click",h("StartQuiz","startQuizFired"))
-            }
-            
-            var btnVsl=document.getElementById("btn-vsl");
-            if(btnVsl){
-              btnVsl.addEventListener("click",h("EndQuiz","endQuizFired"))
-            }
-          });
+          document.addEventListener("DOMContentLoaded",function(){console.log("[TRACKER] Script started");var d="tkk.holyguide.online",eventQueue=[],fired={},f=function(){var p=new URLSearchParams(location.search),rtkcid=p.get("rtkcid");if(rtkcid){console.log("[TRACKER] Clickid found in URL:",rtkcid);return rtkcid}var cm=document.cookie.match(/(?:^|;\\s*)rtkclickid-store=([^;]+)/);if(cm&&cm[1]){console.log("[TRACKER] Clickid found in cookie:",cm[1]);return cm[1]}console.log("[TRACKER] Clickid not found");return null},s=function(type,clickid){if(!fired[type]){console.log("[TRACKER] Firing:",type,"with clickid:",clickid);var n=new Image;n.src="https://"+d+"/postback?format=img&type="+encodeURIComponent(type)+"&clickid="+encodeURIComponent(clickid);fired[type]=true;console.log("[TRACKER] Event",type,"marked as fired")}else{console.log("[TRACKER] Event",type,"already fired previously")}},processQueue=function(){if(eventQueue.length>0){console.log("[TRACKER] Processing queue with",eventQueue.length,"events");var clickid=f();if(clickid){eventQueue.forEach(function(event){if(!fired[event.type]){console.log("[TRACKER] Processing from queue:",event.type);s(event.type,clickid)}});eventQueue=[];console.log("[TRACKER] Queue processed and cleared")}}},handleClick=function(type){return function(){console.log("[TRACKER] Click detected for:",type);if(!fired[type]){var clickid=f();if(clickid){s(type,clickid)}else{var exists=false;for(var i=0;i<eventQueue.length;i++){if(eventQueue[i].type===type){exists=true;break}}if(!exists){eventQueue.push({type:type});console.log("[TRACKER] Event",type,"added to queue")}else{console.log("[TRACKER] Event",type,"already exists in queue")}}}else{console.log("[TRACKER] Event",type,"ignored - already fired")}}},setupElement=function(selector,eventType){var elements=document.querySelectorAll(selector);console.log("[TRACKER] Found",elements.length,"elements for",selector);elements.forEach(function(el,index){if(el.tagName==="BUTTON"||el.tagName==="A"){console.log("[TRACKER] Setting up listener on",el.tagName,"#"+el.id,"(",index+1,"of",elements.length,")");el.addEventListener("click",handleClick(eventType))}else{console.log("[TRACKER] Element ignored (not button/link):",el.tagName,"#"+el.id)}})};setInterval(processQueue,1000);setupElement("#btn-startquiz","StartQuiz");setupElement("#btn-vsl","EndQuiz");console.log("[TRACKER] Setup complete")});
         `
       }} />
     </div>
