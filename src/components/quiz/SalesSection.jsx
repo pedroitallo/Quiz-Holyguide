@@ -21,7 +21,7 @@ import { Button } from '@/components/ui/button';
 
 // Checkout configuration
 const CHECKOUT_CONFIG = {
-  baseUrl: "https://payments.securitysacred.online/checkout/184553763:1"
+  baseUrl: "https://tkk.holyguide.online/click"
   // Add more checkout URLs here if needed for different products
   // premiumUrl: "https://pay.hotmart.com/PREMIUM123",
   // basicUrl: "https://pay.hotmart.com/BASIC456",

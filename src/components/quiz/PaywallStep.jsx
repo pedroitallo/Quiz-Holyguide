@@ -1,10 +1,17 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar, Heart, Sparkles, Shield, Clock } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import SalesSection from './SalesSection';
+
+// Checkout configuration
+const CHECKOUT_CONFIG = {
+  baseUrl: "https://tkk.holyguide.online/click"
+  // Add more checkout URLs here if needed for different products
+  // premiumUrl: "https://pay.hotmart.com/PREMIUM123",
+  // basicUrl: "https://pay.hotmart.com/BASIC456",
+};
 
 export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
   const [showSales, setShowSales] = useState(false);
@@ -42,7 +49,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
     trackCheckout().then(() => {
       try {
         // Corrected URL: removed extra '}'
-        const checkoutUrl = "https://payments.securitysacred.online/checkout/184553763:1";
+        const checkoutUrl = CHECKOUT_CONFIG.baseUrl;
         const url = new URL(checkoutUrl);
 
         // Use UTMIFY to get all UTM parameters
@@ -100,12 +107,12 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
       } catch (error) {
         console.error("Erro ao construir URL de checkout:", error);
         // Fallback para garantir que o usuário seja redirecionado mesmo em caso de erro
-        window.location.href = "https://payments.securitysacred.online/checkout/184553763:1";
+        window.location.href = CHECKOUT_CONFIG.baseUrl;
       }
     }).catch((error) => {
       console.error("Erro ao rastrear checkout, mas redirecionando mesmo assim:", error);
       // Se o tracking falhar, ainda assim redireciona
-      window.location.href = "https://payments.securitysacred.online/checkout/184553763:1";
+      window.location.href = CHECKOUT_CONFIG.baseUrl;
     });
   };
 
