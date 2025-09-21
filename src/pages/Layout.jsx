@@ -46,10 +46,7 @@ export default function Layout({ children, currentPageName }) {
             })();
           `
         }} />
-        <noscript>
-          <img height="1" width="1" style={{display:'none'}} 
-               src="https://www.facebook.com/tr?id=1339007620920011&ev=PageView&noscript=1" />
-        </noscript>
+        <noscript>{`<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1339007620920011&ev=PageView&noscript=1" />`}</noscript>
         {/* End Meta Pixel Code */}
       </Helmet>
       
