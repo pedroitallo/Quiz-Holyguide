@@ -117,15 +117,6 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
   const { trackEndQuiz, trackFacebookEvent } = useTracking();
 
   const handleCheckout = async () => {
-    // Rastrear fim do quiz
-    trackEndQuiz();
-    
-    // Rastrear evento do Facebook Pixel
-    trackFacebookEvent('Purchase', {
-      currency: 'USD',
-      value: 29.00
-    });
-
     try {
       // Track pitch view IMMEDIATELY when checkout is initiated
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {

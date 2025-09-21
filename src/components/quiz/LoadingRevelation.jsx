@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import TypingIndicator from './TypingIndicator';
+import { useTracking } from '@/hooks/useTracking';
 
 export default function LoadingRevelation({ onContinue, userName, birthDate, quizResultId }) {
+  const { trackEndQuiz, trackFacebookEvent } = useTracking();
   const [userCity, setUserCity] = useState("your city");
   const [showFirstTyping, setShowFirstTyping] = useState(true);
   const [showFirstMessage, setShowFirstMessage] = useState(false);
@@ -13,6 +15,20 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
   const [showNextButton, setShowNextButton] = useState(false);
 
   const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
+
+  const handleContinue = () => {
+    // Rastrear fim do quiz
+    trackEndQuiz();
+    
+    // Rastrear evento do Facebook Pixel
+    trackFacebookEvent('Purchase', {
+      currency: 'USD',
+      value: 29.00
+    });
+    
+    // Continuar com a lógica original
+    onContinue();
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -190,7 +206,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
         className="mt-8">
 
           <button
-          onClick={onContinue}
+          onClick={handleContinue}
           className="btn-primary w-full max-w-sm md:w-auto">
             Discover the face of my divine soul
           </button>
