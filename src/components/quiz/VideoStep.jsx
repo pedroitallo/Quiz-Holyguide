@@ -1,9 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTracking } from '@/hooks/useTracking';
 
 export default function VideoStep({ onContinue }) {
   const [currentDate, setCurrentDate] = useState('');
+  const { trackStartQuiz, trackFacebookEvent } = useTracking();
 
   useEffect(() => {
     const today = new Date();
@@ -49,6 +51,17 @@ export default function VideoStep({ onContinue }) {
     };
   }, []); // Este useEffect roda apenas quando o VideoStep é montado/desmontado
 
+  const handleContinue = () => {
+    // Rastrear início do quiz
+    trackStartQuiz();
+    
+    // Rastrear evento do Facebook Pixel
+    trackFacebookEvent('InitiateCheckout');
+    
+    // Continuar com a lógica original
+    onContinue();
+  };
+
   return (
     <div className="text-center">
       <motion.div
@@ -85,8 +98,7 @@ export default function VideoStep({ onContinue }) {
           </p>
 
           <button
-            onClick={onContinue} 
-            id="btn-startquiz"
+            onClick={handleContinue}
             className="w-full max-w-sm md:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold whitespace-nowrap inline-flex items-center justify-center rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform active:scale-95 hover:scale-105 px-10 py-5 text-base md:px-16 md:py-6 md:text-lg animate-bounce-subtle cursor-pointer touch-manipulation"
             style={{ 
               WebkitTapHighlightColor: 'transparent',

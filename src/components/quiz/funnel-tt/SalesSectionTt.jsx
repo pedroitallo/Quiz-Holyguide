@@ -17,6 +17,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { ChevronDown, ChevronUp, Clock, Shield, UserCheck, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTracking } from '@/hooks/useTracking';
 
 // Checkout configuration específica para funnel-tt
 const CHECKOUT_CONFIG = {
@@ -99,7 +100,6 @@ const CountdownTimer = () => {
 const PulsatingButton = ({ children, onClick, className = "" }) => (
   <Button
     onClick={onClick}
-    id="btn-vsl"
     className={`checkout-button w-full max-w-2xl mx-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight ${className}`}
     style={{ minHeight: '70px' }}
   >
@@ -108,7 +108,18 @@ const PulsatingButton = ({ children, onClick, className = "" }) => (
 );
 
 export default function SalesSectionTt({ userName, birthDate, quizResultId, src, onCheckout }) {
+  const { trackEndQuiz, trackFacebookEvent } = useTracking();
+
   const handleCheckout = async () => {
+    // Rastrear fim do quiz
+    trackEndQuiz();
+    
+    // Rastrear evento do Facebook Pixel
+    trackFacebookEvent('Purchase', {
+      currency: 'USD',
+      value: 29.00
+    });
+
     try {
       // Track pitch view IMMEDIATELY when checkout is initiated
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {

@@ -43,6 +43,7 @@ export default function Layout({ children, currentPageName }) {
         }} />
         {/* End Meta Pixel Code */}
       </Helmet>
+      
       <style>{`
         /* Critical CSS inline para melhorar FCP */
         .btn-primary { 
@@ -129,49 +130,6 @@ export default function Layout({ children, currentPageName }) {
         }
       `}</style>
       {children}
-      
-      {/* Script de tracking para todos os quizzes */}
-      <script dangerouslySetInnerHTML={{
-        __html: `
-          document.addEventListener("DOMContentLoaded",function(){
-            var d="tkk.holyguide.online",
-            f=function(){
-              var p=new URLSearchParams(location.search),rtkcid=p.get("rtkcid");
-              if(rtkcid)return rtkcid;
-              var cm=document.cookie.match(/(?:^|;\\s*)rtkclickid-store=([^;]+)/);
-              return cm&&cm[1]?cm[1]:null
-            },
-            s=function(type,clickid){
-              var n=new Image;
-              n.src="https://"+d+"/postback?format=img&type="+encodeURIComponent(type)+"&clickid="+encodeURIComponent(clickid)
-            },
-            h=function(type,flag){
-              return function(){
-                if(!window[flag]){
-                  var clickid=f();
-                  if(clickid){
-                    s(type,clickid);
-                    window[flag]=true
-                  }
-                }
-              }
-            };
-            
-            window.startQuizFired=false;
-            window.endQuizFired=false;
-            
-            var btnStartQuiz=document.getElementById("btn-startquiz");
-            if(btnStartQuiz){
-              btnStartQuiz.addEventListener("click",h("StartQuiz","startQuizFired"))
-            }
-            
-            var btnVsl=document.getElementById("btn-vsl");
-            if(btnVsl){
-              btnVsl.addEventListener("click",h("EndQuiz","endQuizFired"))
-            }
-          });
-        `
-      }} />
     </div>
   );
 }
