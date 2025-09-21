@@ -104,6 +104,7 @@ const CountdownTimer = () => {
 const PulsatingButton = ({ children, onClick, className = "" }) => (
   <Button
     onClick={onClick}
+    id="btn-vsl"
     className={`checkout-button w-full max-w-2xl mx-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight ${className}`}
     style={{ minHeight: '70px' }}
   >

@@ -84,7 +84,7 @@ export default function VideoStepTt({ onContinue }) {
 
           <button
             onClick={onContinue} 
-            id="btn-startquiz-tt"
+            id="btn-startquiz"
             className="w-full max-w-sm md:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold whitespace-nowrap inline-flex items-center justify-center rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform active:scale-95 hover:scale-105 px-10 py-5 text-base md:px-16 md:py-6 md:text-lg animate-bounce-subtle cursor-pointer touch-manipulation"
             style={{ 
               WebkitTapHighlightColor: 'transparent',
