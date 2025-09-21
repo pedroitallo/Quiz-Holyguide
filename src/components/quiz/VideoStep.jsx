@@ -55,9 +55,6 @@ export default function VideoStep({ onContinue }) {
     // Rastrear início do quiz
     trackStartQuiz();
     
-    // Rastrear evento do Facebook Pixel
-    trackFacebookEvent('InitiateCheckout');
-    
     // Continuar com a lógica original
     onContinue();
   };

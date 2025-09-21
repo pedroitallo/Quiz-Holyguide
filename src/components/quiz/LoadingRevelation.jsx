@@ -20,12 +20,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     // Rastrear fim do quiz
     trackEndQuiz();
     
-    // Rastrear evento do Facebook Pixel
-    trackFacebookEvent('Purchase', {
-      currency: 'USD',
-      value: 29.00
-    });
-    
     // Continuar com a lógica original
     onContinue();
   };
