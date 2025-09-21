@@ -80,12 +80,21 @@ export const useTracking = () => {
 
   // Função para rastrear eventos do Facebook Pixel
   const trackFacebookEvent = useCallback((eventName, parameters = {}) => {
-    if (typeof window.fbq === 'function') {
-      window.fbq('track', eventName, parameters);
-      console.log(`📘 Facebook Pixel: ${eventName} rastreado`, parameters);
-    } else {
-      console.warn('⚠️ Facebook Pixel não está disponível');
-    }
+    // Aguardar até que o Facebook Pixel esteja carregado
+    const attemptTrack = (attempts = 0) => {
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', eventName, parameters);
+        console.log(`📘 Facebook Pixel: ${eventName} rastreado`, parameters);
+      } else if (attempts < 10) {
+        // Tentar novamente após 100ms, até 10 tentativas (1 segundo total)
+        setTimeout(() => attemptTrack(attempts + 1), 100);
+      } else {
+        console.warn('⚠️ Facebook Pixel não está disponível após 1 segundo de tentativas');
+        console.warn('🔍 Verifique se o script foi carregado corretamente');
+      }
+    };
+    
+    attemptTrack();
   }, []);
 
   return {
