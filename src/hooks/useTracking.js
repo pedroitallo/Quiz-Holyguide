@@ -1,22 +1,6 @@
 import { useEffect, useCallback } from 'react';
 
 export const useTracking = () => {
-  useEffect(() => {
-    // Garantir que o script track.js seja carregado
-    if (!window.trackingLoaded) {
-      const script = document.createElement('script');
-      script.src = 'https://tkk.holyguide.online/track.js';
-      script.async = true;
-      script.onload = () => {
-        window.trackingLoaded = true;
-        console.log('✅ Script de rastreamento carregado');
-      };
-      script.onerror = () => {
-        console.error('❌ Erro ao carregar script de rastreamento');
-      };
-      document.head.appendChild(script);
-    }
-  }, []);
 
   // Função para obter o clickid (baseada no script original)
   const getClickId = useCallback(() => {
@@ -46,7 +30,8 @@ export const useTracking = () => {
 
   // Função para rastrear início do quiz
   const trackStartQuiz = useCallback(() => {
-    if (window.startQuizFired) {
+    // Verificar se já foi disparado nesta sessão
+    if (window.startQuizFired || sessionStorage.getItem('startQuizFired')) {
       console.log('⚠️ StartQuiz já foi disparado anteriormente');
       return;
     }
@@ -55,6 +40,7 @@ export const useTracking = () => {
     if (clickid) {
       sendPostback('StartQuiz', clickid);
       window.startQuizFired = true;
+      sessionStorage.setItem('startQuizFired', 'true');
       console.log('✅ StartQuiz rastreado com sucesso');
     } else {
       console.warn('⚠️ StartQuiz não rastreado: clickid não encontrado');
@@ -63,7 +49,8 @@ export const useTracking = () => {
 
   // Função para rastrear fim do quiz
   const trackEndQuiz = useCallback(() => {
-    if (window.endQuizFired) {
+    // Verificar se já foi disparado nesta sessão
+    if (window.endQuizFired || sessionStorage.getItem('endQuizFired')) {
       console.log('⚠️ EndQuiz já foi disparado anteriormente');
       return;
     }
@@ -72,6 +59,7 @@ export const useTracking = () => {
     if (clickid) {
       sendPostback('EndQuiz', clickid);
       window.endQuizFired = true;
+      sessionStorage.setItem('endQuizFired', 'true');
       console.log('✅ EndQuiz rastreado com sucesso');
     } else {
       console.warn('⚠️ EndQuiz não rastreado: clickid não encontrado');
