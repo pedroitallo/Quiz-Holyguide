@@ -19,46 +19,10 @@ export default function Layout({ children, currentPageName }) {
     };
   }, []);
 
-  // Carregar track.js apenas uma vez por sessão
-  useEffect(() => {
-    // Verificar se já foi carregado nesta sessão
-    if (window.trackScriptLoaded || sessionStorage.getItem('trackScriptLoaded')) {
-      console.log('🔄 Track.js já foi carregado nesta sessão');
-      return;
-    }
-
-    // Verificar se o script já existe no DOM
-    const existingScript = document.querySelector('script[src="https://tkk.holyguide.online/track.js"]');
-    if (existingScript) {
-      console.log('🔄 Track.js já existe no DOM');
-      window.trackScriptLoaded = true;
-      sessionStorage.setItem('trackScriptLoaded', 'true');
-      return;
-    }
-
-    console.log('🚀 Carregando track.js pela primeira vez...');
-    
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://tkk.holyguide.online/track.js';
-    script.async = true;
-    
-    script.onload = () => {
-      console.log('✅ Track.js carregado com sucesso');
-      window.trackScriptLoaded = true;
-      sessionStorage.setItem('trackScriptLoaded', 'true');
-    };
-    
-    script.onerror = () => {
-      console.error('❌ Erro ao carregar track.js');
-      // Não marcar como carregado em caso de erro para permitir retry
-    };
-    
-    document.head.appendChild(script);
-  }, []); // Array vazio garante que rode apenas uma vez
   return (
     <div style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none' }}>
       <Helmet>
+        <script type="text/javascript" src="https://tkk.holyguide.online/track.js"></script>
         {/* Meta Pixel Code */}
         <script dangerouslySetInnerHTML={{
           __html: `
