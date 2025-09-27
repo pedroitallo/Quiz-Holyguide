@@ -6,6 +6,7 @@ import Up1Soulmate from "./Up1Soulmate";
 import Up2Soulmate from "./Up2Soulmate";
 import Up3Soulmate from "./Up3Soulmate";
 import FunnelTt from "./funnel-tt";
+import FunnelVsl from "./funnel-vsl";
 import React, { lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
@@ -14,6 +15,7 @@ const PAGES = {
     "funnel-1": Funnel1,
     funnelesp: FunnelEsp,
     "funnel-tt": FunnelTt,
+    "funnel-vsl": FunnelVsl,
     "up1-soulmate": Up1Soulmate,
     "up2-soulmate": lazy(() => import("./Up2Soulmate")),
     "up3-soulmate": Up3Soulmate,
@@ -45,6 +47,7 @@ function PagesContent() {
                 <Route path="/funnel-1" element={<Funnel1 />} />
                 <Route path="/funnelesp" element={<FunnelEsp />} />
                 <Route path="/funnel-tt" element={<FunnelTt />} />
+                <Route path="/funnel-vsl" element={<FunnelVsl />} />
                 <Route path="/up1-soulmate" element={<Up1Soulmate />} />
                 <Route path="/up2-soulmate" element={<Up2Soulmate />} />
                 <Route path="/up3-soulmate" element={<Up3Soulmate />} />
