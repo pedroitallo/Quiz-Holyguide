@@ -10,6 +10,7 @@ import FunnelVsl from "./funnel-vsl";
 import Refund from "./Refund";
 import TermsOfService from "./TermsOfService";
 import Privacy from "./Privacy";
+import Pricing from "./Pricing";
 import React, { lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
@@ -22,6 +23,7 @@ const PAGES = {
     "up1-soulmate": Up1Soulmate,
     "up2-soulmate": lazy(() => import("./Up2Soulmate")),
     "up3-soulmate": Up3Soulmate,
+    pricing: Pricing,
     refund: Refund,
     "terms-of-service": TermsOfService,
     privacy: Privacy,
@@ -57,6 +59,7 @@ function PagesContent() {
                 <Route path="/up1-soulmate" element={<Up1Soulmate />} />
                 <Route path="/up2-soulmate" element={<Up2Soulmate />} />
                 <Route path="/up3-soulmate" element={<Up3Soulmate />} />
+                <Route path="/pricing" element={<Pricing />} />
                 <Route path="/refund" element={<Refund />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
                 <Route path="/privacy" element={<Privacy />} />
