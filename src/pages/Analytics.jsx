@@ -8,6 +8,7 @@ import { Input } from '../components/ui/input';
 import { LogOut, RefreshCw, Eye, ArrowRight, Calendar } from 'lucide-react';
 import { fetchFunnelAnalytics, fetchAllFunnelsAnalytics, getDateFilter } from '../utils/analyticsQueries';
 import ABTestDialog from '../components/analytics/ABTestDialog';
+import ComparisonDialog from '../components/analytics/ComparisonDialog';
 import { supabase } from '../lib/supabase';
 import { FlaskConical } from 'lucide-react';
 
@@ -166,6 +167,7 @@ export default function Analytics() {
           </div>
           <div className="flex gap-3">
             <ABTestDialog onTestChange={fetchAnalytics} />
+            <ComparisonDialog />
             <Button onClick={fetchAnalytics} variant="outline" className="gap-2">
               <RefreshCw className="w-4 h-4" />
               Atualizar
