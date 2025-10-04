@@ -56,6 +56,7 @@ function PagesContent() {
         return (
             <Routes>
                 <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin" element={<Analytics />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/analytics-ab" element={<AnalyticsAB />} />
             </Routes>
