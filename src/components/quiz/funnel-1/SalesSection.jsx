@@ -30,10 +30,10 @@ const CHECKOUT_CONFIG = {
 
 const TextOverlay = ({ name, date }) => {
   const formatDate = (dateString) => {
-    if (!dateString) return "2004-03-02";
+    if (!dateString) return "02/03";
     const [year, month, day] = dateString.split('-');
-    if (day && month && year) {
-      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    if (day && month) {
+      return `${day.padStart(2, '0')}/${month.padStart(2, '0')}`;
     }
     return dateString;
   };
