@@ -373,53 +373,55 @@ export default function Analytics() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {controlData.steps.map((step, index) => (
-                    <Card key={step.name} className="bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:shadow-md transition-shadow">
-                      <CardContent className="p-4">
-                        <div className="flex justify-between items-start mb-3">
-                          <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                              <span className="text-xs font-bold text-blue-600">{index + 1}</span>
-                            </div>
-                            <h3 className="text-sm font-semibold text-slate-900">{step.label}</h3>
-                          </div>
-                          <Eye className="w-4 h-4 text-blue-500" />
-                        </div>
-
-                        <div className="space-y-2">
-                          <div>
-                            <p className="text-xs text-slate-600 mb-1">Total de Views</p>
-                            <p className="text-2xl font-bold text-slate-900">{step.views}</p>
-                          </div>
-
-                          <div className="pt-2 border-t border-slate-200">
-                            <p className="text-xs text-slate-600 mb-1">Taxa de Visualização</p>
+                <div className="overflow-x-auto pb-4">
+                  <div className="flex gap-3 min-w-min">
+                    {controlData.steps.map((step, index) => (
+                      <Card key={step.name} className="bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:shadow-md transition-shadow flex-shrink-0 w-[240px]">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-3">
                             <div className="flex items-center gap-2">
-                              <div className="flex-1 bg-slate-200 rounded-full h-1.5">
-                                <div
-                                  className="bg-green-600 h-1.5 rounded-full transition-all"
-                                  style={{ width: `${Math.min(step.percentage, 100)}%` }}
-                                />
+                              <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                                <span className="text-xs font-bold text-blue-600">{index + 1}</span>
                               </div>
-                              <span className="text-xs font-bold text-slate-700 min-w-[2.5rem] text-right">
-                                {step.percentage.toFixed(1)}%
-                              </span>
+                              <h3 className="text-sm font-semibold text-slate-900">{step.label}</h3>
                             </div>
+                            <Eye className="w-4 h-4 text-blue-500" />
                           </div>
 
-                          {index < controlData.steps.length - 1 && step.views > 0 && (
-                            <div className="pt-2">
-                              <p className="text-xs text-slate-600 mb-1">Drop-off próxima etapa</p>
-                              <p className="text-sm font-semibold text-red-600">
-                                {step.dropOff?.toFixed(1)}%
-                              </p>
+                          <div className="space-y-2">
+                            <div>
+                              <p className="text-xs text-slate-600 mb-1">Total de Views</p>
+                              <p className="text-2xl font-bold text-slate-900">{step.views}</p>
                             </div>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+
+                            <div className="pt-2 border-t border-slate-200">
+                              <p className="text-xs text-slate-600 mb-1">Taxa de Visualização</p>
+                              <div className="flex items-center gap-2">
+                                <div className="flex-1 bg-slate-200 rounded-full h-1.5">
+                                  <div
+                                    className="bg-green-600 h-1.5 rounded-full transition-all"
+                                    style={{ width: `${Math.min(step.percentage, 100)}%` }}
+                                  />
+                                </div>
+                                <span className="text-xs font-bold text-slate-700 min-w-[2.5rem] text-right">
+                                  {step.percentage.toFixed(1)}%
+                                </span>
+                              </div>
+                            </div>
+
+                            {index < controlData.steps.length - 1 && step.views > 0 && (
+                              <div className="pt-2">
+                                <p className="text-xs text-slate-600 mb-1">Drop-off próxima etapa</p>
+                                <p className="text-sm font-semibold text-red-600">
+                                  {step.dropOff?.toFixed(1)}%
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -488,53 +490,55 @@ export default function Analytics() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {testData.steps.map((step, index) => (
-                    <Card key={step.name} className="bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:shadow-md transition-shadow">
-                      <CardContent className="p-4">
-                        <div className="flex justify-between items-start mb-3">
-                          <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center">
-                              <span className="text-xs font-bold text-purple-600">{index + 1}</span>
-                            </div>
-                            <h3 className="text-sm font-semibold text-slate-900">{step.label}</h3>
-                          </div>
-                          <Eye className="w-4 h-4 text-purple-500" />
-                        </div>
-
-                        <div className="space-y-2">
-                          <div>
-                            <p className="text-xs text-slate-600 mb-1">Total de Views</p>
-                            <p className="text-2xl font-bold text-slate-900">{step.views}</p>
-                          </div>
-
-                          <div className="pt-2 border-t border-slate-200">
-                            <p className="text-xs text-slate-600 mb-1">Taxa de Visualização</p>
+                <div className="overflow-x-auto pb-4">
+                  <div className="flex gap-3 min-w-min">
+                    {testData.steps.map((step, index) => (
+                      <Card key={step.name} className="bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:shadow-md transition-shadow flex-shrink-0 w-[240px]">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-3">
                             <div className="flex items-center gap-2">
-                              <div className="flex-1 bg-slate-200 rounded-full h-1.5">
-                                <div
-                                  className="bg-green-600 h-1.5 rounded-full transition-all"
-                                  style={{ width: `${Math.min(step.percentage, 100)}%` }}
-                                />
+                              <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center">
+                                <span className="text-xs font-bold text-purple-600">{index + 1}</span>
                               </div>
-                              <span className="text-xs font-bold text-slate-700 min-w-[2.5rem] text-right">
-                                {step.percentage.toFixed(1)}%
-                              </span>
+                              <h3 className="text-sm font-semibold text-slate-900">{step.label}</h3>
                             </div>
+                            <Eye className="w-4 h-4 text-purple-500" />
                           </div>
 
-                          {index < testData.steps.length - 1 && step.views > 0 && (
-                            <div className="pt-2">
-                              <p className="text-xs text-slate-600 mb-1">Drop-off próxima etapa</p>
-                              <p className="text-sm font-semibold text-red-600">
-                                {step.dropOff?.toFixed(1)}%
-                              </p>
+                          <div className="space-y-2">
+                            <div>
+                              <p className="text-xs text-slate-600 mb-1">Total de Views</p>
+                              <p className="text-2xl font-bold text-slate-900">{step.views}</p>
                             </div>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+
+                            <div className="pt-2 border-t border-slate-200">
+                              <p className="text-xs text-slate-600 mb-1">Taxa de Visualização</p>
+                              <div className="flex items-center gap-2">
+                                <div className="flex-1 bg-slate-200 rounded-full h-1.5">
+                                  <div
+                                    className="bg-green-600 h-1.5 rounded-full transition-all"
+                                    style={{ width: `${Math.min(step.percentage, 100)}%` }}
+                                  />
+                                </div>
+                                <span className="text-xs font-bold text-slate-700 min-w-[2.5rem] text-right">
+                                  {step.percentage.toFixed(1)}%
+                                </span>
+                              </div>
+                            </div>
+
+                            {index < testData.steps.length - 1 && step.views > 0 && (
+                              <div className="pt-2">
+                                <p className="text-xs text-slate-600 mb-1">Drop-off próxima etapa</p>
+                                <p className="text-sm font-semibold text-red-600">
+                                  {step.dropOff?.toFixed(1)}%
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
