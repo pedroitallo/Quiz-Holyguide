@@ -64,7 +64,15 @@ export const fetchFunnelAnalytics = async (funnelType, dateFilter) => {
     let query = supabase.from(tableName).select('*');
 
     if (dateFilter) {
-      query = query.gte('viewed_at', dateFilter);
+      if (typeof dateFilter === 'object' && dateFilter.start && dateFilter.end) {
+        query = query.gte('viewed_at', dateFilter.start).lte('viewed_at', dateFilter.end);
+      } else if (typeof dateFilter === 'object' && dateFilter.start) {
+        query = query.gte('viewed_at', dateFilter.start);
+      } else if (typeof dateFilter === 'object' && dateFilter.end) {
+        query = query.lte('viewed_at', dateFilter.end);
+      } else if (typeof dateFilter === 'string') {
+        query = query.gte('viewed_at', dateFilter);
+      }
     }
 
     const { data, error } = await query;

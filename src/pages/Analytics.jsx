@@ -4,7 +4,8 @@ import { useAdminAuth } from '../contexts/AdminAuthContext';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { LogOut, RefreshCw, Eye, ArrowRight } from 'lucide-react';
+import { Input } from '../components/ui/input';
+import { LogOut, RefreshCw, Eye, ArrowRight, Calendar } from 'lucide-react';
 import { fetchFunnelAnalytics, fetchAllFunnelsAnalytics, getDateFilter } from '../utils/analyticsQueries';
 
 const FUNNEL_OPTIONS = [
@@ -20,6 +21,7 @@ const DATE_RANGES = [
   { value: '7days', label: 'Últimos 7 dias' },
   { value: '30days', label: 'Últimos 30 dias' },
   { value: 'all', label: 'Todo período' },
+  { value: 'custom', label: 'Personalizado' },
 ];
 
 export default function Analytics() {
@@ -28,6 +30,8 @@ export default function Analytics() {
   const [loading, setLoading] = useState(true);
   const [selectedFunnel, setSelectedFunnel] = useState('funnel-1');
   const [selectedDateRange, setSelectedDateRange] = useState('today');
+  const [customStartDate, setCustomStartDate] = useState('');
+  const [customEndDate, setCustomEndDate] = useState('');
   const [analyticsData, setAnalyticsData] = useState({
     totalSessions: 0,
     startQuiz: 0,
@@ -48,12 +52,20 @@ export default function Analytics() {
     if (admin) {
       fetchAnalytics();
     }
-  }, [admin, selectedFunnel, selectedDateRange]);
+  }, [admin, selectedFunnel, selectedDateRange, customStartDate, customEndDate]);
 
   const fetchAnalytics = async () => {
     setLoading(true);
     try {
-      const dateFilter = getDateFilter(selectedDateRange);
+      let dateFilter;
+      if (selectedDateRange === 'custom') {
+        dateFilter = {
+          start: customStartDate ? new Date(customStartDate).toISOString() : null,
+          end: customEndDate ? new Date(customEndDate + 'T23:59:59').toISOString() : null,
+        };
+      } else {
+        dateFilter = getDateFilter(selectedDateRange);
+      }
 
       let data;
       if (selectedFunnel === 'all') {
@@ -155,6 +167,36 @@ export default function Analytics() {
                 </SelectContent>
               </Select>
             </div>
+            {selectedDateRange === 'custom' && (
+              <>
+                <div className="flex-1 min-w-[180px]">
+                  <label className="text-sm font-medium text-slate-700 mb-2 block">
+                    Data Início
+                  </label>
+                  <div className="relative">
+                    <Input
+                      type="date"
+                      value={customStartDate}
+                      onChange={(e) => setCustomStartDate(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+                <div className="flex-1 min-w-[180px]">
+                  <label className="text-sm font-medium text-slate-700 mb-2 block">
+                    Data Fim
+                  </label>
+                  <div className="relative">
+                    <Input
+                      type="date"
+                      value={customEndDate}
+                      onChange={(e) => setCustomEndDate(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
             <div className="flex flex-col justify-end">
               <div className="text-sm text-slate-600 bg-white px-4 py-2 rounded-md border">
                 {getCurrentDate()}
