@@ -47,7 +47,7 @@ export default function Dashboard() {
 
     const [upsellData, setUpsellData] = useState([]);
 
-    // Definir as etapas específicas para cada funil com os novos nomes baseados em visualizações
+    // Definir as etapas reais do quiz conforme implementadas no funnel-1
     const getFunnelSteps = (funnelType) => {
         switch (funnelType) {
             case 'funnel-1':
@@ -55,11 +55,11 @@ export default function Dashboard() {
                     { name: 'Visitantes', field: 'total' },
                     { name: 'Vídeo', field: 'video_step_viewed' },
                     { name: 'Depoimentos', field: 'testimonials_step_viewed' },
-                    { name: 'Nome', field: 'name_step_viewed' },
-                    { name: 'Data Nasc.', field: 'birth_step_viewed' },
-                    { name: 'Sit. Amor', field: 'love_step_viewed' },
-                    { name: 'Palma/Áudio', field: 'palm_step_viewed' },
-                    { name: 'Revelação', field: 'revelation_step_viewed' },
+                    { name: 'Nome', field: 'name_collection_step_viewed' },
+                    { name: 'Data Nasc.', field: 'birth_data_collection_step_viewed' },
+                    { name: 'Sit. Amor', field: 'love_situation_step_viewed' },
+                    { name: 'Leitura Palma', field: 'palm_reading_results_step_viewed' },
+                    { name: 'Revelação', field: 'loading_revelation_step_viewed' },
                     { name: 'Paywall', field: 'paywall_step_viewed' },
                     { name: 'Pitch', field: 'pitch_step_viewed' },
                     { name: 'Checkout', field: 'checkout_step_clicked' }
@@ -67,11 +67,11 @@ export default function Dashboard() {
             case 'funnel-2':
                 return [
                     { name: 'Visitantes', field: 'total' },
-                    { name: 'Nome', field: 'name_step_viewed' },
-                    { name: 'Data Nascimento', field: 'birth_step_viewed' },
-                    { name: 'Situação Amor', field: 'love_step_viewed' },
-                    { name: 'Leitura Palma', field: 'palm_step_viewed' },
-                    { name: 'Resultado Palma', field: 'revelation_step_viewed' },
+                    { name: 'Nome', field: 'name_collection_step_viewed' },
+                    { name: 'Data Nascimento', field: 'birth_data_collection_step_viewed' },
+                    { name: 'Situação Amor', field: 'love_situation_step_viewed' },
+                    { name: 'Leitura Palma', field: 'palm_reading_results_step_viewed' },
+                    { name: 'Revelação', field: 'loading_revelation_step_viewed' },
                     { name: 'Depoimentos', field: 'testimonials_step_viewed' },
                     { name: 'Paywall', field: 'paywall_step_viewed' },
                     { name: 'Pitch', field: 'pitch_step_viewed' },
@@ -80,21 +80,21 @@ export default function Dashboard() {
             case 'funnel-p3':
                 return [
                     { name: 'Visitantes', field: 'total' },
-                    { name: 'Leitura Palma', field: 'palm_step_viewed' },
+                    { name: 'Leitura Palma', field: 'palm_reading_results_step_viewed' },
                     { name: 'Paywall', field: 'paywall_step_viewed' },
                     { name: 'Pitch', field: 'pitch_step_viewed' },
                     { name: 'Checkout', field: 'checkout_step_clicked' }
                 ];
-            default: // 'all' 
+            default: // 'all'
                 return [
                     { name: 'Visitantes', field: 'total' },
                     { name: 'Vídeo', field: 'video_step_viewed' },
                     { name: 'Depoimentos', field: 'testimonials_step_viewed' },
-                    { name: 'Nome', field: 'name_step_viewed' },
-                    { name: 'Data Nascimento', field: 'birth_step_viewed' },
-                    { name: 'Situação Amor', field: 'love_step_viewed' },
-                    { name: 'Leitura Palma', field: 'palm_step_viewed' },
-                    { name: 'Revelação', field: 'revelation_step_viewed' },
+                    { name: 'Nome', field: 'name_collection_step_viewed' },
+                    { name: 'Data Nascimento', field: 'birth_data_collection_step_viewed' },
+                    { name: 'Situação Amor', field: 'love_situation_step_viewed' },
+                    { name: 'Leitura Palma', field: 'palm_reading_results_step_viewed' },
+                    { name: 'Revelação', field: 'loading_revelation_step_viewed' },
                     { name: 'Paywall', field: 'paywall_step_viewed' },
                     { name: 'Pitch', field: 'pitch_step_viewed' },
                     { name: 'Checkout', field: 'checkout_step_clicked' }
@@ -279,10 +279,10 @@ export default function Dashboard() {
     const calculateStats = (dataToProcess, salesToProcess, currentManualVendas, currentManualVisitantes, currentManualCheckout) => {
         const automaticVisitantes = dataToProcess.length;
         const totalVisitantes = currentManualVisitantes !== null ? currentManualVisitantes : automaticVisitantes;
-        
-        // 'Start Quiz' deve ser quem passou para a SEGUNDA etapa (Nome), não a primeira
+
+        // 'Start Quiz' deve ser quem passou para a etapa de Nome (name_collection_step_viewed)
         // Isso representa quantas pessoas realmente "iniciaram" o quiz após ver o vídeo
-        const startQuiz = dataToProcess.filter(item => item.name_step_viewed).length;
+        const startQuiz = dataToProcess.filter(item => item.name_collection_step_viewed).length;
 
         // Paywall é baseado na visualização da página do paywall
         const paywall = dataToProcess.filter(item => item.paywall_step_viewed).length;
@@ -1065,7 +1065,7 @@ export default function Dashboard() {
                                     <React.Fragment key={step.name}>
                                         <div className="flex flex-col items-center min-w-[120px] text-center">
                                             <p className="text-sm font-medium text-gray-600 mb-1 whitespace-nowrap">{step.name}</p>
-                                            <p className="text-xs text-gray-400 mb-2 font-mono">({step.field || 'total'})</p>
+                                            <p className="text-xs text-gray-400 mb-2 font-mono whitespace-nowrap">({step.field || 'total'})</p>
                                             <p className="text-3xl font-bold text-purple-600 mb-4">{step.count}</p>
                                             
                                             <div className="w-full space-y-2">
