@@ -114,7 +114,10 @@ export default function Analytics() {
     const startQuiz = videoStepViewed;
     const paywall = paywallViewed;
     const checkout = checkoutClicked;
-    const sales = Math.floor(checkoutClicked * 0.195); // 19.5% CVR como mostrado na imagem
+    
+    // Calcular vendas baseado nos dados reais (assumindo que temos um campo de vendas ou usando uma estimativa)
+    // Por enquanto, vamos usar 0 até termos dados reais de vendas
+    const sales = 0; // TODO: Implementar quando tivermos dados de vendas reais
     
     // Calcular percentuais
     const startQuizPercent = totalVisitors > 0 ? (startQuiz / totalVisitors * 100) : 0;
@@ -128,7 +131,7 @@ export default function Analytics() {
     const funnelSteps = [
       {
         name: 'Amor',
-        subtitle: 'viewed',
+        subtitle: 'love_situation_step_viewed',
         value: loveSituationViewed,
         retention: totalVisitors > 0 ? (loveSituationViewed / totalVisitors * 100) : 0,
         nextRetention: loveSituationViewed > 0 ? (palmReadingViewed / loveSituationViewed * 100) : 0,
@@ -136,7 +139,7 @@ export default function Analytics() {
       },
       {
         name: 'Leitura Palma',
-        subtitle: 'palm_step_viewed',
+        subtitle: 'palm_reading_results_step_viewed',
         value: palmReadingViewed,
         retention: totalVisitors > 0 ? (palmReadingViewed / totalVisitors * 100) : 0,
         nextRetention: palmReadingViewed > 0 ? (loadingRevelationViewed / palmReadingViewed * 100) : 0,
@@ -144,7 +147,7 @@ export default function Analytics() {
       },
       {
         name: 'Revelação',
-        subtitle: 'revelation_step_viewed',
+        subtitle: 'loading_revelation_step_viewed',
         value: loadingRevelationViewed,
         retention: totalVisitors > 0 ? (loadingRevelationViewed / totalVisitors * 100) : 0,
         nextRetention: loadingRevelationViewed > 0 ? (paywallViewed / loadingRevelationViewed * 100) : 0,
@@ -172,7 +175,8 @@ export default function Analytics() {
         subtitle: 'checkout_step_clicked',
         value: checkoutClicked,
         retention: totalVisitors > 0 ? (checkoutClicked / totalVisitors * 100) : 0,
-        cvr: checkoutClicked > 0 ? (sales / checkoutClicked * 100) : 19.5,
+        // CVR será calculado quando tivermos dados de vendas reais
+        cvr: 0, // TODO: Implementar quando tivermos dados de vendas
         color: 'purple'
       }
     ];
@@ -210,6 +214,15 @@ export default function Analytics() {
   const handleLogout = async () => {
     await logout();
     navigate('/admin/login');
+  };
+
+  const getCurrentDate = () => {
+    const now = new Date();
+    return now.toLocaleDateString('pt-BR', { 
+      day: '2-digit', 
+      month: '2-digit', 
+      year: '2-digit' 
+    });
   };
 
   if (authLoading || loading) {
@@ -282,7 +295,7 @@ export default function Analytics() {
               </Select>
             </div>
             <div className="text-sm text-slate-600 flex items-center">
-              19/08/25
+              {getCurrentDate()}
             </div>
           </CardContent>
         </Card>
@@ -297,7 +310,7 @@ export default function Analytics() {
                 <span className="text-sm text-slate-600">Total de Visitantes</span>
               </div>
               <div className="text-2xl font-bold">{analyticsData.totalVisitors}</div>
-              <div className="text-xs text-slate-500">Visitantes automáticos</div>
+              <div className="text-xs text-slate-500">Visitantes únicos</div>
             </CardContent>
           </Card>
 
@@ -337,7 +350,7 @@ export default function Analytics() {
                 <span className="text-sm text-slate-600">Checkout</span>
               </div>
               <div className="text-2xl font-bold text-orange-600">{analyticsData.checkout}</div>
-              <div className="text-xs text-slate-500">Manual (0 automáticos)</div>
+              <div className="text-xs text-slate-500">Cliques no checkout</div>
             </CardContent>
           </Card>
 
@@ -349,7 +362,7 @@ export default function Analytics() {
                 <span className="text-sm text-slate-600">Retenção</span>
               </div>
               <div className="text-2xl font-bold">{analyticsData.retention.toFixed(1)}%</div>
-              <div className="text-xs text-slate-500">Paywall / Start Quiz</div>
+              <div className="text-xs text-slate-500">Paywall / Visitantes</div>
             </CardContent>
           </Card>
 
@@ -373,7 +386,7 @@ export default function Analytics() {
                 <span className="text-sm text-slate-600">Vendas</span>
               </div>
               <div className="text-2xl font-bold text-green-600">{analyticsData.sales}</div>
-              <div className="text-xs text-slate-500">Manual (0 automáticas)</div>
+              <div className="text-xs text-slate-500">Vendas confirmadas</div>
             </CardContent>
           </Card>
 
@@ -385,7 +398,7 @@ export default function Analytics() {
                 <span className="text-sm text-slate-600">Conversão Geral</span>
               </div>
               <div className="text-2xl font-bold text-blue-600">{analyticsData.generalConversion.toFixed(1)}%</div>
-              <div className="text-xs text-slate-500">Vendas / Visitantes Totais</div>
+              <div className="text-xs text-slate-500">Vendas / Visitantes</div>
             </CardContent>
           </Card>
         </div>
@@ -393,7 +406,7 @@ export default function Analytics() {
         {/* Funnel Conversion */}
         <Card>
           <CardHeader>
-            <CardTitle>Funil de Conversão - Todos os Funis</CardTitle>
+            <CardTitle>Funil de Conversão - {selectedFunnel === 'all' ? 'Todos os Funis' : FUNNEL_OPTIONS.find(f => f.value === selectedFunnel)?.label}</CardTitle>
             <p className="text-sm text-slate-600">Visualize a jornada dos visitantes através de cada etapa do quiz</p>
           </CardHeader>
           <CardContent>
@@ -415,7 +428,7 @@ export default function Analytics() {
                           Pitch VSL {step.pitchVsl.toFixed(1)}%
                         </div>
                       )}
-                      {step.cvr && (
+                      {step.cvr !== undefined && (
                         <div className="text-xs text-blue-600 font-medium">
                           CVR {step.cvr.toFixed(1)}%
                         </div>
