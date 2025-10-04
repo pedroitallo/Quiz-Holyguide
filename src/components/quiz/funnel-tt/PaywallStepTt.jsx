@@ -5,7 +5,7 @@ import { User, Calendar, Heart, Sparkles, Shield, Clock } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import SalesSectionTt from './SalesSectionTt';
 
-export default function PaywallStepTt({ userName, birthDate, quizResultId, src }) {
+export default function PaywallStepTt({ userName, birthDate, quizResultId, src, onCheckoutRedirect }) {
   const [showSales, setShowSales] = useState(false);
 
   // This useEffect handles timing for SalesSection and tracking pitch step view
@@ -37,74 +37,16 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
       }
     };
 
-    // Execute tracking synchronously and then redirect
+    // Execute tracking and then show checkout step
     trackCheckout().then(() => {
-      try {
-        // URL específica para funnel-tt
-        const checkoutUrl = "https://tkk.holyguide.online/click";
-        const url = new URL(checkoutUrl);
-
-        // Use UTMIFY to get all UTM parameters
-        let allUtms = {};
-        
-        // Try to get UTMs from UTMIFY if available
-        if (typeof window !== 'undefined' && window.utmify) {
-          try {
-            allUtms = window.utmify.getUtms() || {};
-            console.log('UTMs from UTMIFY:', allUtms);
-          } catch (error) {
-            console.warn('Failed to get UTMs from UTMIFY:', error);
-          }
-        }
-        
-        // Fallback: get UTMs from URL if UTMIFY is not available
-        if (Object.keys(allUtms).length === 0) {
-          const currentUrl = new URL(window.location.href);
-          const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-          
-          utmParams.forEach(param => {
-            const value = currentUrl.searchParams.get(param);
-            if (value) {
-              allUtms[param] = value;
-            }
-          });
-          
-          // Also get other tracking parameters
-          const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'xcod'];
-          otherParams.forEach(param => {
-            const value = currentUrl.searchParams.get(param);
-            if (value) {
-              allUtms[param] = value;
-            }
-          });
-        }
-        
-        // Add all UTM parameters directly to the checkout URL
-        Object.keys(allUtms).forEach((key) => {
-          if (allUtms[key]) {
-            url.searchParams.set(key, allUtms[key]);
-          }
-        });
-        
-        // Adicionar quiz_result_id como parâmetro para conectar com o webhook
-        if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-          url.searchParams.set('quiz_result_id', quizResultId);
-        }
-
-        console.log('Redirecting to checkout:', url.toString());
-        // Limpar estado do quiz em andamento antes de redirecionar
-        localStorage.removeItem('holymind_quiz_state_funnel_tt');
-        localStorage.setItem('holymind_last_quiz_id', quizResultId);
-        window.location.href = url.toString();
-      } catch (error) {
-        console.error("Erro ao construir URL de checkout:", error);
-        // Fallback para garantir que o usuário seja redirecionado mesmo em caso de erro
-        window.location.href = "https://tkk.holyguide.online/click";
+      if (onCheckoutRedirect) {
+        onCheckoutRedirect();
       }
     }).catch((error) => {
-      console.error("Erro ao rastrear checkout, mas redirecionando mesmo assim:", error);
-      // Se o tracking falhar, ainda assim redireciona
-      window.location.href = "https://tkk.holyguide.online/click";
+      console.error("Erro ao rastrear checkout:", error);
+      if (onCheckoutRedirect) {
+        onCheckoutRedirect();
+      }
     });
   };
 
