@@ -8,10 +8,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { Users, Play, CreditCard, TrendingUp, Loader2, Calendar as CalendarIcon, Trash2 } from 'lucide-react';
+import { Users, Play, CreditCard, TrendingUp, Loader2, Calendar as CalendarIcon, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
 import { format, subDays } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import ABTestDialog from './ABTestDialog';
+import { supabase } from '@/lib/supabase';
 
 export default function Dashboard() {
     const [quizData, setQuizData] = useState([]);
@@ -42,6 +44,9 @@ export default function Dashboard() {
     });
 
     const [upsellData, setUpsellData] = useState([]);
+    const [activeABTest, setActiveABTest] = useState(null);
+    const [controlStats, setControlStats] = useState(null);
+    const [testStats, setTestStats] = useState(null);
 
     // Definir as etapas reais do quiz: início→nome→data→amor→reading→revelation→paywall
     const getFunnelSteps = (funnelType) => {
@@ -549,10 +554,134 @@ export default function Dashboard() {
         setTempCheckoutValue('');
     };
 
+    const loadActiveABTest = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('ab_tests')
+                .select('*')
+                .eq('status', 'active')
+                .order('created_at', { ascending: false })
+                .limit(1)
+                .maybeSingle();
+
+            if (error) throw error;
+
+            setActiveABTest(data);
+
+            if (data) {
+                await loadABTestStats(data);
+            } else {
+                setControlStats(null);
+                setTestStats(null);
+            }
+        } catch (error) {
+            console.error('Error loading active A/B test:', error);
+            setActiveABTest(null);
+            setControlStats(null);
+            setTestStats(null);
+        }
+    };
+
+    const loadABTestStats = async (test) => {
+        try {
+            const allResults = await QuizResult.filter(
+                { visitor_id: { $exists: true, $ne: null } },
+                '-created_date'
+            );
+            const allSales = await Sale.list('-created_date');
+
+            let controlData = allResults;
+            let testData = allResults;
+            let controlSales = allSales;
+            let testSales = allSales;
+
+            if (date?.from) {
+                const start = new Date(date.from);
+                const end = date.to ? new Date(date.to) : new Date(date.from);
+                start.setHours(0, 0, 0, 0);
+                end.setHours(23, 59, 59, 999);
+
+                controlData = allResults.filter(result => {
+                    const resultDate = new Date(result.created_date);
+                    return resultDate >= start && resultDate <= end && result.funnel_variant === test.control_funnel;
+                });
+
+                testData = allResults.filter(result => {
+                    const resultDate = new Date(result.created_date);
+                    return resultDate >= start && resultDate <= end && result.funnel_variant === test.test_funnel;
+                });
+
+                controlSales = allSales.filter(sale => {
+                    const saleDate = new Date(sale.created_date);
+                    return saleDate >= start && saleDate <= end && sale.src && sale.src.includes(test.control_funnel);
+                });
+
+                testSales = allSales.filter(sale => {
+                    const saleDate = new Date(sale.created_date);
+                    return saleDate >= start && saleDate <= end && sale.src && sale.src.includes(test.test_funnel);
+                });
+            } else {
+                controlData = allResults.filter(result => result.funnel_variant === test.control_funnel);
+                testData = allResults.filter(result => result.funnel_variant === test.test_funnel);
+                controlSales = allSales.filter(sale => sale.src && sale.src.includes(test.control_funnel));
+                testSales = allSales.filter(sale => sale.src && sale.src.includes(test.test_funnel));
+            }
+
+            const controlManualSales = await loadManualSalesForFunnel(test.control_funnel);
+            const testManualSales = await loadManualSalesForFunnel(test.test_funnel);
+            const controlManualCheckout = await loadManualCheckoutForFunnel(test.control_funnel);
+            const testManualCheckout = await loadManualCheckoutForFunnel(test.test_funnel);
+
+            setControlStats(calculateStats(controlData, controlSales, controlManualSales, controlManualCheckout));
+            setTestStats(calculateStats(testData, testSales, testManualSales, testManualCheckout));
+        } catch (error) {
+            console.error('Error loading A/B test stats:', error);
+        }
+    };
+
+    const loadManualSalesForFunnel = async (funnelVariant) => {
+        if (!date?.from) return null;
+        try {
+            const dateFrom = format(date.from, 'yyyy-MM-dd');
+            const dateTo = format(date.to || date.from, 'yyyy-MM-dd');
+            const manualSalesRecords = await ManualSales.filter({
+                date_from: dateFrom,
+                date_to: dateTo,
+                funnel_variant: funnelVariant
+            });
+            if (manualSalesRecords.length > 0) {
+                return manualSalesRecords.reduce((sum, record) => sum + (record.manual_sales_count || 0), 0);
+            }
+        } catch (error) {
+            console.warn("Erro ao carregar vendas manuais:", error);
+        }
+        return null;
+    };
+
+    const loadManualCheckoutForFunnel = async (funnelVariant) => {
+        if (!date?.from) return null;
+        try {
+            const dateFrom = format(date.from, 'yyyy-MM-dd');
+            const dateTo = format(date.to || date.from, 'yyyy-MM-dd');
+            const manualCheckoutRecords = await ManualCheckout.filter({
+                date_from: dateFrom,
+                date_to: dateTo,
+                funnel_variant: funnelVariant
+            });
+            if (manualCheckoutRecords.length > 0) {
+                return manualCheckoutRecords[0].manual_checkout_count;
+            }
+        } catch (error) {
+            console.warn("Erro ao carregar checkout manual:", error);
+        }
+        return null;
+    };
+
     // Initial load and reload on date/funnel change
     useEffect(() => {
         loadQuizData();
         loadUpsellData();
+        loadActiveABTest();
     }, [date, selectedFunnel]);
 
     // Auto-refresh a cada 30 segundos para métricas em tempo real
@@ -580,6 +709,25 @@ export default function Dashboard() {
         upJourneyViews: upsellData.filter(view => view.page_name === 'up-journey').length,
         upEnergyViews: upsellData.filter(view => view.page_name === 'up-energy').length,
         upLetterViews: upsellData.filter(view => view.page_name === 'up-letter').length
+    };
+
+    const renderComparison = (controlValue, testValue, isPercentage = false) => {
+        if (!activeABTest || controlStats === null || testStats === null) return null;
+
+        const control = parseFloat(controlValue);
+        const test = parseFloat(testValue);
+        const diff = test - control;
+        const percentDiff = control !== 0 ? ((diff / control) * 100) : 0;
+
+        if (diff === 0) return null;
+
+        return (
+            <div className={`flex items-center text-xs mt-1 ${diff > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {diff > 0 ? <ArrowUp className="w-3 h-3 mr-1" /> : <ArrowDown className="w-3 h-3 mr-1" />}
+                <span>{isPercentage ? `${Math.abs(diff).toFixed(1)}%` : Math.abs(diff)}</span>
+                <span className="ml-1">({percentDiff > 0 ? '+' : ''}{percentDiff.toFixed(1)}%)</span>
+            </div>
+        );
     };
 
     return (
@@ -666,8 +814,13 @@ export default function Dashboard() {
                             )}
                         </Button>
 
+                        <ABTestDialog onTestChange={loadActiveABTest} />
+
                         <Button
-                            onClick={loadQuizData}
+                            onClick={() => {
+                                loadQuizData();
+                                loadActiveABTest();
+                            }}
                             className="bg-purple-600 hover:bg-purple-700 text-white"
                             disabled={isLoading}
                         >
@@ -675,6 +828,20 @@ export default function Dashboard() {
                         </Button>
                     </div>
                 </div>
+
+                {/* A/B Test Active Banner */}
+                {activeABTest && (
+                    <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h3 className="font-semibold text-blue-900">Teste A/B Ativo: {activeABTest.name}</h3>
+                                <p className="text-sm text-blue-700 mt-1">
+                                    Comparando {activeABTest.control_funnel} (Controle) vs {activeABTest.test_funnel} (Teste)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Cards de Métricas */}
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-8 mb-8">
@@ -685,8 +852,9 @@ export default function Dashboard() {
                             <Users className="h-4 w-4 text-gray-500" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{totalVisitantes}</div>
+                            <div className="text-2xl font-bold text-black">{totalVisitantes}</div>
                             <p className="text-xs text-gray-500">Leads que iniciaram o quiz</p>
+                            {activeABTest && controlStats && testStats && renderComparison(controlStats.totalVisitantes, testStats.totalVisitantes)}
                         </CardContent>
                     </Card>
                     <Card>
@@ -695,10 +863,11 @@ export default function Dashboard() {
                             <Play className="h-4 w-4 text-gray-500" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{startQuiz}</div>
+                            <div className="text-2xl font-bold text-black">{startQuiz}</div>
                             <p className="text-xs text-gray-500">
                                 {totalVisitantes > 0 ? ((startQuiz / totalVisitantes) * 100).toFixed(1) : '0.0'}% dos visitantes
                             </p>
+                            {activeABTest && controlStats && testStats && renderComparison(controlStats.startQuiz, testStats.startQuiz)}
                         </CardContent>
                     </Card>
                     <Card>
@@ -707,10 +876,11 @@ export default function Dashboard() {
                             <CreditCard className="h-4 w-4 text-gray-500" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{paywall}</div>
+                            <div className="text-2xl font-bold text-black">{paywall}</div>
                             <p className="text-xs text-gray-500">
                                 {startQuiz > 0 ? ((paywall / startQuiz) * 100).toFixed(1) : '0.0'}% dos que iniciaram
                             </p>
+                            {activeABTest && controlStats && testStats && renderComparison(controlStats.paywall, testStats.paywall)}
                         </CardContent>
                     </Card>
                     {/* New Editable Card for Checkout */}
@@ -763,7 +933,7 @@ export default function Dashboard() {
                                 </div>
                             ) : (
                                 <>
-                                    <div className="text-2xl font-bold text-orange-600 flex items-center">
+                                    <div className="text-2xl font-bold text-black flex items-center">
                                         {checkout}
                                         <span className="text-xs ml-2 text-gray-400">✎</span>
                                     </div>
@@ -780,8 +950,9 @@ export default function Dashboard() {
                             <TrendingUp className="h-4 w-4 text-gray-500" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{retencao}%</div>
+                            <div className="text-2xl font-bold text-black">{retencao}%</div>
                             <p className="text-xs text-gray-500">Paywall / Start Quiz</p>
+                            {activeABTest && controlStats && testStats && renderComparison(controlStats.retencao, testStats.retencao, true)}
                         </CardContent>
                     </Card>
                     {/* New Card for Passagem */}
@@ -791,8 +962,9 @@ export default function Dashboard() {
                             <TrendingUp className="h-4 w-4 text-orange-600" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-orange-600">{passagem}%</div>
+                            <div className="text-2xl font-bold text-black">{passagem}%</div>
                             <p className="text-xs text-gray-500">Checkout / Paywall</p>
+                            {activeABTest && controlStats && testStats && renderComparison(controlStats.passagem, testStats.passagem, true)}
                         </CardContent>
                     </Card>
                     {/* Editable Card for Vendas - IMPROVED VERSION */}
@@ -845,7 +1017,7 @@ export default function Dashboard() {
                                 </div>
                             ) : (
                                 <>
-                                    <div className="text-2xl font-bold text-green-600 flex items-center">
+                                    <div className="text-2xl font-bold text-black flex items-center">
                                         {vendas}
                                         <span className="text-xs ml-2 text-gray-400">✎</span>
                                     </div>
@@ -863,22 +1035,122 @@ export default function Dashboard() {
                             <TrendingUp className="h-4 w-4 text-blue-600" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-blue-600">{conversao}%</div>
+                            <div className="text-2xl font-bold text-black">{conversao}%</div>
                             <p className="text-xs text-gray-500">Vendas / Visitantes Totais</p>
+                            {activeABTest && controlStats && testStats && renderComparison(controlStats.conversao, testStats.conversao, true)}
                         </CardContent>
                     </Card>
                 </div>
 
                 {/* Funil de Conversão */}
-                <Card className="mb-8">
-                    <CardHeader>
-                        <CardTitle>
-                            Funil de Conversão - {selectedFunnel === 'all' ? 'Todos os Funis' :
-                            selectedFunnel === 'funnel-1' ? 'Funil 1' :
-                            selectedFunnel === 'funnel-2' ? 'Funil 2' : 'Funil P3'}
-                        </CardTitle>
-                        <CardDescription>Visualize a jornada dos visitantes através de cada etapa do quiz</CardDescription>
-                    </CardHeader>
+                {activeABTest && controlStats && testStats ? (
+                    <div className="space-y-6 mb-8">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    Funil de Conversão - Controle ({activeABTest.control_funnel})
+                                </CardTitle>
+                                <CardDescription>Grupo de controle do teste A/B</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex justify-between overflow-x-auto p-4 space-x-4">
+                                    {controlStats.funnelWithMetrics.map((step, index) => {
+                                        const retentionColor = parseFloat(step.retentionPercentage) >= 50 ? 'bg-green-100 text-green-800' : parseFloat(step.retentionPercentage) >= 20 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800';
+                                        const nextStep = controlStats.funnelWithMetrics[index + 1];
+                                        let passageRate = null;
+                                        if (nextStep && step.count > 0) {
+                                            passageRate = ((nextStep.count / step.count) * 100).toFixed(1);
+                                        }
+                                        return (
+                                            <React.Fragment key={step.name}>
+                                                <div className="flex flex-col items-center min-w-[120px] text-center">
+                                                    <p className="text-sm font-medium text-gray-600 mb-1 whitespace-nowrap">{step.name}</p>
+                                                    <p className="text-3xl font-bold text-blue-600 mb-4">{step.count}</p>
+                                                    <div className="w-full space-y-2">
+                                                        <div className={`flex items-center justify-between text-xs p-1 rounded-md ${retentionColor}`}>
+                                                            <span className="font-semibold mr-1">Retenção</span>
+                                                            <span>{step.retentionPercentage}%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {nextStep && (
+                                                    <div className="flex flex-col items-center justify-center min-w-[80px]">
+                                                        <div className="text-center mb-2">
+                                                            <span className={`text-sm font-bold px-2 py-1 rounded ${parseFloat(passageRate) >= 75 ? 'bg-green-100 text-green-800' : parseFloat(passageRate) >= 50 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
+                                                                {passageRate}%
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex items-center">
+                                                            <div className="w-12 h-0.5 bg-gray-400"></div>
+                                                            <div className="w-0 h-0 border-l-4 border-l-gray-400 border-y-4 border-y-transparent"></div>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </React.Fragment>
+                                        );
+                                    })}
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    Funil de Conversão - Teste ({activeABTest.test_funnel})
+                                </CardTitle>
+                                <CardDescription>Variação de teste do teste A/B</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex justify-between overflow-x-auto p-4 space-x-4">
+                                    {testStats.funnelWithMetrics.map((step, index) => {
+                                        const retentionColor = parseFloat(step.retentionPercentage) >= 50 ? 'bg-green-100 text-green-800' : parseFloat(step.retentionPercentage) >= 20 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800';
+                                        const nextStep = testStats.funnelWithMetrics[index + 1];
+                                        let passageRate = null;
+                                        if (nextStep && step.count > 0) {
+                                            passageRate = ((nextStep.count / step.count) * 100).toFixed(1);
+                                        }
+                                        return (
+                                            <React.Fragment key={step.name}>
+                                                <div className="flex flex-col items-center min-w-[120px] text-center">
+                                                    <p className="text-sm font-medium text-gray-600 mb-1 whitespace-nowrap">{step.name}</p>
+                                                    <p className="text-3xl font-bold text-green-600 mb-4">{step.count}</p>
+                                                    <div className="w-full space-y-2">
+                                                        <div className={`flex items-center justify-between text-xs p-1 rounded-md ${retentionColor}`}>
+                                                            <span className="font-semibold mr-1">Retenção</span>
+                                                            <span>{step.retentionPercentage}%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {nextStep && (
+                                                    <div className="flex flex-col items-center justify-center min-w-[80px]">
+                                                        <div className="text-center mb-2">
+                                                            <span className={`text-sm font-bold px-2 py-1 rounded ${parseFloat(passageRate) >= 75 ? 'bg-green-100 text-green-800' : parseFloat(passageRate) >= 50 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
+                                                                {passageRate}%
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex items-center">
+                                                            <div className="w-12 h-0.5 bg-gray-400"></div>
+                                                            <div className="w-0 h-0 border-l-4 border-l-gray-400 border-y-4 border-y-transparent"></div>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </React.Fragment>
+                                        );
+                                    })}
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                ) : (
+                    <Card className="mb-8">
+                        <CardHeader>
+                            <CardTitle>
+                                Funil de Conversão - {selectedFunnel === 'all' ? 'Todos os Funis' :
+                                selectedFunnel === 'funnel-1' ? 'Funil 1' :
+                                selectedFunnel === 'funnel-2' ? 'Funil 2' : 'Funil P3'}
+                            </CardTitle>
+                            <CardDescription>Visualize a jornada dos visitantes através de cada etapa do quiz</CardDescription>
+                        </CardHeader>
                     <CardContent>
                         <div className="flex justify-between overflow-x-auto p-4 space-x-4">
                             {funnelWithMetrics.map((step, index) => {
@@ -939,7 +1211,8 @@ export default function Dashboard() {
                             <b>Como interpretar:</b> <b>Retenção</b> mostra a % de visitantes em relação ao total. <b>Percentual nas setas</b> mostra quantos % da etapa anterior avançaram para a próxima etapa.
                         </p>
                     </CardContent>
-                </Card>
+                    </Card>
+                )}
 
                 {/* Funil de Upsell Card */}
                 <Card className="mb-8">
