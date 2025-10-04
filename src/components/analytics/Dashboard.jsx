@@ -586,6 +586,15 @@ export default function Dashboard() {
 
     const loadABTestStats = async (test) => {
         try {
+            // Get control and test funnels (support both old and new format)
+            const controlFunnel = test.variant_a || test.control_funnel;
+            const testFunnel = test.variant_b || test.test_funnel;
+
+            if (!controlFunnel || !testFunnel) {
+                console.error('Test does not have valid variants');
+                return;
+            }
+
             const allResults = await QuizResult.filter(
                 { visitor_id: { $exists: true, $ne: null } },
                 '-created_date'
@@ -605,34 +614,34 @@ export default function Dashboard() {
 
                 controlData = allResults.filter(result => {
                     const resultDate = new Date(result.created_date);
-                    return resultDate >= start && resultDate <= end && result.funnel_variant === test.control_funnel;
+                    return resultDate >= start && resultDate <= end && result.funnel_variant === controlFunnel;
                 });
 
                 testData = allResults.filter(result => {
                     const resultDate = new Date(result.created_date);
-                    return resultDate >= start && resultDate <= end && result.funnel_variant === test.test_funnel;
+                    return resultDate >= start && resultDate <= end && result.funnel_variant === testFunnel;
                 });
 
                 controlSales = allSales.filter(sale => {
                     const saleDate = new Date(sale.created_date);
-                    return saleDate >= start && saleDate <= end && sale.src && sale.src.includes(test.control_funnel);
+                    return saleDate >= start && saleDate <= end && sale.src && sale.src.includes(controlFunnel);
                 });
 
                 testSales = allSales.filter(sale => {
                     const saleDate = new Date(sale.created_date);
-                    return saleDate >= start && saleDate <= end && sale.src && sale.src.includes(test.test_funnel);
+                    return saleDate >= start && saleDate <= end && sale.src && sale.src.includes(testFunnel);
                 });
             } else {
-                controlData = allResults.filter(result => result.funnel_variant === test.control_funnel);
-                testData = allResults.filter(result => result.funnel_variant === test.test_funnel);
-                controlSales = allSales.filter(sale => sale.src && sale.src.includes(test.control_funnel));
-                testSales = allSales.filter(sale => sale.src && sale.src.includes(test.test_funnel));
+                controlData = allResults.filter(result => result.funnel_variant === controlFunnel);
+                testData = allResults.filter(result => result.funnel_variant === testFunnel);
+                controlSales = allSales.filter(sale => sale.src && sale.src.includes(controlFunnel));
+                testSales = allSales.filter(sale => sale.src && sale.src.includes(testFunnel));
             }
 
-            const controlManualSales = await loadManualSalesForFunnel(test.control_funnel);
-            const testManualSales = await loadManualSalesForFunnel(test.test_funnel);
-            const controlManualCheckout = await loadManualCheckoutForFunnel(test.control_funnel);
-            const testManualCheckout = await loadManualCheckoutForFunnel(test.test_funnel);
+            const controlManualSales = await loadManualSalesForFunnel(controlFunnel);
+            const testManualSales = await loadManualSalesForFunnel(testFunnel);
+            const controlManualCheckout = await loadManualCheckoutForFunnel(controlFunnel);
+            const testManualCheckout = await loadManualCheckoutForFunnel(testFunnel);
 
             setControlStats(calculateStats(controlData, controlSales, controlManualSales, controlManualCheckout));
             setTestStats(calculateStats(testData, testSales, testManualSales, testManualCheckout));
@@ -845,7 +854,7 @@ export default function Dashboard() {
                             <div>
                                 <h3 className="font-semibold text-blue-900">Teste A/B Ativo: {activeABTest.name}</h3>
                                 <p className="text-sm text-blue-700 mt-1">
-                                    Comparando {activeABTest.control_funnel} (Controle) vs {activeABTest.test_funnel} (Teste)
+                                    Comparando {activeABTest.variant_a || activeABTest.control_funnel} (Variante A) vs {activeABTest.variant_b || activeABTest.test_funnel} (Variante B)
                                 </p>
                             </div>
                         </div>
@@ -1057,9 +1066,9 @@ export default function Dashboard() {
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
-                                    Funil de Conversão - Controle ({activeABTest.control_funnel})
+                                    Funil de Conversão - Variante A ({activeABTest.variant_a || activeABTest.control_funnel})
                                 </CardTitle>
-                                <CardDescription>Grupo de controle do teste A/B</CardDescription>
+                                <CardDescription>Variante A do teste A/B</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <div className="flex justify-between overflow-x-auto p-4 space-x-4">
@@ -1105,9 +1114,9 @@ export default function Dashboard() {
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
-                                    Funil de Conversão - Teste ({activeABTest.test_funnel})
+                                    Funil de Conversão - Variante B ({activeABTest.variant_b || activeABTest.test_funnel})
                                 </CardTitle>
-                                <CardDescription>Variação de teste do teste A/B</CardDescription>
+                                <CardDescription>Variante B do teste A/B</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <div className="flex justify-between overflow-x-auto p-4 space-x-4">
