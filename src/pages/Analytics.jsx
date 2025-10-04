@@ -121,7 +121,7 @@ export default function Analytics() {
             <p className="text-slate-600 mt-1">Acompanhe o desempenho de cada funil</p>
           </div>
           <div className="flex gap-3">
-            <Button onClick={() => navigate('/analytics-ab')} variant="outline" className="gap-2">
+            <Button onClick={() => window.location.href = '/analytics-ab'} variant="outline" className="gap-2">
               <FlaskConical className="w-4 h-4" />
               Testes A/B
             </Button>

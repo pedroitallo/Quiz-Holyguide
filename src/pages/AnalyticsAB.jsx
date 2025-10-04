@@ -203,7 +203,7 @@ export default function AnalyticsAB() {
       <div className="container mx-auto p-6 max-w-7xl">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-4">
-            <Button onClick={() => navigate('/admin')} variant="outline" size="icon">
+            <Button onClick={() => window.location.href = '/admin'} variant="outline" size="icon">
               <ArrowLeft className="w-4 h-4" />
             </Button>
             <div>
