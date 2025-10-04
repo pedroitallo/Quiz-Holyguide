@@ -61,13 +61,20 @@ export default function AnalyticsAB() {
 
   const loadTestStats = async (test) => {
     try {
+      console.log('🔍 Loading test stats for:', test.name, 'Test ID:', test.id);
+
       const dateFilter = {
         start: test.start_date,
         end: test.end_date || new Date().toISOString()
       };
 
+      console.log('📅 Date filter:', dateFilter);
+
       const controlAnalytics = await fetchFunnelAnalytics(test.control_funnel, dateFilter, test.id);
+      console.log('📊 Control analytics:', controlAnalytics);
+
       const testAnalytics = await fetchFunnelAnalytics(test.test_funnel, dateFilter, test.id);
+      console.log('📊 Test analytics:', testAnalytics);
 
       setControlStats({
         totalVisitantes: controlAnalytics.totalSessions,

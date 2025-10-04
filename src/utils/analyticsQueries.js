@@ -61,6 +61,10 @@ export const fetchFunnelAnalytics = async (funnelType, dateFilter, abTestId = nu
       throw new Error(`Invalid funnel type: ${funnelType}`);
     }
 
+    console.log(`🔎 Fetching analytics for ${funnelType} (table: ${tableName})`);
+    console.log(`   AB Test ID: ${abTestId || 'NONE (all data)'}`);
+    console.log(`   Date filter:`, dateFilter);
+
     let allData = [];
     let from = 0;
     const limit = 1000;
@@ -71,6 +75,7 @@ export const fetchFunnelAnalytics = async (funnelType, dateFilter, abTestId = nu
 
       if (abTestId) {
         query = query.eq('ab_test_id', abTestId);
+        console.log(`   ✓ Filtering by ab_test_id = ${abTestId}`);
       }
 
       if (dateFilter) {
@@ -87,6 +92,10 @@ export const fetchFunnelAnalytics = async (funnelType, dateFilter, abTestId = nu
 
       const { data, error } = await query;
 
+      if (from === 0) {
+        console.log(`   📦 First batch returned ${data?.length || 0} records`);
+      }
+
       if (error) throw error;
 
       if (data && data.length > 0) {
@@ -98,6 +107,7 @@ export const fetchFunnelAnalytics = async (funnelType, dateFilter, abTestId = nu
       }
     }
 
+    console.log(`   ✅ Total records fetched: ${allData.length}`);
     return processStepData(allData, funnelType);
   } catch (error) {
     console.error('Error fetching funnel analytics:', error);
