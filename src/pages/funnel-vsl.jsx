@@ -187,8 +187,8 @@ export default function FunnelVslPage() {
   const formatDate = (dateString) => {
     if (!dateString) return "Não informado";
     const [year, month, day] = dateString.split('-');
-    if (day && month && year) {
-        return `${day}/${month}/${year}`;
+    if (day && month) {
+        return `${day}/${month}`;
     }
     return dateString;
   };

@@ -27,11 +27,6 @@ const days = Array.from({ length: 31 }, (_, i) => {
   return { value: day.toString().padStart(2, '0'), label: day.toString() };
 });
 
-// Generate years from 2007 back to 1940
-const years = Array.from({ length: 2007 - 1939 }, (_, i) => {
-  const year = 2007 - i;
-  return { value: year.toString(), label: year.toString() };
-});
 
 const getZodiacSign = (dateString) => {
   if (!dateString) return "Signo"; // Placeholder if dateString is not provided
@@ -81,7 +76,6 @@ const getZodiacSign = (dateString) => {
 export default function BirthDataCollection({ onSubmit }) {
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showTyping, setShowTyping] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
@@ -103,12 +97,13 @@ export default function BirthDataCollection({ onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!selectedDay || !selectedMonth || !selectedYear) return;
+    if (!selectedDay || !selectedMonth) return;
 
     setIsSubmitting(true);
-    setShowForm(false); // Hide the form once submitted
+    setShowForm(false);
 
-    const birthDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+    const currentYear = new Date().getFullYear();
+    const birthDate = `${currentYear}-${selectedMonth}-${selectedDay}`;
     const sign = getZodiacSign(birthDate);
     setZodiacSign(sign);
 
@@ -128,7 +123,7 @@ export default function BirthDataCollection({ onSubmit }) {
     // The onSubmit call is now triggered by the "Continue" button after the second message
   };
 
-  const isFormValid = selectedDay && selectedMonth && selectedYear;
+  const isFormValid = selectedDay && selectedMonth;
 
   return (
     <div className="text-center py-8">
@@ -180,7 +175,7 @@ export default function BirthDataCollection({ onSubmit }) {
               Select your date of birth
             </label>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {/* Seletor de Dia */}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-600">Day</label>
@@ -220,26 +215,6 @@ export default function BirthDataCollection({ onSubmit }) {
                   </SelectContent>
                 </Select>
               </div>
-
-              {/* Seletor de Ano */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-600">Year</label>
-                <Select value={selectedYear} onValueChange={setSelectedYear}>
-                  <SelectTrigger className="border-2 border-purple-200 focus:border-purple-400 rounded-xl py-3">
-                    <SelectValue placeholder="Year ↓" />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-48">
-                    <div className="text-xs text-gray-500 px-2 py-1 border-b">
-                      ↓ Scroll to find your birth year ↓
-                    </div>
-                    {years.map((year) =>
-                      <SelectItem key={year.value} value={year.value}>
-                        {year.label}
-                      </SelectItem>
-                    )}
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
           </div>
 
@@ -272,7 +247,7 @@ export default function BirthDataCollection({ onSubmit }) {
       {isSubmitting &&
         <div className="flex justify-end mb-4">
           <div className="bg-purple-600 text-white p-3 rounded-xl max-w-xs mr-4">
-            <p className="text-base">{selectedMonth}/{selectedDay}/{selectedYear}</p>
+            <p className="text-base">{selectedDay}/{selectedMonth}</p>
           </div>
         </div>
       }
@@ -303,12 +278,15 @@ export default function BirthDataCollection({ onSubmit }) {
           {/* Botão Continue após a mensagem do signo */}
           <div className="mt-6">
             <Button
-              onClick={() => onSubmit({
-                birth_date: `${selectedYear}-${selectedMonth}-${selectedDay}`,
-                birth_day: selectedDay,
-                birth_month: selectedMonth,
-                birth_year: selectedYear
-              })}
+              onClick={() => {
+                const currentYear = new Date().getFullYear();
+                onSubmit({
+                  birth_date: `${currentYear}-${selectedMonth}-${selectedDay}`,
+                  birth_day: selectedDay,
+                  birth_month: selectedMonth,
+                  birth_year: currentYear.toString()
+                });
+              }}
               className="btn-primary">
               Continue
             </Button>
