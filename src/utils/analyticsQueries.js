@@ -5,6 +5,10 @@ const FUNNEL_TABLE_MAP = {
   'funnel-tt': 'step_views_funnel_tt',
   'funnel-vsl': 'step_views_funnel_vsl',
   'funnelesp': 'step_views_funnelesp',
+  'funnel-star2': 'step_views_funnel_star2',
+  'funnel-star3': 'step_views_funnel_star3',
+  'funnel-star4': 'step_views_funnel_star4',
+  'funnel-star5': 'step_views_funnel_star5',
 };
 
 const FUNNEL_STEPS = {
@@ -52,13 +56,63 @@ const FUNNEL_STEPS = {
     { key: 'paywall', label: 'Paywall' },
     { key: 'thank_you', label: 'Obrigado' },
   ],
+  'funnel-star2': [
+    { key: 'intro', label: 'Intro' },
+    { key: 'name', label: 'Nome' },
+    { key: 'birth', label: 'Nascimento' },
+    { key: 'love_situation', label: 'Situação Amorosa' },
+    { key: 'palm_reading', label: 'Leitura da Palma' },
+    { key: 'revelation', label: 'Revelação' },
+    { key: 'paywall', label: 'Paywall' },
+    { key: 'thank_you', label: 'Obrigado' },
+  ],
+  'funnel-star3': [
+    { key: 'intro', label: 'Intro' },
+    { key: 'name', label: 'Nome' },
+    { key: 'birth', label: 'Nascimento' },
+    { key: 'love_situation', label: 'Situação Amorosa' },
+    { key: 'palm_reading', label: 'Leitura da Palma' },
+    { key: 'revelation', label: 'Revelação' },
+    { key: 'paywall', label: 'Paywall' },
+    { key: 'thank_you', label: 'Obrigado' },
+  ],
+  'funnel-star4': [
+    { key: 'intro', label: 'Intro' },
+    { key: 'name', label: 'Nome' },
+    { key: 'birth', label: 'Nascimento' },
+    { key: 'love_situation', label: 'Situação Amorosa' },
+    { key: 'palm_reading', label: 'Leitura da Palma' },
+    { key: 'revelation', label: 'Revelação' },
+    { key: 'paywall', label: 'Paywall' },
+    { key: 'thank_you', label: 'Obrigado' },
+  ],
+  'funnel-star5': [
+    { key: 'intro', label: 'Intro' },
+    { key: 'name', label: 'Nome' },
+    { key: 'birth', label: 'Nascimento' },
+    { key: 'love_situation', label: 'Situação Amorosa' },
+    { key: 'palm_reading', label: 'Leitura da Palma' },
+    { key: 'revelation', label: 'Revelação' },
+    { key: 'paywall', label: 'Paywall' },
+    { key: 'thank_you', label: 'Obrigado' },
+  ],
 };
 
 export const fetchFunnelAnalytics = async (funnelType, dateFilter, abTestId = null) => {
   try {
     const tableName = FUNNEL_TABLE_MAP[funnelType];
     if (!tableName) {
-      throw new Error(`Invalid funnel type: ${funnelType}`);
+      console.error(`❌ Invalid funnel type: ${funnelType}`);
+      console.error(`   Available funnels:`, Object.keys(FUNNEL_TABLE_MAP));
+      return {
+        totalSessions: 0,
+        startQuiz: 0,
+        endQuiz: 0,
+        startQuizRate: 0,
+        endQuizRate: 0,
+        retention: 0,
+        steps: [],
+      };
     }
 
     console.log(`🔎 Fetching analytics for ${funnelType} (table: ${tableName})`);
@@ -110,9 +164,15 @@ export const fetchFunnelAnalytics = async (funnelType, dateFilter, abTestId = nu
     console.log(`   ✅ Total records fetched: ${allData.length}`);
     return processStepData(allData, funnelType);
   } catch (error) {
-    console.error('Error fetching funnel analytics:', error);
+    console.error(`❌ Error fetching funnel analytics for ${funnelType}:`, error);
+    console.error(`   Error details:`, error.message);
     return {
       totalSessions: 0,
+      startQuiz: 0,
+      endQuiz: 0,
+      startQuizRate: 0,
+      endQuizRate: 0,
+      retention: 0,
       steps: [],
     };
   }
@@ -191,7 +251,20 @@ export const fetchAllFunnelsAnalytics = async (dateFilter, abTestId = null) => {
 
 const processStepData = (data, funnelType) => {
   const totalSessions = data.length;
-  const steps = FUNNEL_STEPS[funnelType] || [];
+  const steps = FUNNEL_STEPS[funnelType];
+
+  if (!steps) {
+    console.warn(`⚠️ No step configuration found for funnel type: ${funnelType}`);
+    return {
+      totalSessions,
+      startQuiz: 0,
+      endQuiz: 0,
+      startQuizRate: 0,
+      endQuizRate: 0,
+      retention: 0,
+      steps: [],
+    };
+  }
 
   const processedSteps = steps.map((step, index) => {
     const viewCount = data.filter(session => session[step.key] === true).length;
