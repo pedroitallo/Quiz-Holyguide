@@ -9,6 +9,43 @@ const getSessionId = () => {
   return sessionId;
 };
 
+const getActiveABTest = async (funnelType) => {
+  const cachedTestId = sessionStorage.getItem('ab_test_id');
+  const cachedFunnelType = sessionStorage.getItem('ab_test_funnel_type');
+
+  if (cachedTestId && cachedFunnelType === funnelType) {
+    return cachedTestId;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('ab_tests')
+      .select('id, control_funnel, test_funnel')
+      .eq('status', 'active')
+      .or(`control_funnel.eq.${funnelType},test_funnel.eq.${funnelType}`)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error fetching active A/B test:', error);
+      return null;
+    }
+
+    if (data) {
+      sessionStorage.setItem('ab_test_id', data.id);
+      sessionStorage.setItem('ab_test_funnel_type', funnelType);
+      console.log(`✅ Active A/B test found for ${funnelType}:`, data.id);
+      return data.id;
+    }
+
+    sessionStorage.removeItem('ab_test_id');
+    sessionStorage.removeItem('ab_test_funnel_type');
+    return null;
+  } catch (error) {
+    console.error('Failed to check for active A/B test:', error);
+    return null;
+  }
+};
+
 const getTableName = (funnelType) => {
   const tableMap = {
     'funnel-1': 'step_views_funnel_1',
@@ -34,6 +71,8 @@ export const trackStepView = async (funnelType, stepName) => {
       return;
     }
 
+    const abTestId = await getActiveABTest(funnelType);
+
     const { data: existingData, error: fetchError } = await supabase
       .from(tableName)
       .select('*')
@@ -51,6 +90,10 @@ export const trackStepView = async (funnelType, stepName) => {
         updated_at: new Date().toISOString(),
       };
 
+      if (abTestId && !existingData.ab_test_id) {
+        updateData.ab_test_id = abTestId;
+      }
+
       const { error: updateError } = await supabase
         .from(tableName)
         .update(updateData)
@@ -59,7 +102,7 @@ export const trackStepView = async (funnelType, stepName) => {
       if (updateError) {
         console.error('Error updating step view:', updateError);
       } else {
-        console.log(`✓ Tracked ${funnelType} - ${stepName}: true`);
+        console.log(`✓ Tracked ${funnelType} - ${stepName}: true${abTestId ? ` (Test: ${abTestId})` : ''}`);
       }
     } else {
       const insertData = {
@@ -68,6 +111,10 @@ export const trackStepView = async (funnelType, stepName) => {
         [stepName]: true,
       };
 
+      if (abTestId) {
+        insertData.ab_test_id = abTestId;
+      }
+
       const { error: insertError } = await supabase
         .from(tableName)
         .insert([insertData]);
@@ -75,7 +122,7 @@ export const trackStepView = async (funnelType, stepName) => {
       if (insertError) {
         console.error('Error inserting step view:', insertError);
       } else {
-        console.log(`✓ Created tracking for ${funnelType} - ${stepName}: true`);
+        console.log(`✓ Created tracking for ${funnelType} - ${stepName}: true${abTestId ? ` (Test: ${abTestId})` : ''}`);
       }
     }
   } catch (error) {

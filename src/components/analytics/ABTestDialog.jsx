@@ -11,7 +11,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { CalendarIcon, FlaskConical, Loader2, Play, Pause, Trash2, Eye, Edit } from 'lucide-react';
+import { CalendarIcon, FlaskConical, Loader2, Play, Pause, Trash2, Eye, Edit, RotateCcw } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 export default function ABTestDialog({ onTestChange }) {
@@ -204,6 +204,64 @@ export default function ABTestDialog({ onTestChange }) {
         } catch (error) {
             console.error('Error deleting test:', error);
             alert('Erro ao excluir teste');
+        }
+    };
+
+    const handleResetData = async (test) => {
+        const tablesToReset = [
+            'step_views_funnel_1',
+            'step_views_funnel_tt',
+            'step_views_funnel_vsl',
+            'step_views_funnelesp'
+        ];
+
+        const { data: countData } = await supabase
+            .from(tablesToReset[0])
+            .select('id', { count: 'exact', head: true })
+            .eq('ab_test_id', test.id);
+
+        let totalRecords = 0;
+        for (const table of tablesToReset) {
+            const { count } = await supabase
+                .from(table)
+                .select('id', { count: 'exact', head: true })
+                .eq('ab_test_id', test.id);
+            totalRecords += count || 0;
+        }
+
+        if (totalRecords === 0) {
+            alert('Não há dados para resetar neste teste.');
+            return;
+        }
+
+        const confirmMessage = `Tem certeza que deseja RESETAR os dados deste teste?\n\n` +
+            `Serão removidos ${totalRecords} registros vinculados a este teste específico.\n\n` +
+            `Os dados históricos dos funis ${test.control_funnel} e ${test.test_funnel} NÃO serão afetados.\n\n` +
+            `Esta ação não pode ser desfeita.`;
+
+        if (!confirm(confirmMessage)) return;
+
+        try {
+            let deletedCount = 0;
+            for (const table of tablesToReset) {
+                const { error, count } = await supabase
+                    .from(table)
+                    .delete({ count: 'exact' })
+                    .eq('ab_test_id', test.id);
+
+                if (error) {
+                    console.error(`Erro ao resetar ${table}:`, error);
+                } else {
+                    deletedCount += count || 0;
+                }
+            }
+
+            await loadTests();
+            if (onTestChange) onTestChange();
+            alert(`Dados do teste resetados com sucesso!\n${deletedCount} registros foram removidos.`);
+        } catch (error) {
+            console.error('Error resetting test data:', error);
+            alert('Erro ao resetar dados do teste');
         }
     };
 
@@ -401,6 +459,7 @@ export default function ABTestDialog({ onTestChange }) {
                                                     size="sm"
                                                     variant="outline"
                                                     onClick={() => handleEdit(test)}
+                                                    title="Editar teste"
                                                 >
                                                     <Edit className="w-4 h-4" />
                                                 </Button>
@@ -408,6 +467,7 @@ export default function ABTestDialog({ onTestChange }) {
                                                     size="sm"
                                                     variant="outline"
                                                     onClick={() => handlePause(test.id, test.status)}
+                                                    title={test.status === 'active' ? 'Pausar teste' : 'Retomar teste'}
                                                 >
                                                     {test.status === 'active' ? (
                                                         <Pause className="w-4 h-4" />
@@ -418,7 +478,17 @@ export default function ABTestDialog({ onTestChange }) {
                                                 <Button
                                                     size="sm"
                                                     variant="outline"
+                                                    onClick={() => handleResetData(test)}
+                                                    title="Resetar dados do teste"
+                                                    className="text-orange-600 hover:text-orange-700 hover:bg-orange-50"
+                                                >
+                                                    <RotateCcw className="w-4 h-4" />
+                                                </Button>
+                                                <Button
+                                                    size="sm"
+                                                    variant="outline"
                                                     onClick={() => handleComplete(test.id)}
+                                                    title="Finalizar teste"
                                                 >
                                                     Finalizar
                                                 </Button>
@@ -426,6 +496,7 @@ export default function ABTestDialog({ onTestChange }) {
                                                     size="sm"
                                                     variant="destructive"
                                                     onClick={() => handleDelete(test.id)}
+                                                    title="Excluir teste"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>

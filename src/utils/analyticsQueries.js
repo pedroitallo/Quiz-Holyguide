@@ -54,7 +54,7 @@ const FUNNEL_STEPS = {
   ],
 };
 
-export const fetchFunnelAnalytics = async (funnelType, dateFilter) => {
+export const fetchFunnelAnalytics = async (funnelType, dateFilter, abTestId = null) => {
   try {
     const tableName = FUNNEL_TABLE_MAP[funnelType];
     if (!tableName) {
@@ -68,6 +68,10 @@ export const fetchFunnelAnalytics = async (funnelType, dateFilter) => {
 
     while (hasMore) {
       let query = supabase.from(tableName).select('*').range(from, from + limit - 1);
+
+      if (abTestId) {
+        query = query.eq('ab_test_id', abTestId);
+      }
 
       if (dateFilter) {
         if (typeof dateFilter === 'object' && dateFilter.start && dateFilter.end) {
@@ -104,11 +108,11 @@ export const fetchFunnelAnalytics = async (funnelType, dateFilter) => {
   }
 };
 
-export const fetchAllFunnelsAnalytics = async (dateFilter) => {
+export const fetchAllFunnelsAnalytics = async (dateFilter, abTestId = null) => {
   try {
     const funnelTypes = Object.keys(FUNNEL_TABLE_MAP);
     const results = await Promise.all(
-      funnelTypes.map(funnelType => fetchFunnelAnalytics(funnelType, dateFilter))
+      funnelTypes.map(funnelType => fetchFunnelAnalytics(funnelType, dateFilter, abTestId))
     );
 
     const totalSessions = results.reduce((sum, result) => sum + result.totalSessions, 0);

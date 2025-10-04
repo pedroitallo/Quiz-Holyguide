@@ -6,8 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { ArrowLeft, Loader2, ArrowUp, ArrowDown } from 'lucide-react';
 import ABTestDialog from '../components/analytics/ABTestDialog';
 import { supabase } from '../lib/supabase';
-import { QuizResult, Sale, ManualSales, ManualCheckout } from '../api/entities';
-import { format, subDays } from 'date-fns';
+import { fetchFunnelAnalytics } from '../utils/analyticsQueries';
+import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import React from 'react';
 
@@ -61,91 +61,50 @@ export default function AnalyticsAB() {
 
   const loadTestStats = async (test) => {
     try {
-      const allResults = await QuizResult.filter(
-        { visitor_id: { $exists: true, $ne: null } },
-        '-created_date'
-      );
-      const allSales = await Sale.list('-created_date');
+      const dateFilter = {
+        start: test.start_date,
+        end: test.end_date || new Date().toISOString()
+      };
 
-      const controlData = allResults.filter(result => result.funnel_variant === test.control_funnel);
-      const testData = allResults.filter(result => result.funnel_variant === test.test_funnel);
-      const controlSales = allSales.filter(sale => sale.src && sale.src.includes(test.control_funnel));
-      const testSales = allSales.filter(sale => sale.src && sale.src.includes(test.test_funnel));
+      const controlAnalytics = await fetchFunnelAnalytics(test.control_funnel, dateFilter, test.id);
+      const testAnalytics = await fetchFunnelAnalytics(test.test_funnel, dateFilter, test.id);
 
-      const controlManualSales = await loadManualSalesForFunnel(test.control_funnel);
-      const testManualSales = await loadManualSalesForFunnel(test.test_funnel);
-      const controlManualCheckout = await loadManualCheckoutForFunnel(test.control_funnel);
-      const testManualCheckout = await loadManualCheckoutForFunnel(test.test_funnel);
+      setControlStats({
+        totalVisitantes: controlAnalytics.totalSessions,
+        startQuiz: controlAnalytics.startQuiz,
+        paywall: controlAnalytics.endQuiz,
+        checkout: 0,
+        vendas: 0,
+        conversao: controlAnalytics.endQuizRate.toFixed(1),
+        retencao: controlAnalytics.retention.toFixed(1),
+        passagem: '0.0',
+        funnelWithMetrics: controlAnalytics.steps.map(step => ({
+          name: step.label,
+          count: step.views,
+          retentionPercentage: step.percentage.toFixed(1)
+        }))
+      });
 
-      setControlStats(calculateStats(controlData, controlSales, controlManualSales, controlManualCheckout));
-      setTestStats(calculateStats(testData, testSales, testManualSales, testManualCheckout));
+      setTestStats({
+        totalVisitantes: testAnalytics.totalSessions,
+        startQuiz: testAnalytics.startQuiz,
+        paywall: testAnalytics.endQuiz,
+        checkout: 0,
+        vendas: 0,
+        conversao: testAnalytics.endQuizRate.toFixed(1),
+        retencao: testAnalytics.retention.toFixed(1),
+        passagem: '0.0',
+        funnelWithMetrics: testAnalytics.steps.map(step => ({
+          name: step.label,
+          count: step.views,
+          retentionPercentage: step.percentage.toFixed(1)
+        }))
+      });
     } catch (error) {
       console.error('Error loading test stats:', error);
     }
   };
 
-  const loadManualSalesForFunnel = async (funnelVariant) => {
-    try {
-      const manualSalesRecords = await ManualSales.filter({ funnel_variant: funnelVariant });
-      if (manualSalesRecords.length > 0) {
-        return manualSalesRecords.reduce((sum, record) => sum + (record.manual_sales_count || 0), 0);
-      }
-    } catch (error) {
-      console.warn("Erro ao carregar vendas manuais:", error);
-    }
-    return null;
-  };
-
-  const loadManualCheckoutForFunnel = async (funnelVariant) => {
-    try {
-      const manualCheckoutRecords = await ManualCheckout.filter({ funnel_variant: funnelVariant });
-      if (manualCheckoutRecords.length > 0) {
-        return manualCheckoutRecords[0].manual_checkout_count;
-      }
-    } catch (error) {
-      console.warn("Erro ao carregar checkout manual:", error);
-    }
-    return null;
-  };
-
-  const calculateStats = (data, sales, manualSales, manualCheckout) => {
-    const totalVisitantes = data.length;
-    const startQuiz = data.filter(item => item.name_collection_step_viewed).length;
-    const paywall = data.filter(item => item.paywall_step_viewed).length;
-    const automaticCheckout = data.filter(item => item.checkout_step_clicked).length;
-    const checkout = manualCheckout !== null ? manualCheckout : automaticCheckout;
-    const vendas = manualSales !== null ? manualSales : sales.length;
-    const conversao = totalVisitantes > 0 ? ((vendas / totalVisitantes) * 100).toFixed(1) : '0.0';
-    const retencao = startQuiz > 0 ? ((paywall / startQuiz) * 100).toFixed(1) : '0.0';
-    const passagem = paywall > 0 ? ((checkout / paywall) * 100).toFixed(1) : '0.0';
-
-    const funnelSteps = [
-      { name: 'Início', count: totalVisitantes },
-      { name: 'Nome', count: data.filter(item => item.name_collection_step_viewed).length },
-      { name: 'Data', count: data.filter(item => item.birth_data_collection_step_viewed).length },
-      { name: 'Amor', count: data.filter(item => item.love_situation_step_viewed).length },
-      { name: 'Reading', count: data.filter(item => item.palm_reading_results_step_viewed).length },
-      { name: 'Revelation', count: data.filter(item => item.loading_revelation_step_viewed).length },
-      { name: 'Paywall', count: paywall }
-    ];
-
-    const funnelWithMetrics = funnelSteps.map((step, index) => {
-      const retentionPercentage = totalVisitantes > 0 ? ((step.count / totalVisitantes) * 100).toFixed(1) : '0.0';
-      return { ...step, retentionPercentage };
-    });
-
-    return {
-      totalVisitantes,
-      startQuiz,
-      paywall,
-      checkout,
-      vendas,
-      conversao,
-      retencao,
-      passagem,
-      funnelWithMetrics,
-    };
-  };
 
   const renderComparison = (controlValue, testValue, label) => {
     if (!controlStats || !testStats) return null;
@@ -227,7 +186,12 @@ export default function AnalyticsAB() {
               <CardContent className="py-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-semibold text-blue-900 text-lg">{activeTest.name}</h3>
+                    <div className="flex items-center gap-2 mb-2">
+                      <h3 className="font-semibold text-blue-900 text-lg">{activeTest.name}</h3>
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+                        Dados Isolados
+                      </span>
+                    </div>
                     {activeTest.hypothesis && (
                       <p className="text-sm text-blue-700 mt-1"><strong>Hipótese:</strong> {activeTest.hypothesis}</p>
                     )}
@@ -236,6 +200,9 @@ export default function AnalyticsAB() {
                     )}
                     <p className="text-sm text-blue-700 mt-1">
                       Iniciado em: {format(new Date(activeTest.start_date), 'dd/MM/yyyy', { locale: ptBR })}
+                    </p>
+                    <p className="text-xs text-blue-600 mt-2 italic">
+                      Mostrando apenas dados coletados durante este teste específico
                     </p>
                   </div>
                   <div className="text-right">
