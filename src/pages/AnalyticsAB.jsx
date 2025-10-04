@@ -16,8 +16,7 @@ export default function AnalyticsAB() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [activeTest, setActiveTest] = useState(null);
-  const [controlStats, setControlStats] = useState(null);
-  const [testStats, setTestStats] = useState(null);
+  const [variantStats, setVariantStats] = useState({});
 
   useEffect(() => {
     if (!authLoading && !admin) {
@@ -49,8 +48,7 @@ export default function AnalyticsAB() {
         await loadTestStats(data);
       } else {
         setActiveTest(null);
-        setControlStats(null);
-        setTestStats(null);
+        setVariantStats({});
       }
     } catch (error) {
       console.error('Error loading active test:', error);
@@ -70,56 +68,61 @@ export default function AnalyticsAB() {
 
       console.log('📅 Date filter:', dateFilter);
 
-      const controlAnalytics = await fetchFunnelAnalytics(test.control_funnel, dateFilter, test.id);
-      console.log('📊 Control analytics:', controlAnalytics);
+      // Get all active variants
+      const variants = [];
+      if (test.variant_a) variants.push({ label: 'A', funnel: test.variant_a });
+      if (test.variant_b) variants.push({ label: 'B', funnel: test.variant_b });
+      if (test.variant_c) variants.push({ label: 'C', funnel: test.variant_c });
+      if (test.variant_d) variants.push({ label: 'D', funnel: test.variant_d });
+      if (test.variant_e) variants.push({ label: 'E', funnel: test.variant_e });
 
-      const testAnalytics = await fetchFunnelAnalytics(test.test_funnel, dateFilter, test.id);
-      console.log('📊 Test analytics:', testAnalytics);
+      // Fallback for old tests
+      if (variants.length === 0 && test.control_funnel && test.test_funnel) {
+        variants.push({ label: 'A', funnel: test.control_funnel });
+        variants.push({ label: 'B', funnel: test.test_funnel });
+      }
 
-      setControlStats({
-        totalVisitantes: controlAnalytics.totalSessions,
-        startQuiz: controlAnalytics.startQuiz,
-        paywall: controlAnalytics.endQuiz,
-        checkout: 0,
-        vendas: 0,
-        conversao: controlAnalytics.endQuizRate.toFixed(1),
-        retencao: controlAnalytics.retention.toFixed(1),
-        passagem: '0.0',
-        funnelWithMetrics: controlAnalytics.steps.map(step => ({
-          name: step.label,
-          count: step.views,
-          retentionPercentage: step.percentage.toFixed(1)
-        }))
-      });
+      const stats = {};
+      for (const variant of variants) {
+        const analytics = await fetchFunnelAnalytics(variant.funnel, dateFilter, test.id);
+        console.log(`📊 Variant ${variant.label} (${variant.funnel}) analytics:`, analytics);
 
-      setTestStats({
-        totalVisitantes: testAnalytics.totalSessions,
-        startQuiz: testAnalytics.startQuiz,
-        paywall: testAnalytics.endQuiz,
-        checkout: 0,
-        vendas: 0,
-        conversao: testAnalytics.endQuizRate.toFixed(1),
-        retencao: testAnalytics.retention.toFixed(1),
-        passagem: '0.0',
-        funnelWithMetrics: testAnalytics.steps.map(step => ({
-          name: step.label,
-          count: step.views,
-          retentionPercentage: step.percentage.toFixed(1)
-        }))
-      });
+        stats[variant.label] = {
+          funnel: variant.funnel,
+          totalVisitantes: analytics.totalSessions,
+          startQuiz: analytics.startQuiz,
+          paywall: analytics.endQuiz,
+          checkout: 0,
+          vendas: 0,
+          conversao: analytics.endQuizRate.toFixed(1),
+          retencao: analytics.retention.toFixed(1),
+          passagem: '0.0',
+          funnelWithMetrics: analytics.steps.map(step => ({
+            name: step.label,
+            count: step.views,
+            retentionPercentage: step.percentage.toFixed(1)
+          }))
+        };
+      }
+
+      setVariantStats(stats);
     } catch (error) {
       console.error('Error loading test stats:', error);
     }
   };
 
 
-  const renderComparison = (controlValue, testValue, label) => {
-    if (!controlStats || !testStats) return null;
+  const renderComparison = (label, metricKey) => {
+    if (!variantStats || Object.keys(variantStats).length === 0) return null;
 
-    const control = parseFloat(controlValue);
-    const test = parseFloat(testValue);
-    const diff = test - control;
-    const percentDiff = control !== 0 ? ((diff / control) * 100) : 0;
+    const variants = Object.keys(variantStats).sort();
+    const values = variants.map(v => {
+      const value = variantStats[v][metricKey];
+      return typeof value === 'string' && value.includes('%') ? parseFloat(value) : value;
+    });
+
+    const bestValue = Math.max(...values);
+    const baseValue = values[0];
 
     return (
       <Card>
@@ -127,24 +130,26 @@ export default function AnalyticsAB() {
           <CardTitle className="text-lg">{label}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 gap-4 items-center">
-            <div className="text-center">
-              <p className="text-xs text-slate-600 mb-1">Controle</p>
-              <p className="text-2xl font-bold text-black">{controlValue}</p>
-            </div>
-            <div className="text-center">
-              <div className={`flex items-center justify-center gap-1 ${diff > 0 ? 'text-green-600' : diff < 0 ? 'text-red-600' : 'text-slate-600'}`}>
-                {diff !== 0 && (diff > 0 ? <ArrowUp className="w-5 h-5" /> : <ArrowDown className="w-5 h-5" />)}
-                <div>
-                  <p className="text-lg font-bold">{Math.abs(diff).toFixed(1)}</p>
-                  <p className="text-xs">({percentDiff > 0 ? '+' : ''}{percentDiff.toFixed(1)}%)</p>
+          <div className={`grid gap-4 items-center`} style={{ gridTemplateColumns: `repeat(${variants.length}, 1fr)` }}>
+            {variants.map((variant, index) => {
+              const rawValue = variantStats[variant][metricKey];
+              const value = values[index];
+              const diff = value - baseValue;
+              const percentDiff = baseValue !== 0 ? ((diff / baseValue) * 100) : 0;
+              const isBest = value === bestValue && variants.length > 1;
+
+              return (
+                <div key={variant} className="text-center">
+                  <p className="text-xs text-slate-600 mb-1">Variante {variant}</p>
+                  <p className={`text-2xl font-bold ${isBest ? 'text-green-600' : 'text-black'}`}>{rawValue}</p>
+                  {index > 0 && (
+                    <div className={`text-xs mt-1 ${diff > 0 ? 'text-green-600' : diff < 0 ? 'text-red-600' : 'text-slate-600'}`}>
+                      {diff !== 0 && (diff > 0 ? '▲' : '▼')} {Math.abs(diff).toFixed(1)} ({percentDiff > 0 ? '+' : ''}{percentDiff.toFixed(1)}%)
+                    </div>
+                  )}
                 </div>
-              </div>
-            </div>
-            <div className="text-center">
-              <p className="text-xs text-slate-600 mb-1">Teste</p>
-              <p className="text-2xl font-bold text-black">{testValue}</p>
-            </div>
+              );
+            })}
           </div>
         </CardContent>
       </Card>
@@ -214,90 +219,75 @@ export default function AnalyticsAB() {
                   </div>
                   <div className="text-right">
                     <div className="text-sm text-blue-700">
-                      <p><strong>Controle:</strong> {activeTest.control_funnel}</p>
-                      <p><strong>Teste:</strong> {activeTest.test_funnel}</p>
+                      <p className="font-semibold mb-1">Variantes:</p>
+                      <div className="flex flex-wrap gap-1 justify-end">
+                        {Object.keys(variantStats).sort().map(variant => (
+                          <span key={variant} className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                            {variant}: {variantStats[variant].funnel}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              {renderComparison(controlStats.totalVisitantes, testStats.totalVisitantes, 'Total de Visitantes')}
-              {renderComparison(controlStats.startQuiz, testStats.startQuiz, 'Start Quiz')}
-              {renderComparison(controlStats.paywall, testStats.paywall, 'Paywall')}
-              {renderComparison(controlStats.checkout, testStats.checkout, 'Checkout')}
-              {renderComparison(controlStats.vendas, testStats.vendas, 'Vendas')}
-              {renderComparison(controlStats.conversao + '%', testStats.conversao + '%', 'Conversão Geral')}
-              {renderComparison(controlStats.retencao + '%', testStats.retencao + '%', 'Retenção')}
-              {renderComparison(controlStats.passagem + '%', testStats.passagem + '%', 'Passagem')}
-            </div>
+            {Object.keys(variantStats).length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                {renderComparison('Total de Visitantes', 'totalVisitantes')}
+                {renderComparison('Start Quiz', 'startQuiz')}
+                {renderComparison('Paywall', 'paywall')}
+                {renderComparison('Checkout', 'checkout')}
+                {renderComparison('Vendas', 'vendas')}
+                {renderComparison('Conversão Geral (%)', 'conversao')}
+                {renderComparison('Retenção (%)', 'retencao')}
+                {renderComparison('Passagem (%)', 'passagem')}
+              </div>
+            )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Funil Controle ({activeTest.control_funnel})</CardTitle>
-                  <CardDescription>Desempenho do grupo de controle</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {controlStats.funnelWithMetrics.map((step, index) => (
-                      <div key={index} className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-sm font-medium text-slate-700">{step.name}</span>
-                            <span className="text-sm font-bold text-black">{step.count}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <div className="flex-1 bg-slate-200 rounded-full h-2">
-                              <div
-                                className="bg-blue-600 h-2 rounded-full transition-all"
-                                style={{ width: `${step.retentionPercentage}%` }}
-                              />
-                            </div>
-                            <span className="text-xs font-bold text-slate-600 min-w-[3rem] text-right">
-                              {step.retentionPercentage}%
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+            {Object.keys(variantStats).length > 0 && (
+              <div className={`grid gap-6 mb-6`} style={{ gridTemplateColumns: `repeat(auto-fit, minmax(300px, 1fr))` }}>
+                {Object.keys(variantStats).sort().map((variant, vIndex) => {
+                  const colors = ['blue', 'green', 'purple', 'orange', 'pink'];
+                  const color = colors[vIndex % colors.length];
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Funil Teste ({activeTest.test_funnel})</CardTitle>
-                  <CardDescription>Desempenho do grupo de teste</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {testStats.funnelWithMetrics.map((step, index) => (
-                      <div key={index} className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-sm font-medium text-slate-700">{step.name}</span>
-                            <span className="text-sm font-bold text-black">{step.count}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <div className="flex-1 bg-slate-200 rounded-full h-2">
-                              <div
-                                className="bg-green-600 h-2 rounded-full transition-all"
-                                style={{ width: `${step.retentionPercentage}%` }}
-                              />
+                  return (
+                    <Card key={variant}>
+                      <CardHeader>
+                        <CardTitle>Variante {variant} ({variantStats[variant].funnel})</CardTitle>
+                        <CardDescription>Desempenho da variante {variant}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          {variantStats[variant].funnelWithMetrics.map((step, index) => (
+                            <div key={index} className="flex items-center justify-between">
+                              <div className="flex-1">
+                                <div className="flex items-center justify-between mb-1">
+                                  <span className="text-sm font-medium text-slate-700">{step.name}</span>
+                                  <span className="text-sm font-bold text-black">{step.count}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <div className="flex-1 bg-slate-200 rounded-full h-2">
+                                    <div
+                                      className={`bg-${color}-600 h-2 rounded-full transition-all`}
+                                      style={{ width: `${step.retentionPercentage}%` }}
+                                    />
+                                  </div>
+                                  <span className="text-xs font-bold text-slate-600 min-w-[3rem] text-right">
+                                    {step.retentionPercentage}%
+                                  </span>
+                                </div>
+                              </div>
                             </div>
-                            <span className="text-xs font-bold text-slate-600 min-w-[3rem] text-right">
-                              {step.retentionPercentage}%
-                            </span>
-                          </div>
+                          ))}
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            )}
           </>
         )}
       </div>
