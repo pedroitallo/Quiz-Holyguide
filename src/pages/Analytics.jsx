@@ -287,7 +287,7 @@ export default function Analytics() {
                       <div className="space-y-2">
                         <div>
                           <p className="text-xs text-slate-600 mb-1">Total de Views</p>
-                          <p className="text-2xl font-bold text-blue-600">{step.views}</p>
+                          <p className="text-2xl font-bold text-slate-900">{step.views}</p>
                         </div>
 
                         <div className="pt-2 border-t border-slate-200">
