@@ -305,9 +305,9 @@ export default function Analytics() {
 
                         {index < analyticsData.steps.length - 1 && step.views > 0 && (
                           <div className="pt-2">
-                            <div className="flex items-center gap-1 text-slate-500">
-                              <ArrowRight className="w-3 h-3" />
-                              <span className="text-xs">
+                            <div className="flex items-center gap-1 text-slate-900">
+                              <ArrowRight className="w-4 h-4" />
+                              <span className="text-sm font-medium">
                                 Próxima: {analyticsData.steps[index + 1]?.views || 0} ({step.nextStepPassage.toFixed(1)}%)
                               </span>
                             </div>
