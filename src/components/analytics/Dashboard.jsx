@@ -13,6 +13,7 @@ import { format, subDays } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import ABTestDialog from './ABTestDialog';
+import SessionHistoryDialog from './SessionHistoryDialog';
 import { supabase } from '@/lib/supabase';
 
 export default function Dashboard() {
@@ -815,6 +816,11 @@ export default function Dashboard() {
                         </Button>
 
                         <ABTestDialog onTestChange={loadActiveABTest} />
+
+                        <SessionHistoryDialog
+                            selectedFunnel={selectedFunnel}
+                            dateRange={date}
+                        />
 
                         <Button
                             onClick={() => {
