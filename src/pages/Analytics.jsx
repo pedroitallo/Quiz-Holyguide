@@ -72,6 +72,8 @@ export default function Analytics() {
   const fetchAnalytics = async () => {
     setLoading(true);
     try {
+      console.log('🔍 Buscando dados do analytics...', { selectedFunnel, selectedDateRange });
+      
       let query = supabase.from('Funnel01').select('*');
 
       if (selectedFunnel !== 'all') {
@@ -87,7 +89,25 @@ export default function Analytics() {
 
       if (error) throw error;
 
+      console.log('📊 Dados brutos recebidos:', data);
+      console.log('📈 Total de registros:', data?.length || 0);
+      
+      if (data && data.length > 0) {
+        console.log('🔍 Exemplo de registro:', data[0]);
+        console.log('📊 Contadores por etapa:', {
+          video_step_viewed: data.filter(item => item.video_step_viewed).length,
+          name_collection_step_viewed: data.filter(item => item.name_collection_step_viewed).length,
+          birth_data_collection_step_viewed: data.filter(item => item.birth_data_collection_step_viewed).length,
+          love_situation_step_viewed: data.filter(item => item.love_situation_step_viewed).length,
+          palm_reading_results_step_viewed: data.filter(item => item.palm_reading_results_step_viewed).length,
+          loading_revelation_step_viewed: data.filter(item => item.loading_revelation_step_viewed).length,
+          paywall_step_viewed: data.filter(item => item.paywall_step_viewed).length,
+          pitch_step_viewed: data.filter(item => item.pitch_step_viewed).length,
+          checkout_step_clicked: data.filter(item => item.checkout_step_clicked).length,
+        });
+      }
       const processedData = processAnalyticsData(data || []);
+      console.log('📈 Dados processados:', processedData);
       setAnalyticsData(processedData);
     } catch (error) {
       console.error('Error fetching analytics:', error);
@@ -111,7 +131,21 @@ export default function Analytics() {
     const checkoutClicked = data.filter(item => item.checkout_step_clicked).length;
 
     // Calcular métricas principais
-    const startQuiz = videoStepViewed;
+    // Start Quiz = qualquer pessoa que passou do primeiro step (video)
+    const startQuiz = data.filter(item => 
+      item.video_step_viewed || 
+      item.testimonials_step_viewed || 
+      item.name_collection_step_viewed || 
+      item.birth_data_collection_step_viewed || 
+      item.love_situation_step_viewed || 
+      item.palm_reading_results_step_viewed || 
+      item.loading_revelation_step_viewed || 
+      item.paywall_step_viewed || 
+      item.pitch_step_viewed || 
+      item.checkout_step_clicked ||
+      item.current_step > 1
+    ).length;
+    
     const paywall = paywallViewed;
     const checkout = checkoutClicked;
     
@@ -121,7 +155,7 @@ export default function Analytics() {
     
     // Calcular percentuais
     const startQuizPercent = totalVisitors > 0 ? (startQuiz / totalVisitors * 100) : 0;
-    const paywallPercent = startQuiz > 0 ? (paywall / startQuiz * 100) : 0;
+    const paywallPercent = totalVisitors > 0 ? (paywall / totalVisitors * 100) : 0;
     const checkoutPercent = paywall > 0 ? (checkout / paywall * 100) : 0;
     const retentionPercent = totalVisitors > 0 ? (paywall / totalVisitors * 100) : 0;
     const passagePercent = paywall > 0 ? (checkout / paywall * 100) : 0;
