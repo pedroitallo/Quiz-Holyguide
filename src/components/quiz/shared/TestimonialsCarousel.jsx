@@ -89,7 +89,7 @@ export default function TestimonialsCarousel({ onContinue }) {
               decoding="async" />
             <div className="text-left">
               <p className="text-base text-gray-700 leading-relaxed">
-                Hello, I'm Madame Aura and in a few minutes we'll discover the face of your divine soul!✨ This Year Alone, <strong>I Have Connected With More Than 9,200 Divine Souls</strong> Through My Drawings And Revelations👇🏼
+                Hello, I'm Madame Aura and in a few minutes we'll discover the face of your soulmate!✨ This Year Alone, <strong>I Have Connected With More Than 9,200 Soulmates</strong> Through My Drawings And Revelations👇🏼
               </p>
             </div>
           </div>

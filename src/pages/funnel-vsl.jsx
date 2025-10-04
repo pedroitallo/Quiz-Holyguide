@@ -264,7 +264,7 @@ export default function FunnelVslPage() {
               className="mb-8">
 
               <h1 className="text-2xl mb-2 font-bold leading-tight">
-                I will use my psychic abilities to reveal the face of your divine soul.
+                I will use my psychic abilities to reveal the face of your soulmate.
               </h1>
               
               <p className="text-gray-600 text-base mb-6 max-w-2xl mx-auto leading-relaxed">

@@ -125,7 +125,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
               className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
 
               <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, I am preparing a portrait of your divine soul. I'm starting right now👇🔮
+                <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, I am preparing a portrait of your soulmate. I'm starting right now👇🔮
               </p>
               </div>
             </div>
@@ -202,7 +202,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
           <button
           onClick={handleContinue}
           className="btn-primary w-full max-w-sm md:w-auto">
-            Discover the face of my divine soul
+            Discover the face of my soulmate
           </button>
         </motion.div>
       }

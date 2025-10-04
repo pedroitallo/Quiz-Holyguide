@@ -161,7 +161,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         transition={{ duration: 0.8 }}
         className="mb-8">
 
-         <h1 className="text-purple-600 mb-4 text-lg font-bold md:text-3xl leading-tight">Your Revelation Is Ready! Discover Who Your Divine Soul Is</h1>
+         <h1 className="text-purple-600 mb-4 text-lg font-bold md:text-3xl leading-tight">Your Revelation Is Ready! Discover Who Your Soulmate Is</h1>
         
         <Card className="w-fit mx-auto bg-white/50 border-purple-100 shadow-md mb-6">
             <CardContent className="p-3 flex items-center justify-center gap-4 md:gap-6">

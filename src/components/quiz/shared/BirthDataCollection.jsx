@@ -152,7 +152,7 @@ export default function BirthDataCollection({ onSubmit }) {
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  We all have a <strong>divine soul from the day we are born</strong>. So, please enter your date of birth below so that <strong>I can visualize your soul mate</strong>.
+                  We all have a <strong>soulmate from the day we are born</strong>. So, please enter your date of birth below so that <strong>I can visualize your soulmate</strong>.
                 </p>
               </div>
             </div>
@@ -269,7 +269,7 @@ export default function BirthDataCollection({ onSubmit }) {
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
-                  Wow, that's amazing! You're a <strong>{zodiacSign}</strong>{zodiacSign === 'Capricorn' ? ' just like me' : ''}! The <strong>{zodiacSign}</strong> is one of the few signs that has a special sensitivity and connection with their soulmate. <strong>I feel like you're on the right path to meeting your Divine Soul.</strong>
+                  Wow, that's amazing! You're a <strong>{zodiacSign}</strong>{zodiacSign === 'Capricorn' ? ' just like me' : ''}! The <strong>{zodiacSign}</strong> is one of the few signs that has a special sensitivity and connection with their soulmate. <strong>I feel like you're on the right path to meeting your Soulmate.</strong>
                 </p>
               </div>
             </div>
