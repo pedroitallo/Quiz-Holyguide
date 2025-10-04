@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
 
 const AdminAuthContext = createContext(null);
 
@@ -21,19 +20,13 @@ export const AdminAuthProvider = ({ children }) => {
 
   const checkAdminAuth = async () => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (session?.user) {
-        const { data: adminData } = await supabase
-          .from('admins')
-          .select('*')
-          .eq('id', session.user.id)
-          .maybeSingle();
-
-        setAdmin(adminData);
+      const adminData = localStorage.getItem('admin_user');
+      if (adminData) {
+        setAdmin(JSON.parse(adminData));
       }
     } catch (error) {
       console.error('Error checking admin auth:', error);
+      localStorage.removeItem('admin_user');
     } finally {
       setLoading(false);
     }
@@ -41,30 +34,28 @@ export const AdminAuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-login`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
-      if (error) throw error;
+      const result = await response.json();
 
-      const { data: adminData } = await supabase
-        .from('admins')
-        .select('*')
-        .eq('id', data.user.id)
-        .maybeSingle();
-
-      if (!adminData) {
-        await supabase.auth.signOut();
-        throw new Error('Not authorized as admin');
+      if (!result.success) {
+        throw new Error(result.error || 'Login failed');
       }
 
-      await supabase
-        .from('admins')
-        .update({ last_login: new Date().toISOString() })
-        .eq('id', data.user.id);
-
+      const adminData = result.admin;
       setAdmin(adminData);
+      localStorage.setItem('admin_user', JSON.stringify(adminData));
+
       return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
@@ -72,8 +63,8 @@ export const AdminAuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await supabase.auth.signOut();
     setAdmin(null);
+    localStorage.removeItem('admin_user');
   };
 
   return (
