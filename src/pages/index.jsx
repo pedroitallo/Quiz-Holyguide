@@ -11,8 +11,11 @@ import Refund from "./Refund";
 import TermsOfService from "./TermsOfService";
 import Privacy from "./Privacy";
 import Pricing from "./Pricing";
+import AdminLogin from "./AdminLogin";
+import Analytics from "./Analytics";
 import React, { lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { AdminAuthProvider } from '../contexts/AdminAuthContext';
 
 const PAGES = {
     Home: Home,
@@ -42,14 +45,24 @@ function _getCurrentPage(url) {
     return pageName || Object.keys(PAGES)[0];
 }
 
-// Create a wrapper component that uses useLocation inside the Router context
 function PagesContent() {
     const location = useLocation();
     const currentPage = _getCurrentPage(location.pathname);
-    
+
+    const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/analytics');
+
+    if (isAdminRoute) {
+        return (
+            <Routes>
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/analytics" element={<Analytics />} />
+            </Routes>
+        );
+    }
+
     return (
         <Layout currentPageName={currentPage}>
-            <Routes>            
+            <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/funnel-1" element={<Funnel1 />} />
@@ -71,7 +84,9 @@ function PagesContent() {
 export default function Pages() {
     return (
         <Router>
-            <PagesContent />
+            <AdminAuthProvider>
+                <PagesContent />
+            </AdminAuthProvider>
         </Router>
     );
 }
