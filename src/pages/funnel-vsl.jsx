@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
-import SalesSection from '../components/quiz/SalesSection';
+import SalesSection from '../components/quiz/funnel-vsl/SalesSection';
 import { trackStepView } from '../utils/stepTracking';
 
 export default function FunnelVslPage() {

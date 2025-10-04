@@ -2,20 +2,18 @@ import React, { useState, useEffect, Suspense, lazy } from "react";
 import { motion } from "framer-motion";
 import { Stars, Moon, Heart, Sparkles, Loader2 } from "lucide-react";
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
-import StepTracker from '../components/quiz/StepTracker';
+import StepTracker from '../components/quiz/shared/StepTracker';
 import { trackStepView } from '../utils/stepTracking';
 
-// Carregar componentes específicos do funnel-tt
-import VideoStepTt from "../components/quiz/funnel-tt/VideoStepTt";
-import PaywallStepTt from "../components/quiz/funnel-tt/PaywallStepTt";
-// Componentes compartilhados
-import NameCollection from "../components/quiz/NameCollection";
-import BirthDataCollection from "../components/quiz/BirthDataCollection";
-import LoveSituationStep from "../components/quiz/LoveSituationStep";
-import PalmReadingResults from "../components/quiz/PalmReadingResults";
-import LoadingRevelation from "../components/quiz/LoadingRevelation";
-import TestimonialsCarousel from "../components/quiz/TestimonialsCarousel";
-import ThankYouStep from "../components/quiz/ThankYouStep";
+import VideoStep from "../components/quiz/funnel-tt/VideoStep";
+import PaywallStep from "../components/quiz/funnel-tt/PaywallStep";
+import NameCollection from "../components/quiz/shared/NameCollection";
+import BirthDataCollection from "../components/quiz/shared/BirthDataCollection";
+import LoveSituationStep from "../components/quiz/shared/LoveSituationStep";
+import PalmReadingResults from "../components/quiz/shared/PalmReadingResults";
+import LoadingRevelation from "../components/quiz/shared/LoadingRevelation";
+import TestimonialsCarousel from "../components/quiz/shared/TestimonialsCarousel";
+import ThankYouStep from "../components/quiz/shared/ThankYouStep";
 
 export default function FunnelTtPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -173,14 +171,14 @@ export default function FunnelTtPage() {
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
         <div className="max-w-lg mx-auto">
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
-          {currentStep === 1 && <VideoStepTt onContinue={nextStep} />}
+          {currentStep === 1 && <VideoStep onContinue={nextStep} />}
           {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
           {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
           {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
           {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
           {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
           {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 8 && <PaywallStepTt userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
           {currentStep === 9 && <ThankYouStep userName={formData.name} />}
         </div>
       </div>

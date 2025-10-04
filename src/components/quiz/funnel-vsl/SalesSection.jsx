@@ -1,10 +1,11 @@
+
 /*
- * SalesSectionTt Component - Específica para funnel-tt
+ * SalesSection Component
  *
- * This component handles the sales page for the Divine Love Reading product specifically for funnel-tt.
+ * This component handles the sales page for the Divine Love Reading product.
  * Key features:
  * - Displays pricing, testimonials, and product benefits
- * - Handles checkout redirection to https://tkk.holyguide.com/click
+ * - Handles checkout redirection to Hotmart
  * - Consolidates UTM parameters in 'src' query param (separated by |)
  * - Always passes Metrito Lead ID via 'xcod' parameter (from localStorage or URL 'mlid')
  * - Cleans up quiz state before checkout redirect
@@ -19,9 +20,12 @@ import { ChevronDown, ChevronUp, Clock, Shield, UserCheck, ShieldCheck } from 'l
 import { Button } from '@/components/ui/button';
 import { useTracking } from '@/hooks/useTracking';
 
-// Checkout configuration específica para funnel-tt
+// Checkout configuration
 const CHECKOUT_CONFIG = {
   baseUrl: "https://tkk.holyguide.online/click"
+  // Add more checkout URLs here if needed for different products
+  // premiumUrl: "https://pay.hotmart.com/PREMIUM123",
+  // basicUrl: "https://pay.hotmart.com/BASIC456",
 };
 
 const TextOverlay = ({ name, date }) => {
@@ -74,6 +78,7 @@ const TextOverlay = ({ name, date }) => {
   );
 };
 
+
 const CountdownTimer = () => {
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
 
@@ -107,7 +112,8 @@ const PulsatingButton = ({ children, onClick, className = "" }) => (
   </Button>
 );
 
-export default function SalesSectionTt({ userName, birthDate, quizResultId, src, onCheckout }) {
+
+export default function SalesSection({ userName, birthDate, quizResultId, src, onCheckout }) {
   const { trackEndQuiz, trackFacebookEvent } = useTracking();
 
   const handleCheckout = async () => {
@@ -184,13 +190,13 @@ export default function SalesSectionTt({ userName, birthDate, quizResultId, src,
         url.searchParams.set('quiz_result_id', quizResultId);
       }
 
-      console.log('Redirecting to checkout (funnel-tt):', url.toString());
+      console.log('Redirecting to checkout:', url.toString());
 
       // Clean state and redirect
-      localStorage.removeItem('holymind_quiz_state_funnel_tt');
+      localStorage.removeItem('holymind_quiz_state');
       window.location.href = url.toString();
     } catch (error) {
-      console.error("Error building checkout URL (funnel-tt):", error);
+      console.error("Error building checkout URL:", error);
       // Fallback redirect
       window.location.href = CHECKOUT_CONFIG.baseUrl;
     }

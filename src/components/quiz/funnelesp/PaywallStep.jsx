@@ -3,9 +3,17 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar, Heart, Sparkles, Shield, Clock } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
-import SalesSectionTt from './SalesSectionTt';
+import SalesSection from './SalesSection';
 
-export default function PaywallStepTt({ userName, birthDate, quizResultId, src }) {
+// Checkout configuration
+const CHECKOUT_CONFIG = {
+  baseUrl: "https://tkk.holyguide.online/click"
+  // Add more checkout URLs here if needed for different products
+  // premiumUrl: "https://pay.hotmart.com/PREMIUM123",
+  // basicUrl: "https://pay.hotmart.com/BASIC456",
+};
+
+export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
   const [showSales, setShowSales] = useState(false);
 
   // This useEffect handles timing for SalesSection and tracking pitch step view
@@ -40,8 +48,8 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
     // Execute tracking synchronously and then redirect
     trackCheckout().then(() => {
       try {
-        // URL específica para funnel-tt
-        const checkoutUrl = "https://tkk.holyguide.online/click";
+        // Corrected URL: removed extra '}'
+        const checkoutUrl = CHECKOUT_CONFIG.baseUrl;
         const url = new URL(checkoutUrl);
 
         // Use UTMIFY to get all UTM parameters
@@ -93,18 +101,18 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
 
         console.log('Redirecting to checkout:', url.toString());
         // Limpar estado do quiz em andamento antes de redirecionar
-        localStorage.removeItem('holymind_quiz_state_funnel_tt');
+        localStorage.removeItem('holymind_quiz_state');
         localStorage.setItem('holymind_last_quiz_id', quizResultId);
         window.location.href = url.toString();
       } catch (error) {
         console.error("Erro ao construir URL de checkout:", error);
         // Fallback para garantir que o usuário seja redirecionado mesmo em caso de erro
-        window.location.href = "https://tkk.holyguide.online/click";
+        window.location.href = CHECKOUT_CONFIG.baseUrl;
       }
     }).catch((error) => {
       console.error("Erro ao rastrear checkout, mas redirecionando mesmo assim:", error);
       // Se o tracking falhar, ainda assim redireciona
-      window.location.href = "https://tkk.holyguide.online/click";
+      window.location.href = CHECKOUT_CONFIG.baseUrl;
     });
   };
 
@@ -118,22 +126,22 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
   };
 
   useEffect(() => {
-    // VSL do paywall específica do funnel-tt
-    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/68c9cd3fec56d0bf4606ab48/v4/player.js";
-    const playerId = "vid-68c9cd3fec56d0bf4606ab48";
+    // New script source and player ID - Updated VSL
+    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/68a204ee95de0adfa0e77121/v4/player.js";
+    const playerId = "vid-68a204ee95de0adfa0e77121";
 
     if (document.querySelector(`script[src="${scriptSrc}"]`)) {
       return;
     }
 
-    console.log("Carregando script do VSL paywall - PaywallStepTt montado");
+    console.log("Carregando script do VSL - PaywallStep montado");
     const script = document.createElement("script");
     script.src = scriptSrc;
     script.async = true;
     document.head.appendChild(script);
 
     return () => {
-      console.log("Removendo script do VSL paywall - PaywallStepTt desmontado");
+      console.log("Removendo script do VSL - PaywallStep desmontado");
       const scriptElements = document.querySelectorAll(`script[src="${scriptSrc}"]`);
       scriptElements.forEach((s) => {
         if (document.head.contains(s)) {
@@ -161,7 +169,7 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
         transition={{ duration: 0.8 }}
         className="mb-8">
 
-         <h1 className="text-purple-600 mb-4 text-lg font-bold md:text-3xl leading-tight">Your Revelation Is Ready! Discover Who Your Divine Soul Is</h1>
+        <h1 className="text-purple-600 mb-4 text-lg font-bold md:text-3xl leading-tight">Your Revelation Is Ready! Discover Who Your Divine Soul Is</h1>
         
         <Card className="w-fit mx-auto bg-white/50 border-purple-100 shadow-md mb-6">
             <CardContent className="p-3 flex items-center justify-center gap-4 md:gap-6">
@@ -189,7 +197,7 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
 
         <div className="mb-2 shadow-lg rounded-xl overflow-hidden bg-gray-200 min-h-[300px] flex items-center justify-center">
           <vturb-smartplayer
-            id="vid-68c9cd3fec56d0bf4606ab48"
+            id="vid-68a204ee95de0adfa0e77121"
             style={{
               display: 'block',
               margin: '0 auto',
@@ -201,7 +209,7 @@ export default function PaywallStepTt({ userName, birthDate, quizResultId, src }
         </div>
 
         {showSales && (
-          <SalesSectionTt 
+          <SalesSection 
             userName={userName}
             birthDate={birthDate}
             quizResultId={quizResultId}

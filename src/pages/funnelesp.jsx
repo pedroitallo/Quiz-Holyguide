@@ -2,19 +2,18 @@ import React, { useState, useEffect, Suspense, lazy } from "react";
 import { motion } from "framer-motion";
 import { Stars, Moon, Heart, Sparkles, Loader2 } from "lucide-react";
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
-import StepTracker from '../components/quiz/StepTracker';
+import StepTracker from '../components/quiz/shared/StepTracker';
 import { trackStepView } from '../utils/stepTracking';
 
-// Carregar apenas o VideoStep imediatamente (primeira etapa)
-import VideoStep from "../components/quiz/VideoStep";
-import NameCollection from "../components/quiz/NameCollection";
-import BirthDataCollection from "../components/quiz/BirthDataCollection";
-import LoveSituationStep from "../components/quiz/LoveSituationStep";
-import PalmReadingResults from "../components/quiz/PalmReadingResults";
-import LoadingRevelation from "../components/quiz/LoadingRevelation";
-import TestimonialsCarousel from "../components/quiz/TestimonialsCarousel";
-import PaywallStep from "../components/quiz/PaywallStep";
-import ThankYouStep from "../components/quiz/ThankYouStep";
+import VideoStep from "../components/quiz/funnelesp/VideoStep";
+import PaywallStep from "../components/quiz/funnelesp/PaywallStep";
+import NameCollection from "../components/quiz/shared/NameCollection";
+import BirthDataCollection from "../components/quiz/shared/BirthDataCollection";
+import LoveSituationStep from "../components/quiz/shared/LoveSituationStep";
+import PalmReadingResults from "../components/quiz/shared/PalmReadingResults";
+import LoadingRevelation from "../components/quiz/shared/LoadingRevelation";
+import TestimonialsCarousel from "../components/quiz/shared/TestimonialsCarousel";
+import ThankYouStep from "../components/quiz/shared/ThankYouStep";
 
 export default function FunnelEspPage() {
   const [currentStep, setCurrentStep] = useState(1);
