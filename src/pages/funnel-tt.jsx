@@ -108,7 +108,7 @@ export default function FunnelTtPage() {
   useEffect(() => {
     const stepNames = ['video', 'testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall', 'thank_you'];
     if (currentStep <= stepNames.length) {
-      trackStepView('funnel-tt', stepNames[currentStep - 1], currentStep);
+      trackStepView('funnel-tt', stepNames[currentStep - 1]);
     }
   }, [currentStep]);
 

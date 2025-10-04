@@ -46,7 +46,7 @@ export default function FunnelVslPage() {
     };
 
     initializeQuizSession();
-    trackStepView('funnel-vsl', 'video', 1);
+    trackStepView('funnel-vsl', 'video');
   }, []);
 
   // Handle VSL script loading and sales section timing
@@ -68,7 +68,7 @@ export default function FunnelVslPage() {
     // Show sales section after 4 minutes and 35 seconds (same timing as other funnels)
     const timer = setTimeout(() => {
       setShowSales(true);
-      trackStepView('funnel-vsl', 'sales', 2);
+      trackStepView('funnel-vsl', 'sales');
 
       // Track pitch step view when sales section appears
       if (formData.quizResultId && formData.quizResultId !== 'offline-mode' && formData.quizResultId !== 'admin-mode' && formData.quizResultId !== 'bot-mode') {

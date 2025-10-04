@@ -18,33 +18,67 @@ const getUTMParams = () => {
   };
 };
 
-export const trackStepView = async (funnelType, stepName, stepOrder = 0) => {
+const getTableName = (funnelType) => {
+  const tableMap = {
+    'funnel-1': 'step_views_funnel_1',
+    'funnel-tt': 'step_views_funnel_tt',
+    'funnel-vsl': 'step_views_funnel_vsl',
+    'funnelesp': 'step_views_funnelesp',
+  };
+  return tableMap[funnelType];
+};
+
+export const trackStepView = async (funnelType, stepName) => {
   try {
     const sessionId = getSessionId();
     const utmParams = getUTMParams();
+    const tableName = getTableName(funnelType);
 
-    const metadata = {
-      userAgent: navigator.userAgent,
-      screenWidth: window.screen.width,
-      screenHeight: window.screen.height,
-      language: navigator.language,
-      referrer: document.referrer,
-      pathname: window.location.pathname,
-    };
+    if (!tableName) {
+      console.error('Invalid funnel type:', funnelType);
+      return;
+    }
 
-    const { error } = await supabase
-      .from('quiz_step_views')
-      .insert([{
+    const { data: existingData, error: fetchError } = await supabase
+      .from(tableName)
+      .select('*')
+      .eq('session_id', sessionId)
+      .maybeSingle();
+
+    if (fetchError) {
+      console.error('Error fetching existing step view:', fetchError);
+      return;
+    }
+
+    if (existingData) {
+      const updateData = {
+        [stepName]: true,
+        updated_at: new Date().toISOString(),
+      };
+
+      const { error: updateError } = await supabase
+        .from(tableName)
+        .update(updateData)
+        .eq('session_id', sessionId);
+
+      if (updateError) {
+        console.error('Error updating step view:', updateError);
+      }
+    } else {
+      const insertData = {
         session_id: sessionId,
         funnel_type: funnelType,
-        step_name: stepName,
-        step_order: stepOrder,
         ...utmParams,
-        metadata,
-      }]);
+        [stepName]: true,
+      };
 
-    if (error) {
-      console.error('Error tracking step view:', error);
+      const { error: insertError } = await supabase
+        .from(tableName)
+        .insert([insertData]);
+
+      if (insertError) {
+        console.error('Error inserting step view:', insertError);
+      }
     }
   } catch (error) {
     console.error('Failed to track step view:', error);

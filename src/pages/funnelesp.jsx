@@ -107,7 +107,7 @@ export default function FunnelEspPage() {
   useEffect(() => {
     const stepNames = ['video', 'testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall', 'thank_you'];
     if (currentStep <= stepNames.length) {
-      trackStepView('funnelesp', stepNames[currentStep - 1], currentStep);
+      trackStepView('funnelesp', stepNames[currentStep - 1]);
     }
   }, [currentStep]);
 

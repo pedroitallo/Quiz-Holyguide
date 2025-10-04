@@ -107,7 +107,7 @@ export default function Funnel1Page() {
   useEffect(() => {
     const stepNames = ['video', 'testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall', 'thank_you'];
     if (currentStep <= stepNames.length) {
-      trackStepView('funnel-1', stepNames[currentStep - 1], currentStep);
+      trackStepView('funnel-1', stepNames[currentStep - 1]);
     }
   }, [currentStep]);
 
