@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Input } from '../components/ui/input';
 import { LogOut, RefreshCw, Eye, ArrowRight, Calendar } from 'lucide-react';
 import { fetchFunnelAnalytics, fetchAllFunnelsAnalytics, getDateFilter } from '../utils/analyticsQueries';
+import ABTestDialog from '../components/analytics/ABTestDialog';
 
 const FUNNEL_OPTIONS = [
   { value: 'all', label: 'Todos os Funis' },
@@ -120,6 +121,7 @@ export default function Analytics() {
             <p className="text-slate-600 mt-1">Acompanhe o desempenho de cada funil</p>
           </div>
           <div className="flex gap-3">
+            <ABTestDialog onTestChange={fetchAnalytics} />
             <Button onClick={fetchAnalytics} variant="outline" className="gap-2">
               <RefreshCw className="w-4 h-4" />
               Atualizar
