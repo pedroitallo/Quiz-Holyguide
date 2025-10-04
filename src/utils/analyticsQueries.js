@@ -61,25 +61,40 @@ export const fetchFunnelAnalytics = async (funnelType, dateFilter) => {
       throw new Error(`Invalid funnel type: ${funnelType}`);
     }
 
-    let query = supabase.from(tableName).select('*');
+    let allData = [];
+    let from = 0;
+    const limit = 1000;
+    let hasMore = true;
 
-    if (dateFilter) {
-      if (typeof dateFilter === 'object' && dateFilter.start && dateFilter.end) {
-        query = query.gte('viewed_at', dateFilter.start).lte('viewed_at', dateFilter.end);
-      } else if (typeof dateFilter === 'object' && dateFilter.start) {
-        query = query.gte('viewed_at', dateFilter.start);
-      } else if (typeof dateFilter === 'object' && dateFilter.end) {
-        query = query.lte('viewed_at', dateFilter.end);
-      } else if (typeof dateFilter === 'string') {
-        query = query.gte('viewed_at', dateFilter);
+    while (hasMore) {
+      let query = supabase.from(tableName).select('*').range(from, from + limit - 1);
+
+      if (dateFilter) {
+        if (typeof dateFilter === 'object' && dateFilter.start && dateFilter.end) {
+          query = query.gte('viewed_at', dateFilter.start).lte('viewed_at', dateFilter.end);
+        } else if (typeof dateFilter === 'object' && dateFilter.start) {
+          query = query.gte('viewed_at', dateFilter.start);
+        } else if (typeof dateFilter === 'object' && dateFilter.end) {
+          query = query.lte('viewed_at', dateFilter.end);
+        } else if (typeof dateFilter === 'string') {
+          query = query.gte('viewed_at', dateFilter);
+        }
+      }
+
+      const { data, error } = await query;
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        allData = [...allData, ...data];
+        from += limit;
+        hasMore = data.length === limit;
+      } else {
+        hasMore = false;
       }
     }
 
-    const { data, error } = await query;
-
-    if (error) throw error;
-
-    return processStepData(data || [], funnelType);
+    return processStepData(allData, funnelType);
   } catch (error) {
     console.error('Error fetching funnel analytics:', error);
     return {
