@@ -13,6 +13,7 @@ import Privacy from "./Privacy";
 import Pricing from "./Pricing";
 import AdminLogin from "./AdminLogin";
 import Analytics from "./Analytics";
+import AnalyticsAB from "./AnalyticsAB";
 import React, { lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AdminAuthProvider } from '../contexts/AdminAuthContext';
@@ -56,6 +57,7 @@ function PagesContent() {
             <Routes>
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/analytics" element={<Analytics />} />
+                <Route path="/analytics-ab" element={<AnalyticsAB />} />
             </Routes>
         );
     }

@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Input } from '../components/ui/input';
 import { LogOut, RefreshCw, Eye, ArrowRight, Calendar } from 'lucide-react';
 import { fetchFunnelAnalytics, fetchAllFunnelsAnalytics, getDateFilter } from '../utils/analyticsQueries';
-import ABTestDialog from '../components/analytics/ABTestDialog';
+import { FlaskConical } from 'lucide-react';
 
 const FUNNEL_OPTIONS = [
   { value: 'all', label: 'Todos os Funis' },
@@ -121,7 +121,10 @@ export default function Analytics() {
             <p className="text-slate-600 mt-1">Acompanhe o desempenho de cada funil</p>
           </div>
           <div className="flex gap-3">
-            <ABTestDialog onTestChange={fetchAnalytics} />
+            <Button onClick={() => navigate('/analytics-ab')} variant="outline" className="gap-2">
+              <FlaskConical className="w-4 h-4" />
+              Testes A/B
+            </Button>
             <Button onClick={fetchAnalytics} variant="outline" className="gap-2">
               <RefreshCw className="w-4 h-4" />
               Atualizar
@@ -214,7 +217,7 @@ export default function Analytics() {
                 <Eye className="w-4 h-4 text-slate-600" />
                 <span className="text-sm text-slate-600">Total de Sessões</span>
               </div>
-              <div className="text-3xl font-bold text-blue-600">{analyticsData.totalSessions}</div>
+              <div className="text-3xl font-bold text-black">{analyticsData.totalSessions}</div>
               <div className="text-xs text-slate-500 mt-1">Sessões únicas</div>
             </CardContent>
           </Card>
@@ -225,7 +228,7 @@ export default function Analytics() {
                 <ArrowRight className="w-4 h-4 text-slate-600" />
                 <span className="text-sm text-slate-600">Start Quiz</span>
               </div>
-              <div className="text-3xl font-bold text-green-600">{analyticsData.startQuiz}</div>
+              <div className="text-3xl font-bold text-black">{analyticsData.startQuiz}</div>
               <div className="text-xs text-slate-500 mt-1">
                 {analyticsData.startQuizRate.toFixed(1)}% das sessões
               </div>
@@ -238,7 +241,7 @@ export default function Analytics() {
                 <Eye className="w-4 h-4 text-slate-600" />
                 <span className="text-sm text-slate-600">End Quiz</span>
               </div>
-              <div className="text-3xl font-bold text-blue-600">{analyticsData.endQuiz}</div>
+              <div className="text-3xl font-bold text-black">{analyticsData.endQuiz}</div>
               <div className="text-xs text-slate-500 mt-1">
                 {analyticsData.endQuizRate.toFixed(1)}% das sessões
               </div>
@@ -251,7 +254,7 @@ export default function Analytics() {
                 <ArrowRight className="w-4 h-4 text-slate-600" />
                 <span className="text-sm text-slate-600">Retenção</span>
               </div>
-              <div className="text-3xl font-bold text-orange-600">{analyticsData.retention.toFixed(1)}%</div>
+              <div className="text-3xl font-bold text-black">{analyticsData.retention.toFixed(1)}%</div>
               <div className="text-xs text-slate-500 mt-1">
                 End Quiz / Start Quiz
               </div>
@@ -295,7 +298,7 @@ export default function Analytics() {
                           <div className="flex items-center gap-2">
                             <div className="flex-1 bg-slate-200 rounded-full h-1.5">
                               <div
-                                className="bg-blue-600 h-1.5 rounded-full transition-all"
+                                className="bg-green-600 h-1.5 rounded-full transition-all"
                                 style={{ width: `${Math.min(step.percentage, 100)}%` }}
                               />
                             </div>
