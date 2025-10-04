@@ -27,10 +27,15 @@ export default function ABTestDialog({ onTestChange }) {
         name: '',
         hypothesis: '',
         objective: '',
-        control_funnel: '',
-        test_funnel: '',
+        variant_a: '',
+        variant_b: '',
+        variant_c: '',
+        variant_d: '',
+        variant_e: '',
         start_date: new Date(),
     });
+
+    const [variantCount, setVariantCount] = useState(2);
 
     const [editingTest, setEditingTest] = useState(null);
 
@@ -39,6 +44,10 @@ export default function ABTestDialog({ onTestChange }) {
         { value: 'funnel-tt', label: 'Funil TT' },
         { value: 'funnel-vsl', label: 'Funil VSL' },
         { value: 'funnelesp', label: 'Funil ESP' },
+        { value: 'funnel-star2', label: 'Funil Star 2' },
+        { value: 'funnel-star3', label: 'Funil Star 3' },
+        { value: 'funnel-star4', label: 'Funil Star 4' },
+        { value: 'funnel-star5', label: 'Funil Star 5' },
     ];
 
     useEffect(() => {
@@ -84,8 +93,11 @@ export default function ABTestDialog({ onTestChange }) {
                         name: formData.name,
                         hypothesis: formData.hypothesis,
                         objective: formData.objective,
-                        control_funnel: formData.control_funnel,
-                        test_funnel: formData.test_funnel,
+                        variant_a: formData.variant_a,
+                        variant_b: formData.variant_b,
+                        variant_c: formData.variant_c || null,
+                        variant_d: formData.variant_d || null,
+                        variant_e: formData.variant_e || null,
                         start_date: formData.start_date.toISOString(),
                         updated_at: new Date().toISOString(),
                     })
@@ -100,8 +112,11 @@ export default function ABTestDialog({ onTestChange }) {
                         name: formData.name,
                         hypothesis: formData.hypothesis,
                         objective: formData.objective,
-                        control_funnel: formData.control_funnel,
-                        test_funnel: formData.test_funnel,
+                        variant_a: formData.variant_a,
+                        variant_b: formData.variant_b,
+                        variant_c: formData.variant_c || null,
+                        variant_d: formData.variant_d || null,
+                        variant_e: formData.variant_e || null,
                         start_date: formData.start_date.toISOString(),
                         status: 'active',
                     }]);
@@ -127,22 +142,31 @@ export default function ABTestDialog({ onTestChange }) {
             name: '',
             hypothesis: '',
             objective: '',
-            control_funnel: '',
-            test_funnel: '',
+            variant_a: '',
+            variant_b: '',
+            variant_c: '',
+            variant_d: '',
+            variant_e: '',
             start_date: new Date(),
         });
+        setVariantCount(2);
         setEditingTest(null);
     };
 
     const handleEdit = (test) => {
+        const activeVariants = [test.variant_a, test.variant_b, test.variant_c, test.variant_d, test.variant_e].filter(v => v);
         setFormData({
             name: test.name,
             hypothesis: test.hypothesis || '',
             objective: test.objective || '',
-            control_funnel: test.control_funnel,
-            test_funnel: test.test_funnel,
+            variant_a: test.variant_a || test.control_funnel || '',
+            variant_b: test.variant_b || test.test_funnel || '',
+            variant_c: test.variant_c || '',
+            variant_d: test.variant_d || '',
+            variant_e: test.variant_e || '',
             start_date: new Date(test.start_date),
         });
+        setVariantCount(activeVariants.length);
         setEditingTest(test);
         setActiveTab('configure');
     };
@@ -245,7 +269,11 @@ export default function ABTestDialog({ onTestChange }) {
             'step_views_funnel_1',
             'step_views_funnel_tt',
             'step_views_funnel_vsl',
-            'step_views_funnelesp'
+            'step_views_funnelesp',
+            'step_views_funnel_star2',
+            'step_views_funnel_star3',
+            'step_views_funnel_star4',
+            'step_views_funnel_star5'
         ];
 
         const { data: countData } = await supabase
@@ -267,9 +295,12 @@ export default function ABTestDialog({ onTestChange }) {
             return;
         }
 
+        const variants = getActiveVariants(test);
+        const variantNames = variants.map(v => getFunnelLabel(v.value)).join(', ');
+
         const confirmMessage = `Tem certeza que deseja RESETAR os dados deste teste?\n\n` +
             `Serão removidos ${totalRecords} registros vinculados a este teste específico.\n\n` +
-            `Os dados históricos dos funis ${test.control_funnel} e ${test.test_funnel} NÃO serão afetados.\n\n` +
+            `Os dados históricos dos funis (${variantNames}) NÃO serão afetados.\n\n` +
             `Esta ação não pode ser desfeita.`;
 
         if (!confirm(confirmMessage)) return;
@@ -302,6 +333,23 @@ export default function ABTestDialog({ onTestChange }) {
         return funnelOptions.find(f => f.value === funnelValue)?.label || funnelValue;
     };
 
+    const getActiveVariants = (test) => {
+        const variants = [];
+        if (test.variant_a) variants.push({ label: 'A', value: test.variant_a });
+        if (test.variant_b) variants.push({ label: 'B', value: test.variant_b });
+        if (test.variant_c) variants.push({ label: 'C', value: test.variant_c });
+        if (test.variant_d) variants.push({ label: 'D', value: test.variant_d });
+        if (test.variant_e) variants.push({ label: 'E', value: test.variant_e });
+
+        // Fallback for old tests
+        if (variants.length === 0 && test.control_funnel && test.test_funnel) {
+            variants.push({ label: 'A', value: test.control_funnel });
+            variants.push({ label: 'B', value: test.test_funnel });
+        }
+
+        return variants;
+    };
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
@@ -327,7 +375,7 @@ export default function ABTestDialog({ onTestChange }) {
                             <CardHeader>
                                 <CardTitle>{editingTest ? 'Editar Teste A/B' : 'Criar Novo Teste A/B'}</CardTitle>
                                 <CardDescription>
-                                    Configure um teste A/B para comparar o desempenho entre dois funis
+                                    Configure um teste para comparar o desempenho entre 2 a 5 variantes de funis
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -365,53 +413,161 @@ export default function ABTestDialog({ onTestChange }) {
                                         />
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label>Funil Controle *</Label>
-                                            <Select
-                                                value={formData.control_funnel}
-                                                onValueChange={(value) => setFormData({ ...formData, control_funnel: value })}
-                                                required
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Selecione o controle" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    {funnelOptions.map(option => (
-                                                        <SelectItem
-                                                            key={option.value}
-                                                            value={option.value}
-                                                            disabled={option.value === formData.test_funnel}
-                                                        >
-                                                            {option.label}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
+                                    <div className="space-y-2">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <Label>Variantes do Teste (2 a 5)</Label>
+                                            <div className="flex gap-2">
+                                                {variantCount < 5 && (
+                                                    <Button
+                                                        type="button"
+                                                        size="sm"
+                                                        variant="outline"
+                                                        onClick={() => setVariantCount(variantCount + 1)}
+                                                    >
+                                                        + Adicionar Variante
+                                                    </Button>
+                                                )}
+                                                {variantCount > 2 && (
+                                                    <Button
+                                                        type="button"
+                                                        size="sm"
+                                                        variant="outline"
+                                                        onClick={() => {
+                                                            setVariantCount(variantCount - 1);
+                                                            const variantKeys = ['variant_c', 'variant_d', 'variant_e'];
+                                                            const keyToRemove = variantKeys[variantCount - 3];
+                                                            setFormData({ ...formData, [keyToRemove]: '' });
+                                                        }}
+                                                    >
+                                                        - Remover
+                                                    </Button>
+                                                )}
+                                            </div>
                                         </div>
 
-                                        <div className="space-y-2">
-                                            <Label>Funil Teste *</Label>
-                                            <Select
-                                                value={formData.test_funnel}
-                                                onValueChange={(value) => setFormData({ ...formData, test_funnel: value })}
-                                                required
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Selecione o teste" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    {funnelOptions.map(option => (
-                                                        <SelectItem
-                                                            key={option.value}
-                                                            value={option.value}
-                                                            disabled={option.value === formData.control_funnel}
-                                                        >
-                                                            {option.label}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-2">
+                                                <Label>Variante A *</Label>
+                                                <Select
+                                                    value={formData.variant_a}
+                                                    onValueChange={(value) => setFormData({ ...formData, variant_a: value })}
+                                                    required
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Selecione a variante A" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {funnelOptions.map(option => (
+                                                            <SelectItem
+                                                                key={option.value}
+                                                                value={option.value}
+                                                                disabled={[formData.variant_b, formData.variant_c, formData.variant_d, formData.variant_e].includes(option.value)}
+                                                            >
+                                                                {option.label}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <Label>Variante B *</Label>
+                                                <Select
+                                                    value={formData.variant_b}
+                                                    onValueChange={(value) => setFormData({ ...formData, variant_b: value })}
+                                                    required
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Selecione a variante B" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {funnelOptions.map(option => (
+                                                            <SelectItem
+                                                                key={option.value}
+                                                                value={option.value}
+                                                                disabled={[formData.variant_a, formData.variant_c, formData.variant_d, formData.variant_e].includes(option.value)}
+                                                            >
+                                                                {option.label}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+
+                                            {variantCount >= 3 && (
+                                                <div className="space-y-2">
+                                                    <Label>Variante C</Label>
+                                                    <Select
+                                                        value={formData.variant_c}
+                                                        onValueChange={(value) => setFormData({ ...formData, variant_c: value })}
+                                                    >
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Selecione a variante C" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {funnelOptions.map(option => (
+                                                                <SelectItem
+                                                                    key={option.value}
+                                                                    value={option.value}
+                                                                    disabled={[formData.variant_a, formData.variant_b, formData.variant_d, formData.variant_e].includes(option.value)}
+                                                                >
+                                                                    {option.label}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                            )}
+
+                                            {variantCount >= 4 && (
+                                                <div className="space-y-2">
+                                                    <Label>Variante D</Label>
+                                                    <Select
+                                                        value={formData.variant_d}
+                                                        onValueChange={(value) => setFormData({ ...formData, variant_d: value })}
+                                                    >
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Selecione a variante D" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {funnelOptions.map(option => (
+                                                                <SelectItem
+                                                                    key={option.value}
+                                                                    value={option.value}
+                                                                    disabled={[formData.variant_a, formData.variant_b, formData.variant_c, formData.variant_e].includes(option.value)}
+                                                                >
+                                                                    {option.label}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                            )}
+
+                                            {variantCount >= 5 && (
+                                                <div className="space-y-2">
+                                                    <Label>Variante E</Label>
+                                                    <Select
+                                                        value={formData.variant_e}
+                                                        onValueChange={(value) => setFormData({ ...formData, variant_e: value })}
+                                                    >
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Selecione a variante E" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {funnelOptions.map(option => (
+                                                                <SelectItem
+                                                                    key={option.value}
+                                                                    value={option.value}
+                                                                    disabled={[formData.variant_a, formData.variant_b, formData.variant_c, formData.variant_d].includes(option.value)}
+                                                                >
+                                                                    {option.label}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
@@ -549,14 +705,14 @@ export default function ABTestDialog({ onTestChange }) {
                                                 <span className="text-sm text-gray-700">{test.objective}</span>
                                             </div>
                                         )}
-                                        <div className="flex gap-4">
-                                            <div>
-                                                <span className="font-semibold text-sm">Controle: </span>
-                                                <span className="text-sm text-gray-700">{getFunnelLabel(test.control_funnel)}</span>
-                                            </div>
-                                            <div>
-                                                <span className="font-semibold text-sm">Teste: </span>
-                                                <span className="text-sm text-gray-700">{getFunnelLabel(test.test_funnel)}</span>
+                                        <div>
+                                            <span className="font-semibold text-sm">Variantes: </span>
+                                            <div className="flex flex-wrap gap-2 mt-1">
+                                                {getActiveVariants(test).map(variant => (
+                                                    <span key={variant.label} className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                                                        {variant.label}: {getFunnelLabel(variant.value)}
+                                                    </span>
+                                                ))}
                                             </div>
                                         </div>
                                     </CardContent>
@@ -613,14 +769,14 @@ export default function ABTestDialog({ onTestChange }) {
                                                 <span className="text-sm text-gray-700">{test.objective}</span>
                                             </div>
                                         )}
-                                        <div className="flex gap-4">
-                                            <div>
-                                                <span className="font-semibold text-sm">Controle: </span>
-                                                <span className="text-sm text-gray-700">{getFunnelLabel(test.control_funnel)}</span>
-                                            </div>
-                                            <div>
-                                                <span className="font-semibold text-sm">Teste: </span>
-                                                <span className="text-sm text-gray-700">{getFunnelLabel(test.test_funnel)}</span>
+                                        <div>
+                                            <span className="font-semibold text-sm">Variantes: </span>
+                                            <div className="flex flex-wrap gap-2 mt-1">
+                                                {getActiveVariants(test).map(variant => (
+                                                    <span key={variant.label} className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                                                        {variant.label}: {getFunnelLabel(variant.value)}
+                                                    </span>
+                                                ))}
                                             </div>
                                         </div>
 
