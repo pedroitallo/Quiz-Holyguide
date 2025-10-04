@@ -96,6 +96,7 @@ export default function Analytics() {
         console.log('🔍 Exemplo de registro:', data[0]);
         console.log('📊 Contadores por etapa:', {
           video_step_viewed: data.filter(item => item.video_step_viewed).length,
+          testimonials_step_viewed: data.filter(item => item.testimonials_step_viewed).length,
           name_collection_step_viewed: data.filter(item => item.name_collection_step_viewed).length,
           birth_data_collection_step_viewed: data.filter(item => item.birth_data_collection_step_viewed).length,
           love_situation_step_viewed: data.filter(item => item.love_situation_step_viewed).length,
@@ -105,6 +106,9 @@ export default function Analytics() {
           pitch_step_viewed: data.filter(item => item.pitch_step_viewed).length,
           checkout_step_clicked: data.filter(item => item.checkout_step_clicked).length,
         });
+        
+        // Log dos primeiros 3 registros para debug
+        console.log('🔍 Primeiros 3 registros:', data.slice(0, 3));
       }
       const processedData = processAnalyticsData(data || []);
       console.log('📈 Dados processados:', processedData);
@@ -117,10 +121,13 @@ export default function Analytics() {
   };
 
   const processAnalyticsData = (data) => {
+    console.log('🔄 Processando dados do analytics...', { totalRecords: data.length });
+    
     const totalVisitors = data.length;
     
     // Contar etapas específicas
     const videoStepViewed = data.filter(item => item.video_step_viewed).length;
+    const testimonialsViewed = data.filter(item => item.testimonials_step_viewed).length;
     const nameCollectionViewed = data.filter(item => item.name_collection_step_viewed).length;
     const birthDataViewed = data.filter(item => item.birth_data_collection_step_viewed).length;
     const loveSituationViewed = data.filter(item => item.love_situation_step_viewed).length;
@@ -130,23 +137,25 @@ export default function Analytics() {
     const pitchViewed = data.filter(item => item.pitch_step_viewed).length;
     const checkoutClicked = data.filter(item => item.checkout_step_clicked).length;
 
+    console.log('📊 Contadores calculados:', {
+      totalVisitors,
+      videoStepViewed,
+      testimonialsViewed,
+      nameCollectionViewed,
+      birthDataViewed,
+      loveSituationViewed,
+      palmReadingViewed,
+      loadingRevelationViewed,
+      paywallViewed,
+      pitchViewed,
+      checkoutClicked
+    });
+
     // Calcular métricas principais
-    // Start Quiz = qualquer pessoa que passou do primeiro step (video)
-    const startQuiz = data.filter(item => 
-      item.video_step_viewed || 
-      item.testimonials_step_viewed || 
-      item.name_collection_step_viewed || 
-      item.birth_data_collection_step_viewed || 
-      item.love_situation_step_viewed || 
-      item.palm_reading_results_step_viewed || 
-      item.loading_revelation_step_viewed || 
-      item.paywall_step_viewed || 
-      item.pitch_step_viewed || 
-      item.checkout_step_clicked ||
-      item.current_step > 1
-    ).length;
+    // Start Quiz = todos os visitantes que iniciaram (todos os registros são start quiz)
+    const startQuiz = totalVisitors;
     
-    const paywall = paywallViewed;
+    const paywall = paywallViewed || pitchViewed; // Paywall OU pitch (ambos contam como chegaram ao paywall)
     const checkout = checkoutClicked;
     
     // Calcular vendas baseado nos dados reais (assumindo que temos um campo de vendas ou usando uma estimativa)
@@ -154,12 +163,23 @@ export default function Analytics() {
     const sales = 0; // TODO: Implementar quando tivermos dados de vendas reais
     
     // Calcular percentuais
-    const startQuizPercent = totalVisitors > 0 ? (startQuiz / totalVisitors * 100) : 0;
+    const startQuizPercent = 100; // 100% dos visitantes iniciaram o quiz
     const paywallPercent = totalVisitors > 0 ? (paywall / totalVisitors * 100) : 0;
     const checkoutPercent = paywall > 0 ? (checkout / paywall * 100) : 0;
     const retentionPercent = totalVisitors > 0 ? (paywall / totalVisitors * 100) : 0;
     const passagePercent = paywall > 0 ? (checkout / paywall * 100) : 0;
     const generalConversion = totalVisitors > 0 ? (sales / totalVisitors * 100) : 0;
+
+    console.log('📈 Métricas calculadas:', {
+      startQuiz,
+      paywall,
+      checkout,
+      retentionPercent,
+      passagePercent,
+      startQuizPercent,
+      paywallPercent,
+      checkoutPercent
+    });
 
     // Dados do funil de conversão
     const funnelSteps = [
@@ -184,15 +204,15 @@ export default function Analytics() {
         subtitle: 'loading_revelation_step_viewed',
         value: loadingRevelationViewed,
         retention: totalVisitors > 0 ? (loadingRevelationViewed / totalVisitors * 100) : 0,
-        nextRetention: loadingRevelationViewed > 0 ? (paywallViewed / loadingRevelationViewed * 100) : 0,
+        nextRetention: loadingRevelationViewed > 0 ? (paywall / loadingRevelationViewed * 100) : 0,
         color: 'purple'
       },
       {
         name: 'Paywall',
         subtitle: 'paywall_step_viewed',
-        value: paywallViewed,
-        retention: totalVisitors > 0 ? (paywallViewed / totalVisitors * 100) : 0,
-        nextRetention: paywallViewed > 0 ? (pitchViewed / paywallViewed * 100) : 0,
+        value: paywall,
+        retention: totalVisitors > 0 ? (paywall / totalVisitors * 100) : 0,
+        nextRetention: paywall > 0 ? (pitchViewed / paywall * 100) : 0,
         color: 'purple'
       },
       {
@@ -200,7 +220,7 @@ export default function Analytics() {
         subtitle: 'pitch_step_viewed',
         value: pitchViewed,
         retention: totalVisitors > 0 ? (pitchViewed / totalVisitors * 100) : 0,
-        pitchVsl: paywallViewed > 0 ? (pitchViewed / paywallViewed * 100) : 0,
+        pitchVsl: paywall > 0 ? (pitchViewed / paywall * 100) : 0,
         nextRetention: pitchViewed > 0 ? (checkoutClicked / pitchViewed * 100) : 0,
         color: 'blue'
       },
@@ -215,7 +235,7 @@ export default function Analytics() {
       }
     ];
 
-    return {
+    const result = {
       totalVisitors,
       startQuiz,
       paywall,
@@ -229,6 +249,9 @@ export default function Analytics() {
       checkoutPercent,
       funnelSteps
     };
+
+    console.log('✅ Resultado final do processamento:', result);
+    return result;
   };
 
   const clearData = async () => {
