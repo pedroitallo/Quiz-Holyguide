@@ -26,10 +26,15 @@ export default function Analytics() {
   const { admin, logout, loading: authLoading } = useAdminAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [selectedFunnel, setSelectedFunnel] = useState('all');
-  const [selectedDateRange, setSelectedDateRange] = useState('7days');
+  const [selectedFunnel, setSelectedFunnel] = useState('funnel-1');
+  const [selectedDateRange, setSelectedDateRange] = useState('today');
   const [analyticsData, setAnalyticsData] = useState({
     totalSessions: 0,
+    startQuiz: 0,
+    endQuiz: 0,
+    startQuizRate: 0,
+    endQuizRate: 0,
+    retention: 0,
     steps: [],
   });
 
@@ -158,18 +163,57 @@ export default function Analytics() {
           </CardContent>
         </Card>
 
-        <Card className="mb-6">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3 mb-2">
-              <Eye className="w-5 h-5 text-blue-600" />
-              <h2 className="text-xl font-semibold text-slate-900">Total de Sessões</h2>
-            </div>
-            <p className="text-4xl font-bold text-blue-600">{analyticsData.totalSessions}</p>
-            <p className="text-sm text-slate-600 mt-1">
-              {selectedFunnel === 'all' ? 'Todas as sessões em todos os funis' : `Sessões do ${FUNNEL_OPTIONS.find(f => f.value === selectedFunnel)?.label}`}
-            </p>
-          </CardContent>
-        </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-2">
+                <Eye className="w-4 h-4 text-slate-600" />
+                <span className="text-sm text-slate-600">Total de Sessões</span>
+              </div>
+              <div className="text-3xl font-bold text-blue-600">{analyticsData.totalSessions}</div>
+              <div className="text-xs text-slate-500 mt-1">Sessões únicas</div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-2">
+                <ArrowRight className="w-4 h-4 text-slate-600" />
+                <span className="text-sm text-slate-600">Start Quiz</span>
+              </div>
+              <div className="text-3xl font-bold text-green-600">{analyticsData.startQuiz}</div>
+              <div className="text-xs text-slate-500 mt-1">
+                {analyticsData.startQuizRate.toFixed(1)}% das sessões
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-2">
+                <Eye className="w-4 h-4 text-slate-600" />
+                <span className="text-sm text-slate-600">End Quiz</span>
+              </div>
+              <div className="text-3xl font-bold text-blue-600">{analyticsData.endQuiz}</div>
+              <div className="text-xs text-slate-500 mt-1">
+                {analyticsData.endQuizRate.toFixed(1)}% das sessões
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-2">
+                <ArrowRight className="w-4 h-4 text-slate-600" />
+                <span className="text-sm text-slate-600">Retenção</span>
+              </div>
+              <div className="text-3xl font-bold text-orange-600">{analyticsData.retention.toFixed(1)}%</div>
+              <div className="text-xs text-slate-500 mt-1">
+                End Quiz / Start Quiz
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         <Card>
           <CardHeader>
@@ -216,12 +260,12 @@ export default function Analytics() {
                         </div>
                       </div>
 
-                      {index < analyticsData.steps.length - 1 && (
+                      {index < analyticsData.steps.length - 1 && step.views > 0 && (
                         <div className="pt-2">
                           <div className="flex items-center gap-2 text-slate-500">
                             <ArrowRight className="w-4 h-4" />
                             <span className="text-xs">
-                              Próxima etapa: {analyticsData.steps[index + 1]?.views || 0} views
+                              Próxima etapa: {analyticsData.steps[index + 1]?.views || 0} views ({step.nextStepPassage.toFixed(1)}%)
                             </span>
                           </div>
                         </div>

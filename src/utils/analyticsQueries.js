@@ -100,25 +100,53 @@ export const fetchAllFunnelsAnalytics = async (dateFilter) => {
             label: step.label,
             views: 0,
             percentage: 0,
+            nextStepPassage: 0,
           };
         }
         allSteps[step.key].views += step.views;
       });
     });
 
-    const steps = Object.values(allSteps).map(step => ({
-      ...step,
-      percentage: totalSessions > 0 ? (step.views / totalSessions) * 100 : 0,
-    }));
+    const stepsArray = Object.values(allSteps);
+    const steps = stepsArray.map((step, index) => {
+      let nextStepPassage = 0;
+      if (index < stepsArray.length - 1 && step.views > 0) {
+        const nextStepViews = stepsArray[index + 1].views;
+        nextStepPassage = (nextStepViews / step.views) * 100;
+      }
+
+      return {
+        ...step,
+        percentage: totalSessions > 0 ? (step.views / totalSessions) * 100 : 0,
+        nextStepPassage,
+      };
+    });
+
+    const startQuiz = steps[1]?.views || 0;
+    const endQuiz = steps.find(step => step.key === 'paywall')?.views || 0;
+
+    const startQuizRate = totalSessions > 0 ? (startQuiz / totalSessions) * 100 : 0;
+    const endQuizRate = totalSessions > 0 ? (endQuiz / totalSessions) * 100 : 0;
+    const retention = startQuiz > 0 ? (endQuiz / startQuiz) * 100 : 0;
 
     return {
       totalSessions,
+      startQuiz,
+      endQuiz,
+      startQuizRate,
+      endQuizRate,
+      retention,
       steps,
     };
   } catch (error) {
     console.error('Error fetching all funnels analytics:', error);
     return {
       totalSessions: 0,
+      startQuiz: 0,
+      endQuiz: 0,
+      startQuizRate: 0,
+      endQuizRate: 0,
+      retention: 0,
       steps: [],
     };
   }
@@ -128,20 +156,39 @@ const processStepData = (data, funnelType) => {
   const totalSessions = data.length;
   const steps = FUNNEL_STEPS[funnelType] || [];
 
-  const processedSteps = steps.map(step => {
+  const processedSteps = steps.map((step, index) => {
     const viewCount = data.filter(session => session[step.key] === true).length;
     const percentage = totalSessions > 0 ? (viewCount / totalSessions) * 100 : 0;
+
+    let nextStepPassage = 0;
+    if (index < steps.length - 1 && viewCount > 0) {
+      const nextStepViews = data.filter(session => session[steps[index + 1].key] === true).length;
+      nextStepPassage = (nextStepViews / viewCount) * 100;
+    }
 
     return {
       key: step.key,
       label: step.label,
       views: viewCount,
       percentage,
+      nextStepPassage,
     };
   });
 
+  const startQuiz = processedSteps[1]?.views || 0;
+  const endQuiz = processedSteps.find(step => step.key === 'paywall')?.views || 0;
+
+  const startQuizRate = totalSessions > 0 ? (startQuiz / totalSessions) * 100 : 0;
+  const endQuizRate = totalSessions > 0 ? (endQuiz / totalSessions) * 100 : 0;
+  const retention = startQuiz > 0 ? (endQuiz / startQuiz) * 100 : 0;
+
   return {
     totalSessions,
+    startQuiz,
+    endQuiz,
+    startQuizRate,
+    endQuizRate,
+    retention,
     steps: processedSteps,
   };
 };
