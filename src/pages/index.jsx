@@ -2,8 +2,15 @@ import Layout from "./Layout.jsx";
 import Home from "./Home";
 import Funnel1 from "./funnel-1";
 import FunnelEsp from "./funnelesp";
+import Up1Soulmate from "./Up1Soulmate";
+import Up2Soulmate from "./Up2Soulmate";
+import Up3Soulmate from "./Up3Soulmate";
 import FunnelTt from "./funnel-tt";
 import FunnelVsl from "./funnel-vsl";
+import Refund from "./Refund";
+import TermsOfService from "./TermsOfService";
+import Privacy from "./Privacy";
+import Pricing from "./Pricing";
 import AdminLogin from "./AdminLogin";
 import Analytics from "./Analytics";
 import AnalyticsAB from "./AnalyticsAB";
@@ -17,6 +24,13 @@ const PAGES = {
     funnelesp: FunnelEsp,
     "funnel-tt": FunnelTt,
     "funnel-vsl": FunnelVsl,
+    "up1-soulmate": Up1Soulmate,
+    "up2-soulmate": lazy(() => import("./Up2Soulmate")),
+    "up3-soulmate": Up3Soulmate,
+    pricing: Pricing,
+    refund: Refund,
+    "terms-of-service": TermsOfService,
+    privacy: Privacy,
 }
 
 function _getCurrentPage(url) {
@@ -58,6 +72,13 @@ function PagesContent() {
                 <Route path="/funnelesp" element={<FunnelEsp />} />
                 <Route path="/funnel-tt" element={<FunnelTt />} />
                 <Route path="/funnel-vsl" element={<FunnelVsl />} />
+                <Route path="/up1-soulmate" element={<Up1Soulmate />} />
+                <Route path="/up2-soulmate" element={<Up2Soulmate />} />
+                <Route path="/up3-soulmate" element={<Up3Soulmate />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/refund" element={<Refund />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/privacy" element={<Privacy />} />
             </Routes>
         </Layout>
     );
