@@ -9,15 +9,6 @@ const getSessionId = () => {
   return sessionId;
 };
 
-const getUTMParams = () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  return {
-    utm_source: urlParams.get('utm_source') || '',
-    utm_medium: urlParams.get('utm_medium') || '',
-    utm_campaign: urlParams.get('utm_campaign') || '',
-  };
-};
-
 const getTableName = (funnelType) => {
   const tableMap = {
     'funnel-1': 'step_views_funnel_1',
@@ -31,11 +22,15 @@ const getTableName = (funnelType) => {
 export const trackStepView = async (funnelType, stepName) => {
   try {
     const sessionId = getSessionId();
-    const utmParams = getUTMParams();
     const tableName = getTableName(funnelType);
 
     if (!tableName) {
       console.error('Invalid funnel type:', funnelType);
+      return;
+    }
+
+    if (!stepName) {
+      console.error('Step name is required for tracking');
       return;
     }
 
@@ -63,12 +58,13 @@ export const trackStepView = async (funnelType, stepName) => {
 
       if (updateError) {
         console.error('Error updating step view:', updateError);
+      } else {
+        console.log(`✓ Tracked ${funnelType} - ${stepName}: true`);
       }
     } else {
       const insertData = {
         session_id: sessionId,
         funnel_type: funnelType,
-        ...utmParams,
         [stepName]: true,
       };
 
@@ -78,6 +74,8 @@ export const trackStepView = async (funnelType, stepName) => {
 
       if (insertError) {
         console.error('Error inserting step view:', insertError);
+      } else {
+        console.log(`✓ Created tracking for ${funnelType} - ${stepName}: true`);
       }
     }
   } catch (error) {
