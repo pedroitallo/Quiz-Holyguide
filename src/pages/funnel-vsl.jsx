@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import SalesSection from '../components/quiz/SalesSection';
+import { trackStepView } from '../utils/stepTracking';
 
 export default function FunnelVslPage() {
   const [showSales, setShowSales] = useState(false);
@@ -23,9 +24,9 @@ export default function FunnelVslPage() {
         const utmMedium = currentUrl.searchParams.get('utm_medium') || 'organic';
         const utmCampaign = currentUrl.searchParams.get('utm_campaign') || 'none';
         const src = currentUrl.searchParams.get('src') || '';
-        
+
         console.log('📊 UTM Parameters (funnel-vsl):', { utmSource, utmMedium, utmCampaign, src });
-        
+
         const newQuizResult = await HybridQuizResult.create({
           funnel_type: 'funnel-vsl',
           utm_source: utmSource,
@@ -35,7 +36,7 @@ export default function FunnelVslPage() {
           current_step: 1,
           started_at: new Date().toISOString()
         });
-        
+
         setFormData(prev => ({ ...prev, quizResultId: newQuizResult.id }));
         console.log('✅ New QuizResult created successfully (funnel-vsl):', newQuizResult.id);
       } catch (error) {
@@ -43,8 +44,9 @@ export default function FunnelVslPage() {
         setFormData(prev => ({ ...prev, quizResultId: 'offline-mode' }));
       }
     };
-    
+
     initializeQuizSession();
+    trackStepView('funnel-vsl', 'video', 1);
   }, []);
 
   // Handle VSL script loading and sales section timing
@@ -66,10 +68,11 @@ export default function FunnelVslPage() {
     // Show sales section after 4 minutes and 35 seconds (same timing as other funnels)
     const timer = setTimeout(() => {
       setShowSales(true);
-      
+      trackStepView('funnel-vsl', 'sales', 2);
+
       // Track pitch step view when sales section appears
       if (formData.quizResultId && formData.quizResultId !== 'offline-mode' && formData.quizResultId !== 'admin-mode' && formData.quizResultId !== 'bot-mode') {
-        HybridQuizResult.update(formData.quizResultId, { pitch_step_viewed: true }).catch(e => 
+        HybridQuizResult.update(formData.quizResultId, { pitch_step_viewed: true }).catch(e =>
           console.warn("Failed to update pitch step view:", e)
         );
       }

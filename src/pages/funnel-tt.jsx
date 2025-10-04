@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Stars, Moon, Heart, Sparkles, Loader2 } from "lucide-react";
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import StepTracker from '../components/quiz/StepTracker';
+import { trackStepView } from '../utils/stepTracking';
 
 // Carregar componentes específicos do funnel-tt
 import VideoStepTt from "../components/quiz/funnel-tt/VideoStepTt";
@@ -93,19 +94,23 @@ export default function FunnelTtPage() {
   }, []);
 
   const nextStep = () => {
-    if (currentStep < totalSteps || currentStep === totalSteps) { // Allow advancing from totalSteps (Paywall) to ThankYou
+    if (currentStep < totalSteps || currentStep === totalSteps) {
       const newStep = currentStep + 1;
       setCurrentStep(newStep);
-      
-      // Garantir que a próxima etapa sempre inicie no topo da página
-      setTimeout(() => {
-        window.scrollTo({ 
-          top: 0, 
-          behavior: 'smooth' 
-        });
-      }, 50);
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     }
   };
+
+  useEffect(() => {
+    const stepNames = ['video', 'testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall', 'thank_you'];
+    if (currentStep <= stepNames.length) {
+      trackStepView('funnel-tt', stepNames[currentStep - 1], currentStep);
+    }
+  }, [currentStep]);
 
   const handleNameSubmit = async (name) => {
     const updatedData = { ...formData, name };
