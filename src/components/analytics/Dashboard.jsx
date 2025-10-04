@@ -14,6 +14,7 @@ import { ptBR } from 'date-fns/locale';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import ABTestDialog from './ABTestDialog';
 import SessionHistoryDialog from './SessionHistoryDialog';
+import ComparisonDialog from './ComparisonDialog';
 import { supabase } from '@/lib/supabase';
 
 export default function Dashboard() {
@@ -816,6 +817,8 @@ export default function Dashboard() {
                         </Button>
 
                         <ABTestDialog onTestChange={loadActiveABTest} />
+
+                        <ComparisonDialog />
 
                         <SessionHistoryDialog
                             selectedFunnel={selectedFunnel}
