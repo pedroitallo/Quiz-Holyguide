@@ -4,10 +4,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import SalesSection from '../components/quiz/SalesSection';
+import CheckoutStep from '../components/quiz/CheckoutStep';
 import { trackStepView } from '../utils/stepTracking';
 
 export default function FunnelVslPage() {
   const [showSales, setShowSales] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     birth_date: "",
@@ -102,7 +104,6 @@ export default function FunnelVslPage() {
   }, [formData.quizResultId]);
 
   const handleCheckout = async () => {
-    // Track checkout click IMMEDIATELY before any redirect
     const trackCheckout = async () => {
       if (formData.quizResultId && formData.quizResultId !== 'offline-mode' && formData.quizResultId !== 'admin-mode' && formData.quizResultId !== 'bot-mode') {
         try {
@@ -114,73 +115,13 @@ export default function FunnelVslPage() {
       }
     };
 
-    // Execute tracking synchronously and then redirect
     trackCheckout().then(() => {
-      try {
-        const checkoutUrl = "https://tkk.holyguide.online/click";
-        const url = new URL(checkoutUrl);
-
-        // Use UTMIFY to get all UTM parameters
-        let allUtms = {};
-        
-        // Try to get UTMs from UTMIFY if available
-        if (typeof window !== 'undefined' && window.utmify) {
-          try {
-            allUtms = window.utmify.getUtms() || {};
-            console.log('UTMs from UTMIFY:', allUtms);
-          } catch (error) {
-            console.warn('Failed to get UTMs from UTMIFY:', error);
-          }
-        }
-        
-        // Fallback: get UTMs from URL if UTMIFY is not available
-        if (Object.keys(allUtms).length === 0) {
-          const currentUrl = new URL(window.location.href);
-          const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-          
-          utmParams.forEach(param => {
-            const value = currentUrl.searchParams.get(param);
-            if (value) {
-              allUtms[param] = value;
-            }
-          });
-          
-          // Also get other tracking parameters
-          const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'xcod'];
-          otherParams.forEach(param => {
-            const value = currentUrl.searchParams.get(param);
-            if (value) {
-              allUtms[param] = value;
-            }
-          });
-        }
-        
-        // Add all UTM parameters directly to the checkout URL
-        Object.keys(allUtms).forEach((key) => {
-          if (allUtms[key]) {
-            url.searchParams.set(key, allUtms[key]);
-          }
-        });
-        
-        // Adicionar quiz_result_id como parâmetro para conectar com o webhook
-        if (formData.quizResultId && formData.quizResultId !== 'offline-mode' && formData.quizResultId !== 'admin-mode' && formData.quizResultId !== 'bot-mode') {
-          url.searchParams.set('quiz_result_id', formData.quizResultId);
-        }
-
-        console.log('Redirecting to checkout (funnel-vsl):', url.toString());
-        // Limpar estado do quiz em andamento antes de redirecionar
-        localStorage.removeItem('holymind_quiz_state_funnel_vsl');
-        localStorage.setItem('holymind_last_quiz_id', formData.quizResultId);
-        window.location.href = url.toString();
-      } catch (error) {
-        console.error("Erro ao construir URL de checkout:", error);
-        // Fallback para garantir que o usuário seja redirecionado mesmo em caso de erro
-        window.location.href = "https://tkk.holyguide.online/click";
-      }
+      setShowCheckout(true);
+      trackStepView('funnel-vsl', 'checkout');
     }).catch((error) => {
-      console.error("Erro ao rastrear checkout, mas redirecionando mesmo assim:", error);
-      // Se o tracking falhar, ainda assim redireciona
-      window.location.href = "https://tkk.holyguide.online/click";
+      console.error("Erro ao rastrear checkout:", error);
+      setShowCheckout(true);
+      trackStepView('funnel-vsl', 'checkout');
     });
   };
 
@@ -256,46 +197,50 @@ export default function FunnelVslPage() {
 
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
         <div className="max-w-lg mx-auto">
-          <div className="text-center py-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="mb-8">
+          {showCheckout ? (
+            <CheckoutStep userName={formData.name} funnelType="funnel-vsl" />
+          ) : (
+            <div className="text-center py-8">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="mb-8">
 
-              <h1 className="text-2xl mb-2 font-bold leading-tight">
-                I will use my psychic abilities to reveal the face of your divine soul.
-              </h1>
-              
-              <p className="text-gray-600 text-base mb-6 max-w-2xl mx-auto leading-relaxed">
-                Press play and see why over 10,000 people trust Aura, Hollywood's number #1 psychic
-              </p>
-              
-              <div className="mb-8 w-full max-w-lg mx-auto">
-                <div className="shadow-lg rounded-xl overflow-hidden bg-gray-200 min-h-[300px] flex items-center justify-center">
-                  <vturb-smartplayer
-                    id="vid-68d8690edb6fabbf5ea2c44c"
-                    style={{
-                      display: 'block',
-                      margin: '0 auto',
-                      width: '100%',
-                      maxWidth: '400px',
-                      minHeight: '250px'
-                    }}>
-                  </vturb-smartplayer>
+                <h1 className="text-2xl mb-2 font-bold leading-tight">
+                  I will use my psychic abilities to reveal the face of your divine soul.
+                </h1>
+
+                <p className="text-gray-600 text-base mb-6 max-w-2xl mx-auto leading-relaxed">
+                  Press play and see why over 10,000 people trust Aura, Hollywood's number #1 psychic
+                </p>
+
+                <div className="mb-8 w-full max-w-lg mx-auto">
+                  <div className="shadow-lg rounded-xl overflow-hidden bg-gray-200 min-h-[300px] flex items-center justify-center">
+                    <vturb-smartplayer
+                      id="vid-68d8690edb6fabbf5ea2c44c"
+                      style={{
+                        display: 'block',
+                        margin: '0 auto',
+                        width: '100%',
+                        maxWidth: '400px',
+                        minHeight: '250px'
+                      }}>
+                    </vturb-smartplayer>
+                  </div>
                 </div>
-              </div>
 
-              {showSales && (
-                <SalesSection 
-                  userName={formData.name}
-                  birthDate={formData.birth_date}
-                  quizResultId={formData.quizResultId}
-                  onCheckout={handleCheckout}
-                />
-              )}
-            </motion.div>
-          </div>
+                {showSales && (
+                  <SalesSection
+                    userName={formData.name}
+                    birthDate={formData.birth_date}
+                    quizResultId={formData.quizResultId}
+                    onCheckout={handleCheckout}
+                  />
+                )}
+              </motion.div>
+            </div>
+          )}
         </div>
       </div>
     </div>

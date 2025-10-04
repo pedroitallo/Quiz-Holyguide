@@ -8,14 +8,13 @@ import { trackStepView } from '../utils/stepTracking';
 // Carregar componentes específicos do funnel-tt
 import VideoStepTt from "../components/quiz/funnel-tt/VideoStepTt";
 import PaywallStepTt from "../components/quiz/funnel-tt/PaywallStepTt";
-// Componentes compartilhados
+import CheckoutStep from "../components/quiz/CheckoutStep";
 import NameCollection from "../components/quiz/NameCollection";
 import BirthDataCollection from "../components/quiz/BirthDataCollection";
 import LoveSituationStep from "../components/quiz/LoveSituationStep";
 import PalmReadingResults from "../components/quiz/PalmReadingResults";
 import LoadingRevelation from "../components/quiz/LoadingRevelation";
 import TestimonialsCarousel from "../components/quiz/TestimonialsCarousel";
-import ThankYouStep from "../components/quiz/ThankYouStep";
 
 export default function FunnelTtPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -27,18 +26,18 @@ export default function FunnelTtPage() {
     quizResultId: null
   });
 
-  const totalSteps = 8; // Video, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
+  const totalSteps = 9; // Video, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall, Checkout
   const progress = currentStep / totalSteps * 100;
 
   useEffect(() => {
-    // Save state up to the PaywallStep (step 8), clear on ThankYouStep (step 9)
+    // Save state up to the PaywallStep (step 8), clear on CheckoutStep (step 9)
     if (currentStep < 9) {
         const stateToSave = {
             step: currentStep,
             data: formData
         };
         localStorage.setItem('holymind_quiz_state_funnel_tt', JSON.stringify(stateToSave));
-    } else if (currentStep === 9) { // ThankYouStep
+    } else if (currentStep === 9) {
         localStorage.removeItem('holymind_quiz_state_funnel_tt');
     }
   }, [currentStep, formData]);
@@ -106,7 +105,7 @@ export default function FunnelTtPage() {
   };
 
   useEffect(() => {
-    const stepNames = ['video', 'testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall', 'thank_you'];
+    const stepNames = ['video', 'testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall', 'checkout'];
     if (currentStep <= stepNames.length) {
       trackStepView('funnel-tt', stepNames[currentStep - 1]);
     }
@@ -180,8 +179,8 @@ export default function FunnelTtPage() {
           {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
           {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
           {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 8 && <PaywallStepTt userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 9 && <ThankYouStep userName={formData.name} />}
+          {currentStep === 8 && <PaywallStepTt userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} onCheckoutRedirect={() => setCurrentStep(9)} />}
+          {currentStep === 9 && <CheckoutStep userName={formData.name} funnelType="funnel-tt" />}
         </div>
       </div>
     </div>
