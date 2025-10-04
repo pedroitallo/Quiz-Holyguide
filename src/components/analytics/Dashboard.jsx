@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { QuizResult } from '@/api/entities';
 import { Sale } from '@/api/entities';
 import { ManualSales } from '@/api/entities';
-import { ManualVisitantes } from '@/api/entities';
 import { ManualCheckout } from '@/api/entities';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,9 +22,6 @@ export default function Dashboard() {
     const [isEditingVendas, setIsEditingVendas] = useState(false);
     const [tempVendasValue, setTempVendasValue] = useState('');
     const [manualVendas, setManualVendas] = useState(null);
-    const [isEditingVisitantes, setIsEditingVisitantes] = useState(false);
-    const [tempVisitantesValue, setTempVisitantesValue] = useState('');
-    const [manualVisitantes, setManualVisitantes] = useState(null);
     const [isEditingCheckout, setIsEditingCheckout] = useState(false);
     const [tempCheckoutValue, setTempCheckoutValue] = useState('');
     const [manualCheckout, setManualCheckout] = useState(null);
@@ -47,116 +43,48 @@ export default function Dashboard() {
 
     const [upsellData, setUpsellData] = useState([]);
 
-    // Definir as etapas reais do quiz conforme implementadas no funnel-1
+    // Definir as etapas reais do quiz: início→nome→data→amor→reading→revelation→paywall
     const getFunnelSteps = (funnelType) => {
         switch (funnelType) {
             case 'funnel-1':
                 return [
-                    { name: 'Visitantes', field: 'total' },
-                    { name: 'Vídeo', field: 'video_step_viewed' },
-                    { name: 'Depoimentos', field: 'testimonials_step_viewed' },
+                    { name: 'Início', field: 'total' },
                     { name: 'Nome', field: 'name_collection_step_viewed' },
-                    { name: 'Data Nasc.', field: 'birth_data_collection_step_viewed' },
-                    { name: 'Sit. Amor', field: 'love_situation_step_viewed' },
-                    { name: 'Leitura Palma', field: 'palm_reading_results_step_viewed' },
-                    { name: 'Revelação', field: 'loading_revelation_step_viewed' },
-                    { name: 'Paywall', field: 'paywall_step_viewed' },
-                    { name: 'Pitch', field: 'pitch_step_viewed' },
-                    { name: 'Checkout', field: 'checkout_step_clicked' }
+                    { name: 'Data', field: 'birth_data_collection_step_viewed' },
+                    { name: 'Amor', field: 'love_situation_step_viewed' },
+                    { name: 'Reading', field: 'palm_reading_results_step_viewed' },
+                    { name: 'Revelation', field: 'loading_revelation_step_viewed' },
+                    { name: 'Paywall', field: 'paywall_step_viewed' }
                 ];
             case 'funnel-2':
                 return [
-                    { name: 'Visitantes', field: 'total' },
+                    { name: 'Início', field: 'total' },
                     { name: 'Nome', field: 'name_collection_step_viewed' },
-                    { name: 'Data Nascimento', field: 'birth_data_collection_step_viewed' },
-                    { name: 'Situação Amor', field: 'love_situation_step_viewed' },
-                    { name: 'Leitura Palma', field: 'palm_reading_results_step_viewed' },
-                    { name: 'Revelação', field: 'loading_revelation_step_viewed' },
-                    { name: 'Depoimentos', field: 'testimonials_step_viewed' },
-                    { name: 'Paywall', field: 'paywall_step_viewed' },
-                    { name: 'Pitch', field: 'pitch_step_viewed' },
-                    { name: 'Checkout', field: 'checkout_step_clicked' }
+                    { name: 'Data', field: 'birth_data_collection_step_viewed' },
+                    { name: 'Amor', field: 'love_situation_step_viewed' },
+                    { name: 'Reading', field: 'palm_reading_results_step_viewed' },
+                    { name: 'Revelation', field: 'loading_revelation_step_viewed' },
+                    { name: 'Paywall', field: 'paywall_step_viewed' }
                 ];
             case 'funnel-p3':
                 return [
-                    { name: 'Visitantes', field: 'total' },
-                    { name: 'Leitura Palma', field: 'palm_reading_results_step_viewed' },
-                    { name: 'Paywall', field: 'paywall_step_viewed' },
-                    { name: 'Pitch', field: 'pitch_step_viewed' },
-                    { name: 'Checkout', field: 'checkout_step_clicked' }
+                    { name: 'Início', field: 'total' },
+                    { name: 'Reading', field: 'palm_reading_results_step_viewed' },
+                    { name: 'Paywall', field: 'paywall_step_viewed' }
                 ];
             default: // 'all'
                 return [
-                    { name: 'Visitantes', field: 'total' },
-                    { name: 'Vídeo', field: 'video_step_viewed' },
-                    { name: 'Depoimentos', field: 'testimonials_step_viewed' },
+                    { name: 'Início', field: 'total' },
                     { name: 'Nome', field: 'name_collection_step_viewed' },
-                    { name: 'Data Nascimento', field: 'birth_data_collection_step_viewed' },
-                    { name: 'Situação Amor', field: 'love_situation_step_viewed' },
-                    { name: 'Leitura Palma', field: 'palm_reading_results_step_viewed' },
-                    { name: 'Revelação', field: 'loading_revelation_step_viewed' },
-                    { name: 'Paywall', field: 'paywall_step_viewed' },
-                    { name: 'Pitch', field: 'pitch_step_viewed' },
-                    { name: 'Checkout', field: 'checkout_step_clicked' }
+                    { name: 'Data', field: 'birth_data_collection_step_viewed' },
+                    { name: 'Amor', field: 'love_situation_step_viewed' },
+                    { name: 'Reading', field: 'palm_reading_results_step_viewed' },
+                    { name: 'Revelation', field: 'loading_revelation_step_viewed' },
+                    { name: 'Paywall', field: 'paywall_step_viewed' }
                 ];
         }
     };
 
-    // Function to load manual visitantes for the current period and funnel
-    const loadManualVisitantes = async () => {
-        if (!date?.from) return null;
-
-        try {
-            const dateFrom = format(date.from, 'yyyy-MM-dd');
-            const dateTo = format(date.to || date.from, 'yyyy-MM-dd');
-
-            const manualVisitantesRecords = await ManualVisitantes.filter({
-                date_from: dateFrom,
-                date_to: dateTo,
-                funnel_variant: selectedFunnel
-            });
-
-            if (manualVisitantesRecords.length > 0) {
-                return manualVisitantesRecords[0].manual_visitantes_count;
-            }
-        } catch (error) {
-            console.warn("Erro ao carregar visitantes manuais:", error);
-        }
-
-        return null;
-    };
-
-    // Function to save manual visitantes for the current period and funnel
-    const saveManualVisitantes = async (visitantesCount) => {
-        if (!date?.from) return;
-
-        try {
-            const dateFrom = format(date.from, 'yyyy-MM-dd');
-            const dateTo = format(date.to || date.from, 'yyyy-MM-dd');
-
-            const existingRecords = await ManualVisitantes.filter({
-                date_from: dateFrom,
-                date_to: dateTo,
-                funnel_variant: selectedFunnel
-            });
-
-            if (existingRecords.length > 0) {
-                await ManualVisitantes.update(existingRecords[0].id, {
-                    manual_visitantes_count: visitantesCount
-                });
-            } else {
-                await ManualVisitantes.create({
-                    date_from: dateFrom,
-                    date_to: dateTo,
-                    funnel_variant: selectedFunnel,
-                    manual_visitantes_count: visitantesCount
-                });
-            }
-        } catch (error) {
-            console.error("Erro ao salvar visitantes manuais:", error);
-            throw error; // Re-throw to handle in UI
-        }
-    };
 
     // Function to load manual sales for the current period and funnel - FIXED VERSION
     const loadManualSales = async () => {
@@ -276,12 +204,11 @@ export default function Dashboard() {
     };
 
     // Function to calculate all statistics from given arrays of quiz results and sales
-    const calculateStats = (dataToProcess, salesToProcess, currentManualVendas, currentManualVisitantes, currentManualCheckout) => {
-        const automaticVisitantes = dataToProcess.length;
-        const totalVisitantes = currentManualVisitantes !== null ? currentManualVisitantes : automaticVisitantes;
+    const calculateStats = (dataToProcess, salesToProcess, currentManualVendas, currentManualCheckout) => {
+        // Contar visitantes reais (sem valor fixo)
+        const totalVisitantes = dataToProcess.length;
 
-        // 'Start Quiz' deve ser quem passou para a etapa de Nome (name_collection_step_viewed)
-        // Isso representa quantas pessoas realmente "iniciaram" o quiz após ver o vídeo
+        // 'Start Quiz' = quem chegou na etapa de Nome
         const startQuiz = dataToProcess.filter(item => item.name_collection_step_viewed).length;
 
         // Paywall é baseado na visualização da página do paywall
@@ -373,14 +300,12 @@ export default function Dashboard() {
         setIsLoading(true);
         try {
             // Load manual data first
-            const [savedManualSales, savedManualVisitantes, savedManualCheckout] = await Promise.all([
+            const [savedManualSales, savedManualCheckout] = await Promise.all([
                 loadManualSales(),
-                loadManualVisitantes(),
                 loadManualCheckout()
             ]);
-            
+
             setManualVendas(savedManualSales);
-            setManualVisitantes(savedManualVisitantes);
             setManualCheckout(savedManualCheckout);
 
             // Filtrar apenas registros que não são de admin (têm visitor_id válido)
@@ -425,7 +350,7 @@ export default function Dashboard() {
             setQuizData(filteredDataByDate);
             setSalesData(filteredSalesByDate);
             
-            const stats = calculateStats(filteredDataByDate, filteredSalesByDate, savedManualSales, savedManualVisitantes, savedManualCheckout);
+            const stats = calculateStats(filteredDataByDate, filteredSalesByDate, savedManualSales, savedManualCheckout);
             setStatistics(stats);
         } catch (error) {
             console.error('Erro ao carregar dados:', error);
@@ -519,16 +444,6 @@ export default function Dashboard() {
                     await ManualSales.delete(record.id);
                 }
 
-                // Clear manual visitors for this period and funnel
-                const manualVisitantesRecordsToDelete = await ManualVisitantes.filter({
-                    date_from: dateFromFormatted,
-                    date_to: dateToFormatted,
-                    funnel_variant: selectedFunnel
-                });
-
-                for (const record of manualVisitantesRecordsToDelete) {
-                    await ManualVisitantes.delete(record.id);
-                }
 
                 // Clear manual checkout for this period and funnel
                 const manualCheckoutRecordsToDelete = await ManualCheckout.filter({
@@ -552,16 +467,15 @@ export default function Dashboard() {
                 await Sale.delete(sale.id);
             }
 
-            // Reset manual sales and visitors state after clearing, will be reloaded by loadQuizData
+            // Reset manual sales state after clearing, will be reloaded by loadQuizData
             setManualVendas(null);
-            setManualVisitantes(null);
             setManualCheckout(null);
 
             // Recarregar dados
             await loadQuizData();
             await loadUpsellData(); // Also reload upsell data
             
-            alert(`✅ Dados removidos com sucesso! Foram deletados ${filteredResults.length} resultados de quiz, ${filteredSales.length} vendas e as vendas manuais/visitantes/checkout do período.`);
+            alert(`✅ Dados removidos com sucesso! Foram deletados ${filteredResults.length} resultados de quiz, ${filteredSales.length} vendas e os registros manuais do período.`);
         } catch (error) {
             console.error('Erro ao limpar dados:', error);
             alert('❌ Erro ao limpar dados. Verifique o console para mais detalhes.');
@@ -590,7 +504,7 @@ export default function Dashboard() {
             setTempVendasValue('');
             
             // Recalculate statistics with new manual value
-            const stats = calculateStats(quizData, salesData, newValue, manualVisitantes, manualCheckout);
+            const stats = calculateStats(quizData, salesData, newValue, manualCheckout);
             setStatistics(stats);
             
         } catch (error) {
@@ -602,40 +516,6 @@ export default function Dashboard() {
     const handleCancelEditVendas = () => {
         setIsEditingVendas(false);
         setTempVendasValue('');
-    };
-
-    const handleEditVisitantes = () => {
-        setIsEditingVisitantes(true);
-        // Use the current manual value if it exists, otherwise use automatic count
-        const currentValue = manualVisitantes !== null ? manualVisitantes : quizData.length;
-        setTempVisitantesValue(currentValue.toString());
-    };
-
-    const handleSaveVisitantes = async () => {
-        try {
-            const newValue = parseInt(tempVisitantesValue) || 0;
-            
-            // Save to database first
-            await saveManualVisitantes(newValue);
-            
-            // Update local state
-            setManualVisitantes(newValue);
-            setIsEditingVisitantes(false);
-            setTempVisitantesValue('');
-            
-            // Recalculate statistics with new manual value
-            const stats = calculateStats(quizData, salesData, manualVendas, newValue, manualCheckout);
-            setStatistics(stats);
-            
-        } catch (error) {
-            console.error("Erro ao salvar visitantes manuais:", error);
-            alert("Erro ao salvar visitantes manuais. Tente novamente.");
-        }
-    };
-
-    const handleCancelEditVisitantes = () => {
-        setIsEditingVisitantes(false);
-        setTempVisitantesValue('');
     };
 
     // Manual checkout editing functions
@@ -655,7 +535,7 @@ export default function Dashboard() {
             setIsEditingCheckout(false);
             setTempCheckoutValue('');
             
-            const stats = calculateStats(quizData, salesData, manualVendas, manualVisitantes, newValue);
+            const stats = calculateStats(quizData, salesData, manualVendas, newValue);
             setStatistics(stats);
             
         } catch (error) {
@@ -798,65 +678,15 @@ export default function Dashboard() {
 
                 {/* Cards de Métricas */}
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-8 mb-8">
-                    {/* Editable Card for Visitantes - IMPROVED VERSION */}
-                    <Card className="cursor-pointer" onClick={!isEditingVisitantes ? handleEditVisitantes : undefined}>
+                    {/* Card de Visitantes - Apenas leitura (dados reais) */}
+                    <Card>
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-sm font-medium">Total de Visitantes</CardTitle>
                             <Users className="h-4 w-4 text-gray-500" />
                         </CardHeader>
                         <CardContent>
-                            {isEditingVisitantes ? (
-                                <div className="space-y-2">
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        value={tempVisitantesValue}
-                                        onChange={(e) => setTempVisitantesValue(e.target.value)}
-                                        className="w-full text-2xl font-bold bg-transparent border border-gray-300 rounded px-2 py-1 focus:outline-none focus:border-purple-500"
-                                        autoFocus
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter') {
-                                                e.preventDefault();
-                                                handleSaveVisitantes();
-                                            }
-                                            if (e.key === 'Escape') {
-                                                e.preventDefault();
-                                                handleCancelEditVisitantes();
-                                            }
-                                        }}
-                                    />
-                                    <div className="flex gap-1">
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleSaveVisitantes();
-                                            }}
-                                            className="text-xs bg-green-100 hover:bg-green-200 text-green-800 px-2 py-1 rounded transition-colors"
-                                        >
-                                            ✓ Salvar
-                                        </button>
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleCancelEditVisitantes();
-                                            }}
-                                            className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 px-2 py-1 rounded transition-colors"
-                                        >
-                                            ✕ Cancelar
-                                        </button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <>
-                                    <div className="text-2xl font-bold flex items-center">
-                                        {totalVisitantes}
-                                        <span className="text-xs ml-2 text-gray-400">✎</span>
-                                    </div>
-                                    <p className="text-xs text-gray-500">
-                                        {manualVisitantes !== null ? `Manual (${quizData.length} automáticos)` : 'Visitantes automáticos'}
-                                    </p>
-                                </>
-                            )}
+                            <div className="text-2xl font-bold">{totalVisitantes}</div>
+                            <p className="text-xs text-gray-500">Leads que iniciaram o quiz</p>
                         </CardContent>
                     </Card>
                     <Card>
