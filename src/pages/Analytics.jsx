@@ -73,7 +73,7 @@ export default function Analytics() {
       const { data, error } = await supabase
         .from('ab_tests')
         .select('*')
-        .eq('is_active', true)
+        .eq('status', 'active')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
