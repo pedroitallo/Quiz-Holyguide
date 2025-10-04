@@ -20,6 +20,8 @@ export default function ABTestDialog({ onTestChange }) {
     const [isLoading, setIsLoading] = useState(false);
     const [tests, setTests] = useState([]);
     const [completedTests, setCompletedTests] = useState([]);
+    const [editingResult, setEditingResult] = useState(null);
+    const [resultText, setResultText] = useState('');
 
     const [formData, setFormData] = useState({
         name: '',
@@ -205,6 +207,37 @@ export default function ABTestDialog({ onTestChange }) {
             console.error('Error deleting test:', error);
             alert('Erro ao excluir teste');
         }
+    };
+
+    const handleSaveResult = async (testId) => {
+        try {
+            const { error } = await supabase
+                .from('ab_tests')
+                .update({
+                    result: resultText,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', testId);
+
+            if (error) throw error;
+            await loadTests();
+            setEditingResult(null);
+            setResultText('');
+            alert('Resultado salvo com sucesso!');
+        } catch (error) {
+            console.error('Error saving result:', error);
+            alert('Erro ao salvar resultado');
+        }
+    };
+
+    const handleEditResult = (test) => {
+        setEditingResult(test.id);
+        setResultText(test.result || '');
+    };
+
+    const handleCancelEditResult = () => {
+        setEditingResult(null);
+        setResultText('');
     };
 
     const handleResetData = async (test) => {
@@ -555,6 +588,16 @@ export default function ABTestDialog({ onTestChange }) {
                                                     {format(new Date(test.start_date), 'dd/MM/yyyy', { locale: ptBR })} - {format(new Date(test.end_date), 'dd/MM/yyyy', { locale: ptBR })}
                                                 </CardDescription>
                                             </div>
+                                            <div className="flex gap-2">
+                                                <Button
+                                                    size="sm"
+                                                    variant="destructive"
+                                                    onClick={() => handleDelete(test.id)}
+                                                    title="Excluir teste"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </Button>
+                                            </div>
                                         </div>
                                     </CardHeader>
                                     <CardContent className="space-y-3">
@@ -579,6 +622,53 @@ export default function ABTestDialog({ onTestChange }) {
                                                 <span className="font-semibold text-sm">Teste: </span>
                                                 <span className="text-sm text-gray-700">{getFunnelLabel(test.test_funnel)}</span>
                                             </div>
+                                        </div>
+
+                                        <div className="border-t pt-3 mt-3">
+                                            <div className="flex items-center justify-between mb-2">
+                                                <span className="font-semibold text-sm">Resultado do Teste:</span>
+                                                {editingResult !== test.id && (
+                                                    <Button
+                                                        size="sm"
+                                                        variant="outline"
+                                                        onClick={() => handleEditResult(test)}
+                                                    >
+                                                        <Edit className="w-3 h-3 mr-1" />
+                                                        {test.result ? 'Editar' : 'Adicionar'}
+                                                    </Button>
+                                                )}
+                                            </div>
+
+                                            {editingResult === test.id ? (
+                                                <div className="space-y-2">
+                                                    <Textarea
+                                                        value={resultText}
+                                                        onChange={(e) => setResultText(e.target.value)}
+                                                        placeholder="Descreva o resultado e as conclusões do teste..."
+                                                        rows={4}
+                                                        className="w-full"
+                                                    />
+                                                    <div className="flex gap-2">
+                                                        <Button
+                                                            size="sm"
+                                                            onClick={() => handleSaveResult(test.id)}
+                                                        >
+                                                            Salvar Resultado
+                                                        </Button>
+                                                        <Button
+                                                            size="sm"
+                                                            variant="outline"
+                                                            onClick={handleCancelEditResult}
+                                                        >
+                                                            Cancelar
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="text-sm text-gray-700 bg-gray-50 p-3 rounded min-h-[60px]">
+                                                    {test.result || 'Nenhum resultado registrado ainda'}
+                                                </div>
+                                            )}
                                         </div>
                                     </CardContent>
                                 </Card>
