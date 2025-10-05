@@ -263,7 +263,7 @@ export default function FunnelVslPage() {
               transition={{ duration: 0.8 }}
               className="mb-8">
 
-              <h1 className="text-2xl mb-2 font-bold leading-tight">
+              <h1 className="text-xl md:text-2xl mb-2 font-bold text-black leading-tight">
                 I will use my psychic abilities to reveal the face of your soulmate.
               </h1>
               

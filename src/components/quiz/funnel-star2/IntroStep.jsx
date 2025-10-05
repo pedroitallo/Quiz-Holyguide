@@ -17,7 +17,7 @@ export default function IntroStep({ onContinue }) {
       transition={{ duration: 0.8 }}
       className="text-center space-y-6 max-w-2xl mx-auto px-4">
 
-      <h1 className="text-[2.5rem] md:text-[3.5rem] font-bold text-[#7c3aed] leading-tight">
+      <h1 className="text-xl md:text-2xl font-bold text-black leading-tight">
         I will use my psychic abilities to reveal the face of your soulmate.
       </h1>
 
