@@ -693,9 +693,9 @@ export default function Analytics() {
 
                                   {stepIndex < variantData.steps.length - 1 && step.views > 0 && (
                                     <div className="pt-2">
-                                      <p className="text-xs text-slate-600 mb-1">Drop-off próxima etapa</p>
-                                      <p className="text-sm font-semibold text-red-600">
-                                        {step.dropOff?.toFixed(1)}%
+                                      <p className="text-xs text-slate-600 mb-1">Passagem próxima etapa</p>
+                                      <p className="text-sm font-semibold text-green-600">
+                                        {(100 - (step.dropOff || 0)).toFixed(1)}%
                                       </p>
                                     </div>
                                   )}
