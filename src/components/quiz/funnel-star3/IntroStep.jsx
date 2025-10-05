@@ -9,7 +9,7 @@ export default function IntroStep({ onContinue }) {
       transition={{ duration: 0.8 }}
       className="text-center space-y-6 max-w-4xl mx-auto">
 
-      <h1 className="text-3xl md:text-5xl font-bold text-black leading-tight px-4">
+      <h1 className="text-2xl md:text-4xl font-bold text-black leading-tight px-4">
         I Will Use My Psychic Abilities To Reveal Your Soulmate's Face And Name!
       </h1>
 
