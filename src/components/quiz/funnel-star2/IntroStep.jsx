@@ -17,12 +17,12 @@ export default function IntroStep({ onContinue }) {
       transition={{ duration: 0.8 }}
       className="text-center space-y-6 max-w-2xl mx-auto px-4">
 
-      <h1 className="text-3xl md:text-4xl font-bold text-purple-600 leading-tight">
-        I Will Use My Psychic Abilities To Reveal Your Soulmate's Face And Name!
+      <h1 className="text-4xl md:text-5xl font-bold text-[#8b5cf6] leading-tight">
+        I will use my psychic abilities to reveal the face of your soulmate.
       </h1>
 
-      <p className="text-gray-700 text-lg leading-relaxed">
-        More Than 10,000 People Have Found Their Soul Mate After This 1-Minute Astral Test.
+      <p className="text-gray-600 text-base md:text-lg leading-relaxed">
+        Press play and see why over 10,000 people trust Aura, Hollywood's number #1 psychic
       </p>
 
       <div className="py-6">
