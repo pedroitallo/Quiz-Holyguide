@@ -52,7 +52,7 @@ export default function IntroStep({ onContinue }) {
             userSelect: 'none'
           }}
         >
-          Discover My Soulmate
+          DISCOVER MY SOULMATE
           <span className="ml-2">→</span>
         </button>
 
