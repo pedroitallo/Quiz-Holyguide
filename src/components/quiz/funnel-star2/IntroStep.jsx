@@ -18,7 +18,7 @@ export default function IntroStep({ onContinue }) {
       className="text-center space-y-6 max-w-2xl mx-auto px-4">
 
       <h1 className="text-xl md:text-2xl font-bold text-black leading-tight">
-       I Will Use My Psychic Abilities To Reveal Your Soulmate's Face And Name!
+       I Will Use My Psychic Abilities To Reveal Your Soulmate's Face!
       </h1>
 
       <p className="text-black text-base md:text-lg font-medium leading-relaxed">
