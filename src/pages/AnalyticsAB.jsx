@@ -60,6 +60,7 @@ export default function AnalyticsAB() {
   const loadTestStats = async (test) => {
     try {
       console.log('🔍 Loading test stats for:', test.name, 'Test ID:', test.id);
+      console.log('📋 Full test object:', test);
 
       const dateFilter = {
         start: test.start_date,
@@ -70,6 +71,13 @@ export default function AnalyticsAB() {
 
       // Get all active variants
       const variants = [];
+      console.log('🔎 Checking variants:');
+      console.log('   variant_a:', test.variant_a);
+      console.log('   variant_b:', test.variant_b);
+      console.log('   variant_c:', test.variant_c);
+      console.log('   variant_d:', test.variant_d);
+      console.log('   variant_e:', test.variant_e);
+
       if (test.variant_a) variants.push({ label: 'A', funnel: test.variant_a });
       if (test.variant_b) variants.push({ label: 'B', funnel: test.variant_b });
       if (test.variant_c) variants.push({ label: 'C', funnel: test.variant_c });
@@ -78,14 +86,18 @@ export default function AnalyticsAB() {
 
       // Fallback for old tests
       if (variants.length === 0 && test.control_funnel && test.test_funnel) {
+        console.log('⚠️ Using fallback for old test format');
         variants.push({ label: 'A', funnel: test.control_funnel });
         variants.push({ label: 'B', funnel: test.test_funnel });
       }
 
+      console.log(`✅ Found ${variants.length} variants:`, variants);
+
       const stats = {};
       for (const variant of variants) {
+        console.log(`📊 Fetching data for Variant ${variant.label} (${variant.funnel})...`);
         const analytics = await fetchFunnelAnalytics(variant.funnel, dateFilter, test.id);
-        console.log(`📊 Variant ${variant.label} (${variant.funnel}) analytics:`, analytics);
+        console.log(`   └─ Results:`, analytics);
 
         stats[variant.label] = {
           funnel: variant.funnel,
@@ -105,9 +117,11 @@ export default function AnalyticsAB() {
         };
       }
 
+      console.log('✅ Final stats object:', stats);
       setVariantStats(stats);
     } catch (error) {
-      console.error('Error loading test stats:', error);
+      console.error('❌ Error loading test stats:', error);
+      console.error('   Stack:', error.stack);
     }
   };
 

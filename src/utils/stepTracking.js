@@ -18,23 +18,39 @@ const getActiveABTest = async (funnelType) => {
   }
 
   try {
-    const { data, error } = await supabase
+    const { data: tests, error } = await supabase
       .from('ab_tests')
-      .select('id, control_funnel, test_funnel')
-      .eq('status', 'active')
-      .or(`control_funnel.eq.${funnelType},test_funnel.eq.${funnelType}`)
-      .maybeSingle();
+      .select('id, variant_a, variant_b, variant_c, variant_d, variant_e, control_funnel, test_funnel')
+      .eq('status', 'active');
 
     if (error) {
-      console.error('Error fetching active A/B test:', error);
+      console.error('Error fetching active A/B tests:', error);
       return null;
     }
 
-    if (data) {
-      sessionStorage.setItem('ab_test_id', data.id);
-      sessionStorage.setItem('ab_test_funnel_type', funnelType);
-      console.log(`✅ Active A/B test found for ${funnelType}:`, data.id);
-      return data.id;
+    if (!tests || tests.length === 0) {
+      sessionStorage.removeItem('ab_test_id');
+      sessionStorage.removeItem('ab_test_funnel_type');
+      return null;
+    }
+
+    for (const test of tests) {
+      const variants = [
+        test.variant_a,
+        test.variant_b,
+        test.variant_c,
+        test.variant_d,
+        test.variant_e,
+        test.control_funnel,
+        test.test_funnel
+      ].filter(v => v);
+
+      if (variants.includes(funnelType)) {
+        sessionStorage.setItem('ab_test_id', test.id);
+        sessionStorage.setItem('ab_test_funnel_type', funnelType);
+        console.log(`✅ Active A/B test found for ${funnelType}:`, test.id);
+        return test.id;
+      }
     }
 
     sessionStorage.removeItem('ab_test_id');
@@ -52,6 +68,10 @@ const getTableName = (funnelType) => {
     'funnel-tt': 'step_views_funnel_tt',
     'funnel-vsl': 'step_views_funnel_vsl',
     'funnelesp': 'step_views_funnelesp',
+    'funnel-star2': 'step_views_funnel_star2',
+    'funnel-star3': 'step_views_funnel_star3',
+    'funnel-star4': 'step_views_funnel_star4',
+    'funnel-star5': 'step_views_funnel_star5',
   };
   return tableMap[funnelType];
 };
