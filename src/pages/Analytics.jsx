@@ -116,38 +116,55 @@ export default function Analytics() {
     try {
       const numValue = parseInt(value) || 0;
 
-      const { data: existing } = await supabase
+      console.log('Updating metric:', { abTestId, variantName, field, numValue });
+
+      const { data: existing, error: selectError } = await supabase
         .from('ab_test_variant_metrics')
         .select('*')
         .eq('ab_test_id', abTestId)
         .eq('variant_name', variantName)
         .maybeSingle();
 
+      if (selectError) {
+        console.error('Error selecting existing metric:', selectError);
+        throw selectError;
+      }
+
+      console.log('Existing metric:', existing);
+
       if (existing) {
-        const { error } = await supabase
+        const { data: updateData, error: updateError } = await supabase
           .from('ab_test_variant_metrics')
           .update({
             [field]: numValue,
             updated_at: new Date().toISOString(),
           })
-          .eq('id', existing.id);
+          .eq('id', existing.id)
+          .select();
 
-        if (error) throw error;
+        console.log('Update result:', { updateData, updateError });
+
+        if (updateError) throw updateError;
       } else {
-        const { error } = await supabase
+        const { data: insertData, error: insertError } = await supabase
           .from('ab_test_variant_metrics')
           .insert({
             ab_test_id: abTestId,
             variant_name: variantName,
             [field]: numValue,
-          });
+          })
+          .select();
 
-        if (error) throw error;
+        console.log('Insert result:', { insertData, insertError });
+
+        if (insertError) throw insertError;
       }
 
       await loadVariantMetrics(abTestId);
+      console.log('Metrics reloaded successfully');
     } catch (error) {
       console.error('Error updating variant metric:', error);
+      alert(`Erro ao atualizar métrica: ${error.message}`);
     }
   };
 
