@@ -12,15 +12,17 @@ export default function IntroStep({ onContinue }) {
       <h1 className="text-2xl md:text-4xl font-bold text-black leading-tight px-4">
         I Will Use My Psychic Abilities To Reveal Your Soulmate's Face And Name!
       </h1>
-      <div className="py-6>
+
+      <div className="py-6">
         <img
           src="/Start3.png"
           alt="Discover Your Soulmate"
           className="w-full max-w-3xl mx-auto rounded-lg shadow-lg"
         />
       </div>
-  <p className="text-black text-lg md:text-xl leading-relaxed max-w-3xl mx-auto px-3">
-        More Than 9,500 People Have Found Their Soul Mate After This 1-Minute Astral Test
+
+      <p className="text-black text-lg md:text-xl leading-relaxed max-w-3xl mx-auto px-4">
+        More Than 10,000 People Have Found Their Soul Mate After This 1-Minute Astral Test
       </p>
       <Button
         onClick={onContinue}
