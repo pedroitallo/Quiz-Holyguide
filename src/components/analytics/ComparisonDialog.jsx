@@ -31,6 +31,10 @@ export default function ComparisonDialog() {
     { value: 'funnel-tt', label: 'Funil TT' },
     { value: 'funnel-vsl', label: 'Funil VSL' },
     { value: 'funnelesp', label: 'Funil ESP' },
+    { value: 'funnel-star2', label: 'Funil Star 2' },
+    { value: 'funnel-star3', label: 'Funil Star 3' },
+    { value: 'funnel-star4', label: 'Funil Star 4' },
+    { value: 'funnel-star5', label: 'Funil Star 5' },
   ];
 
   const quickDateRanges = [
@@ -47,11 +51,15 @@ export default function ComparisonDialog() {
     if (funnel === 'funnel-vsl') {
       return ['video', 'sales', 'checkout'];
     }
+    if (funnel.startsWith('funnel-star')) {
+      return ['intro', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall', 'thank_you', 'checkout'];
+    }
     return ['video', 'testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall', 'thank_you', 'checkout'];
   };
 
   const getStepLabel = (field) => {
     const labels = {
+      intro: 'Intro',
       video: 'Vídeo',
       testimonials: 'Depoimentos',
       name: 'Nome',

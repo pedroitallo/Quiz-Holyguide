@@ -18,6 +18,10 @@ const FUNNEL_OPTIONS = [
   { value: 'funnel-tt', label: 'Funnel TT' },
   { value: 'funnel-vsl', label: 'Funnel VSL' },
   { value: 'funnelesp', label: 'Funnel ESP' },
+  { value: 'funnel-star2', label: 'Funil Star 2' },
+  { value: 'funnel-star3', label: 'Funil Star 3' },
+  { value: 'funnel-star4', label: 'Funil Star 4' },
+  { value: 'funnel-star5', label: 'Funil Star 5' },
 ];
 
 const DATE_RANGES = [
