@@ -5,7 +5,7 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Input } from '../components/ui/input';
-import { LogOut, RefreshCw, Eye, ArrowRight, Calendar, ShoppingCart, DollarSign, Edit2 } from 'lucide-react';
+import { LogOut, RefreshCw, Eye, ArrowRight, Calendar, ShoppingCart, DollarSign, Edit2, Check, X } from 'lucide-react';
 import { fetchFunnelAnalytics, fetchAllFunnelsAnalytics, getDateFilter } from '../utils/analyticsQueries';
 import ABTestDialog from '../components/analytics/ABTestDialog';
 import ComparisonDialog from '../components/analytics/ComparisonDialog';
@@ -55,6 +55,7 @@ export default function Analytics() {
   const [variantsData, setVariantsData] = useState([]);
   const [variantMetrics, setVariantMetrics] = useState({});
   const [editingMetric, setEditingMetric] = useState(null);
+  const [tempMetricValue, setTempMetricValue] = useState('');
 
   useEffect(() => {
     if (!authLoading && !admin) {
@@ -433,7 +434,9 @@ export default function Analytics() {
               const variantData = variantInfo.data;
               const metrics = variantMetrics[variantInfo.variantKey] || { checkout_count: 0, sales_count: 0 };
               const checkoutRate = variantData.endQuiz > 0 ? (metrics.checkout_count / variantData.endQuiz) * 100 : 0;
+              const checkoutICR = variantData.totalSessions > 0 ? (metrics.checkout_count / variantData.totalSessions) * 100 : 0;
               const salesConversion = variantData.totalSessions > 0 ? (metrics.sales_count / variantData.totalSessions) * 100 : 0;
+              const salesCheckoutRate = metrics.checkout_count > 0 ? (metrics.sales_count / metrics.checkout_count) * 100 : 0;
 
               return (
                 <div key={variantInfo.variant}>
@@ -493,73 +496,135 @@ export default function Analytics() {
                     </Card>
 
                     <Card
-                      className="cursor-pointer hover:shadow-md transition-shadow"
-                      onClick={() => setEditingMetric(`${variantInfo.variantKey}_checkout`)}
+                      className={editingMetric === `${variantInfo.variantKey}_checkout` ? "" : "cursor-pointer hover:shadow-md transition-shadow"}
+                      onClick={() => {
+                        if (editingMetric !== `${variantInfo.variantKey}_checkout`) {
+                          setEditingMetric(`${variantInfo.variantKey}_checkout`);
+                          setTempMetricValue(metrics.checkout_count.toString());
+                        }
+                      }}
                     >
                       <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-2">
                           <ShoppingCart className="w-4 h-4 text-slate-600" />
                           <span className="text-sm text-slate-600">Checkout</span>
-                          <Edit2 className="w-3 h-3 text-slate-400 ml-auto" />
+                          {editingMetric !== `${variantInfo.variantKey}_checkout` && (
+                            <Edit2 className="w-3 h-3 text-slate-400 ml-auto" />
+                          )}
                         </div>
                         {editingMetric === `${variantInfo.variantKey}_checkout` ? (
-                          <Input
-                            type="number"
-                            autoFocus
-                            defaultValue={metrics.checkout_count}
-                            onBlur={(e) => {
-                              updateVariantMetric(selectedABTest, variantInfo.variantKey, 'checkout_count', e.target.value);
-                              setEditingMetric(null);
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter') {
-                                updateVariantMetric(selectedABTest, variantInfo.variantKey, 'checkout_count', e.target.value);
-                                setEditingMetric(null);
-                              }
-                            }}
-                            className="text-3xl font-bold h-auto p-1"
-                          />
+                          <div className="space-y-2">
+                            <Input
+                              type="number"
+                              autoFocus
+                              value={tempMetricValue}
+                              onChange={(e) => setTempMetricValue(e.target.value)}
+                              onClick={(e) => e.stopPropagation()}
+                              className="text-3xl font-bold h-auto p-1"
+                            />
+                            <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                variant="default"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  updateVariantMetric(selectedABTest, variantInfo.variantKey, 'checkout_count', tempMetricValue);
+                                  setEditingMetric(null);
+                                }}
+                                className="flex-1"
+                              >
+                                <Check className="w-4 h-4 mr-1" />
+                                Confirmar
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditingMetric(null);
+                                }}
+                                className="flex-1"
+                              >
+                                <X className="w-4 h-4 mr-1" />
+                                Cancelar
+                              </Button>
+                            </div>
+                          </div>
                         ) : (
                           <div className="text-3xl font-bold text-black">{metrics.checkout_count}</div>
                         )}
                         <div className="text-xs text-slate-500 mt-1">
                           {checkoutRate.toFixed(1)}% de passagem
                         </div>
+                        <div className="text-xs text-slate-500">
+                          {checkoutICR.toFixed(1)}% ICR
+                        </div>
                       </CardContent>
                     </Card>
 
                     <Card
-                      className="cursor-pointer hover:shadow-md transition-shadow"
-                      onClick={() => setEditingMetric(`${variantInfo.variantKey}_sales`)}
+                      className={editingMetric === `${variantInfo.variantKey}_sales` ? "" : "cursor-pointer hover:shadow-md transition-shadow"}
+                      onClick={() => {
+                        if (editingMetric !== `${variantInfo.variantKey}_sales`) {
+                          setEditingMetric(`${variantInfo.variantKey}_sales`);
+                          setTempMetricValue(metrics.sales_count.toString());
+                        }
+                      }}
                     >
                       <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-2">
                           <DollarSign className="w-4 h-4 text-slate-600" />
                           <span className="text-sm text-slate-600">Vendas</span>
-                          <Edit2 className="w-3 h-3 text-slate-400 ml-auto" />
+                          {editingMetric !== `${variantInfo.variantKey}_sales` && (
+                            <Edit2 className="w-3 h-3 text-slate-400 ml-auto" />
+                          )}
                         </div>
                         {editingMetric === `${variantInfo.variantKey}_sales` ? (
-                          <Input
-                            type="number"
-                            autoFocus
-                            defaultValue={metrics.sales_count}
-                            onBlur={(e) => {
-                              updateVariantMetric(selectedABTest, variantInfo.variantKey, 'sales_count', e.target.value);
-                              setEditingMetric(null);
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter') {
-                                updateVariantMetric(selectedABTest, variantInfo.variantKey, 'sales_count', e.target.value);
-                                setEditingMetric(null);
-                              }
-                            }}
-                            className="text-3xl font-bold h-auto p-1"
-                          />
+                          <div className="space-y-2">
+                            <Input
+                              type="number"
+                              autoFocus
+                              value={tempMetricValue}
+                              onChange={(e) => setTempMetricValue(e.target.value)}
+                              onClick={(e) => e.stopPropagation()}
+                              className="text-3xl font-bold h-auto p-1"
+                            />
+                            <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                variant="default"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  updateVariantMetric(selectedABTest, variantInfo.variantKey, 'sales_count', tempMetricValue);
+                                  setEditingMetric(null);
+                                }}
+                                className="flex-1"
+                              >
+                                <Check className="w-4 h-4 mr-1" />
+                                Confirmar
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditingMetric(null);
+                                }}
+                                className="flex-1"
+                              >
+                                <X className="w-4 h-4 mr-1" />
+                                Cancelar
+                              </Button>
+                            </div>
+                          </div>
                         ) : (
                           <div className="text-3xl font-bold text-black">{metrics.sales_count}</div>
                         )}
                         <div className="text-xs text-slate-500 mt-1">
                           {salesConversion.toFixed(1)}% Conversão
+                        </div>
+                        <div className="text-xs text-slate-500">
+                          {salesCheckoutRate.toFixed(1)}% Checkout
                         </div>
                       </CardContent>
                     </Card>
