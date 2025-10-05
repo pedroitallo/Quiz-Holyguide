@@ -695,7 +695,7 @@ export default function Analytics() {
                                     <div className="pt-2">
                                       <p className="text-xs text-slate-600 mb-1">Passagem próxima etapa</p>
                                       <p className="text-sm font-semibold text-green-600">
-                                        {(100 - (step.dropOff || 0)).toFixed(1)}%
+                                        {(step.nextStepPassage || 0).toFixed(1)}%
                                       </p>
                                     </div>
                                   )}
