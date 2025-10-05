@@ -234,56 +234,100 @@ export default function AnalyticsAB() {
             </Card>
 
             {Object.keys(variantStats).length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                {renderComparison('Total de Visitantes', 'totalVisitantes')}
-                {renderComparison('Start Quiz', 'startQuiz')}
-                {renderComparison('Paywall', 'paywall')}
-                {renderComparison('Checkout', 'checkout')}
-                {renderComparison('Vendas', 'vendas')}
-                {renderComparison('Conversão Geral (%)', 'conversao')}
-                {renderComparison('Retenção (%)', 'retencao')}
-                {renderComparison('Passagem (%)', 'passagem')}
-              </div>
-            )}
-
-            {Object.keys(variantStats).length > 0 && (
-              <div className={`grid gap-6 mb-6`} style={{ gridTemplateColumns: `repeat(auto-fit, minmax(300px, 1fr))` }}>
+              <div className="space-y-8">
                 {Object.keys(variantStats).sort().map((variant, vIndex) => {
+                  const stats = variantStats[variant];
                   const colors = ['blue', 'green', 'purple', 'orange', 'pink'];
-                  const color = colors[vIndex % colors.length];
+                  const colorName = colors[vIndex % colors.length];
+                  const bgColorClass = `bg-${colorName}-50`;
+                  const borderColorClass = `border-${colorName}-200`;
+                  const textColorClass = `text-${colorName}-900`;
 
                   return (
-                    <Card key={variant}>
-                      <CardHeader>
-                        <CardTitle>Variante {variant} ({variantStats[variant].funnel})</CardTitle>
-                        <CardDescription>Desempenho da variante {variant}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-4">
-                          {variantStats[variant].funnelWithMetrics.map((step, index) => (
-                            <div key={index} className="flex items-center justify-between">
-                              <div className="flex-1">
-                                <div className="flex items-center justify-between mb-1">
-                                  <span className="text-sm font-medium text-slate-700">{step.name}</span>
-                                  <span className="text-sm font-bold text-black">{step.count}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <div className="flex-1 bg-slate-200 rounded-full h-2">
-                                    <div
-                                      className={`bg-${color}-600 h-2 rounded-full transition-all`}
-                                      style={{ width: `${step.retentionPercentage}%` }}
-                                    />
+                    <div key={variant}>
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className={`w-3 h-3 rounded-full bg-${colorName}-600`}></div>
+                        <h2 className="text-2xl font-bold text-slate-900">Grupo Variante {variant} -</h2>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <Card>
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-sm font-medium">Total de Sessões</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="text-2xl font-bold">{stats.totalVisitantes}</div>
+                            <p className="text-xs text-slate-500">Sessões únicas</p>
+                          </CardContent>
+                        </Card>
+
+                        <Card>
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-sm font-medium">Start Quiz</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="text-2xl font-bold">{stats.startQuiz}</div>
+                            <p className="text-xs text-slate-500">
+                              {stats.totalVisitantes > 0 ? ((stats.startQuiz / stats.totalVisitantes) * 100).toFixed(1) : '0.0'}% das sessões
+                            </p>
+                          </CardContent>
+                        </Card>
+
+                        <Card>
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-sm font-medium">End Quiz</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="text-2xl font-bold">{stats.paywall}</div>
+                            <p className="text-xs text-slate-500">
+                              {stats.totalVisitantes > 0 ? ((stats.paywall / stats.totalVisitantes) * 100).toFixed(1) : '0.0'}% das sessões
+                            </p>
+                          </CardContent>
+                        </Card>
+
+                        <Card>
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-sm font-medium">Retenção</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="text-2xl font-bold">{stats.retencao}%</div>
+                            <p className="text-xs text-slate-500">End Quiz / Start Quiz</p>
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      <Card className="mb-8">
+                        <CardHeader>
+                          <CardTitle>Funil de Conversão - Variante {variant} ({stats.funnel})</CardTitle>
+                          <CardDescription>Desempenho da variante {variant}</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            {stats.funnelWithMetrics.map((step, index) => (
+                              <div key={index} className="flex items-center justify-between">
+                                <div className="flex-1">
+                                  <div className="flex items-center justify-between mb-1">
+                                    <span className="text-sm font-medium text-slate-700">{step.name}</span>
+                                    <span className="text-sm font-bold text-black">{step.count}</span>
                                   </div>
-                                  <span className="text-xs font-bold text-slate-600 min-w-[3rem] text-right">
-                                    {step.retentionPercentage}%
-                                  </span>
+                                  <div className="flex items-center gap-2">
+                                    <div className="flex-1 bg-slate-200 rounded-full h-2">
+                                      <div
+                                        className={`bg-${colorName}-600 h-2 rounded-full transition-all`}
+                                        style={{ width: `${step.retentionPercentage}%` }}
+                                      />
+                                    </div>
+                                    <span className="text-xs font-bold text-slate-600 min-w-[3rem] text-right">
+                                      {step.retentionPercentage}%
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
                   );
                 })}
               </div>
