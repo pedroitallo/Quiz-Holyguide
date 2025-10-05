@@ -52,8 +52,7 @@ export default function Analytics() {
     retention: 0,
     steps: [],
   });
-  const [controlData, setControlData] = useState(null);
-  const [testData, setTestData] = useState(null);
+  const [variantsData, setVariantsData] = useState([]);
 
   useEffect(() => {
     if (!authLoading && !admin) {
@@ -113,23 +112,26 @@ export default function Analytics() {
           testDetails.variant_e,
         ].filter(v => v);
 
-        if (variants.length >= 2) {
+        if (variants.length > 0) {
           const variantDataResults = await Promise.all(
-            variants.map(variant => fetchFunnelAnalytics(variant, dateFilter, selectedABTest))
+            variants.map(async (variant, index) => {
+              const data = await fetchFunnelAnalytics(variant, dateFilter, selectedABTest);
+              return {
+                variant,
+                variantLabel: String.fromCharCode(65 + index),
+                data,
+              };
+            })
           );
-
-          setControlData(variantDataResults[0]);
-          setTestData(variantDataResults[1]);
+          setVariantsData(variantDataResults);
         } else {
-          setControlData({ totalSessions: 0, startQuiz: 0, endQuiz: 0, startQuizRate: 0, endQuizRate: 0, retention: 0, steps: [] });
-          setTestData({ totalSessions: 0, startQuiz: 0, endQuiz: 0, startQuizRate: 0, endQuizRate: 0, retention: 0, steps: [] });
+          setVariantsData([]);
         }
 
         setAnalyticsData({ totalSessions: 0, startQuiz: 0, endQuiz: 0, startQuizRate: 0, endQuizRate: 0, retention: 0, steps: [] });
       } else {
         setAbTestDetails(null);
-        setControlData(null);
-        setTestData(null);
+        setVariantsData([]);
 
         let data;
         if (selectedFunnel === 'all') {
@@ -161,6 +163,17 @@ export default function Analytics() {
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  const getVariantColor = (index) => {
+    const colors = [
+      { bg: 'bg-blue-500', light: 'bg-blue-100', text: 'text-blue-600', border: 'border-blue-300' },
+      { bg: 'bg-purple-500', light: 'bg-purple-100', text: 'text-purple-600', border: 'border-purple-300' },
+      { bg: 'bg-green-500', light: 'bg-green-100', text: 'text-green-600', border: 'border-green-300' },
+      { bg: 'bg-orange-500', light: 'bg-orange-100', text: 'text-orange-600', border: 'border-orange-300' },
+      { bg: 'bg-pink-500', light: 'bg-pink-100', text: 'text-pink-600', border: 'border-pink-300' },
+    ];
+    return colors[index % colors.length];
   };
 
   if (authLoading || loading) {
@@ -347,241 +360,133 @@ export default function Analytics() {
           </Card>
         )}
 
-        {controlData && testData ? (
+        {variantsData.length > 0 ? (
           <>
-            <h2 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
-              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              Variante A - {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_a)?.label}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Eye className="w-4 h-4 text-slate-600" />
-                    <span className="text-sm text-slate-600">Total de Sessões</span>
-                  </div>
-                  <div className="text-3xl font-bold text-black">{controlData.totalSessions}</div>
-                  <div className="text-xs text-slate-500 mt-1">Sessões únicas</div>
-                </CardContent>
-              </Card>
+            {variantsData.map((variantInfo, variantIndex) => {
+              const colors = getVariantColor(variantIndex);
+              const variantData = variantInfo.data;
 
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <ArrowRight className="w-4 h-4 text-slate-600" />
-                    <span className="text-sm text-slate-600">Start Quiz</span>
-                  </div>
-                  <div className="text-3xl font-bold text-black">{controlData.startQuiz}</div>
-                  <div className="text-xs text-slate-500 mt-1">
-                    {controlData.startQuizRate.toFixed(1)}% das sessões
-                  </div>
-                </CardContent>
-              </Card>
+              return (
+                <div key={variantInfo.variant}>
+                  <h2 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                    <div className={`w-3 h-3 ${colors.bg} rounded-full`}></div>
+                    Variante {variantInfo.variantLabel} - {FUNNEL_OPTIONS.find(f => f.value === variantInfo.variant)?.label}
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Eye className="w-4 h-4 text-slate-600" />
+                          <span className="text-sm text-slate-600">Total de Sessões</span>
+                        </div>
+                        <div className="text-3xl font-bold text-black">{variantData.totalSessions}</div>
+                        <div className="text-xs text-slate-500 mt-1">Sessões únicas</div>
+                      </CardContent>
+                    </Card>
 
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Eye className="w-4 h-4 text-slate-600" />
-                    <span className="text-sm text-slate-600">End Quiz</span>
-                  </div>
-                  <div className="text-3xl font-bold text-black">{controlData.endQuiz}</div>
-                  <div className="text-xs text-slate-500 mt-1">
-                    {controlData.endQuizRate.toFixed(1)}% das sessões
-                  </div>
-                </CardContent>
-              </Card>
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-2 mb-2">
+                          <ArrowRight className="w-4 h-4 text-slate-600" />
+                          <span className="text-sm text-slate-600">Start Quiz</span>
+                        </div>
+                        <div className="text-3xl font-bold text-black">{variantData.startQuiz}</div>
+                        <div className="text-xs text-slate-500 mt-1">
+                          {variantData.startQuizRate.toFixed(1)}% das sessões
+                        </div>
+                      </CardContent>
+                    </Card>
 
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <ArrowRight className="w-4 h-4 text-slate-600" />
-                    <span className="text-sm text-slate-600">Retenção</span>
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Eye className="w-4 h-4 text-slate-600" />
+                          <span className="text-sm text-slate-600">End Quiz</span>
+                        </div>
+                        <div className="text-3xl font-bold text-black">{variantData.endQuiz}</div>
+                        <div className="text-xs text-slate-500 mt-1">
+                          {variantData.endQuizRate.toFixed(1)}% das sessões
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-2 mb-2">
+                          <ArrowRight className="w-4 h-4 text-slate-600" />
+                          <span className="text-sm text-slate-600">Retenção</span>
+                        </div>
+                        <div className="text-3xl font-bold text-black">{variantData.retention.toFixed(1)}%</div>
+                        <div className="text-xs text-slate-500 mt-1">
+                          End Quiz / Start Quiz
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
-                  <div className="text-3xl font-bold text-black">{controlData.retention.toFixed(1)}%</div>
-                  <div className="text-xs text-slate-500 mt-1">
-                    End Quiz / Start Quiz
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
 
-            <Card className="mb-8">
-              <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  Funil de Conversão - Variante A
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto pb-4">
-                  <div className="flex gap-3 min-w-min">
-                    {controlData.steps.map((step, index) => (
-                      <Card key={step.name} className="bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:shadow-md transition-shadow flex-shrink-0 w-[240px]">
-                        <CardContent className="p-4">
-                          <div className="flex justify-between items-start mb-3">
-                            <div className="flex items-center gap-2">
-                              <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                                <span className="text-xs font-bold text-blue-600">{index + 1}</span>
-                              </div>
-                              <h3 className="text-sm font-semibold text-slate-900">{step.label}</h3>
-                            </div>
-                            <Eye className="w-4 h-4 text-blue-500" />
-                          </div>
-
-                          <div className="space-y-2">
-                            <div>
-                              <p className="text-xs text-slate-600 mb-1">Total de Views</p>
-                              <p className="text-2xl font-bold text-slate-900">{step.views}</p>
-                            </div>
-
-                            <div className="pt-2 border-t border-slate-200">
-                              <p className="text-xs text-slate-600 mb-1">Taxa de Visualização</p>
-                              <div className="flex items-center gap-2">
-                                <div className="flex-1 bg-slate-200 rounded-full h-1.5">
-                                  <div
-                                    className="bg-green-600 h-1.5 rounded-full transition-all"
-                                    style={{ width: `${Math.min(step.percentage, 100)}%` }}
-                                  />
+                  <Card className="mb-8">
+                    <CardHeader>
+                      <CardTitle className="text-xl flex items-center gap-2">
+                        <div className={`w-3 h-3 ${colors.bg} rounded-full`}></div>
+                        Funil de Conversão - Variante {variantInfo.variantLabel}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="overflow-x-auto pb-4">
+                        <div className="flex gap-3 min-w-min">
+                          {variantData.steps.map((step, stepIndex) => (
+                            <Card key={step.key} className="bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:shadow-md transition-shadow flex-shrink-0 w-[240px]">
+                              <CardContent className="p-4">
+                                <div className="flex justify-between items-start mb-3">
+                                  <div className="flex items-center gap-2">
+                                    <div className={`w-6 h-6 rounded-full ${colors.light} flex items-center justify-center`}>
+                                      <span className={`text-xs font-bold ${colors.text}`}>{stepIndex + 1}</span>
+                                    </div>
+                                    <h3 className="text-sm font-semibold text-slate-900">{step.label}</h3>
+                                  </div>
+                                  <Eye className={`w-4 h-4 ${colors.bg.replace('bg-', 'text-')}`} />
                                 </div>
-                                <span className="text-xs font-bold text-slate-700 min-w-[2.5rem] text-right">
-                                  {step.percentage.toFixed(1)}%
-                                </span>
-                              </div>
-                            </div>
 
-                            {index < controlData.steps.length - 1 && step.views > 0 && (
-                              <div className="pt-2">
-                                <p className="text-xs text-slate-600 mb-1">Drop-off próxima etapa</p>
-                                <p className="text-sm font-semibold text-red-600">
-                                  {step.dropOff?.toFixed(1)}%
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                                <div className="space-y-2">
+                                  <div>
+                                    <p className="text-xs text-slate-600 mb-1">Total de Views</p>
+                                    <p className="text-2xl font-bold text-slate-900">{step.views}</p>
+                                  </div>
 
-            <h2 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
-              <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-              Variante B - {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_b)?.label}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Eye className="w-4 h-4 text-slate-600" />
-                    <span className="text-sm text-slate-600">Total de Sessões</span>
-                  </div>
-                  <div className="text-3xl font-bold text-black">{testData.totalSessions}</div>
-                  <div className="text-xs text-slate-500 mt-1">Sessões únicas</div>
-                </CardContent>
-              </Card>
+                                  <div className="pt-2 border-t border-slate-200">
+                                    <p className="text-xs text-slate-600 mb-1">Taxa de Visualização</p>
+                                    <div className="flex items-center gap-2">
+                                      <div className="flex-1 bg-slate-200 rounded-full h-1.5">
+                                        <div
+                                          className="bg-green-600 h-1.5 rounded-full transition-all"
+                                          style={{ width: `${Math.min(step.percentage, 100)}%` }}
+                                        />
+                                      </div>
+                                      <span className="text-xs font-bold text-slate-700 min-w-[2.5rem] text-right">
+                                        {step.percentage.toFixed(1)}%
+                                      </span>
+                                    </div>
+                                  </div>
 
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <ArrowRight className="w-4 h-4 text-slate-600" />
-                    <span className="text-sm text-slate-600">Start Quiz</span>
-                  </div>
-                  <div className="text-3xl font-bold text-black">{testData.startQuiz}</div>
-                  <div className="text-xs text-slate-500 mt-1">
-                    {testData.startQuizRate.toFixed(1)}% das sessões
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Eye className="w-4 h-4 text-slate-600" />
-                    <span className="text-sm text-slate-600">End Quiz</span>
-                  </div>
-                  <div className="text-3xl font-bold text-black">{testData.endQuiz}</div>
-                  <div className="text-xs text-slate-500 mt-1">
-                    {testData.endQuizRate.toFixed(1)}% das sessões
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <ArrowRight className="w-4 h-4 text-slate-600" />
-                    <span className="text-sm text-slate-600">Retenção</span>
-                  </div>
-                  <div className="text-3xl font-bold text-black">{testData.retention.toFixed(1)}%</div>
-                  <div className="text-xs text-slate-500 mt-1">
-                    End Quiz / Start Quiz
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <Card className="mb-8">
-              <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">
-                  <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                  Funil de Conversão - Variante B
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto pb-4">
-                  <div className="flex gap-3 min-w-min">
-                    {testData.steps.map((step, index) => (
-                      <Card key={step.name} className="bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:shadow-md transition-shadow flex-shrink-0 w-[240px]">
-                        <CardContent className="p-4">
-                          <div className="flex justify-between items-start mb-3">
-                            <div className="flex items-center gap-2">
-                              <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center">
-                                <span className="text-xs font-bold text-purple-600">{index + 1}</span>
-                              </div>
-                              <h3 className="text-sm font-semibold text-slate-900">{step.label}</h3>
-                            </div>
-                            <Eye className="w-4 h-4 text-purple-500" />
-                          </div>
-
-                          <div className="space-y-2">
-                            <div>
-                              <p className="text-xs text-slate-600 mb-1">Total de Views</p>
-                              <p className="text-2xl font-bold text-slate-900">{step.views}</p>
-                            </div>
-
-                            <div className="pt-2 border-t border-slate-200">
-                              <p className="text-xs text-slate-600 mb-1">Taxa de Visualização</p>
-                              <div className="flex items-center gap-2">
-                                <div className="flex-1 bg-slate-200 rounded-full h-1.5">
-                                  <div
-                                    className="bg-green-600 h-1.5 rounded-full transition-all"
-                                    style={{ width: `${Math.min(step.percentage, 100)}%` }}
-                                  />
+                                  {stepIndex < variantData.steps.length - 1 && step.views > 0 && (
+                                    <div className="pt-2">
+                                      <p className="text-xs text-slate-600 mb-1">Drop-off próxima etapa</p>
+                                      <p className="text-sm font-semibold text-red-600">
+                                        {step.dropOff?.toFixed(1)}%
+                                      </p>
+                                    </div>
+                                  )}
                                 </div>
-                                <span className="text-xs font-bold text-slate-700 min-w-[2.5rem] text-right">
-                                  {step.percentage.toFixed(1)}%
-                                </span>
-                              </div>
-                            </div>
-
-                            {index < testData.steps.length - 1 && step.views > 0 && (
-                              <div className="pt-2">
-                                <p className="text-xs text-slate-600 mb-1">Drop-off próxima etapa</p>
-                                <p className="text-sm font-semibold text-red-600">
-                                  {step.dropOff?.toFixed(1)}%
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
-              </CardContent>
-            </Card>
+              );
+            })}
           </>
         ) : (
           <>
