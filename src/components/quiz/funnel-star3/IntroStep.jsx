@@ -12,7 +12,7 @@ export default function IntroStep({ onContinue }) {
       <h1 className="text-2xl md:text-4xl font-bold text-black leading-tight px-4">
         I Will Use My Psychic Abilities To Reveal Your Soulmate's Face And Name!
       </h1>
-      <div className="py-3>
+      <div className="py-6>
         <img
           src="/Start3.png"
           alt="Discover Your Soulmate"
