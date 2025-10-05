@@ -12,6 +12,20 @@ import ComparisonDialog from '../components/analytics/ComparisonDialog';
 import { supabase } from '../lib/supabase';
 import { FlaskConical } from 'lucide-react';
 
+const getPassageColor = (passageRate, stepKey) => {
+  const isIntroStep = stepKey === 'intro' || stepKey === 'video';
+
+  if (isIntroStep) {
+    if (passageRate < 55) return 'text-red-600';
+    if (passageRate < 60) return 'text-yellow-600';
+    return 'text-green-600';
+  } else {
+    if (passageRate < 90) return 'text-red-600';
+    if (passageRate < 95) return 'text-yellow-600';
+    return 'text-green-600';
+  }
+};
+
 const FUNNEL_OPTIONS = [
   { value: 'all', label: 'Todos os Funis' },
   { value: 'funnel-1', label: 'Funnel 1' },
@@ -694,7 +708,7 @@ export default function Analytics() {
                                   {stepIndex < variantData.steps.length - 1 && step.views > 0 && (
                                     <div className="pt-2">
                                       <p className="text-xs text-slate-600 mb-1">Passagem próxima etapa</p>
-                                      <p className="text-sm font-semibold text-green-600">
+                                      <p className={`text-sm font-semibold ${getPassageColor(step.nextStepPassage || 0, step.key)}`}>
                                         {(step.nextStepPassage || 0).toFixed(1)}%
                                       </p>
                                     </div>
@@ -813,12 +827,10 @@ export default function Analytics() {
 
                         {index < analyticsData.steps.length - 1 && step.views > 0 && (
                           <div className="pt-2">
-                            <div className="flex items-center gap-1 text-slate-900">
-                              <ArrowRight className="w-4 h-4" />
-                              <span className="text-sm font-medium">
-                                Próxima: {analyticsData.steps[index + 1]?.views || 0} ({step.nextStepPassage.toFixed(1)}%)
-                              </span>
-                            </div>
+                            <p className="text-xs text-slate-600 mb-1">Passagem próxima etapa</p>
+                            <p className={`text-sm font-semibold ${getPassageColor(step.nextStepPassage || 0, step.key)}`}>
+                              {(step.nextStepPassage || 0).toFixed(1)}%
+                            </p>
                           </div>
                         )}
                       </div>
