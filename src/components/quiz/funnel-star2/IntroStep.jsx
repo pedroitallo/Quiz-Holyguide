@@ -18,11 +18,11 @@ export default function IntroStep({ onContinue }) {
       className="text-center space-y-6 max-w-2xl mx-auto px-4">
 
       <h1 className="text-xl md:text-2xl font-bold text-black leading-tight">
-        I will use my psychic abilities to reveal the face of your soulmate.
+       I Will Use My Psychic Abilities To Reveal Your Soulmate's Face And Name!
       </h1>
 
       <p className="text-black text-base md:text-lg font-medium leading-relaxed">
-        Press play and see why over 10,000 people trust Aura, Hollywood's number #1 psychic
+      I will reveal, in detail, everything destiny holds about the love of your life
       </p>
 
       <div className="py-6">
@@ -40,7 +40,7 @@ export default function IntroStep({ onContinue }) {
         className="space-y-4">
 
         <p className="text-gray-700 text-sm mx-auto max-w-sm leading-relaxed">
-          ⏳ Takes just 1 minute
+          🔮 Get your astral reading in 2 minutes
         </p>
 
         <button
