@@ -1,7 +1,14 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useTracking } from '@/hooks/useTracking';
 
 export default function IntroStep({ onContinue }) {
+  const { trackStartQuiz } = useTracking();
+
+  const handleContinue = () => {
+    trackStartQuiz();
+    onContinue();
+  };
   const testimonials = [
     { name: "Sarah M.", text: "She revealed exactly who my soulmate was! We met 3 months later. ⭐⭐⭐⭐⭐" },
     { name: "Michael R.", text: "Absolutely mind-blowing accuracy. Worth every penny! ⭐⭐⭐⭐⭐" },
@@ -48,7 +55,7 @@ export default function IntroStep({ onContinue }) {
       </div>
 
       <Button
-        onClick={onContinue}
+        onClick={handleContinue}
         className="w-full max-w-md mx-auto bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold py-6 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 animate-pulse"
       >
         Get My Reading Now

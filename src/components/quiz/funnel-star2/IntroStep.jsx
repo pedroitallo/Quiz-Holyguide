@@ -1,14 +1,21 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useTracking } from '@/hooks/useTracking';
 
 export default function IntroStep({ onContinue }) {
   const [currentDate, setCurrentDate] = useState('');
+  const { trackStartQuiz } = useTracking();
 
   useEffect(() => {
     const today = new Date();
     const options = { month: 'long', day: 'numeric', year: 'numeric' };
     setCurrentDate(today.toLocaleDateString('en-US', options));
   }, []);
+
+  const handleContinue = () => {
+    trackStartQuiz();
+    onContinue();
+  };
 
   return (
     <motion.div
@@ -44,7 +51,7 @@ export default function IntroStep({ onContinue }) {
         </p>
 
         <button
-          onClick={onContinue}
+          onClick={handleContinue}
           className="w-full max-w-sm md:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold whitespace-nowrap inline-flex items-center justify-center rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform active:scale-95 hover:scale-105 px-10 py-5 text-base md:px-16 md:py-6 md:text-lg animate-bounce-subtle cursor-pointer touch-manipulation"
           style={{
             WebkitTapHighlightColor: 'transparent',

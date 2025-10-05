@@ -1,7 +1,15 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useTracking } from '@/hooks/useTracking';
 
 export default function IntroStep({ onContinue }) {
+  const { trackStartQuiz } = useTracking();
+
+  const handleContinue = () => {
+    trackStartQuiz();
+    onContinue();
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -25,7 +33,7 @@ export default function IntroStep({ onContinue }) {
         More Than 10,000 People Have Found Their Soul Mate After This 1-Minute Astral Test
       </p>
       <Button
-        onClick={onContinue}
+        onClick={handleContinue}
         className="w-full max-w-md mx-auto bg-green-600 hover:bg-green-700 text-white font-bold py-6 rounded-lg text-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
       >
         DISCOVER MY SOULMATE→

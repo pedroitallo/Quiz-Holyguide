@@ -1,8 +1,15 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTracking } from '@/hooks/useTracking';
 
 export default function IntroStep({ onContinue }) {
+  const { trackStartQuiz } = useTracking();
+
+  const handleContinue = () => {
+    trackStartQuiz();
+    onContinue();
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -34,7 +41,7 @@ export default function IntroStep({ onContinue }) {
       </Card>
 
       <Button
-        onClick={onContinue}
+        onClick={handleContinue}
         className="w-full max-w-md mx-auto bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-6 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
       >
         Discover My Soulmate
