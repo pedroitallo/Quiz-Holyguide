@@ -105,11 +105,26 @@ export default function Analytics() {
         const testDetails = activeABTests.find(t => t.id === selectedABTest);
         setAbTestDetails(testDetails);
 
-        const controlDataResult = await fetchFunnelAnalytics(testDetails.control_funnel, dateFilter);
-        const testDataResult = await fetchFunnelAnalytics(testDetails.test_funnel, dateFilter);
+        const variants = [
+          testDetails.variant_a,
+          testDetails.variant_b,
+          testDetails.variant_c,
+          testDetails.variant_d,
+          testDetails.variant_e,
+        ].filter(v => v);
 
-        setControlData(controlDataResult);
-        setTestData(testDataResult);
+        if (variants.length >= 2) {
+          const variantDataResults = await Promise.all(
+            variants.map(variant => fetchFunnelAnalytics(variant, dateFilter, selectedABTest))
+          );
+
+          setControlData(variantDataResults[0]);
+          setTestData(variantDataResults[1]);
+        } else {
+          setControlData({ totalSessions: 0, startQuiz: 0, endQuiz: 0, startQuizRate: 0, endQuizRate: 0, retention: 0, steps: [] });
+          setTestData({ totalSessions: 0, startQuiz: 0, endQuiz: 0, startQuizRate: 0, endQuizRate: 0, retention: 0, steps: [] });
+        }
+
         setAnalyticsData({ totalSessions: 0, startQuiz: 0, endQuiz: 0, startQuizRate: 0, endQuizRate: 0, retention: 0, steps: [] });
       } else {
         setAbTestDetails(null);
@@ -296,13 +311,32 @@ export default function Analytics() {
                       <strong>Objetivo:</strong> {abTestDetails.objective}
                     </p>
                   )}
-                  <div className="flex gap-6 mt-3">
-                    <p className="text-sm text-slate-700">
-                      <strong>Controle:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.control_funnel)?.label}
-                    </p>
-                    <p className="text-sm text-slate-700">
-                      <strong>Teste:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.test_funnel)?.label}
-                    </p>
+                  <div className="flex gap-6 mt-3 flex-wrap">
+                    {abTestDetails.variant_a && (
+                      <p className="text-sm text-slate-700">
+                        <strong>Variante A:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_a)?.label}
+                      </p>
+                    )}
+                    {abTestDetails.variant_b && (
+                      <p className="text-sm text-slate-700">
+                        <strong>Variante B:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_b)?.label}
+                      </p>
+                    )}
+                    {abTestDetails.variant_c && (
+                      <p className="text-sm text-slate-700">
+                        <strong>Variante C:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_c)?.label}
+                      </p>
+                    )}
+                    {abTestDetails.variant_d && (
+                      <p className="text-sm text-slate-700">
+                        <strong>Variante D:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_d)?.label}
+                      </p>
+                    )}
+                    {abTestDetails.variant_e && (
+                      <p className="text-sm text-slate-700">
+                        <strong>Variante E:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_e)?.label}
+                      </p>
+                    )}
                     <p className="text-sm text-slate-700">
                       <strong>Início:</strong> {new Date(abTestDetails.start_date).toLocaleDateString('pt-BR')}
                     </p>
@@ -317,7 +351,7 @@ export default function Analytics() {
           <>
             <h2 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
               <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              Grupo Controle - {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.control_funnel)?.label}
+              Variante A - {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_a)?.label}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <Card>
@@ -375,7 +409,7 @@ export default function Analytics() {
               <CardHeader>
                 <CardTitle className="text-xl flex items-center gap-2">
                   <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  Funil de Conversão - Controle
+                  Funil de Conversão - Variante A
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -434,7 +468,7 @@ export default function Analytics() {
 
             <h2 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
               <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-              Grupo Teste - {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.test_funnel)?.label}
+              Variante B - {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_b)?.label}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <Card>
@@ -492,7 +526,7 @@ export default function Analytics() {
               <CardHeader>
                 <CardTitle className="text-xl flex items-center gap-2">
                   <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                  Funil de Conversão - Teste
+                  Funil de Conversão - Variante B
                 </CardTitle>
               </CardHeader>
               <CardContent>
