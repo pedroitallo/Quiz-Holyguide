@@ -21,7 +21,7 @@ export default function IntroStep({ onContinue }) {
         />
       </div>
 
-      <p className="text-black text-lg md:text-xl leading-relaxed max-w-3xl mx-auto px-4">
+      <p className="text-black text-lg md:text-xl leading-relaxed max-w-3xl mx-auto px-2">
         More Than 10,000 People Have Found Their Soul Mate After This 1-Minute Astral Test
       </p>
       <Button
