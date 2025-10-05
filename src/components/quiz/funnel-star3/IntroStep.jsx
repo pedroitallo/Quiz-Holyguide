@@ -16,7 +16,7 @@ export default function IntroStep({ onContinue }) {
         <img
           src="/Start3.png"
            <p className="text-black text-lg md:text-xl leading-relaxed max-w-3xl mx-auto px-3">
-        More Than 10,000 People Have Found Their Soul Mate After This 1-Minute Astral Test
+        More Than 9,500 People Have Found Their Soul Mate After This 1-Minute Astral Test
       </p>
           alt="Discover Your Soulmate"
           className="w-full max-w-3xl mx-auto rounded-lg shadow-lg"
