@@ -17,11 +17,11 @@ export default function IntroStep({ onContinue }) {
       transition={{ duration: 0.8 }}
       className="text-center space-y-6 max-w-2xl mx-auto px-4">
 
-      <h1 className="text-4xl md:text-5xl font-bold text-[#8b5cf6] leading-tight">
+      <h1 className="text-[2.5rem] md:text-[3.5rem] font-bold text-[#7c3aed] leading-tight">
         I will use my psychic abilities to reveal the face of your soulmate.
       </h1>
 
-      <p className="text-gray-600 text-base md:text-lg leading-relaxed">
+      <p className="text-black text-base md:text-lg font-medium leading-relaxed">
         Press play and see why over 10,000 people trust Aura, Hollywood's number #1 psychic
       </p>
 
