@@ -5,7 +5,7 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Input } from '../components/ui/input';
-import { LogOut, RefreshCw, Eye, ArrowRight, Calendar } from 'lucide-react';
+import { LogOut, RefreshCw, Eye, ArrowRight, Calendar, ShoppingCart, DollarSign, Edit2 } from 'lucide-react';
 import { fetchFunnelAnalytics, fetchAllFunnelsAnalytics, getDateFilter } from '../utils/analyticsQueries';
 import ABTestDialog from '../components/analytics/ABTestDialog';
 import ComparisonDialog from '../components/analytics/ComparisonDialog';
@@ -53,6 +53,8 @@ export default function Analytics() {
     steps: [],
   });
   const [variantsData, setVariantsData] = useState([]);
+  const [variantMetrics, setVariantMetrics] = useState({});
+  const [editingMetric, setEditingMetric] = useState(null);
 
   useEffect(() => {
     if (!authLoading && !admin) {
@@ -87,6 +89,67 @@ export default function Analytics() {
     }
   };
 
+  const loadVariantMetrics = async (abTestId) => {
+    try {
+      const { data, error } = await supabase
+        .from('ab_test_variant_metrics')
+        .select('*')
+        .eq('ab_test_id', abTestId);
+
+      if (error) throw error;
+
+      const metricsMap = {};
+      (data || []).forEach(metric => {
+        metricsMap[metric.variant_name] = {
+          checkout_count: metric.checkout_count || 0,
+          sales_count: metric.sales_count || 0,
+        };
+      });
+      setVariantMetrics(metricsMap);
+    } catch (error) {
+      console.error('Error loading variant metrics:', error);
+    }
+  };
+
+  const updateVariantMetric = async (abTestId, variantName, field, value) => {
+    try {
+      const numValue = parseInt(value) || 0;
+
+      const { data: existing } = await supabase
+        .from('ab_test_variant_metrics')
+        .select('*')
+        .eq('ab_test_id', abTestId)
+        .eq('variant_name', variantName)
+        .maybeSingle();
+
+      if (existing) {
+        const { error } = await supabase
+          .from('ab_test_variant_metrics')
+          .update({
+            [field]: numValue,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', existing.id);
+
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('ab_test_variant_metrics')
+          .insert({
+            ab_test_id: abTestId,
+            variant_name: variantName,
+            [field]: numValue,
+          });
+
+        if (error) throw error;
+      }
+
+      await loadVariantMetrics(abTestId);
+    } catch (error) {
+      console.error('Error updating variant metric:', error);
+    }
+  };
+
   const fetchAnalytics = async () => {
     setLoading(true);
     try {
@@ -113,12 +176,15 @@ export default function Analytics() {
         ].filter(v => v);
 
         if (variants.length > 0) {
+          await loadVariantMetrics(selectedABTest);
+
           const variantDataResults = await Promise.all(
             variants.map(async (variant, index) => {
               const data = await fetchFunnelAnalytics(variant, dateFilter, selectedABTest);
               return {
                 variant,
                 variantLabel: String.fromCharCode(65 + index),
+                variantKey: `variant_${String.fromCharCode(97 + index)}`,
                 data,
               };
             })
@@ -365,6 +431,9 @@ export default function Analytics() {
             {variantsData.map((variantInfo, variantIndex) => {
               const colors = getVariantColor(variantIndex);
               const variantData = variantInfo.data;
+              const metrics = variantMetrics[variantInfo.variantKey] || { checkout_count: 0, sales_count: 0 };
+              const checkoutRate = variantData.endQuiz > 0 ? (metrics.checkout_count / variantData.endQuiz) * 100 : 0;
+              const salesConversion = variantData.totalSessions > 0 ? (metrics.sales_count / variantData.totalSessions) * 100 : 0;
 
               return (
                 <div key={variantInfo.variant}>
@@ -372,7 +441,7 @@ export default function Analytics() {
                     <div className={`w-3 h-3 ${colors.bg} rounded-full`}></div>
                     Variante {variantInfo.variantLabel} - {FUNNEL_OPTIONS.find(f => f.value === variantInfo.variant)?.label}
                   </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
                     <Card>
                       <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-2">
@@ -419,6 +488,78 @@ export default function Analytics() {
                         <div className="text-3xl font-bold text-black">{variantData.retention.toFixed(1)}%</div>
                         <div className="text-xs text-slate-500 mt-1">
                           End Quiz / Start Quiz
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card
+                      className="cursor-pointer hover:shadow-md transition-shadow"
+                      onClick={() => setEditingMetric(`${variantInfo.variantKey}_checkout`)}
+                    >
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-2 mb-2">
+                          <ShoppingCart className="w-4 h-4 text-slate-600" />
+                          <span className="text-sm text-slate-600">Checkout</span>
+                          <Edit2 className="w-3 h-3 text-slate-400 ml-auto" />
+                        </div>
+                        {editingMetric === `${variantInfo.variantKey}_checkout` ? (
+                          <Input
+                            type="number"
+                            autoFocus
+                            defaultValue={metrics.checkout_count}
+                            onBlur={(e) => {
+                              updateVariantMetric(selectedABTest, variantInfo.variantKey, 'checkout_count', e.target.value);
+                              setEditingMetric(null);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                updateVariantMetric(selectedABTest, variantInfo.variantKey, 'checkout_count', e.target.value);
+                                setEditingMetric(null);
+                              }
+                            }}
+                            className="text-3xl font-bold h-auto p-1"
+                          />
+                        ) : (
+                          <div className="text-3xl font-bold text-black">{metrics.checkout_count}</div>
+                        )}
+                        <div className="text-xs text-slate-500 mt-1">
+                          {checkoutRate.toFixed(1)}% de passagem
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card
+                      className="cursor-pointer hover:shadow-md transition-shadow"
+                      onClick={() => setEditingMetric(`${variantInfo.variantKey}_sales`)}
+                    >
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-2 mb-2">
+                          <DollarSign className="w-4 h-4 text-slate-600" />
+                          <span className="text-sm text-slate-600">Vendas</span>
+                          <Edit2 className="w-3 h-3 text-slate-400 ml-auto" />
+                        </div>
+                        {editingMetric === `${variantInfo.variantKey}_sales` ? (
+                          <Input
+                            type="number"
+                            autoFocus
+                            defaultValue={metrics.sales_count}
+                            onBlur={(e) => {
+                              updateVariantMetric(selectedABTest, variantInfo.variantKey, 'sales_count', e.target.value);
+                              setEditingMetric(null);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                updateVariantMetric(selectedABTest, variantInfo.variantKey, 'sales_count', e.target.value);
+                                setEditingMetric(null);
+                              }
+                            }}
+                            className="text-3xl font-bold h-auto p-1"
+                          />
+                        ) : (
+                          <div className="text-3xl font-bold text-black">{metrics.sales_count}</div>
+                        )}
+                        <div className="text-xs text-slate-500 mt-1">
+                          {salesConversion.toFixed(1)}% Conversão
                         </div>
                       </CardContent>
                     </Card>
