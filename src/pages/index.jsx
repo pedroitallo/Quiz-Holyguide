@@ -12,6 +12,7 @@ import FunnelStar5 from "./funnel-star5";
 import AdminLogin from "./AdminLogin";
 import Analytics from "./Analytics";
 import AnalyticsAB from "./AnalyticsAB";
+import FileManager from "./FileManager";
 import React, { lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AdminAuthProvider } from '../contexts/AdminAuthContext';
@@ -55,6 +56,7 @@ function PagesContent() {
                 <Route path="/admin" element={<Analytics />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/analytics-ab" element={<AnalyticsAB />} />
+                <Route path="/admin/files" element={<FileManager />} />
             </Routes>
         );
     }

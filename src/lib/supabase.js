@@ -129,3 +129,122 @@ export const testSupabaseConnection = async () => {
 if (typeof window !== 'undefined') {
   testSupabaseConnection()
 }
+
+// Storage helper functions
+export const storage = {
+  BUCKET_NAME: 'user-uploads',
+
+  async uploadFile(file, folder = 'images') {
+    if (!supabase) {
+      throw new Error('Supabase client not initialized')
+    }
+
+    if (!file) {
+      throw new Error('No file provided')
+    }
+
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
+
+    const { data, error } = await supabase.storage
+      .from(this.BUCKET_NAME)
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      })
+
+    if (error) {
+      console.error('Upload error:', error)
+      throw error
+    }
+
+    return {
+      path: data.path,
+      fullPath: data.fullPath,
+      url: this.getPublicUrl(data.path)
+    }
+  },
+
+  async uploadMultiple(files, folder = 'images') {
+    if (!Array.isArray(files)) {
+      throw new Error('Files must be an array')
+    }
+
+    const uploadPromises = files.map(file => this.uploadFile(file, folder))
+    return Promise.all(uploadPromises)
+  },
+
+  getPublicUrl(path) {
+    if (!supabase) {
+      throw new Error('Supabase client not initialized')
+    }
+
+    const { data } = supabase.storage
+      .from(this.BUCKET_NAME)
+      .getPublicUrl(path)
+
+    return data.publicUrl
+  },
+
+  async deleteFile(path) {
+    if (!supabase) {
+      throw new Error('Supabase client not initialized')
+    }
+
+    const { data, error } = await supabase.storage
+      .from(this.BUCKET_NAME)
+      .remove([path])
+
+    if (error) {
+      console.error('Delete error:', error)
+      throw error
+    }
+
+    return data
+  },
+
+  async deleteMultiple(paths) {
+    if (!supabase) {
+      throw new Error('Supabase client not initialized')
+    }
+
+    if (!Array.isArray(paths)) {
+      throw new Error('Paths must be an array')
+    }
+
+    const { data, error } = await supabase.storage
+      .from(this.BUCKET_NAME)
+      .remove(paths)
+
+    if (error) {
+      console.error('Delete multiple error:', error)
+      throw error
+    }
+
+    return data
+  },
+
+  async listFiles(folder = '') {
+    if (!supabase) {
+      throw new Error('Supabase client not initialized')
+    }
+
+    const { data, error } = await supabase.storage
+      .from(this.BUCKET_NAME)
+      .list(folder, {
+        limit: 100,
+        offset: 0,
+        sortBy: { column: 'created_at', order: 'desc' }
+      })
+
+    if (error) {
+      console.error('List files error:', error)
+      throw error
+    }
+
+    return data.map(file => ({
+      ...file,
+      url: this.getPublicUrl(`${folder}${folder ? '/' : ''}${file.name}`)
+    }))
+  }
+}
