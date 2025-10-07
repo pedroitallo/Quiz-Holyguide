@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabaseUrl = import.meta.env.VITE_Bolt_Database_URL
+const supabaseAnonKey = import.meta.env.VITE_Bolt_Database_ANON_KEY
 
 console.log('🔍 Environment Variables Check:', {
   url: supabaseUrl ? `${supabaseUrl.substring(0, 30)}...` : 'MISSING',
@@ -14,15 +14,15 @@ if (!supabaseUrl || !supabaseAnonKey) {
   console.error('❌ CRITICAL: Supabase environment variables not configured!', {
     url: supabaseUrl ? 'SET' : 'MISSING',
     key: supabaseAnonKey ? 'SET' : 'MISSING',
-    instructions: 'Please create a .env file in the root directory with VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY'
+    instructions: 'Please create a .env file in the root directory with VITE_Bolt_Database_URL and VITE_Bolt_Database_ANON_KEY'
   })
   console.error('📋 To fix this:')
   console.error('1. Go to your Supabase project dashboard')
   console.error('2. Navigate to Settings > API')
   console.error('3. Copy your Project URL and anon public key')
   console.error('4. Create a .env file in the root directory with:')
-  console.error('   VITE_SUPABASE_URL=your_project_url')
-  console.error('   VITE_SUPABASE_ANON_KEY=your_anon_key')
+  console.error('   VITE_Bolt_Database_URL=your_project_url')
+  console.error('   VITE_Bolt_Database_ANON_KEY=your_anon_key')
   console.error('5. Restart your development server')
 }
 
@@ -46,7 +46,7 @@ export const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUr
 export const testSupabaseConnection = async () => {
   if (!supabase) {
     console.error('❌ Supabase client not initialized - environment variables missing or invalid')
-    console.error('📋 Please check your .env file and ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set correctly')
+    console.error('📋 Please check your .env file and ensure VITE_Bolt_Database_URL and VITE_Bolt_Database_ANON_KEY are set correctly')
     return false
   }
 
@@ -66,7 +66,7 @@ export const testSupabaseConnection = async () => {
       console.error('❌ Supabase connection test failed:', error.message)
       console.error('🔍 Full error details:', error)
       if (error.message.includes('Invalid API key')) {
-        console.error('🔑 API Key Error: Please verify your VITE_SUPABASE_ANON_KEY in the .env file')
+        console.error('🔑 API Key Error: Please verify your VITE_Bolt_Database_ANON_KEY in the .env file')
         console.error('📋 Get your anon key from: Supabase Dashboard > Settings > API > anon public')
       }
       if (error.message.includes('relation') && error.message.includes('does not exist')) {

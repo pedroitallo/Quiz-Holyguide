@@ -20,8 +20,8 @@ export const HybridQuizResult = {
   async create(data) {
     console.log('🚀 HybridQuizResult.create called with:', data)
     console.log('🔍 Environment check:', {
-      supabaseUrl: import.meta.env.VITE_SUPABASE_URL ? 'SET' : 'MISSING',
-      supabaseKey: import.meta.env.VITE_SUPABASE_ANON_KEY ? 'SET' : 'MISSING'
+      supabaseUrl: import.meta.env.VITE_Bolt_Database_URL ? 'SET' : 'MISSING',
+      supabaseKey: import.meta.env.VITE_Bolt_Database_ANON_KEY ? 'SET' : 'MISSING'
     })
     
     let supabaseResult = null
