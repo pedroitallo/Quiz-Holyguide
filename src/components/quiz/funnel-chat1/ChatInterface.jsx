@@ -270,13 +270,14 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
     initializeStep();
   }, [currentStep]);
 
-  const addMessage = (type, content, delay = 1000) => {
+  const addMessage = (type, content, delay = 1500) => {
     return new Promise((resolve) => {
       setTimeout(() => {
         setIsTyping(true);
         setTimeout(() => {
           setIsTyping(false);
           setMessages(prev => [...prev, { type, content }]);
+          setTimeout(() => scrollToBottom(), 100);
           resolve();
         }, delay);
       }, 300);
@@ -294,15 +295,8 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
 
     switch (currentStep) {
       case 1:
-        await addMessage("madame", "I will use my psychic abilities to reveal the face of your soulmate.", 1000);
-        await addMessage("madame", "Press play and see why over 10,000 people trust Aura, Hollywood's number #1 psychic", 1000);
-        setShowVideo(true);
-        setInputType("button");
-        setShowInput(true);
-        break;
-
-      case 2:
-        await addMessage("madame", "Hello, I'm Madame Aura and in a few minutes we'll discover the face of your soulmate! ✨ This Year Alone, I Have Connected With More Than 9,200 Soulmates Through My Drawings And Revelations 👇🏼", 1000);
+        await addMessage("madame", "Hello, I'm Madame Aura and in a few minutes we'll discover the face of your soulmate! ✨", 1500);
+        await addMessage("madame", "This Year Alone, I Have Connected With More Than 9,200 Soulmates Through My Drawings And Revelations 👇🏼", 1500);
         setShowTestimonials(true);
         setTimeout(() => {
           setInputType("button");
@@ -310,30 +304,30 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
         }, 1000);
         break;
 
-      case 3:
-        await addMessage("madame", "Before We Begin This Sacred Journey Of Love, What Is Your Name?", 1000);
+      case 2:
+        await addMessage("madame", "Before We Begin This Sacred Journey Of Love, What Is Your Name?", 1500);
         setInputType("text");
         setShowInput(true);
         break;
 
-      case 4:
-        await addMessage("madame", `It is a great pleasure to have you here, ${formData.name}. ✨ I feel that a special connection is about to manifest in your life in the coming days!`, 1000);
-        await addMessage("madame", "We all have a soulmate from the day we are born. So, please enter your date of birth below so that I can visualize your soulmate.", 1000);
+      case 3:
+        await addMessage("madame", `It is a great pleasure to have you here, ${formData.name}. ✨ I feel that a special connection is about to manifest in your life in the coming days!`, 1500);
+        await addMessage("madame", "We all have a soulmate from the day we are born. So, please enter your date of birth below so that I can visualize your soulmate.", 1500);
         setInputType("date");
         setShowInput(true);
         break;
 
-      case 5:
+      case 4:
         const zodiac = getZodiacSign(formData.birth_date);
-        await addMessage("madame", `Wow, that's amazing! You're a ${zodiac}${zodiac === 'Capricorn' ? ' just like me' : ''}! The ${zodiac} is one of the few signs that has a special sensitivity and connection with their soulmate. I feel like you're on the right path to meeting your Soulmate.`, 1000);
-        await addMessage("madame", "HOW IS YOUR LOVE LIFE AT THIS MOMENT?", 1000);
+        await addMessage("madame", `Wow, that's amazing! You're a ${zodiac}${zodiac === 'Capricorn' ? ' just like me' : ''}! The ${zodiac} is one of the few signs that has a special sensitivity and connection with their soulmate. I feel like you're on the right path to meeting your Soulmate.`, 1500);
+        await addMessage("madame", "HOW IS YOUR LOVE LIFE AT THIS MOMENT?", 1500);
         setShowLoveOptions(true);
         break;
 
-      case 6:
+      case 5:
         const zodiacSign = getZodiacSign(formData.birth_date);
-        await addMessage("madame", `${formData.name}, I am delighted to hear that things are progressing in your life. People of the ${zodiacSign} sign tend to have a deeper romantic journey, and my vision indicates that you are about to have a transformative revelation!`, 1000);
-        await addMessage("madame", `Wow ${formData.name}... The Results Of Your Birth Chart Were Surprising! I'll send you a short audio talking a little about your love destiny`, 1000);
+        await addMessage("madame", `${formData.name}, I am delighted to hear that things are progressing in your life. People of the ${zodiacSign} sign tend to have a deeper romantic journey, and my vision indicates that you are about to have a transformative revelation!`, 1500);
+        await addMessage("madame", `Wow ${formData.name}... The Results Of Your Birth Chart Were Surprising! I'll send you a short audio talking a little about your love destiny`, 1500);
         setShowAudio(true);
         setTimeout(() => {
           setInputType("button");
@@ -341,11 +335,11 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
         }, 2000);
         break;
 
-      case 7:
-        await addMessage("madame", "Based on your birth chart, I am preparing a portrait of your soulmate. I'm starting right now 👇🔮", 1000);
+      case 6:
+        await addMessage("madame", "Based on your birth chart, I am preparing a portrait of your soulmate. I'm starting right now 👇🔮", 1500);
         setShowRevelationImage(true);
         setTimeout(async () => {
-          await addMessage("madame", `${formData.name}, something special is unfolding... Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate. Everything points to a meeting in your city — or somewhere very close. This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨`, 1000);
+          await addMessage("madame", `${formData.name}, something special is unfolding... Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate. Everything points to a meeting in your city — or somewhere very close. This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨`, 1500);
           setInputType("button");
           setShowInput(true);
         }, 2000);
@@ -358,33 +352,30 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
 
     if (currentStep === 1) {
       trackStartQuiz();
-      setMessages(prev => [...prev, { type: "user", content: "Discover my soulmate →" }]);
-      setTimeout(() => onNextStep(), 500);
-    } else if (currentStep === 2) {
       setMessages(prev => [...prev, { type: "user", content: "Yes, I am ready!" }]);
       setTimeout(() => onNextStep(), 500);
-    } else if (currentStep === 3) {
+    } else if (currentStep === 2) {
       setMessages(prev => [...prev, { type: "user", content: value }]);
       onDataUpdate({ name: value });
       setTimeout(() => onNextStep(), 500);
-    } else if (currentStep === 4) {
+    } else if (currentStep === 3) {
       const birthDate = `${new Date().getFullYear()}-${selectedMonth}-${selectedDay}`;
       setMessages(prev => [...prev, { type: "user", content: `${selectedDay}/${selectedMonth}` }]);
       onDataUpdate({ birth_date: birthDate, birth_day: selectedDay, birth_month: selectedMonth });
       setTimeout(() => onNextStep(), 500);
-    } else if (currentStep === 5) {
+    } else if (currentStep === 4) {
       const option = loveSituationOptions.find(opt => opt.id === value);
       setMessages(prev => [...prev, { type: "user", content: option.label }]);
       onDataUpdate({ love_situation: value });
       setTimeout(() => onNextStep(), 500);
-    } else if (currentStep === 6) {
+    } else if (currentStep === 5) {
       setMessages(prev => [...prev, { type: "user", content: "Go to Full Disclosure Now" }]);
       setTimeout(() => onNextStep(), 500);
-    } else if (currentStep === 7) {
+    } else if (currentStep === 6) {
       trackEndQuiz();
       setMessages(prev => [...prev, { type: "user", content: "Discover the face of my soulmate" }]);
       setTimeout(() => {
-        console.log("Quiz completo! Redirecionar para próxima página ou mostrar mensagem final.");
+        window.location.href = '/funnel-1#paywall';
       }, 500);
     }
   };
@@ -559,7 +550,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="border-t border-gray-200 bg-white p-4"
+          className="border-t border-gray-200 bg-[#f9f5ff] p-4"
         >
           {inputType === "text" && (
             <div className="flex gap-2">
@@ -637,22 +628,13 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
           {inputType === "button" && currentStep === 1 && (
             <Button
               onClick={() => handleSubmit()}
-              className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
-            >
-              Discover my soulmate →
-            </Button>
-          )}
-
-          {inputType === "button" && currentStep === 2 && (
-            <Button
-              onClick={() => handleSubmit()}
               className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
             >
               Yes, I am ready!
             </Button>
           )}
 
-          {inputType === "button" && currentStep === 6 && (
+          {inputType === "button" && currentStep === 5 && (
             <Button
               onClick={() => handleSubmit()}
               className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
@@ -661,7 +643,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
             </Button>
           )}
 
-          {inputType === "button" && currentStep === 7 && (
+          {inputType === "button" && currentStep === 6 && (
             <Button
               onClick={() => handleSubmit()}
               className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"

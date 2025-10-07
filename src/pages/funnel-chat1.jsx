@@ -16,17 +16,17 @@ export default function FunnelChat1Page() {
     quizResultId: null
   });
 
-  const totalSteps = 7;
+  const totalSteps = 6;
   const progress = currentStep / totalSteps * 100;
 
   useEffect(() => {
-    if (currentStep < 8) {
+    if (currentStep < 7) {
         const stateToSave = {
             step: currentStep,
             data: formData
         };
         localStorage.setItem('holymind_quiz_chat1_state', JSON.stringify(stateToSave));
-    } else if (currentStep === 8) {
+    } else if (currentStep === 7) {
         localStorage.removeItem('holymind_quiz_chat1_state');
     }
   }, [currentStep, formData]);
@@ -93,7 +93,7 @@ export default function FunnelChat1Page() {
   };
 
   useEffect(() => {
-    const stepNames = ['video', 'testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation'];
+    const stepNames = ['testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation'];
     if (currentStep <= stepNames.length) {
       trackStepView('funnel-chat1', stepNames[currentStep - 1]);
     }
