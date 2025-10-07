@@ -212,7 +212,6 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
   const [inputType, setInputType] = useState("none");
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
-  const [showVideo, setShowVideo] = useState(false);
   const [showTestimonials, setShowTestimonials] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [showLoveOptions, setShowLoveOptions] = useState(false);
@@ -227,36 +226,6 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
     { imageUrl: "https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/80e6a766a_DEP3.webp" }
   ];
 
-  useEffect(() => {
-    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/6887d876e08b97c1c6617aab/v4/player.js";
-
-    if (document.querySelector(`script[src="${scriptSrc}"]`)) {
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = scriptSrc;
-    script.async = true;
-    document.head.appendChild(script);
-
-    return () => {
-      const scriptElements = document.querySelectorAll(`script[src="${scriptSrc}"]`);
-      scriptElements.forEach((s) => {
-        if (document.head.contains(s)) {
-          document.head.removeChild(s);
-        }
-      });
-
-      const playerContainer = document.getElementById("vid-6887d876e08b97c1c6617aab");
-      if (playerContainer) {
-        playerContainer.innerHTML = "";
-      }
-
-      if (window.smartplayer) {
-        delete window.smartplayer;
-      }
-    };
-  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -264,7 +233,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isTyping, showInput, showVideo, showTestimonials, showLoveOptions, showAudio, showRevelationImage]);
+  }, [messages, isTyping, showInput, showTestimonials, showLoveOptions, showAudio, showRevelationImage]);
 
   useEffect(() => {
     initializeStep();
@@ -287,7 +256,6 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
   const initializeStep = async () => {
     setShowInput(false);
     setInputType("none");
-    setShowVideo(false);
     setShowTestimonials(false);
     setShowLoveOptions(false);
     setShowAudio(false);
@@ -441,20 +409,6 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
           ))}
         </AnimatePresence>
 
-        {showVideo && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-4"
-          >
-            <div className="shadow-lg rounded-xl overflow-hidden w-full">
-              <vturb-smartplayer
-                id="vid-6887d876e08b97c1c6617aab"
-                style={{ display: 'block', margin: '0 auto', width: '100%' }}
-              />
-            </div>
-          </motion.div>
-        )}
 
         {showTestimonials && (
           <motion.div
