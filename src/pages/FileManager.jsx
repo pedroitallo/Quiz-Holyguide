@@ -5,7 +5,7 @@ import { storage, supabase } from '../lib/supabase'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
-import { RefreshCw, FolderOpen, Image as ImageIcon, FileText } from 'lucide-react'
+import { RefreshCw, Image as ImageIcon } from 'lucide-react'
 
 export default function FileManager() {
   const [files, setFiles] = useState([])
@@ -116,23 +116,9 @@ export default function FileManager() {
           </Card>
         )}
 
-        <Tabs value={activeFolder} onValueChange={handleFolderChange} className="space-y-6">
+        <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <TabsList>
-              <TabsTrigger value="images" className="flex items-center space-x-2">
-                <ImageIcon className="h-4 w-4" />
-                <span>Images</span>
-              </TabsTrigger>
-              <TabsTrigger value="documents" className="flex items-center space-x-2">
-                <FileText className="h-4 w-4" />
-                <span>Documents</span>
-              </TabsTrigger>
-              <TabsTrigger value="temp" className="flex items-center space-x-2">
-                <FolderOpen className="h-4 w-4" />
-                <span>Temporary</span>
-              </TabsTrigger>
-            </TabsList>
-
+            <h2 className="text-2xl font-semibold text-gray-900">Galeria</h2>
             <Button
               variant="outline"
               size="sm"
@@ -144,125 +130,33 @@ export default function FileManager() {
             </Button>
           </div>
 
-          <TabsContent value="images" className="space-y-6">
-            <Card className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Upload Images</h2>
-              <FileUpload
-                onUploadComplete={handleUploadComplete}
-                onUploadError={handleUploadError}
-                folder="images"
-                accept="image/*"
-                maxSizeMB={10}
-                multiple={true}
+          <Card className="p-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Upload Images</h2>
+            <FileUpload
+              onUploadComplete={handleUploadComplete}
+              onUploadError={handleUploadError}
+              folder="images"
+              accept="image/*"
+              maxSizeMB={10}
+              multiple={true}
+            />
+          </Card>
+
+          <div>
+            {loading ? (
+              <Card className="p-12 text-center">
+                <RefreshCw className="h-8 w-8 text-gray-400 animate-spin mx-auto mb-2" />
+                <p className="text-gray-500">Loading files...</p>
+              </Card>
+            ) : (
+              <FileGallery
+                files={files}
+                onDelete={handleDelete}
+                onRefresh={handleRefresh}
               />
-            </Card>
-
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  Your Images ({files.length})
-                </h2>
-              </div>
-              {loading ? (
-                <Card className="p-12 text-center">
-                  <RefreshCw className="h-8 w-8 text-gray-400 animate-spin mx-auto mb-2" />
-                  <p className="text-gray-500">Loading files...</p>
-                </Card>
-              ) : (
-                <FileGallery
-                  files={files}
-                  onDelete={handleDelete}
-                  onRefresh={handleRefresh}
-                />
-              )}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="documents" className="space-y-6">
-            <Card className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Upload Documents</h2>
-              <FileUpload
-                onUploadComplete={handleUploadComplete}
-                onUploadError={handleUploadError}
-                folder="documents"
-                accept=".pdf,.doc,.docx,.txt"
-                maxSizeMB={10}
-                multiple={true}
-              />
-            </Card>
-
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  Your Documents ({files.length})
-                </h2>
-              </div>
-              {loading ? (
-                <Card className="p-12 text-center">
-                  <RefreshCw className="h-8 w-8 text-gray-400 animate-spin mx-auto mb-2" />
-                  <p className="text-gray-500">Loading files...</p>
-                </Card>
-              ) : (
-                <FileGallery
-                  files={files}
-                  onDelete={handleDelete}
-                  onRefresh={handleRefresh}
-                />
-              )}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="temp" className="space-y-6">
-            <Card className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Upload Temporary Files</h2>
-              <p className="text-sm text-gray-600 mb-4">
-                Files in the temporary folder can be used for short-term storage
-              </p>
-              <FileUpload
-                onUploadComplete={handleUploadComplete}
-                onUploadError={handleUploadError}
-                folder="temp"
-                accept="*"
-                maxSizeMB={10}
-                multiple={true}
-              />
-            </Card>
-
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  Temporary Files ({files.length})
-                </h2>
-              </div>
-              {loading ? (
-                <Card className="p-12 text-center">
-                  <RefreshCw className="h-8 w-8 text-gray-400 animate-spin mx-auto mb-2" />
-                  <p className="text-gray-500">Loading files...</p>
-                </Card>
-              ) : (
-                <FileGallery
-                  files={files}
-                  onDelete={handleDelete}
-                  onRefresh={handleRefresh}
-                />
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
-
-        <Card className="mt-8 p-6 bg-blue-50 border-blue-200">
-          <h3 className="text-lg font-semibold text-blue-900 mb-2">
-            How to Use File Storage
-          </h3>
-          <ul className="space-y-2 text-sm text-blue-800">
-            <li>• <strong>Upload:</strong> Drag and drop files or click to browse</li>
-            <li>• <strong>View:</strong> Click on images to preview them in full size</li>
-            <li>• <strong>Download:</strong> Hover over a file and click the download button</li>
-            <li>• <strong>Delete:</strong> Hover over a file and click the trash icon</li>
-            <li>• <strong>Organize:</strong> Use folders (Images, Documents, Temp) to keep files organized</li>
-            <li>• <strong>Limits:</strong> Maximum file size is 10MB per file</li>
-          </ul>
-        </Card>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )

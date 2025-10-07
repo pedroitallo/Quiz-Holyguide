@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Trash2, Download, ExternalLink, FileIcon, Image as ImageIcon, Loader2, X } from 'lucide-react'
+import { Trash2, Download, ExternalLink, FileIcon, Image as ImageIcon, Loader2, X, Copy, Check } from 'lucide-react'
 import { storage } from '../../lib/supabase'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
@@ -10,6 +10,7 @@ export function FileGallery({ files, onDelete, onRefresh, className = '' }) {
   const [deleting, setDeleting] = useState(null)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [fileToDelete, setFileToDelete] = useState(null)
+  const [copiedUrl, setCopiedUrl] = useState(null)
 
   const isImage = (filename) => {
     const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp']
@@ -70,6 +71,17 @@ export function FileGallery({ files, onDelete, onRefresh, className = '' }) {
     setSelectedFile(null)
   }
 
+  const handleCopyUrl = async (file) => {
+    try {
+      await navigator.clipboard.writeText(file.url)
+      setCopiedUrl(file.url)
+      setTimeout(() => setCopiedUrl(null), 2000)
+    } catch (error) {
+      console.error('Error copying URL:', error)
+      alert('Failed to copy URL: ' + error.message)
+    }
+  }
+
   const formatFileSize = (bytes) => {
     if (!bytes) return 'Unknown size'
     if (bytes < 1024) return bytes + ' B'
@@ -113,6 +125,23 @@ export function FileGallery({ files, onDelete, onRefresh, className = '' }) {
                   <FileIcon className="h-16 w-16 text-gray-400" />
                 </div>
               )}
+
+              <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => handleCopyUrl(file)}
+                  className="bg-white hover:bg-gray-100 shadow-lg"
+                  title="Copy image URL"
+                >
+                  {copiedUrl === file.url ? (
+                    <Check className="h-4 w-4 text-green-600" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
 
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-opacity flex items-center justify-center opacity-0 group-hover:opacity-100">
                 <div className="flex space-x-2">
