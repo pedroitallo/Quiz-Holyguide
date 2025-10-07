@@ -34,46 +34,86 @@ export const AdminAuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      console.log('Attempting login for:', email);
-      console.log('URL:', `${import.meta.env.VITE_Bolt_Database_URL}/functions/v1/admin-login`);
+      const url = import.meta.env.VITE_Bolt_Database_URL;
+      const key = import.meta.env.VITE_Bolt_Database_ANON_KEY;
 
-      const response = await fetch(
-        `${import.meta.env.VITE_Bolt_Database_URL}/functions/v1/admin-login`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_Bolt_Database_ANON_KEY}`,
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      if (!url || !key) {
+        console.error('Environment variables missing:', {
+          url: url ? 'SET' : 'MISSING',
+          key: key ? 'SET' : 'MISSING'
+        });
+        throw new Error('Sistema de autenticacao nao configurado. Por favor, contate o administrador.');
+      }
+
+      const loginUrl = `${url}/functions/v1/admin-login`;
+      console.log('Attempting login for:', email);
+      console.log('Login URL:', loginUrl);
+      console.log('Environment check:', {
+        hasUrl: !!url,
+        hasKey: !!key,
+        keyLength: key?.length
+      });
+
+      const response = await fetch(loginUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${key}`,
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
       console.log('Response status:', response.status);
       console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.error('HTTP Error Response:', {
+          status: response.status,
+          statusText: response.statusText,
+          body: text
+        });
+
+        let errorMessage = 'Erro ao fazer login';
+        try {
+          const errorJson = JSON.parse(text);
+          errorMessage = errorJson.error || errorMessage;
+        } catch (e) {
+          errorMessage = `Erro HTTP ${response.status}: ${text.substring(0, 100)}`;
+        }
+        throw new Error(errorMessage);
+      }
 
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
         const text = await response.text();
         console.error('Non-JSON response:', text);
-        throw new Error(`Server returned non-JSON response: ${text.substring(0, 100)}`);
+        throw new Error(`Servidor retornou resposta invalida: ${text.substring(0, 100)}`);
       }
 
       const result = await response.json();
       console.log('Login result:', result);
 
       if (!result.success) {
-        throw new Error(result.error || 'Login failed');
+        throw new Error(result.error || 'Credenciais invalidas');
       }
 
       const adminData = result.admin;
       setAdmin(adminData);
       localStorage.setItem('admin_user', JSON.stringify(adminData));
 
+      console.log('Login successful for:', adminData.email);
       return { success: true };
     } catch (error) {
-      console.error('Login error:', error);
-      return { success: false, error: error.message };
+      console.error('Login error:', {
+        message: error.message,
+        type: error.name,
+        stack: error.stack
+      });
+      return {
+        success: false,
+        error: error.message || 'Erro desconhecido ao fazer login'
+      };
     }
   };
 
