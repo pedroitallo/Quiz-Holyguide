@@ -13,6 +13,12 @@ import AdminLogin from "./AdminLogin";
 import Analytics from "./Analytics";
 import AnalyticsAB from "./AnalyticsAB";
 import FileManager from "./FileManager";
+import Dashboard from "./admin/dashboard/Dashboard";
+import FunnelsList from "./admin/funnels/FunnelsList";
+import FunnelEditor from "./admin/funnels/FunnelEditor";
+import ABTestsManager from "./admin/ab-tests/ABTestsManager";
+import Settings from "./admin/settings/Settings";
+import ProtectedRoute from "../components/admin/ProtectedRoute";
 import React, { lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AdminAuthProvider } from '../contexts/AdminAuthContext';
@@ -53,10 +59,15 @@ function PagesContent() {
         return (
             <Routes>
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/admin" element={<Analytics />} />
-                <Route path="/analytics" element={<Analytics />} />
-                <Route path="/analytics-ab" element={<AnalyticsAB />} />
-                <Route path="/admin/files" element={<FileManager />} />
+                <Route path="/admin" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/admin/funnels" element={<ProtectedRoute><FunnelsList /></ProtectedRoute>} />
+                <Route path="/admin/funnels/:id/edit" element={<ProtectedRoute><FunnelEditor /></ProtectedRoute>} />
+                <Route path="/admin/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+                <Route path="/admin/ab-tests" element={<ProtectedRoute><ABTestsManager /></ProtectedRoute>} />
+                <Route path="/admin/files" element={<ProtectedRoute><FileManager /></ProtectedRoute>} />
+                <Route path="/admin/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+                <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+                <Route path="/analytics-ab" element={<ProtectedRoute><AnalyticsAB /></ProtectedRoute>} />
             </Routes>
         );
     }
