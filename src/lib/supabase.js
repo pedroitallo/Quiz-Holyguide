@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_Bolt_Database_URL
-const supabaseAnonKey = import.meta.env.VITE_Bolt_Database_ANON_KEY
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_Bolt_Database_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.VITE_Bolt_Database_ANON_KEY
 
 console.log('🔍 Environment Variables Check:', {
   url: supabaseUrl ? `${supabaseUrl.substring(0, 30)}...` : 'MISSING',
