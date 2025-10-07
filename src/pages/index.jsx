@@ -1,6 +1,7 @@
 import Layout from "./Layout.jsx";
 import Home from "./Home";
 import Funnel1 from "./funnel-1";
+import FunnelChat1 from "./funnel-chat1";
 import FunnelEsp from "./funnelesp";
 import FunnelTt from "./funnel-tt";
 import FunnelVsl from "./funnel-vsl";
@@ -18,6 +19,7 @@ import { AdminAuthProvider } from '../contexts/AdminAuthContext';
 const PAGES = {
     Home: Home,
     "funnel-1": Funnel1,
+    "funnel-chat1": FunnelChat1,
     funnelesp: FunnelEsp,
     "funnel-tt": FunnelTt,
     "funnel-vsl": FunnelVsl,
@@ -63,6 +65,7 @@ function PagesContent() {
                 <Route path="/" element={<Home />} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/funnel-1" element={<Funnel1 />} />
+                <Route path="/funnel-chat1" element={<FunnelChat1 />} />
                 <Route path="/funnelesp" element={<FunnelEsp />} />
                 <Route path="/funnel-tt" element={<FunnelTt />} />
                 <Route path="/funnel-vsl" element={<FunnelVsl />} />
