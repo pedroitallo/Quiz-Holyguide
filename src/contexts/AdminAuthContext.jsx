@@ -34,8 +34,8 @@ export const AdminAuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const url = import.meta.env.VITE_Bolt_Database_URL;
-      const key = import.meta.env.VITE_Bolt_Database_ANON_KEY;
+      const url = import.meta.env.VITE_SUPABASE_URL;
+      const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
       if (!url || !key) {
         console.error('Environment variables missing:', {
