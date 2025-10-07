@@ -6,7 +6,7 @@ import StepTracker from '../components/quiz/shared/StepTracker';
 import { trackStepView } from '../utils/stepTracking';
 
 import IntroStep from "../components/quiz/funnel-star2/IntroStep";
-import PaywallStep from "../components/quiz/funnel-1/PaywallStep";
+import PaywallStep from "../components/quiz/funnel-star2/PaywallStep";
 import NameCollection from "../components/quiz/shared/NameCollection";
 import BirthDataCollection from "../components/quiz/shared/BirthDataCollection";
 import LoveSituationStep from "../components/quiz/shared/LoveSituationStep";
