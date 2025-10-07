@@ -8,15 +8,32 @@ const corsHeaders = {
 };
 
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, {
-      status: 200,
-      headers: corsHeaders,
-    });
-  }
-
   try {
-    const { email, password } = await req.json();
+    if (req.method === "OPTIONS") {
+      return new Response(null, {
+        status: 200,
+        headers: corsHeaders,
+      });
+    }
+
+    let body;
+    try {
+      body = await req.json();
+    } catch (parseError) {
+      console.error("JSON parse error:", parseError);
+      return new Response(
+        JSON.stringify({ success: false, error: "Invalid JSON in request body" }),
+        {
+          status: 400,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+
+    const { email, password } = body;
 
     if (!email || !password) {
       return new Response(
@@ -31,10 +48,24 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-    );
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    if (!supabaseUrl || !supabaseKey) {
+      console.error("Missing Supabase credentials");
+      return new Response(
+        JSON.stringify({ success: false, error: "Server configuration error" }),
+        {
+          status: 500,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     const { data: adminUser, error: queryError } = await supabase
       .from("admin_users")
@@ -42,7 +73,21 @@ Deno.serve(async (req: Request) => {
       .eq("email", email)
       .maybeSingle();
 
-    if (queryError || !adminUser) {
+    if (queryError) {
+      console.error("Query error:", queryError);
+      return new Response(
+        JSON.stringify({ success: false, error: "Database query failed" }),
+        {
+          status: 500,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+
+    if (!adminUser) {
       return new Response(
         JSON.stringify({ success: false, error: "Invalid credentials" }),
         {
@@ -76,7 +121,21 @@ Deno.serve(async (req: Request) => {
       }
     );
 
-    if (verifyError || !verifyResult) {
+    if (verifyError) {
+      console.error("Password verification error:", verifyError);
+      return new Response(
+        JSON.stringify({ success: false, error: "Password verification failed" }),
+        {
+          status: 500,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+
+    if (!verifyResult) {
       return new Response(
         JSON.stringify({ success: false, error: "Invalid credentials" }),
         {
@@ -103,6 +162,7 @@ Deno.serve(async (req: Request) => {
         },
       }),
       {
+        status: 200,
         headers: {
           ...corsHeaders,
           "Content-Type": "application/json",
@@ -110,8 +170,12 @@ Deno.serve(async (req: Request) => {
       }
     );
   } catch (error) {
+    console.error("Unexpected error:", error);
     return new Response(
-      JSON.stringify({ success: false, error: error.message }),
+      JSON.stringify({ 
+        success: false, 
+        error: error?.message || "An unexpected error occurred" 
+      }),
       {
         status: 500,
         headers: {

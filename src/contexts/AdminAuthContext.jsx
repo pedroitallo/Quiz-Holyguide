@@ -34,6 +34,9 @@ export const AdminAuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
+      console.log('Attempting login for:', email);
+      console.log('URL:', `${import.meta.env.VITE_Bolt_Database_URL}/functions/v1/admin-login`);
+
       const response = await fetch(
         `${import.meta.env.VITE_Bolt_Database_URL}/functions/v1/admin-login`,
         {
@@ -46,7 +49,18 @@ export const AdminAuthProvider = ({ children }) => {
         }
       );
 
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        console.error('Non-JSON response:', text);
+        throw new Error(`Server returned non-JSON response: ${text.substring(0, 100)}`);
+      }
+
       const result = await response.json();
+      console.log('Login result:', result);
 
       if (!result.success) {
         throw new Error(result.error || 'Login failed');
@@ -58,6 +72,7 @@ export const AdminAuthProvider = ({ children }) => {
 
       return { success: true };
     } catch (error) {
+      console.error('Login error:', error);
       return { success: false, error: error.message };
     }
   };
