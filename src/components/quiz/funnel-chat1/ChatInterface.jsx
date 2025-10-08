@@ -165,7 +165,7 @@ const CustomAudioPlayer = () => {
     <div className="bg-white p-4 rounded-2xl shadow-sm border border-purple-100 w-full max-w-xs">
       <div className="flex items-center gap-4">
         <img
-          src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
+          src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
           alt="Madame Aura"
           className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
         />

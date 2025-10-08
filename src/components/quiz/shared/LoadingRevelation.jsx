@@ -120,7 +120,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
             <div className="flex items-start gap-3">
               <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
+              src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
               alt="Madame Aura"
               className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
 
@@ -173,7 +173,7 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
 
             <div className="flex items-start gap-3">
               <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/c8fa6c6f1_image.png"
+              src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
               alt="Madame Aura"
               className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
 
