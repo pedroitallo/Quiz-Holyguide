@@ -13,6 +13,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
   const [showSales, setShowSales] = useState(true);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
       HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e =>
         console.warn("Failed to update pitch step view:", e)
@@ -138,7 +140,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         </Card>
 
         <h1 className="text-purple-600 mb-6 text-xl font-semibold md:text-2xl leading-tight px-4">
-          HERE'S YOUR SOULMATE'S DRAWING❤️
+          HERE'S YOUR SOULMATE'S DRAWING
         </h1>
 
         <div className="mb-6">
@@ -189,18 +191,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             </div>
           </CardContent>
         </Card>
-
-        <div className="mb-6 px-4">
-          <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-            Click Below To Secure Your Drawing 👇
-          </h3>
-          <button
-            onClick={handleCheckout}
-            className="w-full max-w-md mx-auto block bg-green-500 hover:bg-green-600 text-white font-bold text-lg md:text-xl py-4 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-          >
-            YES! Claim My Divine Soul Drawing
-          </button>
-        </div>
 
         {showSales && (
           <SalesSection
