@@ -149,7 +149,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           />
         </div>
 <h3 className="text-lg md:text-xl font-semibold text-purple-600 mb-4 px-4 uppercase tracking-wide">
-          See Who Your True Love Is
+          See Who Your True Love Is👇🏼
         </h3>
         <Card className="max-w-md mx-auto bg-white/80 border-purple-100 shadow-md mb-6">
           <CardContent className="p-6 text-center space-y-3">
