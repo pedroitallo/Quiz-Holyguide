@@ -13,6 +13,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
   const [showSales, setShowSales] = useState(true);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
       HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e =>
         console.warn("Failed to update pitch step view:", e)
