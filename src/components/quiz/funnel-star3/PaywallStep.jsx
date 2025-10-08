@@ -177,15 +177,15 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
 
         <Card className="max-w-md mx-auto bg-purple-50/80 border-purple-200 shadow-md mb-6">
           <CardContent className="p-6">
-            <div className="flex items-start gap-3 mb-3">
-              <img src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png" alt="Master Aura" className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
-              <div className="flex-1">
-                <p className="font-semibold text-gray-800 mb-1">Master Aura</p>
-                <p className="text-sm md:text-base text-gray-700 leading-relaxed">
-                  We don't actually charge for your personalized soulmate drawing — there's just a small, one-time symbolic fee of $19.
-                  This helps us cover the secure delivery system and the special materials used to create your unique astral reading and artwork.
-                </p>
+            <div className="flex flex-col items-start">
+              <div className="flex items-center gap-3 mb-3">
+                <img src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png" alt="Master Aura" className="w-12 h-12 rounded-full object-cover border-2 border-purple-200" />
+                <p className="font-semibold text-gray-800 text-lg">Master Aura</p>
               </div>
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left">
+                We don't actually charge for your personalized soulmate drawing — there's just a small, one-time symbolic fee of $19.
+                This helps us cover the secure delivery system and the special materials used to create your unique astral reading and artwork.
+              </p>
             </div>
           </CardContent>
         </Card>
