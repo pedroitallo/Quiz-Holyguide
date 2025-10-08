@@ -57,7 +57,7 @@ export default function NameCollection({ onNameSubmit }) {
           <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto">
             <div className="flex items-start gap-3">
               <img
-                src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
+                src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
                 alt="Madame Aura"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
@@ -122,7 +122,7 @@ export default function NameCollection({ onNameSubmit }) {
             <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto">
               <div className="flex items-start gap-3">
                 <img
-                  src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/adbb98955_Perfil.webp"
+                  src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
                   alt="Madame Aura"
                   className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
                 <div className="text-left">
