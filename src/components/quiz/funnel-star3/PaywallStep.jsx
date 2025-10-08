@@ -138,7 +138,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         </Card>
 
         <h1 className="text-purple-600 mb-6 text-xl font-semibold md:text-2xl leading-tight px-4">
-          HERE'S YOUR SOULMATE'S DRAWING
+          HERE'S YOUR SOULMATE'S DRAWING❤️
         </h1>
 
         <div className="mb-6">
