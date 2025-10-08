@@ -115,6 +115,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         transition={{ duration: 0.8 }}
         className="mb-8">
 
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 px-4">
+          Your Birth Chart Reading Is Ready!
+        </h2>
+
         <Card className="w-fit mx-auto bg-white/50 border-purple-100 shadow-md mb-6">
             <CardContent className="p-3 flex items-center justify-center gap-4 md:gap-6">
                 <div className="flex items-center gap-2">
@@ -143,13 +147,37 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           See Who Your True Love Is!
         </h1>
 
-        <div className="mb-8">
+        <div className="mb-6">
           <img
             src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759873292152-ltl34v44ham.png"
             alt="Your True Love Preview"
             className="w-full max-w-2xl mx-auto rounded-xl shadow-lg"
           />
         </div>
+
+        <Card className="max-w-md mx-auto bg-white/80 border-purple-100 shadow-md mb-8">
+          <CardContent className="p-6 text-center space-y-3">
+            <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
+              <span className="text-green-600">✔</span>
+              <span><strong>Name:</strong> ******</span>
+            </p>
+            <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
+              <span className="text-green-600">✔</span>
+              <span><strong>Date of meeting:</strong> **/**/2025</span>
+            </p>
+            <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
+              <span className="text-green-600">✔</span>
+              <span><strong>Your Soulmate's Vibe:</strong> Warm and caring</span>
+            </p>
+            <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
+              <span className="text-green-600">✔</span>
+              <span><strong>Special Trait:</strong> very self-confident</span>
+            </p>
+            <p className="text-sm md:text-base text-gray-600 mt-4 leading-relaxed">
+              Your soulmate's drawing is already done and will be sent directly to your email as soon as you confirm your access on the button below.
+            </p>
+          </CardContent>
+        </Card>
 
         {showSales && (
           <SalesSection
