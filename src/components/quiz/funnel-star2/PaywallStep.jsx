@@ -109,12 +109,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         transition={{ duration: 0.8 }}
         className="mb-8">
 
-        <h3 className="text-lg md:text-xl font-semibold text-purple-600 mb-4 px-4 uppercase tracking-wide">
-          See Who Your True Love Is
-        </h3>
-
         <h2 className="text-2xl md:text-3xl font-bold text-black mb-6 px-4">
-          HERE'S YOUR SOULMATE'S DRAWING
+          Your Birth Chart Reading Is Ready!
         </h2>
 
         <Card className="w-fit mx-auto bg-white/50 border-purple-100 shadow-md mb-6">
@@ -142,7 +138,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         </Card>
 
         <h1 className="text-purple-600 mb-6 text-xl font-semibold md:text-2xl leading-tight px-4">
-          YOUR BIRTH CHART
+          HERE'S YOUR SOULMATE'S DRAWING
         </h1>
 
         <div className="mb-6">
@@ -152,7 +148,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             className="w-full max-w-2xl mx-auto rounded-xl shadow-lg"
           />
         </div>
-
+<h3 className="text-lg md:text-xl font-semibold text-purple-600 mb-4 px-4 uppercase tracking-wide">
+          See Who Your True Love Is
+        </h3>
         <Card className="max-w-md mx-auto bg-white/80 border-purple-100 shadow-md mb-6">
           <CardContent className="p-6 text-center space-y-3">
             <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
