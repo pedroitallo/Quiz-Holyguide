@@ -37,7 +37,7 @@ export const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUr
   },
   global: {
     headers: {
-      'x-client-info': 'holymind-quiz@1.0.0'
+      'x-client-info': 'appyon-quiz@1.0.0'
     }
   }
 }) : null

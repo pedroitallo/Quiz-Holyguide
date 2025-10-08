@@ -33,8 +33,15 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
       <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Admin Login</CardTitle>
+        <CardHeader className="space-y-4">
+          <div className="flex justify-center">
+            <img
+              src="/APPYON LOGO.png"
+              alt="Appyon Logo"
+              className="w-20 h-20 object-contain"
+            />
+          </div>
+          <CardTitle className="text-2xl font-bold text-center">Appyon Admin</CardTitle>
           <CardDescription className="text-center">
             Entre com suas credenciais de administrador
           </CardDescription>

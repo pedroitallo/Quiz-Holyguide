@@ -41,19 +41,40 @@ export default function AdminSidebar({ collapsed, onToggle }) {
       <div className="flex flex-col h-full">
         <div className="flex items-center justify-between p-4 border-b border-slate-800">
           {!collapsed && (
-            <Link to="/admin" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">HM</span>
-              </div>
-              <span className="font-bold text-lg">HolyMind</span>
+            <Link to="/admin" className="flex items-center gap-3">
+              <img
+                src="/APPYON LOGO.png"
+                alt="Appyon Logo"
+                className="w-10 h-10 object-contain"
+              />
+              <span className="font-bold text-lg">Appyon</span>
             </Link>
           )}
-          <button
-            onClick={onToggle}
-            className="p-1.5 hover:bg-slate-800 rounded-lg transition-colors ml-auto"
-          >
-            {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-          </button>
+          {collapsed && (
+            <Link to="/admin" className="flex items-center justify-center w-full">
+              <img
+                src="/APPYON LOGO.png"
+                alt="Appyon Logo"
+                className="w-8 h-8 object-contain"
+              />
+            </Link>
+          )}
+          {!collapsed && (
+            <button
+              onClick={onToggle}
+              className="p-1.5 hover:bg-slate-800 rounded-lg transition-colors"
+            >
+              <ChevronLeft size={20} />
+            </button>
+          )}
+          {collapsed && (
+            <button
+              onClick={onToggle}
+              className="absolute top-4 right-2 p-1.5 hover:bg-slate-800 rounded-lg transition-colors"
+            >
+              <ChevronRight size={20} />
+            </button>
+          )}
         </div>
 
         <nav className="flex-1 overflow-y-auto py-4">
@@ -91,7 +112,7 @@ export default function AdminSidebar({ collapsed, onToggle }) {
         <div className="p-4 border-t border-slate-800">
           {!collapsed && (
             <div className="text-xs text-slate-400 text-center">
-              v1.0.0 - HolyMind Admin
+              v1.0.0 - Appyon Admin
             </div>
           )}
         </div>

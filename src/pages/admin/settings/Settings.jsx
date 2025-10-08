@@ -230,7 +230,7 @@ export default function Settings() {
                         brand: { ...settings.brand, name: e.target.value }
                       })
                     }
-                    placeholder="Ex: HolyMind"
+                    placeholder="Ex: Appyon"
                   />
                 </div>
 
@@ -430,7 +430,7 @@ export default function Settings() {
                         seo: { ...settings.seo, default_title: e.target.value }
                       })
                     }
-                    placeholder="Ex: HolyMind - Quiz Místico"
+                    placeholder="Ex: Appyon - Quiz Místico"
                   />
                 </div>
 
