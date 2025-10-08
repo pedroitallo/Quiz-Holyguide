@@ -10,20 +10,14 @@ const CHECKOUT_CONFIG = {
 };
 
 export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
-  const [showSales, setShowSales] = useState(false);
+  const [showSales, setShowSales] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSales(true);
-
-      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-        HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e =>
-          console.warn("Failed to update pitch step view:", e)
-        );
-      }
-    }, 3000);
-
-    return () => clearTimeout(timer);
+    if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
+      HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e =>
+        console.warn("Failed to update pitch step view:", e)
+      );
+    }
   }, [quizResultId]);
 
   const handleCheckout = async () => {
@@ -155,7 +149,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           />
         </div>
 
-        <Card className="max-w-md mx-auto bg-white/80 border-purple-100 shadow-md mb-8">
+        <Card className="max-w-md mx-auto bg-white/80 border-purple-100 shadow-md mb-6">
           <CardContent className="p-6 text-center space-y-3">
             <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
               <span className="text-green-600">✔</span>
@@ -178,6 +172,18 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             </p>
           </CardContent>
         </Card>
+
+        <div className="mb-6 px-4">
+          <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+            Click Below To Secure Your Drawing 👇
+          </h3>
+          <button
+            onClick={handleCheckout}
+            className="w-full max-w-md mx-auto block bg-green-500 hover:bg-green-600 text-white font-bold text-lg md:text-xl py-4 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+          >
+            YES! Claim My Divine Soul Drawing
+          </button>
+        </div>
 
         {showSales && (
           <SalesSection
