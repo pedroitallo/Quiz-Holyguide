@@ -173,6 +173,23 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           </CardContent>
         </Card>
 
+        <Card className="max-w-md mx-auto bg-purple-50/80 border-purple-200 shadow-md mb-6">
+          <CardContent className="p-6">
+            <div className="flex items-start gap-3 mb-3">
+              <div className="flex-shrink-0 w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                MA
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-gray-800 mb-1">Madame Aura</p>
+                <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+                  We don't actually charge for your personalized soulmate drawing — there's just a small, one-time symbolic fee of $19.
+                  This helps us cover the secure delivery system and the special materials used to create your unique astral reading and artwork.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <div className="mb-6 px-4">
           <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
             Click Below To Secure Your Drawing 👇
