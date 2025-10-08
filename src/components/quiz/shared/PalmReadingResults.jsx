@@ -51,7 +51,7 @@ const CustomAudioPlayer = () => {
       <div className="flex items-center gap-4">
         <img
           src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-          alt="Madame Aura"
+          alt="Master Aura"
           loading="lazy"
           decoding="async"
           className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
@@ -100,7 +100,7 @@ const ChatBubble = ({ userName }) => (
         <div className="flex items-start gap-3">
             <img
                 src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-                alt="Madame Aura"
+                alt="Master Aura"
                 loading="lazy"
                 decoding="async"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
@@ -123,14 +123,14 @@ const RecordingIndicator = () => (
         <div className="flex items-start gap-3">
             <img
                 src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-                alt="Madame Aura"
+                alt="Master Aura"
                 loading="lazy"
                 decoding="async"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
             />
             <div className="flex items-center gap-2 mt-2">
                 <Mic className="w-5 h-5 text-red-500 animate-pulse" />
-                <span className="text-sm text-gray-500 ml-2">Madame Aura is recording an audio...</span>
+                <span className="text-sm text-gray-500 ml-2">Master Aura is recording an audio...</span>
             </div>
         </div>
     </motion.div>

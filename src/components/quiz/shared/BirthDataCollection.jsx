@@ -142,13 +142,13 @@ export default function BirthDataCollection({ onSubmit }) {
           <TypingIndicator />
         </div>
 
-        {/* Mensagem da Madame Aura */}
+        {/* Mensagem da Master Aura */}
         <div className={`transition-opacity duration-300 ${showMessage ? 'opacity-100' : 'opacity-0'} ${!showMessage ? 'hidden' : ''}`}>
           <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-md mx-auto">
             <div className="flex items-start gap-3">
               <img
                 src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-                alt="Madame Aura"
+                alt="Master Aura"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">
@@ -265,7 +265,7 @@ export default function BirthDataCollection({ onSubmit }) {
             <div className="flex items-start gap-3">
               <img
                 src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-                alt="Madame Aura"
+                alt="Master Aura"
                 className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="text-left">
                 <p className="text-base text-gray-700 leading-relaxed">

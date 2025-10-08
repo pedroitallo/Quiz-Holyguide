@@ -72,7 +72,7 @@ export default function TestimonialsCarousel({ onContinue }) {
         ))}
       </div>
 
-      {/* Mensagem da Madame Aura */}
+      {/* Mensagem da Master Aura */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -83,13 +83,13 @@ export default function TestimonialsCarousel({ onContinue }) {
           <div className="flex items-start gap-3">
             <img
               src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-              alt="Madame Aura"
+              alt="Master Aura"
               className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
               loading="eager"
               decoding="async" />
             <div className="text-left">
               <p className="text-base text-gray-700 leading-relaxed">
-                Hello, I'm Madame Aura and in a few minutes we'll discover the face of your soulmate!✨ This Year Alone, <strong>I Have Connected With More Than 9,200 Soulmates</strong> Through My Drawings And Revelations👇🏼
+                Hello, I'm Master Aura and in a few minutes we'll discover the face of your soulmate!✨ This Year Alone, <strong>I Have Connected With More Than 9,200 Soulmates</strong> Through My Drawings And Revelations👇🏼
               </p>
             </div>
           </div>

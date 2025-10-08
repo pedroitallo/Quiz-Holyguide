@@ -29,11 +29,11 @@ export default function IntroStep({ onContinue }) {
         <CardContent className="p-6 space-y-4">
           <img
             src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-            alt="Madame Aura"
+            alt="Master Aura"
             className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-white shadow-lg"
           />
           <div>
-            <h3 className="font-bold text-lg text-purple-700">Madame Aura</h3>
+            <h3 className="font-bold text-lg text-purple-700">Master Aura</h3>
             <p className="text-sm text-gray-600">Celebrity Psychic & Love Expert</p>
             <p className="text-xs text-gray-500 mt-2">✨ Over 10,000 successful readings</p>
           </div>

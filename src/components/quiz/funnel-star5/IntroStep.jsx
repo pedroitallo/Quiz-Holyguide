@@ -33,10 +33,10 @@ export default function IntroStep({ onContinue }) {
       <div className="py-6">
         <img
           src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-          alt="Madame Aura"
+          alt="Master Aura"
           className="w-28 h-28 rounded-full mx-auto object-cover border-4 border-purple-200 shadow-lg"
         />
-        <p className="mt-3 text-purple-700 font-bold">Madame Aura</p>
+        <p className="mt-3 text-purple-700 font-bold">Master Aura</p>
         <p className="text-sm text-gray-600">Hollywood's #1 Psychic</p>
       </div>
 

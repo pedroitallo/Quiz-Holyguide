@@ -134,7 +134,7 @@ export default function LoveSituationStep({ userName, birthDate, onSubmit }) {
                     <div className="flex items-start gap-3">
                         <img
                   src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-                  alt="Madame Aura"
+                  alt="Master Aura"
                   className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
 
                         <div className="text-left">

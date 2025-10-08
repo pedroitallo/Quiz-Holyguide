@@ -32,7 +32,7 @@ export default function WelcomeMessage({ userName, onContinue }) {
           >
             <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 mb-6 max-w-md mx-auto">
                 <div className="flex items-start gap-3">
-                    <img src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png" alt="Madame Aura" className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" loading="lazy" decoding="async" />
+                    <img src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png" alt="Master Aura" className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" loading="lazy" decoding="async" />
                     <div className="text-left text-base text-gray-700 leading-relaxed">
                         <p className="mb-4">It is a great pleasure to have you here, <span className="font-bold">{userName}</span>.</p>
                         <p className="mb-4">✨ I feel that a special connection is about to manifest in your life in the coming days!</p>

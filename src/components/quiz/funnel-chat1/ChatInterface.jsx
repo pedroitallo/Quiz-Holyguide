@@ -82,11 +82,11 @@ const TypingIndicator = () => (
   >
     <img
       src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-      alt="Madame Aura"
+      alt="Master Aura"
       className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
     />
     <div className="bg-gradient-to-br from-purple-50 to-white p-3 rounded-xl shadow-sm border border-purple-100 max-w-xs">
-      <p className="text-sm text-gray-600">Madame Aura is typing...</p>
+      <p className="text-sm text-gray-600">Master Aura is typing...</p>
     </div>
   </motion.div>
 );
@@ -101,7 +101,7 @@ const MadameMessage = ({ children, delay = 0 }) => (
   >
     <img
       src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-      alt="Madame Aura"
+      alt="Master Aura"
       className="w-10 h-10 rounded-full object-cover border-2 border-purple-200 flex-shrink-0"
     />
     <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-xs">
@@ -166,7 +166,7 @@ const CustomAudioPlayer = () => {
       <div className="flex items-center gap-4">
         <img
           src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-          alt="Madame Aura"
+          alt="Master Aura"
           className="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
         />
         <div className="flex-1">
@@ -263,7 +263,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
 
     switch (currentStep) {
       case 1:
-        await addMessage("madame", "Hello, I'm Madame Aura and in a few minutes we'll discover the face of your soulmate! ✨", 1500);
+        await addMessage("madame", "Hello, I'm Master Aura and in a few minutes we'll discover the face of your soulmate! ✨", 1500);
         await addMessage("madame", "This Year Alone, I Have Connected With More Than 9,200 Soulmates Through My Drawings And Revelations 👇🏼", 1500);
         setShowTestimonials(true);
         setTimeout(() => {
