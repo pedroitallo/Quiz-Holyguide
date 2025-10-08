@@ -12,6 +12,7 @@ import BirthDataCollection from "../components/quiz/shared/BirthDataCollection";
 import LoveSituationStep from "../components/quiz/shared/LoveSituationStep";
 import PalmReadingResults from "../components/quiz/shared/PalmReadingResults";
 import LoadingRevelation from "../components/quiz/shared/LoadingRevelation";
+import TestimonialsCarousel from "../components/quiz/shared/TestimonialsCarousel";
 import ThankYouStep from "../components/quiz/shared/ThankYouStep";
 
 export default function FunnelStar3Page() {
@@ -24,17 +25,17 @@ export default function FunnelStar3Page() {
     quizResultId: null
   });
 
-  const totalSteps = 7; // Intro, Name, Birth, Love, Palm, Revelation, Paywall (NO Testimonials)
+  const totalSteps = 8; // Intro, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
   const progress = currentStep / totalSteps * 100;
 
   useEffect(() => {
-    if (currentStep < 8) {
+    if (currentStep < 9) {
         const stateToSave = {
             step: currentStep,
             data: formData
         };
         localStorage.setItem('holymind_quiz_state', JSON.stringify(stateToSave));
-    } else if (currentStep === 8) {
+    } else if (currentStep === 9) {
         localStorage.removeItem('holymind_quiz_state');
     }
   }, [currentStep, formData]);
@@ -94,7 +95,7 @@ export default function FunnelStar3Page() {
   };
 
   useEffect(() => {
-    const stepNames = ['intro', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall', 'thank_you'];
+    const stepNames = ['intro', 'testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall', 'thank_you'];
     if (currentStep <= stepNames.length) {
       trackStepView('funnel-star3', stepNames[currentStep - 1]);
     }
@@ -162,13 +163,14 @@ export default function FunnelStar3Page() {
         <div className="max-w-lg mx-auto">
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
           {currentStep === 1 && <IntroStep onContinue={nextStep} />}
-          {currentStep === 2 && <NameCollection onNameSubmit={handleNameSubmit} />}
-          {currentStep === 3 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
-          {currentStep === 4 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
-          {currentStep === 5 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
-          {currentStep === 6 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 7 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 8 && <ThankYouStep userName={formData.name} />}
+          {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
+          {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
+          {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
+          {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
+          {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
+          {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 9 && <ThankYouStep userName={formData.name} />}
         </div>
       </div>
     </div>
