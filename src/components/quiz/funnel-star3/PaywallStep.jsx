@@ -190,18 +190,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           </CardContent>
         </Card>
 
-        <div className="mb-6 px-4">
-          <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-            Click Below To Secure Your Drawing 👇
-          </h3>
-          <button
-            onClick={handleCheckout}
-            className="w-full max-w-md mx-auto block bg-green-500 hover:bg-green-600 text-white font-bold text-lg md:text-xl py-4 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-          >
-            YES! Claim My Divine Soul Drawing
-          </button>
-        </div>
-
         {showSales && (
           <SalesSection
             userName={userName}
