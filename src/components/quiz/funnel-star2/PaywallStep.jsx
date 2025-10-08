@@ -180,9 +180,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         <Card className="max-w-md mx-auto bg-purple-50/80 border-purple-200 shadow-md mb-6">
           <CardContent className="p-6">
             <div className="flex items-start gap-3 mb-3">
-              <div className="flex-shrink-0 w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
-                MA
-              </div>
+              <img src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png" alt="Madame Aura" className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
               <div className="flex-1">
                 <p className="font-semibold text-gray-800 mb-1">Madame Aura</p>
                 <p className="text-sm md:text-base text-gray-700 leading-relaxed">
