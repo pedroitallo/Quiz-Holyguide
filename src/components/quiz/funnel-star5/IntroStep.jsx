@@ -32,7 +32,7 @@ export default function IntroStep({ onContinue }) {
 
       <div className="py-6">
         <img
-          src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+          src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
           alt="Madame Aura"
           className="w-28 h-28 rounded-full mx-auto object-cover border-4 border-purple-200 shadow-lg"
         />

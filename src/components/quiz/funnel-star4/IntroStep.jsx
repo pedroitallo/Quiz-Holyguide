@@ -28,7 +28,7 @@ export default function IntroStep({ onContinue }) {
       <Card className="max-w-md mx-auto bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200">
         <CardContent className="p-6 space-y-4">
           <img
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/adbb98955_Perfil.webp"
+            src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
             alt="Madame Aura"
             className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-white shadow-lg"
           />
