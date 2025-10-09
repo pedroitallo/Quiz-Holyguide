@@ -29,6 +29,7 @@ const getPassageColor = (passageRate, stepKey) => {
 const FUNNEL_OPTIONS = [
   { value: 'all', label: 'Todos os Funis' },
   { value: 'funnel-1', label: 'Funnel 1' },
+  { value: 'funnel-chat1', label: 'Funnel Chat 1' },
   { value: 'funnel-tt', label: 'Funnel TT' },
   { value: 'funnel-vsl', label: 'Funnel VSL' },
   { value: 'funnelesp', label: 'Funnel ESP' },

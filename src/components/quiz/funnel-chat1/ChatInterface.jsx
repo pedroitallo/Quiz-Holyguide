@@ -84,6 +84,8 @@ const TypingIndicator = () => (
       src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
       alt="Master Aura"
       className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+      loading="eager"
+      fetchpriority="high"
     />
     <div className="bg-gradient-to-br from-purple-50 to-white p-3 rounded-xl shadow-sm border border-purple-100 max-w-xs">
       <p className="text-sm text-gray-600">Master Aura is typing...</p>
@@ -103,6 +105,8 @@ const MadameMessage = ({ children, delay = 0 }) => (
       src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
       alt="Master Aura"
       className="w-10 h-10 rounded-full object-cover border-2 border-purple-200 flex-shrink-0"
+      loading="eager"
+      fetchpriority="high"
     />
     <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 max-w-xs">
       {children}

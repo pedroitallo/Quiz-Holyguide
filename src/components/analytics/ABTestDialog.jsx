@@ -41,6 +41,7 @@ export default function ABTestDialog({ onTestChange }) {
 
     const funnelOptions = [
         { value: 'funnel-1', label: 'Funil 1' },
+        { value: 'funnel-chat1', label: 'Funil Chat 1' },
         { value: 'funnel-tt', label: 'Funil TT' },
         { value: 'funnel-vsl', label: 'Funil VSL' },
         { value: 'funnelesp', label: 'Funil ESP' },
