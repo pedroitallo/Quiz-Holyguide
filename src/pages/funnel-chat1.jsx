@@ -94,7 +94,7 @@ export default function FunnelChat1Page() {
   };
 
   useEffect(() => {
-    const stepNames = ['testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall'];
+    const stepNames = ['chat', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall'];
     if (currentStep <= stepNames.length) {
       trackStepView('funnel-chat1', stepNames[currentStep - 1]);
     }
@@ -154,6 +154,7 @@ export default function FunnelChat1Page() {
               birthDate={formData.birth_date}
               quizResultId={formData.quizResultId}
               src={new URL(window.location.href).searchParams.get('src') || ''}
+              funnelType="funnel-chat1"
             />
           )}
         </div>

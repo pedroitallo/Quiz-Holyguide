@@ -2,6 +2,7 @@ import { supabase } from '../lib/supabase';
 
 const FUNNEL_TABLE_MAP = {
   'funnel-1': 'step_views_funnel_1',
+  'funnel-chat1': 'step_views_funnel_chat1',
   'funnel-tt': 'step_views_funnel_tt',
   'funnel-vsl': 'step_views_funnel_vsl',
   'funnelesp': 'step_views_funnelesp',
@@ -15,6 +16,16 @@ const FUNNEL_STEPS = {
   'funnel-1': [
     { key: 'video', label: 'Video' },
     { key: 'testimonials', label: 'Depoimentos' },
+    { key: 'name', label: 'Nome' },
+    { key: 'birth', label: 'Nascimento' },
+    { key: 'love_situation', label: 'Situação Amorosa' },
+    { key: 'palm_reading', label: 'Leitura da Palma' },
+    { key: 'revelation', label: 'Revelação' },
+    { key: 'paywall', label: 'Paywall' },
+    { key: 'thank_you', label: 'Obrigado' },
+  ],
+  'funnel-chat1': [
+    { key: 'chat', label: 'Chat' },
     { key: 'name', label: 'Nome' },
     { key: 'birth', label: 'Nascimento' },
     { key: 'love_situation', label: 'Situação Amorosa' },

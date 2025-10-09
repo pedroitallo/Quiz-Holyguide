@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar, Heart, Sparkles, Shield, Clock } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
+import { trackStepView } from '@/utils/stepTracking';
 import SalesSection from './SalesSection';
 
 // Checkout configuration
@@ -13,7 +14,7 @@ const CHECKOUT_CONFIG = {
   // basicUrl: "https://pay.hotmart.com/BASIC456",
 };
 
-export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
+export default function PaywallStep({ userName, birthDate, quizResultId, src, funnelType = 'funnel-1' }) {
   const [showSales, setShowSales] = useState(false);
 
   // This useEffect handles timing for SalesSection and tracking pitch step view
@@ -35,6 +36,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
   const handleCheckout = async () => {
     // Track checkout click IMMEDIATELY before any redirect
     const trackCheckout = async () => {
+      // Track in step_views table
+      await trackStepView(funnelType, 'checkout');
+
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
         try {
           await HybridQuizResult.update(quizResultId, { checkout_step_clicked: true });

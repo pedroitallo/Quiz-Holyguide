@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import { Play, Pause, Heart, Users, Search, Check } from "lucide-react";
 import { useTracking } from '@/hooks/useTracking';
+import { trackStepView } from '@/utils/stepTracking';
 
 const months = [
   { value: "01", label: "January" },
@@ -269,6 +270,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
 
     switch (currentStep) {
       case 1:
+        trackStepView('funnel-chat1', 'chat');
         await addMessage("madame", "💖 Hello, my beloved! I'm very happy and grateful that you chose to **follow your heart** and **meet me here today**.", 2000, 500);
         await addMessage("madame", "✨ I am Master Aura, the **personal psychic of Hollywood celebrities**, and this year alone I have **united more than 9,200 soul mates** through my drawings.", 2500, 500);
         await addMessage("madame", "🔮 With just 2 questions, I'll **visualize and reveal EVERYTHING** about your soulmate...", 2000, 500);
