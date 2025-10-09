@@ -273,8 +273,8 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
         trackStepView('funnel-chat1', 'chat');
         await addMessage("madame", "💖 Hello, my beloved! I'm very happy and grateful that you chose to **follow your heart** and **meet me here today**.", 2000, 500);
         await addMessage("madame", "✨ I am Master Aura, the **personal psychic of Hollywood celebrities**, and this year alone I have **united more than 9,200 soul mates** through my drawings.", 2500, 500);
-        await addMessage("madame", "🔮 With just 2 questions, I'll **visualize and reveal EVERYTHING** about your soulmate...", 2000, 500);
-        await addMessage("madame", "💫 Can I start your personalized session?\n\nNow, I have to warn you: **this may bring you to tears** or stir up **deep emotions**, but I think you'll want to see... 💞✨", 3000, 500);
+        await addMessage("madame", "With just 2 questions, I'll **visualize and reveal EVERYTHING** about your soulmate...", 2000, 500);
+        await addMessage("madame", "Can I start **your personalized session?**Now, I have to warn you: **this may bring you to tears** or stir up **deep emotions**, but I think you'll want to see... 💞✨", 3000, 500);
         setTimeout(() => {
           setInputType("button");
           setShowInput(true);
@@ -306,7 +306,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
       case 5:
         const zodiacSign = getZodiacSign(formData.birth_date);
         await addMessage("madame", "💫 " + formData.name + ", I am delighted to hear that things are progressing in your life. People of the " + zodiacSign + " sign tend to have a **deeper romantic journey**, and my vision indicates that you are about to have a **life-changing revelation!**", 3000, 500);
-        await addMessage("madame", "👁️ Are you ready to **see your soulmate's face, name and when you'll meet?**", 2000, 500);
+        await addMessage("madame", "Are you ready to **see your soulmate's face, name and when you'll meet?**", 2000, 500);
         setTimeout(() => {
           setInputType("button");
           setShowInput(true);
@@ -314,7 +314,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
         break;
 
       case 6:
-        await addMessage("madame", "✨ **NAME:** " + formData.name + "\n**ZODIAC SIGN:** " + getZodiacSign(formData.birth_date) + "\n**BORN IN:** " + formatDate(formData.birth_date), 2000, 500);
+        await addMessage("madame", "**NAME:** " + formData.name + "\n**ZODIAC SIGN:** " + getZodiacSign(formData.birth_date) + "\n**BORN IN:** " + formatDate(formData.birth_date), 2000, 500);
         await addMessage("madame", "🔮 I've just finished this complete reading of your astrological chart, and I've seen some **surprising details about your soulmate…**", 2500, 500);
         await addMessage("madame", "🎥 So I made a quick 2-minute video to tell you **everything I've discovered** about your true love — **their face, name, date, and much more!**", 2500, 500);
         await addMessage("madame", "**Click below to watch the video.** 👇🏼", 1500, 500);
