@@ -266,7 +266,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
         await addMessage("madame", "💖 Hello, my beloved! I'm very happy and grateful that you chose to **follow your heart** and **meet me here today**.", 2000, 500);
         await addMessage("madame", "✨ I am Master Aura, the **personal psychic of Hollywood celebrities**, and this year alone I have **united more than 9,200 soul mates** through my drawings.", 2500, 500);
         await addMessage("madame", "🔮 With just 2 questions, I'll **visualize and reveal EVERYTHING** about your soulmate...", 2000, 500);
-        await addMessage("madame", "💫 Can I start your personalized session?\n\nNow, I have to warn you: **this may bring you to tears** or stir up **deep emotions**, but I think you'll want to see... 💞✨", 2500, 500);
+        await addMessage("madame", "💫 Can I start your personalized session?\n\nNow, I have to warn you: **this may bring you to tears** or stir up **deep emotions**, but I think you'll want to see... 💞✨", 3000, 500);
         setTimeout(() => {
           setInputType("button");
           setShowInput(true);
@@ -282,16 +282,16 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
       case 3:
         await addMessage("madame", "✨ It's a great pleasure to talk to you, " + formData.name + ". I'm very excited to start **creating your soulmate's drawing!**", 2000, 500);
         await addMessage("madame", "🌙 I feel like this person will come into your life **in the next few days…**", 1800, 500);
-        await addMessage("madame", "⚠️ But before we go any further, I ask you **not to cross your legs or arms**, only then will I be able to **see the exact face of your true soul mate**.", 2500, 500);
-        await addMessage("madame", "What is your date of birth?", 1500, 500);
+        await addMessage("madame", "⚠️ But before we go any further, I ask you **not to cross your legs or arms**, only then will I be able to **see the exact face of your true soul mate**.", 3000, 500);
+        await addMessage("madame", "What is your date of birth?", 2500, 500);
         setInputType("date");
         setShowInput(true);
         break;
 
       case 4:
         const zodiac = getZodiacSign(formData.birth_date);
-        await addMessage("madame", "✨ Wow, that's amazing! You're a " + zodiac + ", just like me! The " + zodiac + " is one of the few signs that has a **special sensitivity and connection with their soulmate**.", 2500, 500);
-        await addMessage("madame", "Finally, how has your love life been lately?", 1500, 500);
+        await addMessage("madame", "✨ Wow, that's amazing! You're a " + zodiac + ", just like me! The " + zodiac + " is one of the few signs that has a **special sensitivity and connection with their soulmate**.", 3000, 500);
+        await addMessage("madame", "Finally, how has your love life been lately?", 2500, 500);
         setShowLoveOptions(true);
         break;
 
