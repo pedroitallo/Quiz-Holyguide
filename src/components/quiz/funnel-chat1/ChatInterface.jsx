@@ -332,27 +332,33 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
     if (currentStep === 1) {
       trackStartQuiz();
       setMessages(prev => [...prev, { type: "user", content: "👉 Yes, I want to discover my soul mate!" }]);
+      setTimeout(() => scrollToBottom(), 100);
       setTimeout(() => onNextStep(), 500);
     } else if (currentStep === 2) {
       setMessages(prev => [...prev, { type: "user", content: value }]);
+      setTimeout(() => scrollToBottom(), 100);
       onDataUpdate({ name: value });
       setTimeout(() => onNextStep(), 500);
     } else if (currentStep === 3) {
       const birthDate = `${new Date().getFullYear()}-${selectedMonth}-${selectedDay}`;
       setMessages(prev => [...prev, { type: "user", content: `${selectedDay}/${selectedMonth}` }]);
+      setTimeout(() => scrollToBottom(), 100);
       onDataUpdate({ birth_date: birthDate, birth_day: selectedDay, birth_month: selectedMonth });
       setTimeout(() => onNextStep(), 500);
     } else if (currentStep === 4) {
       const option = loveSituationOptions.find(opt => opt.id === value);
       setMessages(prev => [...prev, { type: "user", content: option.label }]);
+      setTimeout(() => scrollToBottom(), 100);
       onDataUpdate({ love_situation: value });
       setTimeout(() => onNextStep(), 500);
     } else if (currentStep === 5) {
       setMessages(prev => [...prev, { type: "user", content: "💫 YES! I AM READY" }]);
+      setTimeout(() => scrollToBottom(), 100);
       setTimeout(() => onNextStep(), 500);
     } else if (currentStep === 6) {
       trackEndQuiz();
       setMessages(prev => [...prev, { type: "user", content: "TAP HERE TO FIND OUT WHO YOUR SOULMATE IS" }]);
+      setTimeout(() => scrollToBottom(), 100);
       setTimeout(() => {
         onNextStep();
       }, 500);
