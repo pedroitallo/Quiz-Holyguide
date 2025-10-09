@@ -309,7 +309,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
         await addMessage("madame", "✨ **NAME:** " + formData.name + "\n**ZODIAC SIGN:** " + getZodiacSign(formData.birth_date) + "\n**BORN IN:** " + formatDate(formData.birth_date), 2000, 500);
         await addMessage("madame", "🔮 I've just finished this complete reading of your astrological chart, and I've seen some **surprising details about your soulmate…**", 2500, 500);
         await addMessage("madame", "🎥 So I made a quick 2-minute video to tell you **everything I've discovered** about your true love — **their face, name, date, and much more!**", 2500, 500);
-        await addMessage("madame", "💞 **Click below to watch the video.** 👇🏼", 1500, 500);
+        await addMessage("madame", "**Click below to watch the video.** 👇🏼", 1500, 500);
         setTimeout(() => {
           setInputType("button");
           setShowInput(true);
@@ -344,7 +344,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
       setTimeout(() => onNextStep(), 500);
     } else if (currentStep === 6) {
       trackEndQuiz();
-      setMessages(prev => [...prev, { type: "user", content: "🔮 TAP HERE TO FIND OUT WHO YOUR SOULMATE IS" }]);
+      setMessages(prev => [...prev, { type: "user", content: "TAP HERE TO FIND OUT WHO YOUR SOULMATE IS" }]);
       setTimeout(() => {
         onNextStep();
       }, 500);
