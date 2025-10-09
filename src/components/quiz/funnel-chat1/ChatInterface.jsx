@@ -228,12 +228,15 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
 
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isTyping, showInput, showTestimonials, showLoveOptions, showAudio, showRevelationImage]);
+    const timer = setTimeout(() => {
+      scrollToBottom();
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [messages]);
 
   useEffect(() => {
     initializeStep();
@@ -246,7 +249,6 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
         setTimeout(() => {
           setIsTyping(false);
           setMessages(prev => [...prev, { type, content }]);
-          setTimeout(() => scrollToBottom(), 100);
           resolve();
         }, delay);
       }, pauseBefore);
@@ -397,7 +399,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
         rel="stylesheet"
       />
 
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4 scroll-smooth overscroll-contain">
         {currentStep === 1 && messages.length === 0 && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
