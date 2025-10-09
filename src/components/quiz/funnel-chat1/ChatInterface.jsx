@@ -631,9 +631,12 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
           {inputType === "button" && currentStep === 6 && (
             <Button
               onClick={() => handleSubmit()}
-              className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
+              className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 py-8 text-lg font-bold"
             >
-              🔮 TAP HERE TO FIND OUT WHO YOUR SOULMATE IS
+              <div className="flex flex-col items-center gap-1">
+                <span>🔮 TAP HERE TO FIND OUT</span>
+                <span>WHO YOUR SOULMATE IS</span>
+              </div>
             </Button>
           )}
         </motion.div>
