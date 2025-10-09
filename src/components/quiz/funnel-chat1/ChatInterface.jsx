@@ -28,10 +28,10 @@ const days = Array.from({ length: 31 }, (_, i) => {
 });
 
 const loveSituationOptions = [
-  { id: "single", label: "I am single", icon: Search, description: "Looking for love" },
-  { id: "dating", label: "I am dating or talking to someone", icon: Users, description: "Exploring connections" },
-  { id: "relationship_missing", label: "I am in a relationship, but I feel like something is missing", icon: Heart, description: "Seeking completeness" },
-  { id: "happy_relationship", label: "I am in a happy relationship and want to confirm if this is my Soulmate", icon: Check, description: "Seeking confirmation" }
+  { id: "single", label: "I'm single and looking for love", icon: Search, description: "Looking for love" },
+  { id: "dating", label: "I'm in a relationship but uncertain", icon: Users, description: "Exploring connections" },
+  { id: "relationship_missing", label: "I recently ended a relationship", icon: Heart, description: "Seeking completeness" },
+  { id: "happy_relationship", label: "It's complicated…", icon: Check, description: "Seeking confirmation" }
 ];
 
 const getZodiacSign = (dateString) => {
@@ -239,7 +239,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
     initializeStep();
   }, [currentStep]);
 
-  const addMessage = (type, content, delay = 1500) => {
+  const addMessage = (type, content, delay = 2000, pauseBefore = 500) => {
     return new Promise((resolve) => {
       setTimeout(() => {
         setIsTyping(true);
@@ -249,7 +249,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
           setTimeout(() => scrollToBottom(), 100);
           resolve();
         }, delay);
-      }, 300);
+      }, pauseBefore);
     });
   };
 
@@ -263,54 +263,57 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
 
     switch (currentStep) {
       case 1:
-        await addMessage("madame", "Hello, I'm Master Aura and in a few minutes we'll discover the face of your soulmate! ✨", 1500);
-        await addMessage("madame", "This Year Alone, I Have Connected With More Than 9,200 Soulmates Through My Drawings And Revelations 👇🏼", 1500);
-        setShowTestimonials(true);
+        await addMessage("madame", "Hello, my beloved! I'm very happy and grateful that you chose to follow your heart and meet me here today.", 2000, 500);
+        await addMessage("madame", "I am Master Aura, the personal psychic of Hollywood celebrities, and this year alone I have united more than 9,200 soul mates through my drawings.", 2500, 500);
+        await addMessage("madame", "With just 2 questions, I'll visualize and reveal EVERYTHING about your soulmate...", 2000, 500);
+        await addMessage("madame", "Can I start your personalized session?\n\nNow, I have to warn you: this may bring you to tears or stir up deep emotions, but I think you'll want to see... 💞✨", 2500, 500);
         setTimeout(() => {
           setInputType("button");
           setShowInput(true);
-        }, 1000);
+        }, 500);
         break;
 
       case 2:
-        await addMessage("madame", "Before We Begin This Sacred Journey Of Love, What Is Your Name?", 1500);
+        await addMessage("madame", "Before we start, could you tell me your name?", 1500, 500);
         setInputType("text");
         setShowInput(true);
         break;
 
       case 3:
-        await addMessage("madame", `It is a great pleasure to have you here, ${formData.name}. ✨ I feel that a special connection is about to manifest in your life in the coming days!`, 1500);
-        await addMessage("madame", "We all have a soulmate from the day we are born. So, please enter your date of birth below so that I can visualize your soulmate.", 1500);
+        await addMessage("madame", "It's a great pleasure to talk to you, " + formData.name + ". I'm very excited to start creating your soulmate's drawing!", 2000, 500);
+        await addMessage("madame", "I feel like this person will come into your life in the next few days…", 1800, 500);
+        await addMessage("madame", "But before we go any further, I ask you not to cross your legs or arms, only then will I be able to see the exact face of your true soul mate.", 2500, 500);
+        await addMessage("madame", "What is your date of birth?", 1500, 500);
         setInputType("date");
         setShowInput(true);
         break;
 
       case 4:
         const zodiac = getZodiacSign(formData.birth_date);
-        await addMessage("madame", `Wow, that's amazing! You're a ${zodiac}${zodiac === 'Capricorn' ? ' just like me' : ''}! The ${zodiac} is one of the few signs that has a special sensitivity and connection with their soulmate. I feel like you're on the right path to meeting your Soulmate.`, 1500);
-        await addMessage("madame", "HOW IS YOUR LOVE LIFE AT THIS MOMENT?", 1500);
+        await addMessage("madame", "Wow, that's amazing! You're a " + zodiac + ", just like me! The " + zodiac + " is one of the few signs that has a special sensitivity and connection with their soulmate.", 2500, 500);
+        await addMessage("madame", "Finally, how has your love life been lately?", 1500, 500);
         setShowLoveOptions(true);
         break;
 
       case 5:
         const zodiacSign = getZodiacSign(formData.birth_date);
-        await addMessage("madame", `${formData.name}, I am delighted to hear that things are progressing in your life. People of the ${zodiacSign} sign tend to have a deeper romantic journey, and my vision indicates that you are about to have a transformative revelation!`, 1500);
-        await addMessage("madame", `Wow ${formData.name}... The Results Of Your Birth Chart Were Surprising! I'll send you a short audio talking a little about your love destiny`, 1500);
-        setShowAudio(true);
+        await addMessage("madame", formData.name + ", I am delighted to hear that things are progressing in your life. People of the " + zodiacSign + " sign tend to have a deeper romantic journey, and my vision indicates that you are about to have a life-changing revelation!", 3000, 500);
+        await addMessage("madame", "Are you ready to see your soulmate's face, name and when you'll meet?", 2000, 500);
         setTimeout(() => {
           setInputType("button");
           setShowInput(true);
-        }, 2000);
+        }, 500);
         break;
 
       case 6:
-        await addMessage("madame", "Based on your birth chart, I am preparing a portrait of your soulmate. I'm starting right now 👇🔮", 1500);
-        setShowRevelationImage(true);
-        setTimeout(async () => {
-          await addMessage("madame", `${formData.name}, something special is unfolding... Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate. Everything points to a meeting in your city — or somewhere very close. This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨`, 1500);
+        await addMessage("madame", formData.name + "\nZODIAC SIGN: " + getZodiacSign(formData.birth_date) + "\nBORN IN: " + formatDate(formData.birth_date), 2000, 500);
+        await addMessage("madame", "I've just finished this complete reading of your astrological chart, and I've seen some surprising details about your soulmate…", 2500, 500);
+        await addMessage("madame", "So I made a quick 2-minute video to tell you everything I've discovered about your true love — their face, name, date, and much more!", 2500, 500);
+        await addMessage("madame", "Click below to watch the video. 👇🏼", 1500, 500);
+        setTimeout(() => {
           setInputType("button");
           setShowInput(true);
-        }, 2000);
+        }, 500);
         break;
     }
   };
@@ -320,7 +323,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
 
     if (currentStep === 1) {
       trackStartQuiz();
-      setMessages(prev => [...prev, { type: "user", content: "Yes, I am ready!" }]);
+      setMessages(prev => [...prev, { type: "user", content: "👉 Yes, I want to discover my soul mate!" }]);
       setTimeout(() => onNextStep(), 500);
     } else if (currentStep === 2) {
       setMessages(prev => [...prev, { type: "user", content: value }]);
@@ -337,11 +340,11 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
       onDataUpdate({ love_situation: value });
       setTimeout(() => onNextStep(), 500);
     } else if (currentStep === 5) {
-      setMessages(prev => [...prev, { type: "user", content: "Go to Full Disclosure Now" }]);
+      setMessages(prev => [...prev, { type: "user", content: "💫 YES! I AM READY" }]);
       setTimeout(() => onNextStep(), 500);
     } else if (currentStep === 6) {
       trackEndQuiz();
-      setMessages(prev => [...prev, { type: "user", content: "Discover the face of my soulmate" }]);
+      setMessages(prev => [...prev, { type: "user", content: "🔮 TAP HERE TO FIND OUT WHO YOUR SOULMATE IS" }]);
       setTimeout(() => {
         window.location.href = '/funnel-1#paywall';
       }, 500);
@@ -584,7 +587,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
               onClick={() => handleSubmit()}
               className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
             >
-              Yes, I am ready!
+              👉 Yes, I want to discover my soul mate!
             </Button>
           )}
 
@@ -593,7 +596,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
               onClick={() => handleSubmit()}
               className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
             >
-              Go to Full Disclosure Now
+              💫 YES! I AM READY
             </Button>
           )}
 
@@ -602,7 +605,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
               onClick={() => handleSubmit()}
               className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
             >
-              Discover the face of my soulmate
+              🔮 TAP HERE TO FIND OUT WHO YOUR SOULMATE IS
             </Button>
           )}
         </motion.div>
