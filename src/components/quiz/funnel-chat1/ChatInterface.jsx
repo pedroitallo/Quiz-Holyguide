@@ -406,7 +406,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
           >
             <div className="bg-gradient-to-r from-purple-50 to-purple-100 border border-purple-200 rounded-xl px-6 py-4 shadow-sm">
               <p className="text-center text-purple-800 font-medium text-sm">
-                Your soulmate revelation test is beginning…
+                💫 Your soulmate revelation test is beginning…
               </p>
             </div>
           </motion.div>
