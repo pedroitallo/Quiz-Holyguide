@@ -26,13 +26,7 @@ const FUNNEL_STEPS = {
   ],
   'funnel-chat1': [
     { key: 'chat', label: 'Chat' },
-    { key: 'name', label: 'Nome' },
-    { key: 'birth', label: 'Nascimento' },
-    { key: 'love_situation', label: 'Situação Amorosa' },
-    { key: 'palm_reading', label: 'Leitura da Palma' },
-    { key: 'revelation', label: 'Revelação' },
     { key: 'paywall', label: 'Paywall' },
-    { key: 'thank_you', label: 'Obrigado' },
   ],
   'funnel-tt': [
     { key: 'video', label: 'Video' },
