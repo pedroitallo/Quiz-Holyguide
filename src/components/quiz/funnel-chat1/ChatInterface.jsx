@@ -634,7 +634,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
               className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 py-8 text-lg font-bold"
             >
               <div className="flex flex-col items-center gap-1">
-                <span>🔮 TAP HERE TO FIND OUT</span>
+                <span>TAP HERE TO FIND OUT</span>
                 <span>WHO YOUR SOULMATE IS</span>
               </div>
             </Button>
