@@ -263,10 +263,10 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
 
     switch (currentStep) {
       case 1:
-        await addMessage("madame", "Hello, my beloved! I'm very happy and grateful that you chose to follow your heart and meet me here today.", 2000, 500);
-        await addMessage("madame", "I am Master Aura, the personal psychic of Hollywood celebrities, and this year alone I have united more than 9,200 soul mates through my drawings.", 2500, 500);
-        await addMessage("madame", "With just 2 questions, I'll visualize and reveal EVERYTHING about your soulmate...", 2000, 500);
-        await addMessage("madame", "Can I start your personalized session?\n\nNow, I have to warn you: this may bring you to tears or stir up deep emotions, but I think you'll want to see... 💞✨", 2500, 500);
+        await addMessage("madame", "💖 Hello, my beloved! I'm very happy and grateful that you chose to **follow your heart** and **meet me here today**.", 2000, 500);
+        await addMessage("madame", "✨ I am Master Aura, the **personal psychic of Hollywood celebrities**, and this year alone I have **united more than 9,200 soul mates** through my drawings.", 2500, 500);
+        await addMessage("madame", "🔮 With just 2 questions, I'll **visualize and reveal EVERYTHING** about your soulmate...", 2000, 500);
+        await addMessage("madame", "💫 Can I start your personalized session?\n\nNow, I have to warn you: **this may bring you to tears** or stir up **deep emotions**, but I think you'll want to see... 💞✨", 2500, 500);
         setTimeout(() => {
           setInputType("button");
           setShowInput(true);
@@ -280,9 +280,9 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
         break;
 
       case 3:
-        await addMessage("madame", "It's a great pleasure to talk to you, " + formData.name + ". I'm very excited to start creating your soulmate's drawing!", 2000, 500);
-        await addMessage("madame", "I feel like this person will come into your life in the next few days…", 1800, 500);
-        await addMessage("madame", "But before we go any further, I ask you not to cross your legs or arms, only then will I be able to see the exact face of your true soul mate.", 2500, 500);
+        await addMessage("madame", "✨ It's a great pleasure to talk to you, " + formData.name + ". I'm very excited to start **creating your soulmate's drawing!**", 2000, 500);
+        await addMessage("madame", "🌙 I feel like this person will come into your life **in the next few days…**", 1800, 500);
+        await addMessage("madame", "⚠️ But before we go any further, I ask you **not to cross your legs or arms**, only then will I be able to **see the exact face of your true soul mate**.", 2500, 500);
         await addMessage("madame", "What is your date of birth?", 1500, 500);
         setInputType("date");
         setShowInput(true);
@@ -290,15 +290,15 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
 
       case 4:
         const zodiac = getZodiacSign(formData.birth_date);
-        await addMessage("madame", "Wow, that's amazing! You're a " + zodiac + ", just like me! The " + zodiac + " is one of the few signs that has a special sensitivity and connection with their soulmate.", 2500, 500);
+        await addMessage("madame", "✨ Wow, that's amazing! You're a " + zodiac + ", just like me! The " + zodiac + " is one of the few signs that has a **special sensitivity and connection with their soulmate**.", 2500, 500);
         await addMessage("madame", "Finally, how has your love life been lately?", 1500, 500);
         setShowLoveOptions(true);
         break;
 
       case 5:
         const zodiacSign = getZodiacSign(formData.birth_date);
-        await addMessage("madame", formData.name + ", I am delighted to hear that things are progressing in your life. People of the " + zodiacSign + " sign tend to have a deeper romantic journey, and my vision indicates that you are about to have a life-changing revelation!", 3000, 500);
-        await addMessage("madame", "Are you ready to see your soulmate's face, name and when you'll meet?", 2000, 500);
+        await addMessage("madame", "💫 " + formData.name + ", I am delighted to hear that things are progressing in your life. People of the " + zodiacSign + " sign tend to have a **deeper romantic journey**, and my vision indicates that you are about to have a **life-changing revelation!**", 3000, 500);
+        await addMessage("madame", "👁️ Are you ready to **see your soulmate's face, name and when you'll meet?**", 2000, 500);
         setTimeout(() => {
           setInputType("button");
           setShowInput(true);
@@ -306,10 +306,10 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
         break;
 
       case 6:
-        await addMessage("madame", formData.name + "\nZODIAC SIGN: " + getZodiacSign(formData.birth_date) + "\nBORN IN: " + formatDate(formData.birth_date), 2000, 500);
-        await addMessage("madame", "I've just finished this complete reading of your astrological chart, and I've seen some surprising details about your soulmate…", 2500, 500);
-        await addMessage("madame", "So I made a quick 2-minute video to tell you everything I've discovered about your true love — their face, name, date, and much more!", 2500, 500);
-        await addMessage("madame", "Click below to watch the video. 👇🏼", 1500, 500);
+        await addMessage("madame", "✨ **NAME:** " + formData.name + "\n**ZODIAC SIGN:** " + getZodiacSign(formData.birth_date) + "\n**BORN IN:** " + formatDate(formData.birth_date), 2000, 500);
+        await addMessage("madame", "🔮 I've just finished this complete reading of your astrological chart, and I've seen some **surprising details about your soulmate…**", 2500, 500);
+        await addMessage("madame", "🎥 So I made a quick 2-minute video to tell you **everything I've discovered** about your true love — **their face, name, date, and much more!**", 2500, 500);
+        await addMessage("madame", "💞 **Click below to watch the video.** 👇🏼", 1500, 500);
         setTimeout(() => {
           setInputType("button");
           setShowInput(true);
@@ -406,7 +406,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
           >
             <div className="bg-gradient-to-r from-purple-50 to-purple-100 border border-purple-200 rounded-xl px-6 py-4 shadow-sm">
               <p className="text-center text-purple-800 font-medium text-sm">
-                💫 Your soulmate revelation test is beginning…
+                Your soulmate revelation test is beginning…
               </p>
             </div>
           </motion.div>
@@ -416,7 +416,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
           {messages.map((msg, index) => (
             msg.type === "madame" ? (
               <MadameMessage key={index}>
-                <p className="text-base text-gray-700 leading-relaxed">{msg.content}</p>
+                <p className="text-base text-gray-700 leading-relaxed whitespace-pre-line" dangerouslySetInnerHTML={{ __html: msg.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}></p>
               </MadameMessage>
             ) : (
               <UserMessage key={index}>
