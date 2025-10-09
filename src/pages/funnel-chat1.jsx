@@ -136,12 +136,6 @@ export default function FunnelChat1Page() {
           </div>
         </div>
 
-        <div className="relative">
-          <div className="w-full bg-gray-200 h-1">
-            <motion.div className="bg-gradient-to-r from-purple-400 to-purple-600 h-1" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.5, ease: "easeOut" }} />
-          </div>
-          <div className="absolute right-2 -top-6 text-xs text-gray-600 font-medium">{Math.round(progress)}%</div>
-        </div>
       </div>
 
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">

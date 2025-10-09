@@ -400,15 +400,15 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
       />
 
       <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4 scroll-smooth overscroll-contain">
-        {currentStep === 1 && messages.length === 0 && (
+        {currentStep === 1 && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex justify-center mb-6"
+            className="flex justify-center mb-6 sticky top-0 z-10 bg-[#f9f5ff] py-2"
           >
             <div className="bg-gradient-to-r from-purple-50 to-purple-100 border border-purple-200 rounded-xl px-6 py-4 shadow-sm">
               <p className="text-center text-purple-800 font-medium text-sm">
-                Your soulmate revelation test is beginning…
+                ⏳ Your soulmate revelation test is beginning…
               </p>
             </div>
           </motion.div>
