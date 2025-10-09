@@ -5,6 +5,7 @@ import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import StepTracker from '../components/quiz/shared/StepTracker';
 import { trackStepView } from '../utils/stepTracking';
 import ChatInterface from "../components/quiz/funnel-chat1/ChatInterface";
+import PaywallStep from "../components/quiz/funnel-1/PaywallStep";
 
 export default function FunnelChat1Page() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -16,7 +17,7 @@ export default function FunnelChat1Page() {
     quizResultId: null
   });
 
-  const totalSteps = 6;
+  const totalSteps = 7;
   const progress = currentStep / totalSteps * 100;
 
   useEffect(() => {
@@ -93,7 +94,7 @@ export default function FunnelChat1Page() {
   };
 
   useEffect(() => {
-    const stepNames = ['testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation'];
+    const stepNames = ['testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall'];
     if (currentStep <= stepNames.length) {
       trackStepView('funnel-chat1', stepNames[currentStep - 1]);
     }
@@ -146,12 +147,21 @@ export default function FunnelChat1Page() {
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
         <div className="max-w-lg mx-auto">
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
-          <ChatInterface
-            currentStep={currentStep}
-            formData={formData}
-            onNextStep={nextStep}
-            onDataUpdate={handleDataUpdate}
-          />
+          {currentStep <= 6 ? (
+            <ChatInterface
+              currentStep={currentStep}
+              formData={formData}
+              onNextStep={nextStep}
+              onDataUpdate={handleDataUpdate}
+            />
+          ) : (
+            <PaywallStep
+              userName={formData.name}
+              birthDate={formData.birth_date}
+              quizResultId={formData.quizResultId}
+              src={new URL(window.location.href).searchParams.get('src') || ''}
+            />
+          )}
         </div>
       </div>
     </div>

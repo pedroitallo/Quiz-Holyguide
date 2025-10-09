@@ -346,7 +346,7 @@ export default function ChatInterface({ currentStep, formData, onNextStep, onDat
       trackEndQuiz();
       setMessages(prev => [...prev, { type: "user", content: "🔮 TAP HERE TO FIND OUT WHO YOUR SOULMATE IS" }]);
       setTimeout(() => {
-        window.location.href = '/funnel-1#paywall';
+        onNextStep();
       }, 500);
     }
   };
