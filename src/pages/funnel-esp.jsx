@@ -6,14 +6,14 @@ import StepTracker from '../components/quiz/shared/StepTracker';
 import { trackStepView } from '../utils/stepTracking';
 
 import VideoStep from "../components/quiz/funnel-esp/VideoStep";
-import PaywallStep from "../components/quiz/funnel-1/PaywallStep";
+import PaywallStep from "../components/quiz/funnel-esp/PaywallStep";
 import NameCollection from "../components/quiz/funnel-esp/NameCollection";
 import BirthDataCollection from "../components/quiz/funnel-esp/BirthDataCollection";
-import LoveSituationStep from "../components/quiz/shared/LoveSituationStep";
-import PalmReadingResults from "../components/quiz/shared/PalmReadingResults";
-import LoadingRevelation from "../components/quiz/shared/LoadingRevelation";
+import LoveSituationStep from "../components/quiz/funnel-esp/LoveSituationStep";
+import PalmReadingResults from "../components/quiz/funnel-esp/PalmReadingResults";
+import LoadingRevelation from "../components/quiz/funnel-esp/LoadingRevelation";
 import TestimonialsCarousel from "../components/quiz/funnel-esp/TestimonialsCarousel";
-import ThankYouStep from "../components/quiz/shared/ThankYouStep";
+import ThankYouStep from "../components/quiz/funnel-esp/ThankYouStep";
 
 export default function FunnelEspPage() {
   const [currentStep, setCurrentStep] = useState(1);
