@@ -115,6 +115,25 @@ export const FUNNEL_DEFINITIONS = [
     status: 'active',
     tags: ['chat', 'interativo'],
     steps: []
+  },
+  {
+    id: 'funnel-esp',
+    name: 'Funnel ESP (Español)',
+    slug: 'funnel-esp',
+    description: 'Funil em Espanhol - versão completa traduzida',
+    component: () => import('../pages/funnel-esp'),
+    status: 'active',
+    tags: ['espanhol', 'internacional', 'español'],
+    steps: [
+      { name: 'video', label: 'Vídeo', component: 'VideoStep' },
+      { name: 'testimonials', label: 'Depoimentos', component: 'TestimonialsCarousel' },
+      { name: 'name', label: 'Nome', component: 'NameCollection' },
+      { name: 'birth', label: 'Data Nascimento', component: 'BirthDataCollection' },
+      { name: 'love_situation', label: 'Situação Amorosa', component: 'LoveSituationStep' },
+      { name: 'palm_reading', label: 'Leitura Palma', component: 'PalmReadingResults' },
+      { name: 'revelation', label: 'Revelação', component: 'LoadingRevelation' },
+      { name: 'paywall', label: 'Checkout', component: 'PaywallStep' }
+    ]
   }
 ];
 
