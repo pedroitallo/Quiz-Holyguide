@@ -174,8 +174,27 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             <p className="text-sm md:text-base text-gray-600 mt-4 leading-relaxed">
               Your soulmate's drawing is already done and will be sent directly to your email as soon as you confirm your access on the button below.
             </p>
+            <div className="mt-4 space-y-1">
+              <p className="text-sm md:text-base text-gray-600">
+                from <span className="line-through text-red-600 font-semibold">$29</span>
+              </p>
+              <p className="text-lg md:text-xl text-green-600 font-bold">
+                for only $9
+              </p>
+            </div>
           </CardContent>
         </Card>
+
+        <div className="space-y-3 mb-6 px-4">
+          <p className="text-gray-700 text-sm font-bold">Click Below To Secure Your Drawing👇🏻</p>
+          <button
+            onClick={handleCheckout}
+            className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
+            style={{ minHeight: '70px' }}
+          >
+            <span className="block text-center leading-tight">YES! Claim My Divine<br/>Soul Drawing</span>
+          </button>
+        </div>
 
         <Card className="max-w-md mx-auto bg-purple-50/80 border-purple-200 shadow-md mb-6">
           <CardContent className="p-6">
@@ -185,8 +204,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                 <p className="font-semibold text-gray-800 text-lg">Master Aura</p>
               </div>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left">
-                We don't actually charge for your personalized soulmate drawing — <strong>there's just a small, one-time symbolic fee of $9</strong>.
-                This helps us cover the secure delivery <strong>system and the special materials used to create your unique astral reading and artwork</strong>.
+         When you join, you'll receive exclusive access to my app — <strong>the Auraly App</strong> 💫, where you'll get to see the <strong>drawing of your soulmate</strong> 🎨💖
+              </p>
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left mt-3">
+Plus, every month you'll <strong>receive intuitive and insightful readings</strong> 🔮, offering powerful guidance about your love life and showing you how to <strong>connect energetically with your soulmate</strong> 💌💞
               </p>
             </div>
           </CardContent>
