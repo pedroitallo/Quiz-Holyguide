@@ -1,12 +1,8 @@
 import Layout from "./Layout.jsx";
 import Home from "./Home";
 import Funnel1 from "./funnel-1";
-import FunnelChat1 from "./funnel-chat1";
-import FunnelEsp from "./funnelesp";
 import FunnelEspNew from "./funnel-esp";
 import FunnelTrialVSL from "./funnel-trialvsl";
-import FunnelTt from "./funnel-tt";
-import FunnelVsl from "./funnel-vsl";
 import FunnelStar2 from "./funnel-star2";
 import FunnelStar3 from "./funnel-star3";
 import FunnelStar4 from "./funnel-star4";
@@ -28,12 +24,8 @@ import { AdminAuthProvider } from '../contexts/AdminAuthContext';
 const PAGES = {
     Home: Home,
     "funnel-1": Funnel1,
-    "funnel-chat1": FunnelChat1,
-    funnelesp: FunnelEsp,
     "funnel-esp": FunnelEspNew,
     "funnel-trialvsl": FunnelTrialVSL,
-    "funnel-tt": FunnelTt,
-    "funnel-vsl": FunnelVsl,
     "funnel-star2": FunnelStar2,
     "funnel-star3": FunnelStar3,
     "funnel-star4": FunnelStar4,
@@ -82,12 +74,8 @@ function PagesContent() {
                 <Route path="/" element={<Home />} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/funnel-1" element={<Funnel1 />} />
-                <Route path="/funnel-chat1" element={<FunnelChat1 />} />
-                <Route path="/funnelesp" element={<FunnelEsp />} />
                 <Route path="/funnel-esp" element={<FunnelEspNew />} />
                 <Route path="/funnel-trialvsl" element={<FunnelTrialVSL />} />
-                <Route path="/funnel-tt" element={<FunnelTt />} />
-                <Route path="/funnel-vsl" element={<FunnelVsl />} />
                 <Route path="/funnel-star2" element={<FunnelStar2 />} />
                 <Route path="/funnel-star3" element={<FunnelStar3 />} />
                 <Route path="/funnel-star4" element={<FunnelStar4 />} />
