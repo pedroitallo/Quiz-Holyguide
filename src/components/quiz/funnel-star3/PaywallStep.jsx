@@ -174,6 +174,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             <p className="text-sm md:text-base text-gray-600 mt-4 leading-relaxed">
               Your soulmate's drawing is already done and will be sent directly to your email as soon as you confirm your access on the button below.
             </p>
+            <div className="mt-4 space-y-1">
+              <p className="text-sm md:text-base text-gray-600">
+                from <span className="line-through text-red-600 font-semibold">$29</span>
+              </p>
+              <p className="text-lg md:text-xl text-green-600 font-bold">
+                for only $9
+              </p>
+            </div>
           </CardContent>
         </Card>
 
