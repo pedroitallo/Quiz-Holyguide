@@ -26,10 +26,10 @@ export default function Checkout() {
           sc-checkout::after {
             content: '';
             position: absolute;
-            top: 354px;
+            top: 340px;
             left: 22px;
             right: 22px;
-            height: 50px;
+            height: 80px;
             background: white;
             z-index: 10;
             pointer-events: none;
