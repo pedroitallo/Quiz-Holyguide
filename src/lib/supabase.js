@@ -58,10 +58,10 @@ export const testSupabaseConnection = async () => {
     
     // First test: Simple select to check basic connectivity
     const { data, error } = await supabase
-      .from('Funnel01')
+      .from('funnels')
       .select('id')
       .limit(1)
-    
+
     if (error) {
       console.error('❌ Supabase connection test failed:', error.message)
       console.error('🔍 Full error details:', error)
@@ -70,49 +70,16 @@ export const testSupabaseConnection = async () => {
         console.error('📋 Get your anon key from: Supabase Dashboard > Settings > API > anon public')
       }
       if (error.message.includes('relation') && error.message.includes('does not exist')) {
-        console.error('🗄️ Table Error: The Funnel01 table does not exist in your Supabase database')
+        console.error('🗄️ Table Error: The funnels table does not exist in your Supabase database')
       }
       if (error.message.includes('permission denied') || error.message.includes('RLS')) {
         console.error('🔒 RLS Policy Error: Row Level Security policies may be blocking access')
-        console.error('📋 Check your RLS policies for the Funnel01 table')
+        console.error('📋 Check your RLS policies for the funnels table')
       }
       return false
     }
-    
+
     console.log('✅ Supabase connection successful', { recordsFound: data?.length || 0 })
-    
-    // Second test: Try to insert a test record to verify permissions
-    console.log('🔄 Testing INSERT permissions...')
-    const testData = {
-      funnel_type: 'connection-test',
-      utm_source: 'test',
-      utm_medium: 'test',
-      utm_campaign: 'test',
-      current_step: 1,
-      started_at: new Date().toISOString()
-    }
-    
-    const { data: insertData, error: insertError } = await supabase
-      .from('Funnel01')
-      .insert([testData])
-      .select()
-      .single()
-    
-    if (insertError) {
-      console.error('❌ INSERT permission test failed:', insertError.message)
-      console.error('🔍 Full INSERT error:', insertError)
-      if (insertError.message.includes('permission denied') || insertError.message.includes('RLS')) {
-        console.error('🔒 RLS Policy Error: INSERT operations are blocked by Row Level Security')
-        console.error('📋 You need to create an RLS policy that allows INSERT for anon users')
-      }
-      return false
-    } else {
-      console.log('✅ INSERT permissions working correctly', { testRecordId: insertData.id })
-      
-      // Clean up test record
-      await supabase.from('Funnel01').delete().eq('id', insertData.id)
-      console.log('🧹 Test record cleaned up')
-    }
     
     return true
   } catch (error) {
