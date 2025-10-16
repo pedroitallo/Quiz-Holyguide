@@ -26,7 +26,7 @@ export default function Checkout() {
           sc-checkout::after {
             content: '';
             position: absolute;
-            top: 300px;
+            top: 230px;
             left: 22px;
             right: 22px;
             height: 80px;
