@@ -185,11 +185,11 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           </CardContent>
         </Card>
 
-        <div className="space-y-3 mb-6">
+        <div className="space-y-3 mb-6 px-4">
           <p className="text-gray-700 text-sm font-bold">Click Below To Secure Your Drawing👇🏻</p>
           <button
             onClick={handleCheckout}
-            className="w-full max-w-2xl mx-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
+            className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
             style={{ minHeight: '70px' }}
           >
             <span className="block text-center leading-tight">YES! Claim My Divine<br/>Soul Drawing</span>
@@ -204,9 +204,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                 <p className="font-semibold text-gray-800 text-lg">Master Aura</p>
               </div>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left">
-         When you join, you’ll receive exclusive access to my app — <strong>the Auraly App</strong> 💫, where you’ll get to see the <strong>drawing of your soulmate</strong> 🎨💖
-
-Plus, every month you’ll <strong>receive intuitive and insightful readings</strong> 🔮, offering powerful guidance about your love life and showing you how to <strong>connect energetically with your soulmate</strong> 💌💞
+         When you join, you'll receive exclusive access to my app — <strong>the Auraly App</strong> 💫, where you'll get to see the <strong>drawing of your soulmate</strong> 🎨💖
+              </p>
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left mt-3">
+Plus, every month you'll <strong>receive intuitive and insightful readings</strong> 🔮, offering powerful guidance about your love life and showing you how to <strong>connect energetically with your soulmate</strong> 💌💞
               </p>
             </div>
           </CardContent>
