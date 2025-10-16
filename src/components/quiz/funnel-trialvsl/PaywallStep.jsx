@@ -4,94 +4,41 @@ import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar, Heart, Sparkles, Shield, Clock } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import { trackStepView } from '@/utils/stepTracking';
-import SalesSection from '../funnel-1/SalesSection';
 
-const CHECKOUT_CONFIG = {
-  baseUrl: "https://tkk.holyguide.online/click"
-};
 
 export default function PaywallStep({ userName, birthDate, quizResultId, src, funnelType = 'funnel-trialvsl' }) {
-  const [showSales, setShowSales] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowSales(true);
+      setShowCheckout(true);
 
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
         HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e =>
           console.warn("Failed to update pitch step view:", e)
         );
       }
-    }, 260000); // 4 minutes and 20 seconds = 260000ms
+
+      trackStepView(funnelType, 'checkout').catch(e => console.warn('Failed to track checkout view:', e));
+    }, 260000);
 
     return () => clearTimeout(timer);
-  }, [quizResultId]);
+  }, [quizResultId, funnelType]);
 
-  const handleCheckout = async () => {
-    const trackCheckout = async () => {
-      await trackStepView(funnelType, 'checkout');
+  useEffect(() => {
+    if (showCheckout) {
+      const samcartScript = document.createElement('script');
+      samcartScript.src = 'https://static.samcart.com/checkouts/sc-checkout.js';
+      samcartScript.defer = true;
+      document.body.appendChild(samcartScript);
 
-      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-        try {
-          await HybridQuizResult.update(quizResultId, { checkout_step_clicked: true });
-          console.log('Checkout click tracked successfully');
-        } catch (error) {
-          console.warn("Falha ao rastrear clique de checkout:", error);
+      return () => {
+        if (document.body.contains(samcartScript)) {
+          document.body.removeChild(samcartScript);
         }
-      }
-    };
-
-    trackCheckout().then(() => {
-      try {
-        const checkoutUrl = CHECKOUT_CONFIG.baseUrl;
-        const url = new URL(checkoutUrl);
-
-        let allUtms = {};
-
-        if (typeof window !== 'undefined' && window.utmify) {
-          try {
-            allUtms = window.utmify.getUtms() || {};
-            console.log('UTMs from UTMIFY:', allUtms);
-          } catch (error) {
-            console.warn('Failed to get UTMs from UTMIFY:', error);
-          }
-        }
-
-        if (Object.keys(allUtms).length === 0) {
-          const currentUrl = new URL(window.location.href);
-          const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-
-          utmParams.forEach(param => {
-            const value = currentUrl.searchParams.get(param);
-            if (value) {
-              allUtms[param] = value;
-            }
-          });
-        }
-
-        Object.entries(allUtms).forEach(([key, value]) => {
-          if (value) {
-            url.searchParams.set(key, value);
-          }
-        });
-
-        if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-          url.searchParams.set('quiz_result_id', quizResultId);
-        }
-
-        console.log('Redirecting to checkout:', url.toString());
-        localStorage.removeItem('holymind_quiz_state');
-        localStorage.setItem('holymind_last_quiz_id', quizResultId);
-        window.location.href = url.toString();
-      } catch (error) {
-        console.error("Erro ao construir URL de checkout:", error);
-        window.location.href = CHECKOUT_CONFIG.baseUrl;
-      }
-    }).catch((error) => {
-      console.error("Erro ao rastrear checkout, mas redirecionando mesmo assim:", error);
-      window.location.href = CHECKOUT_CONFIG.baseUrl;
-    });
-  };
+      };
+    }
+  }, [showCheckout]);
 
   const formatDate = (dateString) => {
     if (!dateString) return "Não informado";
@@ -183,14 +130,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src, fu
           </vturb-smartplayer>
         </div>
 
-        {showSales && (
-          <SalesSection
-            userName={userName}
-            birthDate={birthDate}
-            quizResultId={quizResultId}
-            src={src}
-            onCheckout={handleCheckout}
-          />
+        {showCheckout && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mt-8">
+            <sc-checkout product="auralyapp" subdomain="appyon-app" coupon=""></sc-checkout>
+          </motion.div>
         )}
       </motion.div>
     </div>
