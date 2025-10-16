@@ -193,8 +193,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                 <p className="font-semibold text-gray-800 text-lg">Master Aura</p>
               </div>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left">
-                We don't actually charge for your personalized soulmate drawing — <strong>there's just a small, one-time symbolic fee of $19</strong>.
-                This helps us cover the secure delivery <strong>system and the special materials used to create your unique astral reading and artwork</strong>.
+         When you join, you’ll receive exclusive access to my app — the Auraly App 💫, where you’ll get to see the drawing of your soulmate 🎨💖
+
+Plus, every month you’ll receive intuitive and insightful readings 🔮, offering powerful guidance about your love life and showing you how to connect energetically with your soulmate 💌💞
               </p>
             </div>
           </CardContent>
