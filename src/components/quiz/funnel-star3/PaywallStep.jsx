@@ -193,9 +193,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                 <p className="font-semibold text-gray-800 text-lg">Master Aura</p>
               </div>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left">
-         When you join, you’ll receive exclusive access to my app — the Auraly App 💫, where you’ll get to see the drawing of your soulmate 🎨💖
+         When you join, you’ll receive exclusive access to my app — <strong>the Auraly App</strong> 💫, where you’ll get to see the <strong>drawing of your soulmate</strong> 🎨💖
 
-Plus, every month you’ll receive intuitive and insightful readings 🔮, offering powerful guidance about your love life and showing you how to connect energetically with your soulmate 💌💞
+Plus, every month you’ll <strong>receive intuitive and insightful readings</strong> 🔮, offering powerful guidance about your love life and showing you how to <strong>connect energetically with your soulmate</strong> 💌💞
               </p>
             </div>
           </CardContent>
