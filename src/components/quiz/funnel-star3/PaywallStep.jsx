@@ -185,6 +185,17 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           </CardContent>
         </Card>
 
+        <div className="space-y-3 mb-6">
+          <p className="text-gray-700 text-sm font-bold">Click Below To Secure Your Drawing👇🏻</p>
+          <button
+            onClick={handleCheckout}
+            className="w-full max-w-2xl mx-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
+            style={{ minHeight: '70px' }}
+          >
+            <span className="block text-center leading-tight">YES! Claim My Divine<br/>Soul Drawing</span>
+          </button>
+        </div>
+
         <Card className="max-w-md mx-auto bg-purple-50/80 border-purple-200 shadow-md mb-6">
           <CardContent className="p-6">
             <div className="flex flex-col items-start">
