@@ -7,6 +7,7 @@ import FunnelStar2 from "./funnel-star2";
 import FunnelStar3 from "./funnel-star3";
 import FunnelStar4 from "./funnel-star4";
 import FunnelStar5 from "./funnel-star5";
+import Checkout from "./Checkout";
 import AdminLogin from "./AdminLogin";
 import Analytics from "./Analytics";
 import AnalyticsAB from "./AnalyticsAB";
@@ -50,6 +51,15 @@ function PagesContent() {
     const currentPage = _getCurrentPage(location.pathname);
 
     const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/analytics');
+    const isCheckoutRoute = location.pathname.startsWith('/checkout');
+
+    if (isCheckoutRoute) {
+        return (
+            <Routes>
+                <Route path="/checkout" element={<Checkout />} />
+            </Routes>
+        );
+    }
 
     if (isAdminRoute) {
         return (
