@@ -19,6 +19,22 @@ export default function Checkout() {
     <>
       <Helmet>
         <title>Checkout - Auraly App</title>
+        <style>{`
+          sc-checkout::part(order-summary) {
+            position: relative;
+          }
+          sc-checkout::after {
+            content: '';
+            position: absolute;
+            top: 354px;
+            left: 22px;
+            right: 22px;
+            height: 50px;
+            background: white;
+            z-index: 10;
+            pointer-events: none;
+          }
+        `}</style>
       </Helmet>
       <div className="min-h-screen bg-gradient-to-b from-purple-50 to-pink-50 py-8">
         <sc-checkout
