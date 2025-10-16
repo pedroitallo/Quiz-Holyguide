@@ -23,7 +23,7 @@ export default function Checkout() {
       <div className="min-h-screen bg-gradient-to-b from-purple-50 to-pink-50 py-8">
         <sc-checkout
           product="drawing-soulmate-auraly-app"
-          subdomain="appyon-app"
+          subdomain="auralyapp"
           coupon=""
         ></sc-checkout>
       </div>
