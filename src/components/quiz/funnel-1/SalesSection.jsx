@@ -221,7 +221,7 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
       <div className="space-y-3 -mt-4">
         <p className="text-gray-700 text-sm font-bold">Click Below To Secure Your Drawing👇🏻</p>
         <PulsatingButton onClick={handleCheckout}>
-          YES! Claim My Divine<br/>Soul Drawing
+          YES! Claim My Soulmate’s<br/>Drawing
         </PulsatingButton>
       </div>
 
