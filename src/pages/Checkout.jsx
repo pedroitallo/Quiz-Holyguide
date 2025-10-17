@@ -56,7 +56,7 @@ export default function Checkout() {
         `}</style>
       </Helmet>
       <div className="min-h-screen bg-gradient-to-b from-purple-50 to-pink-50 py-8 relative">
-        <div className="absolute top-[273px] left-1/2 -translate-x-1/2 z-20 text-center px-4">
+        <div className="absolute top-[253px] left-1/2 -translate-x-1/2 z-20 text-center px-4">
           <p className="text-sm font-medium text-gray-800 mb-1">Limited offer. Ends in</p>
           <div className="text-2xl font-bold text-red-600">
             {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
