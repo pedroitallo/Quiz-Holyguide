@@ -27,8 +27,8 @@ export default function Checkout() {
             content: '';
             position: absolute;
             top: 230px;
-            left: 10px;
-            right: 10px;
+            left: 5px;
+            right: 5px;
             height: 80px;
             background: white;
             z-index: 10;
