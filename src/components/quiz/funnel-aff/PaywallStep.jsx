@@ -6,7 +6,7 @@ import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import SalesSection from '../funnel-aff/SalesSection';
 
 const CHECKOUT_CONFIG = {
-  baseUrl: "https://checkout.auralyapp.com/checkout/auralyapp-tiktok"
+  baseUrl: "https://checkout.auralyapp.com/checkout/auralyapp-tiktok?sc_ref={{sc_ref}}&sc_vis={{sc_vis}}"
 };
 
 export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
@@ -36,7 +36,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
 
     trackCheckout().then(() => {
       try {
-        const checkoutUrl = CHECKOUT_CONFIG.baseUrl;
+        let checkoutUrl = CHECKOUT_CONFIG.baseUrl;
+
+        // Replace placeholders with actual values
+        const scRef = (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') ? quizResultId : '';
+        const scVis = 'funnel-aff';
+
+        checkoutUrl = checkoutUrl.replace('{{sc_ref}}', scRef).replace('{{sc_vis}}', scVis);
+
         const url = new URL(checkoutUrl);
 
         let allUtms = {};
@@ -75,11 +82,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             url.searchParams.set(key, allUtms[key]);
           }
         });
-
-        if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-          url.searchParams.set('sc_ref', quizResultId);
-          url.searchParams.set('sc_vis', 'funnel-aff');
-        }
 
         console.log('Redirecting to checkout:', url.toString());
         localStorage.removeItem('holymind_quiz_state');
