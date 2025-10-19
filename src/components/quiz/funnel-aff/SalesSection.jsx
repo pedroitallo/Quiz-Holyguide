@@ -21,7 +21,7 @@ import { Button } from '@/components/ui/button';
 import { useTracking } from '@/hooks/useTracking';
 
 const CHECKOUT_CONFIG = {
-  baseUrl: "https://checkout.auralyapp.com/checkout/auralyapp-tiktok?sc_ref={{sc_ref}}&sc_vis={{sc_vis}}"
+  baseUrl: "https://checkout.auralyapp.com/checkout/auralyapp-tiktok"
 };
 
 const TextOverlay = ({ name, date }) => {
@@ -130,15 +130,7 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
         }
       }
 
-      let checkoutUrl = CHECKOUT_CONFIG.baseUrl;
-
-      // Replace placeholders with actual values
-      const scRef = (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') ? quizResultId : '';
-      const scVis = 'funnel-aff';
-
-      checkoutUrl = checkoutUrl.replace('{{sc_ref}}', scRef).replace('{{sc_vis}}', scVis);
-
-      const url = new URL(checkoutUrl);
+      const url = new URL(CHECKOUT_CONFIG.baseUrl);
 
       let allUtms = {};
 
@@ -179,6 +171,11 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
 
       if (src && !allUtms.src) {
         url.searchParams.set('src', src);
+      }
+
+      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
+        url.searchParams.set('sc_ref', quizResultId);
+        url.searchParams.set('sc_vis', 'funnel-aff');
       }
 
       console.log('Redirecting to checkout:', url.toString());
