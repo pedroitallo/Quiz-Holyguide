@@ -19,6 +19,25 @@ export const FUNNEL_DEFINITIONS = [
     ]
   },
   {
+    id: 'funnel-aff',
+    name: 'Funnel Aff',
+    slug: 'funnel-aff',
+    description: 'Funil para afiliados',
+    component: () => import('../pages/funnel-aff'),
+    status: 'active',
+    tags: ['afiliados', 'vídeo', 'quiz'],
+    steps: [
+      { name: 'video', label: 'Vídeo', component: 'VideoStep' },
+      { name: 'testimonials', label: 'Depoimentos', component: 'TestimonialsCarousel' },
+      { name: 'name', label: 'Nome', component: 'NameCollection' },
+      { name: 'birth', label: 'Data Nascimento', component: 'BirthDataCollection' },
+      { name: 'love_situation', label: 'Situação Amorosa', component: 'LoveSituationStep' },
+      { name: 'palm_reading', label: 'Leitura Palma', component: 'PalmReadingResults' },
+      { name: 'revelation', label: 'Revelação', component: 'LoadingRevelation' },
+      { name: 'paywall', label: 'Checkout', component: 'PaywallStep' }
+    ]
+  },
+  {
     id: 'funnel-tt',
     name: 'Funnel TT',
     slug: 'funnel-tt',
