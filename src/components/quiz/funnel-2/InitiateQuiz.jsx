@@ -30,7 +30,7 @@ export default function InitiateQuiz({ onContinue }) {
           className="mb-6"
         >
           <img
-            src="/image copy.png"
+            src="/BANNER CHECKOUT (2).png"
             alt="Soulmate Reading"
             className="w-full max-w-md mx-auto rounded-2xl shadow-lg"
           />
