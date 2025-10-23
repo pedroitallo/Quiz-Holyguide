@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import TypingIndicator from '../shared/TypingIndicator';
 
 const getZodiacSign = (day, month) => {
   const zodiacSigns = [
@@ -35,6 +37,18 @@ export default function BirthDateWithZodiac({ onSubmit }) {
   const [month, setMonth] = useState("");
   const [showComment, setShowComment] = useState(false);
   const [zodiacSign, setZodiacSign] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (showComment) {
+      setIsTyping(true);
+      timer = setTimeout(() => {
+        setIsTyping(false);
+      }, 2000);
+    }
+    return () => clearTimeout(timer);
+  }, [showComment]);
 
   const handleContinue = () => {
     if (day && month) {
@@ -55,106 +69,102 @@ export default function BirthDateWithZodiac({ onSubmit }) {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="w-full max-w-2xl mx-auto px-4 py-8"
-    >
-      <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
-        <AnimatePresence mode="wait">
-          {!showComment ? (
-            <motion.div
-              key="input"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="space-y-8"
-            >
-              <div className="text-center space-y-4">
-                <Sparkles className="w-12 h-12 text-purple-500 mx-auto" />
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-tight">
-                  From the day we are born, the universe has chosen a person for us: our soulmate
-                </h2>
-                <p className="text-xl text-purple-600 font-semibold">
-                  What's your date of birth?
-                </p>
-              </div>
+    <div className="text-center py-4">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="space-y-4">
+          <Sparkles className="w-10 h-10 text-purple-500 mx-auto mb-3" />
+          <h1 className="text-lg md:text-xl font-bold text-gray-800 leading-tight px-4">
+            From the day we are born, the universe has chosen a person for us: our soulmate
+          </h1>
+          <p className="text-purple-600 font-semibold text-base md:text-lg">
+            What's your date of birth?
+          </p>
+        </div>
 
-              <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700 text-center">
-                    DAY
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="31"
-                    value={day}
-                    onChange={(e) => setDay(e.target.value)}
-                    placeholder="1-31"
-                    className="w-full px-4 py-4 text-center text-lg border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none"
-                  />
+        <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto mt-6 px-4">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700 text-center">
+              DAY
+            </label>
+            <input
+              type="number"
+              min="1"
+              max="31"
+              value={day}
+              onChange={(e) => setDay(e.target.value)}
+              placeholder="1-31"
+              className="w-full px-4 py-3 text-center text-base border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none"
+              disabled={showComment}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700 text-center">
+              MONTH
+            </label>
+            <input
+              type="number"
+              min="1"
+              max="12"
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+              placeholder="1-12"
+              className="w-full px-4 py-3 text-center text-base border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none"
+              disabled={showComment}
+            />
+          </div>
+        </div>
+
+        {!showComment && (
+          <Button
+            onClick={handleContinue}
+            disabled={!day || !month}
+            className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl mt-6"
+          >
+            Continue
+          </Button>
+        )}
+
+        {showComment && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-6"
+          >
+            {isTyping ? (
+              <TypingIndicator />
+            ) : (
+              <>
+                <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 mb-6 max-w-md mx-auto">
+                  <div className="flex items-start gap-3">
+                    <img
+                      src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
+                      alt="Master Aura"
+                      className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                    />
+                    <div className="text-left">
+                      <p className="text-base text-gray-700 leading-relaxed">
+                        Wow, you're a <span className="font-bold text-purple-600">{zodiacSign}</span>! The {zodiacSign} is one of the few signs that has a special sensitivity and connection with their soulmate. I feel like you're on the right path to meeting your Soulmate.
+                      </p>
+                    </div>
+                  </div>
                 </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700 text-center">
-                    MONTH
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="12"
-                    value={month}
-                    onChange={(e) => setMonth(e.target.value)}
-                    placeholder="1-12"
-                    className="w-full px-4 py-4 text-center text-lg border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none"
-                  />
-                </div>
-              </div>
-
-              <button
-                onClick={handleContinue}
-                disabled={!day || !month}
-                className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white text-lg font-bold py-4 px-8 rounded-full hover:from-purple-600 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-              >
-                Continue
-              </button>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="comment"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="space-y-8"
-            >
-              <div className="flex items-start gap-4 bg-purple-50 rounded-2xl p-6">
-                <img
-                  src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-                  alt="Master Aura"
-                  className="w-12 h-12 rounded-full flex-shrink-0 border-2 border-purple-300"
-                />
-                <div className="flex-1 space-y-3">
-                  <p className="text-lg text-gray-800 leading-relaxed">
-                    Wow, you're a <span className="font-bold text-purple-600">{zodiacSign}</span>! The {zodiacSign} is one of the few signs that has a special sensitivity and connection with their soulmate.
-                  </p>
-                  <p className="text-lg text-gray-800 leading-relaxed">
-                    I feel like you're on the right path to meeting your Soulmate.
-                  </p>
-                </div>
-              </div>
-
-              <button
-                onClick={handleFinalContinue}
-                className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white text-lg font-bold py-4 px-8 rounded-full hover:from-purple-600 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-              >
-                Continue
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.div>
+                <Button
+                  onClick={handleFinalContinue}
+                  className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
+                >
+                  Continue
+                </Button>
+              </>
+            )}
+          </motion.div>
+        )}
+      </motion.div>
+    </div>
   );
 }

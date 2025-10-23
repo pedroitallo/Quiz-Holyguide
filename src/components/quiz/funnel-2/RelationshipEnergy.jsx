@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function RelationshipEnergy({ onSelect }) {
   const energies = [
@@ -11,46 +12,45 @@ export default function RelationshipEnergy({ onSelect }) {
   ];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="w-full max-w-2xl mx-auto px-4 py-8"
-    >
-      <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-10 leading-tight"
-        >
-          What kind of energy do you feel most balances you in a relationship?
-        </motion.h2>
+    <div className="text-center py-4">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h1 className="text-purple-600 mb-6 text-xl md:text-2xl font-bold leading-tight px-4">
+          WHAT KIND OF ENERGY DO YOU FEEL MOST BALANCES YOU IN A RELATIONSHIP?
+        </h1>
 
-        <div className="space-y-4">
+        <div className="space-y-3 max-w-md mx-auto px-4">
           {energies.map((energy, index) => (
-            <motion.button
+            <motion.div
               key={energy.value}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 + index * 0.1 }}
-              whileHover={{ scale: 1.02, x: 5 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => onSelect(energy.value)}
-              className="w-full bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 border-2 border-purple-200 hover:border-purple-400 rounded-2xl p-5 text-left transition-all duration-300 shadow-md hover:shadow-lg group"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <div className="flex items-center gap-4">
-                <span className="text-3xl group-hover:scale-110 transition-transform">
-                  {energy.emoji}
-                </span>
-                <span className="text-base md:text-lg font-semibold text-gray-800">
-                  {energy.label}
-                </span>
-              </div>
-            </motion.button>
+              <Card
+                className="cursor-pointer transition-all duration-300 border-2 hover:border-purple-400 hover:bg-purple-50"
+                onClick={() => onSelect(energy.value)}
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-2xl">{energy.emoji}</span>
+                    </div>
+                    <div className="text-left">
+                      <h3 className="text-base font-semibold text-gray-800">
+                        {energy.label}
+                      </h3>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }
