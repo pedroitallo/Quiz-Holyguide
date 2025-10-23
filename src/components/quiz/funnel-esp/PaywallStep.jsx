@@ -1,36 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
-import { User, Calendar, Heart, Sparkles, Shield, Clock } from 'lucide-react';
+import { User, Calendar } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
-import { trackStepView } from '@/utils/stepTracking';
 import SalesSection from '../funnel-1/SalesSection';
 
 const CHECKOUT_CONFIG = {
   baseUrl: "https://tkk.holyguide.online/click"
 };
 
-export default function PaywallStep({ userName, birthDate, quizResultId, src, funnelType = 'funnel-esp' }) {
-  const [showSales, setShowSales] = useState(false);
+export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
+  const [showSales, setShowSales] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSales(true);
+    window.scrollTo(0, 0);
 
-      if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
-        HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e =>
-          console.warn("Failed to update pitch step view:", e)
-        );
-      }
-    }, 275000);
-
-    return () => clearTimeout(timer);
+    if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
+      HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e =>
+        console.warn("Failed to update pitch step view:", e)
+      );
+    }
   }, [quizResultId]);
 
   const handleCheckout = async () => {
     const trackCheckout = async () => {
-      await trackStepView(funnelType, 'checkout');
-
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
         try {
           await HybridQuizResult.update(quizResultId, { checkout_step_clicked: true });
@@ -67,11 +60,19 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src, fu
               allUtms[param] = value;
             }
           });
+
+          const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'xcod'];
+          otherParams.forEach(param => {
+            const value = currentUrl.searchParams.get(param);
+            if (value) {
+              allUtms[param] = value;
+            }
+          });
         }
 
-        Object.entries(allUtms).forEach(([key, value]) => {
-          if (value) {
-            url.searchParams.set(key, value);
+        Object.keys(allUtms).forEach((key) => {
+          if (allUtms[key]) {
+            url.searchParams.set(key, allUtms[key]);
           }
         });
 
@@ -94,47 +95,13 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src, fu
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return "No informado";
+    if (!dateString) return "Não informado";
     const [year, month, day] = dateString.split('-');
     if (day && month) {
         return `${day}/${month}`;
     }
     return dateString;
   };
-
-  useEffect(() => {
-    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/68a204ee95de0adfa0e77121/v4/player.js";
-    const playerId = "vid-68a204ee95de0adfa0e77121";
-
-    if (document.querySelector(`script[src="${scriptSrc}"]`)) {
-      return;
-    }
-
-    console.log("Carregando script do VSL - PaywallStep montado");
-    const script = document.createElement("script");
-    script.src = scriptSrc;
-    script.async = true;
-    document.head.appendChild(script);
-
-    return () => {
-      console.log("Removendo script do VSL - PaywallStep desmontado");
-      const scriptElements = document.querySelectorAll(`script[src="${scriptSrc}"]`);
-      scriptElements.forEach((s) => {
-        if (document.head.contains(s)) {
-          document.head.removeChild(s);
-        }
-      });
-
-      const playerContainer = document.getElementById(playerId);
-      if (playerContainer) {
-        playerContainer.innerHTML = "";
-      }
-
-      if (window.smartplayer) {
-        delete window.smartplayer;
-      }
-    };
-  }, []);
 
   return (
     <div className="text-center py-8">
@@ -144,7 +111,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src, fu
         transition={{ duration: 0.8 }}
         className="mb-8">
 
-        <h1 className="text-purple-600 mb-4 text-lg font-bold md:text-3xl leading-tight">¡Tu Revelación Está Lista! Descubre Quién Es Tu Alma Gemela</h1>
+        <h2 className="text-2xl md:text-3xl font-bold text-black mb-6 px-4">
+          Your Birth Chart Reading Is Ready!
+        </h2>
 
         <Card className="w-fit mx-auto bg-white/50 border-purple-100 shadow-md mb-6">
             <CardContent className="p-3 flex items-center justify-center gap-4 md:gap-6">
@@ -153,7 +122,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src, fu
                         <User className="w-4 h-4 text-purple-600" />
                     </div>
                     <div className="text-left">
-                        <p className="text-xs text-gray-500">Nombre</p>
+                        <p className="text-xs text-gray-500">Name</p>
                         <p className="text-sm font-semibold text-gray-800">{userName || ''}</p>
                     </div>
                 </div>
@@ -163,25 +132,86 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src, fu
                         <Calendar className="w-4 h-4 text-purple-600" />
                     </div>
                     <div className="text-left">
-                        <p className="text-xs text-gray-500">Fecha de Nacimiento</p>
+                        <p className="text-xs text-gray-500">Date of Birth</p>
                         <p className="text-sm font-semibold text-gray-800">{formatDate(birthDate)}</p>
                     </div>
                 </div>
             </CardContent>
         </Card>
 
-        <div className="mb-2 shadow-lg rounded-xl overflow-hidden bg-gray-200 min-h-[300px] flex items-center justify-center">
-          <vturb-smartplayer
-            id="vid-68a204ee95de0adfa0e77121"
-            style={{
-              display: 'block',
-              margin: '0 auto',
-              width: '100%',
-              maxWidth: '400px',
-              minHeight: '250px'
-            }}>
-          </vturb-smartplayer>
+        <h1 className="text-purple-600 mb-6 text-xl font-semibold md:text-2xl leading-tight px-4">
+          HERE'S YOUR SOULMATE'S DRAWING
+        </h1>
+
+        <div className="mb-6">
+          <img
+            src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759873292152-ltl34v44ham.png"
+            alt="Your True Love Preview"
+            className="w-full max-w-2xl mx-auto rounded-xl shadow-lg"
+          />
         </div>
+<h3 className="text-lg md:text-xl font-semibold text-purple-600 mb-4 px-4 uppercase tracking-wide">
+          See Who Your True Love Is👇🏼
+        </h3>
+        <Card className="max-w-md mx-auto bg-white/80 border-purple-100 shadow-md mb-6">
+          <CardContent className="p-6 text-center space-y-3">
+            <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
+              <span className="text-green-600">✔</span>
+              <span><strong>Name:</strong> ******</span>
+            </p>
+            <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
+              <span className="text-green-600">✔</span>
+              <span><strong>Date of meeting:</strong> **/**/2025</span>
+            </p>
+            <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
+              <span className="text-green-600">✔</span>
+              <span><strong>Your Soulmate's Vibe:</strong> Warm and caring</span>
+            </p>
+            <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
+              <span className="text-green-600">✔</span>
+              <span><strong>Special Trait:</strong> very self-confident</span>
+            </p>
+            <p className="text-sm md:text-base text-gray-600 mt-4 leading-relaxed">
+              Your soulmate's drawing is already done and will be sent directly to your email as soon as you confirm your access on the button below.
+            </p>
+            <div className="mt-4 space-y-1">
+              <p className="text-sm md:text-base text-gray-600">
+                from <span className="line-through text-red-600 font-semibold">$29</span>
+              </p>
+              <p className="text-lg md:text-xl text-green-600 font-bold">
+                for only $9
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="space-y-3 mb-6 px-4">
+          <p className="text-gray-700 text-sm font-bold">Click Below To Secure Your Drawing👇🏻</p>
+          <button
+            onClick={handleCheckout}
+            className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
+            style={{ minHeight: '70px' }}
+          >
+            <span className="block text-center leading-tight">YES! Claim My Divine<br/>Soul Drawing</span>
+          </button>
+        </div>
+
+        <Card className="max-w-md mx-auto bg-purple-50/80 border-purple-200 shadow-md mb-6">
+          <CardContent className="p-6">
+            <div className="flex flex-col items-start">
+              <div className="flex items-center gap-3 mb-3">
+                <img src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png" alt="Master Aura" className="w-12 h-12 rounded-full object-cover border-2 border-purple-200" />
+                <p className="font-semibold text-gray-800 text-lg">Master Aura</p>
+              </div>
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left">
+         When you join, you'll receive exclusive access to my app — <strong>the Auraly App</strong> 💫, where you'll get to see the <strong>drawing of your soulmate</strong> 🎨💖
+              </p>
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left mt-3">
+Plus, every month you'll <strong>receive intuitive and insightful readings</strong> 🔮, offering powerful guidance about your love life and showing you how to <strong>connect energetically with your soulmate</strong> 💌💞
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
         {showSales && (
           <SalesSection
