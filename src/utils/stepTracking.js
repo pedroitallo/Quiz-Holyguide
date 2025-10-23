@@ -65,6 +65,7 @@ const getActiveABTest = async (funnelType) => {
 const getTableName = (funnelType) => {
   const tableMap = {
     'funnel-1': 'step_views_funnel_1',
+    'funnel-2': 'step_views_funnel_2',
     'funnel-chat1': 'step_views_funnel_chat1',
     'funnel-tt': 'step_views_funnel_tt',
     'funnel-vsl': 'step_views_funnel_vsl',

@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { trackStepView } from "@/utils/stepTracking";
 
 export default function SoulmateDrawingLoading({ onComplete, birthDate, zodiacSign }) {
+  const handleReady = () => {
+    trackStepView('funnel-2', 'endquiz');
+    onComplete();
+  };
   const [progress, setProgress] = useState(0);
   const [showReady, setShowReady] = useState(false);
 
@@ -112,7 +117,7 @@ export default function SoulmateDrawingLoading({ onComplete, birthDate, zodiacSi
               </h2>
 
               <Button
-                onClick={onComplete}
+                onClick={handleReady}
                 className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
               >
                 YES! I'M READY

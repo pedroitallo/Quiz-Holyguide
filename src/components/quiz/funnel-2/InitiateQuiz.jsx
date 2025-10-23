@@ -1,8 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { trackStepView } from "@/utils/stepTracking";
 
 export default function InitiateQuiz({ onContinue }) {
+  const handleStartNow = () => {
+    trackStepView('funnel-2', 'startend');
+    onContinue();
+  };
   return (
     <div className="text-center py-4">
       <motion.div
@@ -32,7 +37,7 @@ export default function InitiateQuiz({ onContinue }) {
         </motion.div>
 
         <Button
-          onClick={onContinue}
+          onClick={handleStartNow}
           className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
         >
           Start Now
