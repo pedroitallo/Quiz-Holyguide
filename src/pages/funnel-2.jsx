@@ -1,43 +1,61 @@
-import React, { useState, useEffect, Suspense, lazy } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Stars, Moon, Heart, Sparkles, Loader2 } from "lucide-react";
+import { Stars, Moon, Heart, Sparkles } from "lucide-react";
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import StepTracker from '../components/quiz/shared/StepTracker';
 import { trackStepView } from '../utils/stepTracking';
 
-import VideoStep from "../components/quiz/funnel-1/VideoStep";
-import PaywallStep from "../components/quiz/funnel-1/PaywallStep";
-import NameCollection from "../components/quiz/shared/NameCollection";
-import BirthDataCollection from "../components/quiz/shared/BirthDataCollection";
-import LoveSituationStep from "../components/quiz/shared/LoveSituationStep";
-import PalmReadingResults from "../components/quiz/shared/PalmReadingResults";
-import LoadingRevelation from "../components/quiz/shared/LoadingRevelation";
+import InitiateQuiz from "../components/quiz/funnel-2/InitiateQuiz";
 import TestimonialsCarousel from "../components/quiz/shared/TestimonialsCarousel";
+import GenderSelection from "../components/quiz/funnel-2/GenderSelection";
+import BirthDateWithZodiac from "../components/quiz/funnel-2/BirthDateWithZodiac";
+import LoveSituationStep from "../components/quiz/shared/LoveSituationStep";
+import AppearanceImportance from "../components/quiz/funnel-2/AppearanceImportance";
+import IdealPartnerQualities from "../components/quiz/funnel-2/IdealPartnerQualities";
+import PartnerPreference from "../components/quiz/funnel-2/PartnerPreference";
+import BirthChartResults from "../components/quiz/funnel-2/BirthChartResults";
+import LoveChallenge from "../components/quiz/funnel-2/LoveChallenge";
+import LoveDesire from "../components/quiz/funnel-2/LoveDesire";
+import SoulmateConnection from "../components/quiz/funnel-2/SoulmateConnection";
+import LoveLanguage from "../components/quiz/funnel-2/LoveLanguage";
+import RelationshipEnergy from "../components/quiz/funnel-2/RelationshipEnergy";
+import FutureScenario from "../components/quiz/funnel-2/FutureScenario";
+import SocialProof from "../components/quiz/funnel-2/SocialProof";
+import SoulmateDrawingLoading from "../components/quiz/funnel-2/SoulmateDrawingLoading";
+import PaywallStep from "../components/quiz/funnel-1/PaywallStep";
 import ThankYouStep from "../components/quiz/shared/ThankYouStep";
 
 export default function Funnel2Page() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    name: "",
+    gender: "",
     birth_date: "",
-    birth_time: "",
+    zodiac_sign: "",
     love_situation: "",
+    appearance_importance: "",
+    ideal_qualities: [],
+    partner_preference: "",
+    love_challenge: "",
+    love_desire: "",
+    soulmate_connection: "",
+    love_language: "",
+    relationship_energy: "",
+    future_scenario: "",
     quizResultId: null
   });
 
-  const totalSteps = 8; // Video, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
+  const totalSteps = 19;
   const progress = currentStep / totalSteps * 100;
 
   useEffect(() => {
-    // Save state up to the PaywallStep (step 8), clear on ThankYouStep (step 9)
-    if (currentStep < 9) {
-        const stateToSave = {
-            step: currentStep,
-            data: formData
-        };
-        localStorage.setItem('holymind_quiz_state_funnel2', JSON.stringify(stateToSave));
-    } else if (currentStep === 9) { // ThankYouStep
-        localStorage.removeItem('holymind_quiz_state_funnel2');
+    if (currentStep < 19) {
+      const stateToSave = {
+        step: currentStep,
+        data: formData
+      };
+      localStorage.setItem('holymind_quiz_state_funnel2', JSON.stringify(stateToSave));
+    } else if (currentStep === 20) {
+      localStorage.removeItem('holymind_quiz_state_funnel2');
     }
   }, [currentStep, formData]);
 
@@ -45,21 +63,20 @@ export default function Funnel2Page() {
     const initializeQuizSession = async () => {
       const savedStateJSON = localStorage.getItem('holymind_quiz_state_funnel2');
       if (savedStateJSON) {
-          try {
-              const savedState = JSON.parse(savedStateJSON);
-              if (savedState && savedState.step) {
-                  console.log("Sessão anterior encontrada. Restaurando progresso.", savedState);
-                  setFormData(savedState.data || { name: "", birth_date: "", birth_time: "", love_situation: "" });
-                  setCurrentStep(savedState.step);
-                  return;
-              }
-          } catch (e) {
-              console.warn("Erro ao parsear estado salvo do quiz, iniciando nova sessão.", e);
-              localStorage.removeItem('holymind_quiz_state_funnel2');
+        try {
+          const savedState = JSON.parse(savedStateJSON);
+          if (savedState && savedState.step) {
+            console.log("Sessão anterior encontrada. Restaurando progresso.", savedState);
+            setFormData(savedState.data || {});
+            setCurrentStep(savedState.step);
+            return;
           }
+        } catch (e) {
+          console.warn("Erro ao parsear estado salvo do quiz, iniciando nova sessão.", e);
+          localStorage.removeItem('holymind_quiz_state_funnel2');
+        }
       }
 
-      // Create new QuizResult if no saved session
       try {
         console.log('🚀 Creating new quiz session...');
         const currentUrl = new URL(window.location.href);
@@ -67,8 +84,6 @@ export default function Funnel2Page() {
         const utmMedium = currentUrl.searchParams.get('utm_medium') || 'organic';
         const utmCampaign = currentUrl.searchParams.get('utm_campaign') || 'none';
         const src = currentUrl.searchParams.get('src') || '';
-
-        console.log('📊 UTM Parameters:', { utmSource, utmMedium, utmCampaign, src });
 
         const newQuizResult = await HybridQuizResult.create({
           funnel_type: 'funnel-2',
@@ -92,39 +107,80 @@ export default function Funnel2Page() {
   }, []);
 
   const nextStep = () => {
-    if (currentStep < totalSteps || currentStep === totalSteps) {
-      const newStep = currentStep + 1;
-      setCurrentStep(newStep);
-
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    }
+    const newStep = currentStep + 1;
+    setCurrentStep(newStep);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
-    const stepNames = ['video', 'testimonials', 'name', 'birth', 'love_situation', 'palm_reading', 'revelation', 'paywall', 'thank_you'];
+    const stepNames = [
+      'initiate', 'testimonials', 'gender', 'birth_date', 'love_situation',
+      'appearance', 'qualities', 'preference', 'chart_results', 'challenge',
+      'desire', 'connection', 'love_language', 'energy', 'future',
+      'social_proof', 'loading', 'paywall', 'thank_you'
+    ];
     if (currentStep <= stepNames.length) {
       trackStepView('funnel-2', stepNames[currentStep - 1]);
     }
   }, [currentStep]);
 
-  const handleNameSubmit = async (name) => {
-    const updatedData = { ...formData, name };
-    setFormData(updatedData);
+  const handleGenderSelect = (gender) => {
+    setFormData(prev => ({ ...prev, gender }));
     nextStep();
   };
 
-  const handleBirthDataSubmit = async (birthData) => {
-    const updatedData = { ...formData, ...birthData };
-    setFormData(updatedData);
+  const handleBirthDateSubmit = (data) => {
+    setFormData(prev => ({ ...prev, ...data }));
     nextStep();
   };
 
-  const handleLoveSituationSubmit = async (loveSituation) => {
-    const updatedData = { ...formData, love_situation: loveSituation };
-    setFormData(updatedData);
+  const handleLoveSituationSubmit = (loveSituation) => {
+    setFormData(prev => ({ ...prev, love_situation: loveSituation }));
+    nextStep();
+  };
+
+  const handleAppearanceSelect = (value) => {
+    setFormData(prev => ({ ...prev, appearance_importance: value }));
+    nextStep();
+  };
+
+  const handleQualitiesSubmit = (qualities) => {
+    setFormData(prev => ({ ...prev, ideal_qualities: qualities }));
+    nextStep();
+  };
+
+  const handlePreferenceSelect = (value) => {
+    setFormData(prev => ({ ...prev, partner_preference: value }));
+    nextStep();
+  };
+
+  const handleChallengeSubmit = (challenge) => {
+    setFormData(prev => ({ ...prev, love_challenge: challenge }));
+    nextStep();
+  };
+
+  const handleDesireSubmit = (desire) => {
+    setFormData(prev => ({ ...prev, love_desire: desire }));
+    nextStep();
+  };
+
+  const handleConnectionSubmit = (connection) => {
+    setFormData(prev => ({ ...prev, soulmate_connection: connection }));
+    nextStep();
+  };
+
+  const handleLoveLanguageSelect = (language) => {
+    setFormData(prev => ({ ...prev, love_language: language }));
+    nextStep();
+  };
+
+  const handleEnergySelect = (energy) => {
+    setFormData(prev => ({ ...prev, relationship_energy: energy }));
+    nextStep();
+  };
+
+  const handleScenarioSubmit = (scenario) => {
+    setFormData(prev => ({ ...prev, future_scenario: scenario }));
     nextStep();
   };
 
@@ -171,15 +227,25 @@ export default function Funnel2Page() {
       <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
         <div className="max-w-lg mx-auto">
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
-          {currentStep === 1 && <VideoStep onContinue={nextStep} />}
+          {currentStep === 1 && <InitiateQuiz onContinue={nextStep} />}
           {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
-          {currentStep === 3 && <NameCollection onNameSubmit={handleNameSubmit} />}
-          {currentStep === 4 && <BirthDataCollection onSubmit={handleBirthDataSubmit} />}
-          {currentStep === 5 && <LoveSituationStep userName={formData.name} birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
-          {currentStep === 6 && <PalmReadingResults onContinue={nextStep} userName={formData.name} />}
-          {currentStep === 7 && <LoadingRevelation onContinue={nextStep} userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 8 && <PaywallStep userName={formData.name} birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 9 && <ThankYouStep userName={formData.name} />}
+          {currentStep === 3 && <GenderSelection onSelect={handleGenderSelect} />}
+          {currentStep === 4 && <BirthDateWithZodiac onSubmit={handleBirthDateSubmit} />}
+          {currentStep === 5 && <LoveSituationStep userName="" birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
+          {currentStep === 6 && <AppearanceImportance onSelect={handleAppearanceSelect} />}
+          {currentStep === 7 && <IdealPartnerQualities onSubmit={handleQualitiesSubmit} zodiacSign={formData.zodiac_sign} />}
+          {currentStep === 8 && <PartnerPreference onSelect={handlePreferenceSelect} />}
+          {currentStep === 9 && <BirthChartResults onContinue={nextStep} />}
+          {currentStep === 10 && <LoveChallenge onSubmit={handleChallengeSubmit} />}
+          {currentStep === 11 && <LoveDesire onSubmit={handleDesireSubmit} />}
+          {currentStep === 12 && <SoulmateConnection onSubmit={handleConnectionSubmit} zodiacSign={formData.zodiac_sign} />}
+          {currentStep === 13 && <LoveLanguage onSelect={handleLoveLanguageSelect} />}
+          {currentStep === 14 && <RelationshipEnergy onSelect={handleEnergySelect} />}
+          {currentStep === 15 && <FutureScenario onSubmit={handleScenarioSubmit} zodiacSign={formData.zodiac_sign} />}
+          {currentStep === 16 && <SocialProof onContinue={nextStep} />}
+          {currentStep === 17 && <SoulmateDrawingLoading onComplete={nextStep} birthDate={formData.birth_date} zodiacSign={formData.zodiac_sign} />}
+          {currentStep === 18 && <PaywallStep userName="" birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 19 && <ThankYouStep userName="" />}
         </div>
       </div>
     </div>
