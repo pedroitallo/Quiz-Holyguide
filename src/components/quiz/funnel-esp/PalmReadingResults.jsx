@@ -81,7 +81,7 @@ const CustomAudioPlayer = () => {
       </div>
       <audio
         ref={audioRef}
-        src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/c02056bf8_NovoAudio.mp3"
+        src="https://base44.app/api/apps/68850befb229de9dd8e4dc73/files/public/68850befb229de9dd8e4dc73/2bd0ca747_EtapadeAudio.mp3"
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onEnded={() => setIsPlaying(false)}
