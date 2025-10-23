@@ -759,9 +759,12 @@ export default function Dashboard() {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">Todos os Funis</SelectItem>
-                                <SelectItem value="funnel-1">Funil 1</SelectItem>
-                                <SelectItem value="funnel-2">Funil 2</SelectItem>
-                                <SelectItem value="funnel-p3">Funil P3</SelectItem>
+                                <SelectItem value="funnel-1">Funnel 1</SelectItem>
+                                <SelectItem value="funnel-2">Funnel 2</SelectItem>
+                                <SelectItem value="funnel-3">Funnel 3</SelectItem>
+                                <SelectItem value="funnel-tt">Funnel TT</SelectItem>
+                                <SelectItem value="funnel-esp">Funnel ESP</SelectItem>
+                                <SelectItem value="funnel-aff">Funnel Aff</SelectItem>
                             </SelectContent>
                         </Select>
 
