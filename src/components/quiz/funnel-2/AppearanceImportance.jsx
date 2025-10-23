@@ -1,19 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 export default function AppearanceImportance({ onSelect, zodiacSign }) {
-  const [selectedOption, setSelectedOption] = useState("");
-
   const handleOptionSelect = (optionValue) => {
-    setSelectedOption(optionValue);
-  };
-
-  const handleContinue = () => {
-    if (selectedOption) {
-      onSelect(selectedOption);
-    }
+    onSelect(optionValue);
   };
 
   const options = [
@@ -41,9 +32,7 @@ export default function AppearanceImportance({ onSelect, zodiacSign }) {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Card
-                className={`cursor-pointer transition-all duration-300 border-2 ${
-                  selectedOption === option.value ? 'border-purple-400 bg-purple-50' : 'hover:border-purple-400 hover:bg-purple-50'
-                }`}
+                className="cursor-pointer transition-all duration-300 border-2 hover:border-purple-400 hover:bg-purple-50"
                 onClick={() => handleOptionSelect(option.value)}
               >
                 <CardContent className="p-4">
@@ -62,22 +51,6 @@ export default function AppearanceImportance({ onSelect, zodiacSign }) {
             </motion.div>
           ))}
         </div>
-
-        {selectedOption && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-6"
-          >
-            <Button
-              onClick={handleContinue}
-              className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
-            >
-              Continue
-            </Button>
-          </motion.div>
-        )}
       </motion.div>
     </div>
   );
