@@ -66,15 +66,10 @@ const getTableName = (funnelType) => {
   const tableMap = {
     'funnel-1': 'step_views_funnel_1',
     'funnel-2': 'step_views_funnel_2',
-    'funnel-chat1': 'step_views_funnel_chat1',
+    'funnel-3': 'step_views_funnel_3',
     'funnel-tt': 'step_views_funnel_tt',
-    'funnel-vsl': 'step_views_funnel_vsl',
-    'funnelesp': 'step_views_funnelesp',
     'funnel-esp': 'step_views_funnel_esp',
-    'funnel-star2': 'step_views_funnel_star2',
-    'funnel-star3': 'step_views_funnel_star3',
-    'funnel-star4': 'step_views_funnel_star4',
-    'funnel-star5': 'step_views_funnel_star5',
+    'funnel-aff': 'step_views_funnel_aff',
   };
   return tableMap[funnelType];
 };
