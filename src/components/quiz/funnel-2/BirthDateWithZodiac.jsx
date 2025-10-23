@@ -1,7 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import TypingIndicator from '../shared/TypingIndicator';
+
+const months = [
+  { value: "01", label: "January" },
+  { value: "02", label: "February" },
+  { value: "03", label: "March" },
+  { value: "04", label: "April" },
+  { value: "05", label: "May" },
+  { value: "06", label: "June" },
+  { value: "07", label: "July" },
+  { value: "08", label: "August" },
+  { value: "09", label: "September" },
+  { value: "10", label: "October" },
+  { value: "11", label: "November" },
+  { value: "12", label: "December" }
+];
+
+const days = Array.from({ length: 31 }, (_, i) => {
+  const day = i + 1;
+  return { value: day.toString().padStart(2, '0'), label: day.toString() };
+});
 
 const getZodiacSign = (day, month) => {
   const zodiacSigns = [
@@ -63,7 +84,7 @@ export default function BirthDateWithZodiac({ onSubmit }) {
   };
 
   const handleFinalContinue = () => {
-    const birthDate = `${month.padStart(2, '0')}/${day.padStart(2, '0')}`;
+    const birthDate = `${month}/${day}`;
     onSubmit({ birth_date: birthDate, zodiac_sign: zodiacSign });
   };
 
@@ -88,32 +109,44 @@ export default function BirthDateWithZodiac({ onSubmit }) {
             <label className="block text-sm font-medium text-gray-700 text-center">
               DAY
             </label>
-            <input
-              type="number"
-              min="1"
-              max="31"
+            <Select
               value={day}
-              onChange={(e) => setDay(e.target.value)}
-              placeholder="1-31"
-              className="w-full px-4 py-3 text-center text-base border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none"
+              onValueChange={setDay}
               disabled={showComment}
-            />
+            >
+              <SelectTrigger className="w-full h-12 text-base border-2 border-gray-300 rounded-xl focus:border-purple-500">
+                <SelectValue placeholder="1-31" />
+              </SelectTrigger>
+              <SelectContent>
+                {days.map((d) => (
+                  <SelectItem key={d.value} value={d.value}>
+                    {d.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700 text-center">
               MONTH
             </label>
-            <input
-              type="number"
-              min="1"
-              max="12"
+            <Select
               value={month}
-              onChange={(e) => setMonth(e.target.value)}
-              placeholder="1-12"
-              className="w-full px-4 py-3 text-center text-base border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none"
+              onValueChange={setMonth}
               disabled={showComment}
-            />
+            >
+              <SelectTrigger className="w-full h-12 text-base border-2 border-gray-300 rounded-xl focus:border-purple-500">
+                <SelectValue placeholder="1-12" />
+              </SelectTrigger>
+              <SelectContent>
+                {months.map((m) => (
+                  <SelectItem key={m.value} value={m.value}>
+                    {m.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 

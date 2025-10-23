@@ -1,9 +1,13 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import TypingIndicator from '../shared/TypingIndicator';
 
 export default function FutureScenario({ onSubmit, zodiacSign }) {
   const [selectedScenario, setSelectedScenario] = useState(null);
   const [showComment, setShowComment] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const scenarios = [
     { value: "stable_life", label: "Building a stable life", emoji: "🏡" },
@@ -12,6 +16,17 @@ export default function FutureScenario({ onSubmit, zodiacSign }) {
     { value: "growing_together", label: "Growing up together", emoji: "🧠" },
     { value: "other", label: "Other", emoji: "❓" }
   ];
+
+  useEffect(() => {
+    let timer;
+    if (showComment) {
+      setIsTyping(true);
+      timer = setTimeout(() => {
+        setIsTyping(false);
+      }, 2000);
+    }
+    return () => clearTimeout(timer);
+  }, [showComment]);
 
   const handleSelect = (value) => {
     setSelectedScenario(value);
@@ -23,81 +38,86 @@ export default function FutureScenario({ onSubmit, zodiacSign }) {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="w-full max-w-2xl mx-auto px-4 py-8"
-    >
-      <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
-        <AnimatePresence mode="wait">
-          {!showComment ? (
-            <motion.div
-              key="selection"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="space-y-8"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 leading-tight">
-                🔮 When you think about your future life with your soul mate, which of these scenarios most appeals to you?
-              </h2>
+    <div className="text-center py-4">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h1 className="text-purple-600 mb-6 text-xl md:text-2xl font-bold leading-tight px-4">
+          🔮 WHEN YOU THINK ABOUT YOUR FUTURE LIFE WITH YOUR SOUL MATE, WHICH OF THESE SCENARIOS MOST APPEALS TO YOU?
+        </h1>
 
-              <div className="space-y-4">
-                {scenarios.map((scenario, index) => (
-                  <motion.button
-                    key={scenario.value}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ scale: 1.02, x: 5 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleSelect(scenario.value)}
-                    className="w-full bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 border-2 border-purple-200 hover:border-purple-400 rounded-2xl p-5 text-left transition-all duration-300 shadow-md hover:shadow-lg group"
-                  >
-                    <div className="flex items-center gap-4">
-                      <span className="text-3xl group-hover:scale-110 transition-transform">
-                        {scenario.emoji}
-                      </span>
-                      <span className="text-base md:text-lg font-semibold text-gray-800">
-                        {scenario.label}
-                      </span>
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="comment"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="space-y-8"
-            >
-              <div className="flex items-start gap-4 bg-purple-50 rounded-2xl p-6">
-                <img
-                  src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-                  alt="Master Aura"
-                  className="w-12 h-12 rounded-full flex-shrink-0 border-2 border-purple-300"
-                />
-                <div className="flex-1">
-                  <p className="text-lg text-gray-800 leading-relaxed">
-                    This desire speaks deeply to your love journey in this lifetime. People born under <span className="font-bold text-purple-600">{zodiacSign}</span> often feel that love must have purpose, connection, and truth. Your full chart will reveal how this shows up in your energy.
-                  </p>
-                </div>
-              </div>
-
-              <button
-                onClick={handleFinalContinue}
-                className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white text-lg font-bold py-4 px-8 rounded-full hover:from-purple-600 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+        <div className="space-y-3 max-w-md mx-auto px-4">
+          {scenarios.map((scenario, index) => {
+            const isSelected = selectedScenario === scenario.value;
+            return (
+              <motion.div
+                key={scenario.value}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                Continue
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.div>
+                <Card
+                  className={`cursor-pointer transition-all duration-300 border-2 ${
+                    isSelected ? 'border-purple-400 bg-purple-50' : 'hover:border-purple-400 hover:bg-purple-50'
+                  } ${showComment ? 'pointer-events-none opacity-70' : ''}`}
+                  onClick={() => !showComment && handleSelect(scenario.value)}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-2xl">{scenario.emoji}</span>
+                      </div>
+                      <div className="text-left">
+                        <h3 className="text-base font-semibold text-gray-800">
+                          {scenario.label}
+                        </h3>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {showComment && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-6"
+          >
+            {isTyping ? (
+              <TypingIndicator />
+            ) : (
+              <>
+                <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 mb-6 max-w-md mx-auto">
+                  <div className="flex items-start gap-3">
+                    <img
+                      src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
+                      alt="Master Aura"
+                      className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+                    />
+                    <div className="text-left">
+                      <p className="text-base text-gray-700 leading-relaxed">
+                        This desire speaks deeply to your love journey in this lifetime. People born under <span className="font-bold text-purple-600">{zodiacSign || 'your sign'}</span> often feel that love must have purpose, connection, and truth. Your full chart will reveal how this shows up in your energy.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <Button
+                  onClick={handleFinalContinue}
+                  className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
+                >
+                  Continue
+                </Button>
+              </>
+            )}
+          </motion.div>
+        )}
+      </motion.div>
+    </div>
   );
 }
