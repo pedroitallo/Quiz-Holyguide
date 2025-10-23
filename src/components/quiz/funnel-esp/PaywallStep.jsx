@@ -17,7 +17,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
 
     if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
       HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(e =>
-        console.warn("Failed to update pitch step view:", e)
+        console.warn("Error al actualizar la vista de la etapa de oferta:", e)
       );
     }
   }, [quizResultId]);
@@ -27,9 +27,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
         try {
           await HybridQuizResult.update(quizResultId, { checkout_step_clicked: true });
-          console.log('Checkout click tracked successfully');
+          console.log('Clic de checkout rastreado con éxito');
         } catch (error) {
-          console.warn("Falha ao rastrear clique de checkout:", error);
+          console.warn("Error al rastrear el clic de checkout:", error);
         }
       }
     };
@@ -44,9 +44,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         if (typeof window !== 'undefined' && window.utmify) {
           try {
             allUtms = window.utmify.getUtms() || {};
-            console.log('UTMs from UTMIFY:', allUtms);
+            console.log('UTMs de UTMIFY:', allUtms);
           } catch (error) {
-            console.warn('Failed to get UTMs from UTMIFY:', error);
+            console.warn('Error al obtener UTMs desde UTMIFY:', error);
           }
         }
 
@@ -80,22 +80,22 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           url.searchParams.set('quiz_result_id', quizResultId);
         }
 
-        console.log('Redirecting to checkout:', url.toString());
+        console.log('Redirigiendo al checkout:', url.toString());
         localStorage.removeItem('holymind_quiz_state');
         localStorage.setItem('holymind_last_quiz_id', quizResultId);
         window.location.href = url.toString();
       } catch (error) {
-        console.error("Erro ao construir URL de checkout:", error);
+        console.error("Error al construir la URL de checkout:", error);
         window.location.href = CHECKOUT_CONFIG.baseUrl;
       }
     }).catch((error) => {
-      console.error("Erro ao rastrear checkout, mas redirecionando mesmo assim:", error);
+      console.error("Error al rastrear el checkout, pero redirigiendo de todos modos:", error);
       window.location.href = CHECKOUT_CONFIG.baseUrl;
     });
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return "Não informado";
+    if (!dateString) return "No informado";
     const [year, month, day] = dateString.split('-');
     if (day && month) {
         return `${day}/${month}`;
@@ -112,7 +112,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         className="mb-8">
 
         <h2 className="text-2xl md:text-3xl font-bold text-black mb-6 px-4">
-          Your Birth Chart Reading Is Ready!
+          ¡Tu lectura de carta natal está lista!
         </h2>
 
         <Card className="w-fit mx-auto bg-white/50 border-purple-100 shadow-md mb-6">
@@ -122,7 +122,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                         <User className="w-4 h-4 text-purple-600" />
                     </div>
                     <div className="text-left">
-                        <p className="text-xs text-gray-500">Name</p>
+                        <p className="text-xs text-gray-500">Nombre</p>
                         <p className="text-sm font-semibold text-gray-800">{userName || ''}</p>
                     </div>
                 </div>
@@ -132,7 +132,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                         <Calendar className="w-4 h-4 text-purple-600" />
                     </div>
                     <div className="text-left">
-                        <p className="text-xs text-gray-500">Date of Birth</p>
+                        <p className="text-xs text-gray-500">Fecha de nacimiento</p>
                         <p className="text-sm font-semibold text-gray-800">{formatDate(birthDate)}</p>
                     </div>
                 </div>
@@ -140,59 +140,59 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         </Card>
 
         <h1 className="text-purple-600 mb-6 text-xl font-semibold md:text-2xl leading-tight px-4">
-          HERE'S YOUR SOULMATE'S DRAWING
+          AQUÍ ESTÁ EL DIBUJO DE TU ALMA GEMELA
         </h1>
 
         <div className="mb-6">
           <img
             src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759873292152-ltl34v44ham.png"
-            alt="Your True Love Preview"
+            alt="Vista previa de tu verdadero amor"
             className="w-full max-w-2xl mx-auto rounded-xl shadow-lg"
           />
         </div>
 <h3 className="text-lg md:text-xl font-semibold text-purple-600 mb-4 px-4 uppercase tracking-wide">
-          See Who Your True Love Is👇🏼
+          Mira quién es tu verdadero amor👇🏼
         </h3>
         <Card className="max-w-md mx-auto bg-white/80 border-purple-100 shadow-md mb-6">
           <CardContent className="p-6 text-center space-y-3">
             <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
               <span className="text-green-600">✔</span>
-              <span><strong>Name:</strong> ******</span>
+              <span><strong>Nombre:</strong> ******</span>
             </p>
             <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
               <span className="text-green-600">✔</span>
-              <span><strong>Date of meeting:</strong> **/**/2025</span>
+              <span><strong>Fecha del encuentro:</strong> **/**/2025</span>
             </p>
             <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
               <span className="text-green-600">✔</span>
-              <span><strong>Your Soulmate's Vibe:</strong> Warm and caring</span>
+              <span><strong>La vibra de tu alma gemela:</strong> cálida y cariñosa</span>
             </p>
             <p className="text-sm md:text-base text-gray-700 flex items-center justify-center gap-2">
               <span className="text-green-600">✔</span>
-              <span><strong>Special Trait:</strong> very self-confident</span>
+              <span><strong>Rasgo especial:</strong> muy seguro/a de sí mismo/a</span>
             </p>
             <p className="text-sm md:text-base text-gray-600 mt-4 leading-relaxed">
-              Your soulmate's drawing is already done and will be sent directly to your email as soon as you confirm your access on the button below.
+              El dibujo de tu alma gemela ya está listo y será enviado directamente a tu correo electrónico tan pronto como confirmes tu acceso en el botón de abajo.
             </p>
             <div className="mt-4 space-y-1">
               <p className="text-sm md:text-base text-gray-600">
-                from <span className="line-through text-red-600 font-semibold">$29</span>
+                de <span className="line-through text-red-600 font-semibold">$29</span>
               </p>
               <p className="text-lg md:text-xl text-green-600 font-bold">
-                for only $9
+                por solo $9
               </p>
             </div>
           </CardContent>
         </Card>
 
         <div className="space-y-3 mb-6 px-4">
-          <p className="text-gray-700 text-sm font-bold">Click Below To Secure Your Drawing👇🏻</p>
+          <p className="text-gray-700 text-sm font-bold">Haz clic abajo para asegurar tu dibujo👇🏻</p>
           <button
             onClick={handleCheckout}
             className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
             style={{ minHeight: '70px' }}
           >
-            <span className="block text-center leading-tight">YES! Claim My Divine<br/>Soul Drawing</span>
+            <span className="block text-center leading-tight">¡SÍ! Reclamar mi<br/>Dibujo Divino del Alma</span>
           </button>
         </div>
 
@@ -200,14 +200,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           <CardContent className="p-6">
             <div className="flex flex-col items-start">
               <div className="flex items-center gap-3 mb-3">
-                <img src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png" alt="Master Aura" className="w-12 h-12 rounded-full object-cover border-2 border-purple-200" />
-                <p className="font-semibold text-gray-800 text-lg">Master Aura</p>
+                <img src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png" alt="Maestro Aura" className="w-12 h-12 rounded-full object-cover border-2 border-purple-200" />
+                <p className="font-semibold text-gray-800 text-lg">Maestro Aura</p>
               </div>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left">
-         When you join, you'll receive exclusive access to my app — <strong>the Auraly App</strong> 💫, where you'll get to see the <strong>drawing of your soulmate</strong> 🎨💖
+                Cuando te unas, recibirás acceso exclusivo a mi aplicación — <strong>la App Auraly</strong> 💫, donde podrás ver el <strong>dibujo de tu alma gemela</strong> 🎨💖
               </p>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left mt-3">
-Plus, every month you'll <strong>receive intuitive and insightful readings</strong> 🔮, offering powerful guidance about your love life and showing you how to <strong>connect energetically with your soulmate</strong> 💌💞
+                Además, cada mes <strong>recibirás lecturas intuitivas y reveladoras</strong> 🔮, ofreciendo una guía poderosa sobre tu vida amorosa y mostrando cómo <strong>conectarte energéticamente con tu alma gemela</strong> 💌💞
               </p>
             </div>
           </CardContent>
