@@ -28,13 +28,11 @@ export default function GenderSelection({ onSelect }) {
             >
               <CardContent className="p-4">
               <div className="w-24 h-24 md:w-32 md:h-32 mx-auto bg-white rounded-full p-3 mb-3">
-                <svg viewBox="0 0 200 200" className="w-full h-full">
-                  <circle cx="100" cy="80" r="35" fill="#D4A574" />
-                  <path d="M65 115 Q100 125 135 115 L135 180 Q100 190 65 180 Z" fill="#4A90E2" />
-                  <circle cx="85" cy="75" r="5" fill="#333" />
-                  <circle cx="115" cy="75" r="5" fill="#333" />
-                  <path d="M90 95 Q100 100 110 95" stroke="#333" strokeWidth="2" fill="none" />
-                </svg>
+                <img
+                  src="/Captura de Tela 2025-10-22 às 22.56.54-Photoroom (2).png"
+                  alt="Man"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <p className="text-lg font-bold text-gray-800">Man</p>
               </CardContent>
@@ -54,15 +52,11 @@ export default function GenderSelection({ onSelect }) {
             >
               <CardContent className="p-4">
               <div className="w-24 h-24 md:w-32 md:h-32 mx-auto bg-white rounded-full p-3 mb-3">
-                <svg viewBox="0 0 200 200" className="w-full h-full">
-                  <circle cx="100" cy="80" r="35" fill="#D4A574" />
-                  <path d="M70 60 Q60 50 70 40" stroke="#333" strokeWidth="3" fill="none" />
-                  <path d="M130 60 Q140 50 130 40" stroke="#333" strokeWidth="3" fill="none" />
-                  <path d="M65 115 Q100 125 135 115 L135 180 Q100 190 65 180 Z" fill="#E91E63" />
-                  <circle cx="85" cy="75" r="5" fill="#333" />
-                  <circle cx="115" cy="75" r="5" fill="#333" />
-                  <path d="M90 95 Q100 100 110 95" stroke="#E91E63" strokeWidth="2" fill="none" />
-                </svg>
+                <img
+                  src="/Captura de Tela 2025-10-22 às 22.57.10-Photoroom.png"
+                  alt="Woman"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <p className="text-lg font-bold text-gray-800">Woman</p>
               </CardContent>
