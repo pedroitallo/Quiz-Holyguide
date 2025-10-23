@@ -86,46 +86,6 @@ export const FUNNEL_DEFINITIONS = [
     ]
   },
   {
-    id: 'funnel-star2',
-    name: 'Funil Star 2',
-    slug: 'funnel-star2',
-    description: 'Funil Star variação 2',
-    component: () => import('../pages/funnel-star2'),
-    status: 'active',
-    tags: ['star', 'quiz'],
-    steps: []
-  },
-  {
-    id: 'funnel-star3',
-    name: 'Funil Star 3',
-    slug: 'funnel-star3',
-    description: 'Funil Star variação 3',
-    component: () => import('../pages/funnel-star3'),
-    status: 'active',
-    tags: ['star', 'quiz'],
-    steps: []
-  },
-  {
-    id: 'funnel-star4',
-    name: 'Funil Star 4',
-    slug: 'funnel-star4',
-    description: 'Funil Star variação 4',
-    component: () => import('../pages/funnel-star4'),
-    status: 'active',
-    tags: ['star', 'quiz'],
-    steps: []
-  },
-  {
-    id: 'funnel-star5',
-    name: 'Funil Star 5',
-    slug: 'funnel-star5',
-    description: 'Funil Star variação 5',
-    component: () => import('../pages/funnel-star5'),
-    status: 'active',
-    tags: ['star', 'quiz'],
-    steps: []
-  },
-  {
     id: 'funnel-chat1',
     name: 'Funnel Chat 1',
     slug: 'funnel-chat1',

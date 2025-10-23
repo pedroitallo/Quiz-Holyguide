@@ -3,11 +3,6 @@ import Home from "./Home";
 import Funnel1 from "./funnel-1";
 import FunnelAff from "./funnel-aff";
 import FunnelEspNew from "./funnel-esp";
-import FunnelTrialVSL from "./funnel-trialvsl";
-import FunnelStar2 from "./funnel-star2";
-import FunnelStar3 from "./funnel-star3";
-import FunnelStar4 from "./funnel-star4";
-import FunnelStar5 from "./funnel-star5";
 import Funnel2 from "./funnel-2";
 import Checkout from "./Checkout";
 import AdminLogin from "./AdminLogin";
@@ -30,11 +25,6 @@ const PAGES = {
     "funnel-2": Funnel2,
     "funnel-aff": FunnelAff,
     "funnel-esp": FunnelEspNew,
-    "funnel-trialvsl": FunnelTrialVSL,
-    "funnel-star2": FunnelStar2,
-    "funnel-star3": FunnelStar3,
-    "funnel-star4": FunnelStar4,
-    "funnel-star5": FunnelStar5,
 }
 
 function _getCurrentPage(url) {
@@ -91,11 +81,6 @@ function PagesContent() {
                 <Route path="/funnel-2" element={<Funnel2 />} />
                 <Route path="/funnel-aff" element={<FunnelAff />} />
                 <Route path="/funnel-esp" element={<FunnelEspNew />} />
-                <Route path="/funnel-trialvsl" element={<FunnelTrialVSL />} />
-                <Route path="/funnel-star2" element={<FunnelStar2 />} />
-                <Route path="/funnel-star3" element={<FunnelStar3 />} />
-                <Route path="/funnel-star4" element={<FunnelStar4 />} />
-                <Route path="/funnel-star5" element={<FunnelStar5 />} />
             </Routes>
         </Layout>
     );
