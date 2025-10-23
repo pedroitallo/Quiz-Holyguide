@@ -29,7 +29,7 @@ export default function GenderSelection({ onSelect }) {
               <CardContent className="p-4">
               <div className="w-24 h-24 md:w-32 md:h-32 mx-auto bg-white rounded-full p-3 mb-3">
                 <img
-                  src="/Captura de Tela 2025-10-22 às 22.56.54-Photoroom (2).png"
+                  src="/Captura de Tela 2025-10-22 às 22.56.54-Photoroom (2) copy.png"
                   alt="Man"
                   className="w-full h-full object-cover"
                 />
@@ -53,7 +53,7 @@ export default function GenderSelection({ onSelect }) {
               <CardContent className="p-4">
               <div className="w-24 h-24 md:w-32 md:h-32 mx-auto bg-white rounded-full p-3 mb-3">
                 <img
-                  src="/Captura de Tela 2025-10-22 às 22.57.10-Photoroom.png"
+                  src="/Captura de Tela 2025-10-22 às 22.57.10-Photoroom copy.png"
                   alt="Woman"
                   className="w-full h-full object-cover"
                 />
