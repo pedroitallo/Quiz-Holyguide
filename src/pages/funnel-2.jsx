@@ -7,7 +7,6 @@ import { trackStepView } from '../utils/stepTracking';
 
 import InitiateQuiz from "../components/quiz/funnel-2/InitiateQuiz";
 import TestimonialsCarousel from "../components/quiz/shared/TestimonialsCarousel";
-import GenderSelection from "../components/quiz/funnel-2/GenderSelection";
 import BirthDateWithZodiac from "../components/quiz/funnel-2/BirthDateWithZodiac";
 import LoveSituationStep from "../components/quiz/shared/LoveSituationStep";
 import IdealPartnerQualities from "../components/quiz/funnel-2/IdealPartnerQualities";
@@ -27,7 +26,6 @@ import ThankYouStep from "../components/quiz/shared/ThankYouStep";
 export default function Funnel2Page() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    gender: "",
     birth_date: "",
     zodiac_sign: "",
     love_situation: "",
@@ -42,17 +40,17 @@ export default function Funnel2Page() {
     quizResultId: null
   });
 
-  const totalSteps = 18;
+  const totalSteps = 17;
   const progress = currentStep / totalSteps * 100;
 
   useEffect(() => {
-    if (currentStep < 18) {
+    if (currentStep < 17) {
       const stateToSave = {
         step: currentStep,
         data: formData
       };
       localStorage.setItem('holymind_quiz_state_funnel2', JSON.stringify(stateToSave));
-    } else if (currentStep === 19) {
+    } else if (currentStep === 18) {
       localStorage.removeItem('holymind_quiz_state_funnel2');
     }
   }, [currentStep, formData]);
@@ -112,7 +110,7 @@ export default function Funnel2Page() {
 
   useEffect(() => {
     const stepNames = [
-      'initiate', 'testimonials', 'gender', 'birth_date', 'love_situation',
+      'initiate', 'testimonials', 'birth_date', 'love_situation',
       'qualities', 'preference', 'chart_results', 'challenge',
       'desire', 'connection', 'love_language', 'energy', 'future',
       'social_proof', 'loading', 'paywall', 'thank_you'
@@ -121,11 +119,6 @@ export default function Funnel2Page() {
       trackStepView('funnel-2', stepNames[currentStep - 1]);
     }
   }, [currentStep]);
-
-  const handleGenderSelect = (gender) => {
-    setFormData(prev => ({ ...prev, gender }));
-    nextStep();
-  };
 
   const handleBirthDateSubmit = (data) => {
     setFormData(prev => ({ ...prev, ...data }));
@@ -222,22 +215,21 @@ export default function Funnel2Page() {
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
           {currentStep === 1 && <InitiateQuiz onContinue={nextStep} />}
           {currentStep === 2 && <TestimonialsCarousel onContinue={nextStep} />}
-          {currentStep === 3 && <GenderSelection onSelect={handleGenderSelect} />}
-          {currentStep === 4 && <BirthDateWithZodiac onSubmit={handleBirthDateSubmit} />}
-          {currentStep === 5 && <LoveSituationStep userName="" birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
-          {currentStep === 6 && <IdealPartnerQualities onSubmit={handleQualitiesSubmit} zodiacSign={formData.zodiac_sign} />}
-          {currentStep === 7 && <PartnerPreference onSelect={handlePreferenceSelect} />}
-          {currentStep === 8 && <BirthChartResults onContinue={nextStep} />}
-          {currentStep === 9 && <LoveChallenge onSubmit={handleChallengeSubmit} />}
-          {currentStep === 10 && <LoveDesire onSubmit={handleDesireSubmit} />}
-          {currentStep === 11 && <SoulmateConnection onSubmit={handleConnectionSubmit} zodiacSign={formData.zodiac_sign} />}
-          {currentStep === 12 && <LoveLanguage onSelect={handleLoveLanguageSelect} />}
-          {currentStep === 13 && <RelationshipEnergy onSelect={handleEnergySelect} />}
-          {currentStep === 14 && <FutureScenario onSubmit={handleScenarioSubmit} zodiacSign={formData.zodiac_sign} />}
-          {currentStep === 15 && <SocialProof onContinue={nextStep} />}
-          {currentStep === 16 && <SoulmateDrawingLoading onComplete={nextStep} birthDate={formData.birth_date} zodiacSign={formData.zodiac_sign} />}
-          {currentStep === 17 && <PaywallStep userName="" birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 18 && <ThankYouStep userName="" />}
+          {currentStep === 3 && <BirthDateWithZodiac onSubmit={handleBirthDateSubmit} />}
+          {currentStep === 4 && <LoveSituationStep userName="" birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
+          {currentStep === 5 && <IdealPartnerQualities onSubmit={handleQualitiesSubmit} zodiacSign={formData.zodiac_sign} />}
+          {currentStep === 6 && <PartnerPreference onSelect={handlePreferenceSelect} />}
+          {currentStep === 7 && <BirthChartResults onContinue={nextStep} />}
+          {currentStep === 8 && <LoveChallenge onSubmit={handleChallengeSubmit} />}
+          {currentStep === 9 && <LoveDesire onSubmit={handleDesireSubmit} />}
+          {currentStep === 10 && <SoulmateConnection onSubmit={handleConnectionSubmit} zodiacSign={formData.zodiac_sign} />}
+          {currentStep === 11 && <LoveLanguage onSelect={handleLoveLanguageSelect} />}
+          {currentStep === 12 && <RelationshipEnergy onSelect={handleEnergySelect} />}
+          {currentStep === 13 && <FutureScenario onSubmit={handleScenarioSubmit} zodiacSign={formData.zodiac_sign} />}
+          {currentStep === 14 && <SocialProof onContinue={nextStep} />}
+          {currentStep === 15 && <SoulmateDrawingLoading onComplete={nextStep} birthDate={formData.birth_date} zodiacSign={formData.zodiac_sign} />}
+          {currentStep === 16 && <PaywallStep userName="" birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 17 && <ThankYouStep userName="" />}
         </div>
       </div>
     </div>
