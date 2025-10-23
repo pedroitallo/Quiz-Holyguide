@@ -8,6 +8,7 @@ import FunnelStar2 from "./funnel-star2";
 import FunnelStar3 from "./funnel-star3";
 import FunnelStar4 from "./funnel-star4";
 import FunnelStar5 from "./funnel-star5";
+import Funnel2 from "./funnel-2";
 import Checkout from "./Checkout";
 import AdminLogin from "./AdminLogin";
 import Analytics from "./Analytics";
@@ -26,6 +27,7 @@ import { AdminAuthProvider } from '../contexts/AdminAuthContext';
 const PAGES = {
     Home: Home,
     "funnel-1": Funnel1,
+    "funnel-2": Funnel2,
     "funnel-aff": FunnelAff,
     "funnel-esp": FunnelEspNew,
     "funnel-trialvsl": FunnelTrialVSL,
@@ -86,6 +88,7 @@ function PagesContent() {
                 <Route path="/" element={<Home />} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/funnel-1" element={<Funnel1 />} />
+                <Route path="/funnel-2" element={<Funnel2 />} />
                 <Route path="/funnel-aff" element={<FunnelAff />} />
                 <Route path="/funnel-esp" element={<FunnelEspNew />} />
                 <Route path="/funnel-trialvsl" element={<FunnelTrialVSL />} />
