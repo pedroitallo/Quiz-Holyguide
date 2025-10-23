@@ -21,11 +21,11 @@ export default function InitiateQuiz({ onContinue }) {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3 leading-tight px-4">
-          ✨ Ready to find out who your true soulmate is?
+          ✨ ¿Listo para descubrir quién es tu verdadera alma gemela?
         </h1>
 
         <p className="text-base md:text-lg text-gray-600 mb-6 px-4">
-          Take this 1-minute online astral reading to uncover the face of your soulmate!
+          Realiza esta lectura astral en línea de 1 minuto y descubre el rostro de tu alma gemela.
         </p>
 
         <motion.div
@@ -36,7 +36,7 @@ export default function InitiateQuiz({ onContinue }) {
         >
           <img
             src="/BANNER CHECKOUT (2).png"
-            alt="Soulmate Reading"
+            alt="Lectura del alma gemela"
             className="w-full max-w-md mx-auto rounded-2xl shadow-lg"
           />
         </motion.div>
@@ -45,7 +45,7 @@ export default function InitiateQuiz({ onContinue }) {
           onClick={handleStartNow}
           className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
         >
-          Start Now
+          Comenzar ahora
         </Button>
       </motion.div>
     </div>
