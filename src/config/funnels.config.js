@@ -132,6 +132,25 @@ export const FUNNEL_DEFINITIONS = [
       { name: 'revelation', label: 'Revelação', component: 'LoadingRevelation' },
       { name: 'paywall', label: 'Checkout', component: 'PaywallStep' }
     ]
+  },
+  {
+    id: 'funnel-3',
+    name: 'Funnel 3',
+    slug: 'funnel-3',
+    description: 'Funil 3 - cópia do Funnel 1',
+    component: () => import('../pages/funnel-3'),
+    status: 'active',
+    tags: ['vídeo', 'quiz'],
+    steps: [
+      { name: 'video', label: 'Vídeo', component: 'VideoStep' },
+      { name: 'testimonials', label: 'Depoimentos', component: 'TestimonialsCarousel' },
+      { name: 'name', label: 'Nome', component: 'NameCollection' },
+      { name: 'birth', label: 'Data Nascimento', component: 'BirthDataCollection' },
+      { name: 'love_situation', label: 'Situação Amorosa', component: 'LoveSituationStep' },
+      { name: 'palm_reading', label: 'Leitura Palma', component: 'PalmReadingResults' },
+      { name: 'revelation', label: 'Revelação', component: 'LoadingRevelation' },
+      { name: 'paywall', label: 'Checkout', component: 'PaywallStep' }
+    ]
   }
 ];
 
