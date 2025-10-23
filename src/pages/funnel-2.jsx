@@ -232,7 +232,7 @@ export default function Funnel2Page() {
           {currentStep === 3 && <GenderSelection onSelect={handleGenderSelect} />}
           {currentStep === 4 && <BirthDateWithZodiac onSubmit={handleBirthDateSubmit} />}
           {currentStep === 5 && <LoveSituationStep userName="" birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
-          {currentStep === 6 && <AppearanceImportance onSelect={handleAppearanceSelect} />}
+          {currentStep === 6 && <AppearanceImportance onSelect={handleAppearanceSelect} zodiacSign={formData.zodiac_sign} />}
           {currentStep === 7 && <IdealPartnerQualities onSubmit={handleQualitiesSubmit} zodiacSign={formData.zodiac_sign} />}
           {currentStep === 8 && <PartnerPreference onSelect={handlePreferenceSelect} />}
           {currentStep === 9 && <BirthChartResults onContinue={nextStep} />}
