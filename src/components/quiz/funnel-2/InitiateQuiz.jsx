@@ -6,6 +6,11 @@ import { trackStepView } from "@/utils/stepTracking";
 export default function InitiateQuiz({ onContinue }) {
   const handleStartNow = () => {
     trackStepView('funnel-2', 'startend');
+
+    if (typeof window !== 'undefined' && window.uetq) {
+      window.uetq.push('event', 'startquiz', {});
+    }
+
     onContinue();
   };
   return (
