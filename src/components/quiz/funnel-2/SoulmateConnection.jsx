@@ -15,7 +15,9 @@ export default function SoulmateConnection({ onSubmit, zodiacSign }) {
 
   const handleSelect = (value) => {
     setSelectedConnection(value);
-    setShowComment(true);
+    setTimeout(() => {
+      setShowComment(true);
+    }, 300);
   };
 
   const handleFinalContinue = () => {

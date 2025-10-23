@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function IdealPartnerQualities({ onSubmit, zodiacSign }) {
   const [selectedQualities, setSelectedQualities] = useState([]);
   const [showComment, setShowComment] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const qualities = [
     { value: "kind", label: "Kind", emoji: "🤗" },
@@ -28,7 +29,10 @@ export default function IdealPartnerQualities({ onSubmit, zodiacSign }) {
 
   const handleContinue = () => {
     if (selectedQualities.length > 0) {
-      setShowComment(true);
+      setIsSubmitting(true);
+      setTimeout(() => {
+        setShowComment(true);
+      }, 300);
     }
   };
 
@@ -45,7 +49,7 @@ export default function IdealPartnerQualities({ onSubmit, zodiacSign }) {
     >
       <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
         <AnimatePresence mode="wait">
-          {!showComment ? (
+          {!isSubmitting ? (
             <motion.div
               key="selection"
               initial={{ opacity: 0 }}
