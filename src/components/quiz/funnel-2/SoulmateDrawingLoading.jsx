@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function SoulmateDrawingLoading({ onComplete, birthDate, zodiacSign }) {
   const [progress, setProgress] = useState(0);
@@ -22,13 +22,12 @@ export default function SoulmateDrawingLoading({ onComplete, birthDate, zodiacSi
   }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="w-full max-w-3xl mx-auto px-4 py-8"
-    >
-      <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
+    <div className="text-center py-4">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
         <AnimatePresence mode="wait">
           {!showReady ? (
             <motion.div
@@ -39,15 +38,7 @@ export default function SoulmateDrawingLoading({ onComplete, birthDate, zodiacSi
               className="space-y-8"
             >
               <div className="text-center space-y-4">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="inline-block"
-                >
-                  <Sparkles className="w-16 h-16 text-purple-500" />
-                </motion.div>
-
-                <h2 className="text-2xl md:text-3xl font-bold text-purple-600">
+                <h2 className="text-xl md:text-2xl font-bold text-purple-600 px-4">
                   The drawing of your soul mate is being prepared…
                 </h2>
               </div>
@@ -114,32 +105,22 @@ export default function SoulmateDrawingLoading({ onComplete, birthDate, zodiacSi
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              className="space-y-8 text-center"
+              className="space-y-6 text-center"
             >
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                <Sparkles className="w-20 h-20 text-purple-500 mx-auto" />
-              </motion.div>
-
-              <h2 className="text-2xl md:text-4xl font-bold text-gray-800 leading-tight">
+              <h2 className="text-xl md:text-3xl font-bold text-gray-800 leading-tight px-4">
                 Are you ready to find out who your soulmate is?
               </h2>
 
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
+              <Button
                 onClick={onComplete}
-                className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white text-xl font-bold py-5 px-8 rounded-full hover:from-purple-600 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
               >
                 YES! I'M READY
-              </motion.button>
+              </Button>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }

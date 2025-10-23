@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function InitiateQuiz({ onContinue }) {
@@ -11,15 +10,6 @@ export default function InitiateQuiz({ onContinue }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-          className="inline-block mb-4"
-        >
-          <Sparkles className="w-12 h-12 text-purple-500 mx-auto" />
-        </motion.div>
-
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3 leading-tight px-4">
           ✨ Ready to find out who your true soulmate is?
         </h1>

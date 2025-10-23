@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TypingIndicator from '../shared/TypingIndicator';
 
@@ -76,7 +75,6 @@ export default function BirthDateWithZodiac({ onSubmit }) {
         transition={{ duration: 0.8 }}
       >
         <div className="space-y-4">
-          <Sparkles className="w-10 h-10 text-purple-500 mx-auto mb-3" />
           <h1 className="text-lg md:text-xl font-bold text-gray-800 leading-tight px-4">
             From the day we are born, the universe has chosen a person for us: our soulmate
           </h1>
