@@ -1,110 +1,53 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { trackStepView } from "@/utils/stepTracking";
 
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useTracking } from '@/hooks/useTracking';
+export default function InitiateQuiz({ onContinue }) {
+  const handleStartNow = () => {
+    trackStepView('funnel-2', 'startend');
 
-export default function VideoStep({ onContinue }) {
-  const [currentDate, setCurrentDate] = useState('');
-  const { trackStartQuiz, trackFacebookEvent } = useTracking();
-
-  useEffect(() => {
-    const today = new Date();
-    const options = { month: 'long', day: 'numeric', year: 'numeric' };
-    setCurrentDate(today.toLocaleDateString('es-ES', options));
-  }, []);
-
-  useEffect(() => {
-    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/6887d876e08b97c1c6617aab/v4/player.js";
-
-    if (document.querySelector(`script[src="${scriptSrc}"]`)) {
-      return;
+    if (typeof window !== 'undefined' && window.uetq) {
+      window.uetq.push('event', 'startquiz', {});
     }
 
-    console.log("Carregando script do VSL - VideoStep montado");
-    const script = document.createElement("script");
-    script.src = scriptSrc;
-    script.async = true;
-    document.head.appendChild(script);
-
-    return () => {
-      console.log("Removendo script do VSL - VideoStep desmontado");
-      const scriptElements = document.querySelectorAll(`script[src="${scriptSrc}"]`);
-      scriptElements.forEach((s) => {
-        if (document.head.contains(s)) {
-          document.head.removeChild(s);
-        }
-      });
-
-      const playerContainer = document.getElementById("vid-6887d876e08b97c1c6617aab");
-      if (playerContainer) {
-        playerContainer.innerHTML = "";
-      }
-
-      if (window.smartplayer) {
-        delete window.smartplayer;
-      }
-    };
-  }, []);
-
-  const handleContinue = () => {
-    trackStartQuiz();
     onContinue();
   };
-
   return (
-    <div className="text-center">
+    <div className="text-center py-4">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}>
-
-        <h1 className="text-xl md:text-2xl mb-2 font-bold text-black leading-tight">Usaré mis habilidades psíquicas para revelar el rostro de tu alma gemela.
+        transition={{ duration: 0.8 }}
+      >
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3 leading-tight px-4">
+          ✨ Ready to find out who your true soulmate is?
         </h1>
 
-        <p className="text-gray-600 text-base mb-6 max-w-2xl mx-auto leading-relaxed">Presiona play y descubre por qué más de 10,000 personas confían en Aura, la psíquica #1 de Hollywood
+        <p className="text-base md:text-lg text-gray-600 mb-6 px-4">
+          Take this 1-minute online astral reading to uncover the face of your soulmate!
         </p>
 
-        <div className="mb-8 w-full max-w-lg mx-auto">
-          <div className="shadow-lg rounded-xl overflow-hidden">
-            <vturb-smartplayer
-              id="vid-6887d876e08b97c1c6617aab"
-              style={{
-                display: 'block',
-                margin: '0 auto',
-                width: '100%'
-              }}>
-            </vturb-smartplayer>
-          </div>
-        </div>
-
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}>
-
-          <p className="text-gray-700 text-sm mb-4 mx-auto max-w-sm leading-relaxed">⏳Solo toma 1 minuto
-          </p>
-
-          <button
-            onClick={handleContinue}
-            className="w-full max-w-sm md:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold whitespace-nowrap inline-flex items-center justify-center rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform active:scale-95 hover:scale-105 px-10 py-5 text-base md:px-16 md:py-6 md:text-lg animate-bounce-subtle cursor-pointer touch-manipulation"
-            style={{
-              WebkitTapHighlightColor: 'transparent',
-              touchAction: 'manipulation',
-              userSelect: 'none'
-            }}
-          >
-            Descubrir mi alma gemela
-            <span className="ml-2">→</span>
-          </button>
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4 }}
+          className="mb-6"
+        >
+          <img
+            src="/BANNER CHECKOUT (2).png"
+            alt="Soulmate Reading"
+            className="w-full max-w-md mx-auto rounded-2xl shadow-lg"
+          />
         </motion.div>
 
-        {currentDate &&
-        <p className="text-red-600 mt-4 text-xs animate-pulse">
-            ⏳ Esta lectura estará disponible hasta el <strong>{currentDate}</strong>, ¡solo en esta página!
-          </p>
-        }
+        <Button
+          onClick={handleStartNow}
+          className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
+        >
+          Start Now
+        </Button>
       </motion.div>
-    </div>);
-
+    </div>
+  );
 }
