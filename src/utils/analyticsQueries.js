@@ -6,7 +6,10 @@ const FUNNEL_TABLE_MAP = {
   'funnel-3': 'step_views_funnel_3',
   'funnel-tt': 'step_views_funnel_tt',
   'funnel-esp': 'step_views_funnel_esp',
+  'funnelesp': 'step_views_funnelesp',
   'funnel-aff': 'step_views_funnel_aff',
+  'funnel-chat1': 'step_views_funnel_chat1',
+  'funnel-vsl': 'step_views_funnel_vsl',
 };
 
 const FUNNEL_STEPS = {
@@ -83,6 +86,21 @@ const FUNNEL_STEPS = {
     { key: 'revelation', label: 'Revelação' },
     { key: 'paywall', label: 'Paywall' },
     { key: 'thank_you', label: 'Obrigado' },
+  ],
+  'funnel-chat1': [
+    { key: 'video', label: 'Video' },
+    { key: 'testimonials', label: 'Depoimentos' },
+    { key: 'name', label: 'Nome' },
+    { key: 'birth', label: 'Nascimento' },
+    { key: 'love_situation', label: 'Situação Amorosa' },
+    { key: 'palm_reading', label: 'Leitura da Palma' },
+    { key: 'revelation', label: 'Revelação' },
+    { key: 'paywall', label: 'Paywall' },
+    { key: 'thank_you', label: 'Obrigado' },
+  ],
+  'funnel-vsl': [
+    { key: 'video', label: 'Video' },
+    { key: 'sales', label: 'Sales Section' },
   ],
 };
 
