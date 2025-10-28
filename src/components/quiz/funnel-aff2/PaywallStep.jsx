@@ -112,7 +112,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         className="mb-8">
 
         <h2 className="text-2xl md:text-3xl font-bold text-black mb-6 px-4">
-          Your Birth Chart Reading Is Ready!
+          ¡Tu Lectura de Carta Astral Está Lista!
         </h2>
 
         <Card className="w-fit mx-auto bg-white/50 border-purple-100 shadow-md mb-6">
@@ -132,7 +132,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                         <Calendar className="w-4 h-4 text-purple-600" />
                     </div>
                     <div className="text-left">
-                        <p className="text-xs text-gray-500">Date of Birth</p>
+                        <p className="text-xs text-gray-500">Fecha de Nacimiento</p>
                         <p className="text-sm font-semibold text-gray-800">{formatDate(birthDate)}</p>
                     </div>
                 </div>
@@ -140,7 +140,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         </Card>
 
         <h1 className="text-purple-600 mb-6 text-xl font-semibold md:text-2xl leading-tight px-4">
-          HERE'S YOUR SOULMATE'S DRAWING
+          AQUÍ ESTÁ EL DIBUJO DE TU ALMA GEMELA
         </h1>
 
         <div className="mb-6">
@@ -151,7 +151,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           />
         </div>
 <h3 className="text-lg md:text-xl font-semibold text-purple-600 mb-4 px-4 uppercase tracking-wide">
-          See Who Your True Love Is👇🏼
+          Mira Quién Es Tu Verdadero Amor👇🏼
         </h3>
         <Card className="max-w-md mx-auto bg-white/80 border-purple-100 shadow-md mb-6">
           <CardContent className="p-6 text-center space-y-3">
@@ -172,7 +172,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
               <span><strong>Special Trait:</strong> very self-confident</span>
             </p>
             <p className="text-sm md:text-base text-gray-600 mt-4 leading-relaxed">
-              Your soulmate's drawing is already done and will be sent directly to your email as soon as you confirm your access on the button below.
+              El dibujo de tu alma gemela ya está listo y será enviado directamente a tu correo electrónico tan pronto como confirmes tu acceso en el botón de abajo.
             </p>
             <div className="mt-4 space-y-1">
               <p className="text-sm md:text-base text-gray-600">
@@ -192,7 +192,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
             style={{ minHeight: '70px' }}
           >
-            <span className="block text-center leading-tight">YES! Claim My Divine<br/>Soul Drawing</span>
+            <span className="block text-center leading-tight">¡SÍ! Reclama Mi Dibujo<br/>Divino del Alma</span>
           </button>
         </div>
 
@@ -204,10 +204,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                 <p className="font-semibold text-gray-800 text-lg">Master Aura</p>
               </div>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left">
-         When you join, you'll receive exclusive access to my app — <strong>the Auraly App</strong> 💫, where you'll get to see the <strong>drawing of your soulmate</strong> 🎨💖
+         Cuando te unas, recibirás acceso exclusivo a mi aplicación — <strong>la Aplicación Auraly</strong> 💫, donde podrás ver el <strong>dibujo de tu alma gemela</strong> 🎨💖
               </p>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left mt-3">
-Plus, every month you'll <strong>receive intuitive and insightful readings</strong> 🔮, offering powerful guidance about your love life and showing you how to <strong>connect energetically with your soulmate</strong> 💌💞
+Además, cada mes recibirás <strong>lecturas intuitivas y perspicaces</strong> 🔮, ofreciendo orientación poderosa sobre tu vida amorosa y mostrándote cómo <strong>conectarte energéticamente con tu alma gemela</strong> 💌💞
               </p>
             </div>
           </CardContent>
