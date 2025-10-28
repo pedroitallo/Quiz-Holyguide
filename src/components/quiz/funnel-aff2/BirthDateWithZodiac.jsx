@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import TypingIndicator from '../shared/TypingIndicator';
+import TypingIndicator from './TypingIndicator';
 
 const months = [
   { value: "01", label: "January" },
