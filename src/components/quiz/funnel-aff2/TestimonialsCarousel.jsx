@@ -39,7 +39,7 @@ const variants = {
   })
 };
 
-export default function TestimonialsCarousel({ onContinuar }) {
+export default function TestimonialsCarousel({ onContinue }) {
   const [[page, direction], setPage] = useState([0, 0]);
 
   // Preload images on component mount
@@ -129,7 +129,7 @@ export default function TestimonialsCarousel({ onContinuar }) {
 
           <ChevronLeft className="w-6 h-6 text-gray-600" />
         </button>
-        
+
         <button
           onClick={() => paginate(1)}
           className="absolute right-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 z-10">
@@ -167,7 +167,7 @@ export default function TestimonialsCarousel({ onContinuar }) {
 
           ¡Sí, estoy lista!
         </button>
-        
+
         <p className="text-sm text-gray-500 mt-4">
 
         </p>

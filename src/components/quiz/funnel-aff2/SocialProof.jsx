@@ -2,12 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 
-export default function SocialProof({ onContinuar }) {
-  const handleContinuar = () => {
+export default function SocialProof({ onContinue }) {
+  const handleContinue = () => {
     if (typeof window !== 'undefined' && window.uetq) {
       window.uetq.push('event', 'endquiz', {});
     }
-    onContinuar();
+    onContinue();
   };
 
   const testimonials = [
@@ -75,7 +75,7 @@ export default function SocialProof({ onContinuar }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1 }}
-            onClick={handleContinuar}
+            onClick={handleContinue}
             className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white text-lg font-bold py-4 px-8 rounded-full hover:from-purple-600 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
             Ir a la Revelación Completa
