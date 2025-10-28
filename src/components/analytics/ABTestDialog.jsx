@@ -40,15 +40,12 @@ export default function ABTestDialog({ onTestChange }) {
     const [editingTest, setEditingTest] = useState(null);
 
     const funnelOptions = [
-        { value: 'funnel-1', label: 'Funil 1' },
-        { value: 'funnel-chat1', label: 'Funil Chat 1' },
-        { value: 'funnel-tt', label: 'Funil TT' },
-        { value: 'funnel-vsl', label: 'Funil VSL' },
-        { value: 'funnelesp', label: 'Funil ESP' },
-        { value: 'funnel-star2', label: 'Funil Star 2' },
-        { value: 'funnel-star3', label: 'Funil Star 3' },
-        { value: 'funnel-star4', label: 'Funil Star 4' },
-        { value: 'funnel-star5', label: 'Funil Star 5' },
+        { value: 'funnel-1', label: 'Funnel 1' },
+        { value: 'funnel-2', label: 'Funnel 2' },
+        { value: 'funnel-3', label: 'Funnel 3' },
+        { value: 'funnel-tt', label: 'Funnel TT' },
+        { value: 'funnel-esp', label: 'Funnel ESP' },
+        { value: 'funnel-aff', label: 'Funnel Aff' },
     ];
 
     useEffect(() => {
@@ -268,13 +265,11 @@ export default function ABTestDialog({ onTestChange }) {
     const handleResetData = async (test) => {
         const tablesToReset = [
             'step_views_funnel_1',
+            'step_views_funnel_2',
+            'step_views_funnel_3',
             'step_views_funnel_tt',
-            'step_views_funnel_vsl',
-            'step_views_funnelesp',
-            'step_views_funnel_star2',
-            'step_views_funnel_star3',
-            'step_views_funnel_star4',
-            'step_views_funnel_star5'
+            'step_views_funnel_esp',
+            'step_views_funnel_aff'
         ];
 
         const { data: countData } = await supabase
