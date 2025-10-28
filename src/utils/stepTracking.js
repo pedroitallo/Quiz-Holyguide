@@ -70,6 +70,7 @@ const getTableName = (funnelType) => {
     'funnel-tt': 'step_views_funnel_tt',
     'funnel-esp': 'step_views_funnel_esp',
     'funnel-aff': 'step_views_funnel_aff',
+    'funnel-aff2': 'step_views_funnel_aff2',
   };
   return tableMap[funnelType];
 };
