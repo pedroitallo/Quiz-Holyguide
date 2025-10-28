@@ -2,12 +2,22 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { trackStepView } from "@/utils/stepTracking";
+import { useTracking } from "@/hooks/useTracking";
 
 export default function InitiateQuiz({ onContinue }) {
+  const { trackStartQuiz, trackFacebookEvent } = useTracking();
+
   const handleStartNow = () => {
+    // RedTrack StartQuiz event
+    trackStartQuiz();
+
+    // Microsoft UET event
     if (typeof window !== 'undefined' && window.uetq) {
       window.uetq.push('event', 'startquiz', {});
     }
+
+    // Facebook Pixel event
+    trackFacebookEvent('StartQuiz');
 
     onContinue();
   };

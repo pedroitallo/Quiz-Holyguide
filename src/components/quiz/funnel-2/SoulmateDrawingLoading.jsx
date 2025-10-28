@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useTracking } from "@/hooks/useTracking";
 
 export default function SoulmateDrawingLoading({ onComplete, birthDate, zodiacSign }) {
   const [progress, setProgress] = useState(0);
+  const { trackEndQuiz, trackFacebookEvent } = useTracking();
 
   useEffect(() => {
+    // Track EndQuiz when loading starts
+    trackEndQuiz();
+    trackFacebookEvent('EndQuiz');
+
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -19,7 +25,7 @@ export default function SoulmateDrawingLoading({ onComplete, birthDate, zodiacSi
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, [onComplete, trackEndQuiz, trackFacebookEvent]);
 
   return (
     <div className="text-center py-4">
