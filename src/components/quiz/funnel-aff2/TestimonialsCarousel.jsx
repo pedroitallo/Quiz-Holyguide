@@ -161,8 +161,8 @@ export default function TestimonialsCarousel({ onContinuar }) {
         </p>
 
         <button
-          onClick={onContinuar}
-          id="btn-vsl" 
+          onClick={onContinue}
+          id="btn-vsl"
           className="btn-primary w-full max-w-sm md:w-auto animate-pulse-gentle">
 
           ¡Sí, estoy lista!
