@@ -10,9 +10,6 @@ export default function SoulmateDrawingLoading({ onComplete, birthDate, zodiacSi
         if (prev >= 100) {
           clearInterval(interval);
           setTimeout(() => {
-            if (typeof window !== 'undefined' && window.uetq) {
-              window.uetq.push('event', 'endquiz', {});
-            }
             onComplete();
           }, 500);
           return 100;

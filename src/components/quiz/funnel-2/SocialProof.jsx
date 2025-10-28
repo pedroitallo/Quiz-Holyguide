@@ -3,6 +3,13 @@ import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 
 export default function SocialProof({ onContinue }) {
+  const handleContinue = () => {
+    if (typeof window !== 'undefined' && window.uetq) {
+      window.uetq.push('event', 'endquiz', {});
+    }
+    onContinue();
+  };
+
   const testimonials = [
     {
       text: "I met my boyfriend three weeks after receiving Auraly's soulmate drawing. It was identical. I still get goosebumps.",
@@ -68,7 +75,7 @@ export default function SocialProof({ onContinue }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1 }}
-            onClick={onContinue}
+            onClick={handleContinue}
             className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white text-lg font-bold py-4 px-8 rounded-full hover:from-purple-600 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
             Go To Full Revelation
