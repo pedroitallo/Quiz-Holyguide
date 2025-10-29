@@ -194,7 +194,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
             style={{ minHeight: '70px' }}
           >
-            <span className="block text-center leading-tight">¡SÍ! Quiero mi Dibujo<br/>Divino del Alma</span>
+            <span className="block text-center leading-tight">¡SÍ! Quiero Recibir El<br/>Dibujo De Mi Alma Gemela</span>
           </button>
         </div>
 
