@@ -179,7 +179,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                 from <span className="line-through text-red-600 font-semibold">$29</span>
               </p>
               <p className="text-lg md:text-xl text-green-600 font-bold">
-                for only $9
+                for only $19
               </p>
             </div>
           </CardContent>
