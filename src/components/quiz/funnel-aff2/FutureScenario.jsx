@@ -102,7 +102,7 @@ export default function FutureScenario({ onSubmit, zodiacSign }) {
                     />
                     <div className="text-left">
                       <p className="text-base text-gray-700 leading-relaxed">
-                        This desire speaks deeply to your love journey in this lifetime. Las personas nacidas bajo <span className="font-bold text-purple-600">{zodiacSign || 'your sign'}</span> a menudo sienten que el amor debe tener propósito, conexión y verdad. Tu carta completa revelará cómo esto se manifiesta en tu energía.
+                        Este deseo habla profundamente de tu viaje amoroso en esta vida. Las personas nacidas bajo <span className="font-bold text-purple-600">{zodiacSign || 'tu signo'}</span> a menudo sienten que el amor debe tener propósito, conexión y verdad. Tu carta completa revelará cómo esto se manifiesta en tu energía.
                       </p>
                     </div>
                   </div>
