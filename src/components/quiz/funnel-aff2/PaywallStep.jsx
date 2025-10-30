@@ -61,7 +61,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             }
           });
 
-          const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'xcod'];
+          const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'xcod', 'afid'];
           otherParams.forEach(param => {
             const value = currentUrl.searchParams.get(param);
             if (value) {

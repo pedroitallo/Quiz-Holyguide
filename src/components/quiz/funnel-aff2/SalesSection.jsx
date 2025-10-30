@@ -164,7 +164,7 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
         });
         
         // Also get other tracking parameters
-        const otherParams = ['fbclid', 'gclid', 'ttclid', 'src'];
+        const otherParams = ['fbclid', 'gclid', 'ttclid', 'src', 'afid'];
         otherParams.forEach((param) => {
           const value = currentUrlParams.get(param);
           if (value) {
