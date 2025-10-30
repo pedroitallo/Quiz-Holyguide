@@ -22,7 +22,7 @@ import { useTracking } from '@/hooks/useTracking';
 
 // Checkout configuration
 const CHECKOUT_CONFIG = {
-  baseUrl: "https://tkk.holyguide.online/click"
+  baseUrl: "https://payments.securitysacred.online/checkout/200854896:1"
   // Add more checkout URLs here if needed for different products
   // premiumUrl: "https://pay.hotmart.com/PREMIUM123",
   // basicUrl: "https://pay.hotmart.com/BASIC456",
@@ -219,9 +219,9 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
 
       {/* Main CTA Section - Moved closer to VSL */}
       <div className="space-y-3 -mt-4">
-        <p className="text-gray-700 text-sm font-bold">Click Below To Secure Your Drawing👇🏻</p>
+        <p className="text-gray-700 text-sm font-bold">Haz clic abajo para asegurar tu dibujo👇🏻</p>
         <PulsatingButton onClick={handleCheckout}>
-          YES! Claim My Soulmate's<br/>Drawing
+          ¡SÍ! Quiero Recibir El<br/>Dibujo De Mi Alma Gemela
         </PulsatingButton>
       </div>
 
@@ -230,12 +230,12 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
         <div className="text-center space-y-3">
           <div className="flex items-center justify-center gap-2">
             <span className="text-yellow-500 text-xl">⚠️</span>
-            <span className="text-red-600 font-bold text-lg">HIGH DEMAND:</span>
+            <span className="text-red-600 font-bold text-lg">ALTA DEMANDA:</span>
           </div>
 
           <div className="space-y-2">
             <div className="text-gray-800 text-base">
-              The LAST <span className="text-2xl font-bold">5</span> spots may fill up in
+              Los ÚLTIMOS <span className="text-2xl font-bold">5</span> lugares pueden llenarse en
             </div>
 
             <CountdownTimer />

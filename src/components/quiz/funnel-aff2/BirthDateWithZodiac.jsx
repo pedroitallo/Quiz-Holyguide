@@ -5,18 +5,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import TypingIndicator from './TypingIndicator';
 
 const months = [
-  { value: "01", label: "January" },
-  { value: "02", label: "February" },
-  { value: "03", label: "March" },
-  { value: "04", label: "April" },
-  { value: "05", label: "May" },
-  { value: "06", label: "June" },
-  { value: "07", label: "July" },
-  { value: "08", label: "August" },
-  { value: "09", label: "September" },
-  { value: "10", label: "October" },
-  { value: "11", label: "November" },
-  { value: "12", label: "December" }
+  { value: "01", label: "Enero" },
+  { value: "02", label: "Febrero" },
+  { value: "03", label: "Marzo" },
+  { value: "04", label: "Abril" },
+  { value: "05", label: "Mayo" },
+  { value: "06", label: "Junio" },
+  { value: "07", label: "Julio" },
+  { value: "08", label: "Agosto" },
+  { value: "09", label: "Septiembre" },
+  { value: "10", label: "Octubre" },
+  { value: "11", label: "Noviembre" },
+  { value: "12", label: "Diciembre" }
 ];
 
 const days = Array.from({ length: 31 }, (_, i) => {
@@ -180,7 +180,7 @@ export default function BirthDateWithZodiac({ onSubmit }) {
                     />
                     <div className="text-left">
                       <p className="text-base text-gray-700 leading-relaxed">
-                        Wow, eres're a <span className="font-bold text-purple-600">{zodiacSign}</span>! The {zodiacSign} es uno de los pocos signos que tiene una sensibilidad especial y conexión con su alma gemela. Siento que estás' en el camino correcto para conocer a tu Alma Gemela.
+                        ¡Wow, eres <span className="font-bold text-purple-600">{zodiacSign}</span>! El signo {zodiacSign} es uno de los pocos signos que tiene una sensibilidad especial y conexión con su alma gemela. Siento que estás en el camino correcto para conocer a tu Alma Gemela.
                       </p>
                     </div>
                   </div>
