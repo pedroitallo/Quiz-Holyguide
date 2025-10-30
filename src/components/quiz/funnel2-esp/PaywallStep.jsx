@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
-import SalesSection from '../funnel-1/SalesSection';
+import SalesSection from './SalesSection';
 
 const CHECKOUT_CONFIG = {
   baseUrl: "https://tkk.holyguide.online/click"
