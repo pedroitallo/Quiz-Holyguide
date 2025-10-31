@@ -27,7 +27,8 @@ export default function FunnelsList() {
   const [activeTab, setActiveTab] = useState('lander');
   const [filteredFunnels, setFilteredFunnels] = useState([]);
 
-  const currentApp = applications.find(app => app.slug === selectedApp) || applications[0];
+  const currentApp = applications.find(app => app.slug === selectedApp) ||
+    (selectedApp === 'all' && applications.length > 0 ? applications[0] : null);
 
   useEffect(() => {
     let filtered = funnels;
@@ -156,87 +157,116 @@ export default function FunnelsList() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
-                <Smartphone className="w-6 h-6 text-white" />
-              </div>
-              <h2 className="text-xl font-semibold text-slate-900">Auraly App</h2>
-              <button className="ml-auto p-2 hover:bg-slate-100 rounded-lg transition-colors">
-                <Edit size={18} className="text-slate-600" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <Globe className="w-5 h-5 text-slate-500 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-700 mb-1">Landing Page</p>
-                  <p className="text-sm text-slate-600 truncate">https://auralyapp.com</p>
-                </div>
-                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
-                  <Copy size={16} className="text-slate-500" />
+        {currentApp && (
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3 mb-6">
+                {currentApp.logo_url ? (
+                  <div className="w-12 h-12 rounded-lg border-2 border-slate-200 overflow-hidden bg-white">
+                    <img
+                      src={currentApp.logo_url}
+                      alt={currentApp.name}
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                    <Smartphone className="w-6 h-6 text-white" />
+                  </div>
+                )}
+                <h2 className="text-xl font-semibold text-slate-900">{currentApp.name}</h2>
+                <button className="ml-auto p-2 hover:bg-slate-100 rounded-lg transition-colors">
+                  <Edit size={18} className="text-slate-600" />
                 </button>
               </div>
 
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <Smartphone className="w-5 h-5 text-slate-500 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-700 mb-1">WebApp</p>
-                  <p className="text-sm text-slate-600 truncate">https://web.auralyapp.com</p>
-                </div>
-                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
-                  <Copy size={16} className="text-slate-500" />
-                </button>
-              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {currentApp.landing_page_url && (
+                  <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                    <Globe className="w-5 h-5 text-slate-500 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-700 mb-1">Landing Page</p>
+                      <p className="text-sm text-slate-600 truncate">{currentApp.landing_page_url}</p>
+                    </div>
+                    <button
+                      onClick={() => navigator.clipboard.writeText(currentApp.landing_page_url)}
+                      className="p-1.5 hover:bg-slate-200 rounded transition-colors"
+                    >
+                      <Copy size={16} className="text-slate-500" />
+                    </button>
+                  </div>
+                )}
 
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <Mail className="w-5 h-5 text-slate-500 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-700 mb-1">Email</p>
-                  <p className="text-sm text-slate-600 truncate">contact@auralyapp.com</p>
-                </div>
-                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
-                  <Copy size={16} className="text-slate-500" />
-                </button>
-              </div>
+                {currentApp.webapp_url && (
+                  <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                    <Smartphone className="w-5 h-5 text-slate-500 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-700 mb-1">WebApp</p>
+                      <p className="text-sm text-slate-600 truncate">{currentApp.webapp_url}</p>
+                    </div>
+                    <button
+                      onClick={() => navigator.clipboard.writeText(currentApp.webapp_url)}
+                      className="p-1.5 hover:bg-slate-200 rounded transition-colors"
+                    >
+                      <Copy size={16} className="text-slate-500" />
+                    </button>
+                  </div>
+                )}
 
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <Instagram className="w-5 h-5 text-slate-500 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-700 mb-1">Instagram</p>
-                  <p className="text-sm text-slate-600 truncate">https://www.instagram.com/auralyapp/</p>
-                </div>
-                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
-                  <Copy size={16} className="text-slate-500" />
-                </button>
-              </div>
+                {currentApp.email && (
+                  <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                    <Mail className="w-5 h-5 text-slate-500 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-700 mb-1">Email</p>
+                      <p className="text-sm text-slate-600 truncate">{currentApp.email}</p>
+                    </div>
+                    <button
+                      onClick={() => navigator.clipboard.writeText(currentApp.email)}
+                      className="p-1.5 hover:bg-slate-200 rounded transition-colors"
+                    >
+                      <Copy size={16} className="text-slate-500" />
+                    </button>
+                  </div>
+                )}
 
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <Globe className="w-5 h-5 text-slate-500 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-700 mb-1">Plataforma de Reembolso</p>
-                  <p className="text-sm text-slate-600 truncate">https://auralyapp.com/request</p>
-                </div>
-                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
-                  <Copy size={16} className="text-slate-500" />
-                </button>
-              </div>
+                {currentApp.instagram_url && (
+                  <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                    <Instagram className="w-5 h-5 text-slate-500 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-700 mb-1">Instagram</p>
+                      <p className="text-sm text-slate-600 truncate">{currentApp.instagram_url}</p>
+                    </div>
+                    <button
+                      onClick={() => navigator.clipboard.writeText(currentApp.instagram_url)}
+                      className="p-1.5 hover:bg-slate-200 rounded transition-colors"
+                    >
+                      <Copy size={16} className="text-slate-500" />
+                    </button>
+                  </div>
+                )}
 
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <BarChart3 className="w-5 h-5 text-slate-500 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-700 mb-1">Analytics Quiz</p>
-                  <p className="text-sm text-slate-600 truncate">https://quiz.auralyapp.com/analytics</p>
-                </div>
-                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
-                  <Copy size={16} className="text-slate-500" />
-                </button>
+                {currentApp.custom_links && currentApp.custom_links.map((link, index) => (
+                  <div key={index} className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                    <Globe className="w-5 h-5 text-slate-500 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-700 mb-1">{link.label}</p>
+                      <p className="text-sm text-slate-600 truncate">{link.url}</p>
+                    </div>
+                    <button
+                      onClick={() => navigator.clipboard.writeText(link.url)}
+                      className="p-1.5 hover:bg-slate-200 rounded transition-colors"
+                    >
+                      <Copy size={16} className="text-slate-500" />
+                    </button>
+                  </div>
+                ))}
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-slate-900">
