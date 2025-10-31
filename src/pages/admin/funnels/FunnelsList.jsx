@@ -2,13 +2,18 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../../components/admin/layout/AdminLayout';
 import { Button } from '../../../components/ui/button';
+import { Card, CardContent } from '../../../components/ui/card';
 import FunnelDialog from '../../../components/admin/funnels/FunnelDialog';
 import OfferDialog from '../../../components/admin/funnels/OfferDialog';
 import {
   Edit,
   ExternalLink,
   Copy,
-  Facebook
+  Facebook,
+  Globe,
+  Smartphone,
+  Mail,
+  Instagram
 } from 'lucide-react';
 import { useFunnels } from '../../../hooks/admin/useFunnels';
 import { useApplications } from '../../../hooks/useApplications';
@@ -22,6 +27,9 @@ export default function FunnelsList() {
 
   const [viewMode, setViewMode] = useState('lander');
   const [selectedApp, setSelectedApp] = useState('');
+  const [selectedOffer, setSelectedOffer] = useState('all');
+  const [selectedLanguage, setSelectedLanguage] = useState('all');
+  const [selectedSource, setSelectedSource] = useState('all');
 
   const [isFunnelDialogOpen, setIsFunnelDialogOpen] = useState(false);
   const [isOfferDialogOpen, setIsOfferDialogOpen] = useState(false);
@@ -40,8 +48,26 @@ export default function FunnelsList() {
   }, [applications, selectedApp]);
 
   useEffect(() => {
-    setFilteredFunnels(funnels.filter(f => !selectedApp || f.application_id === selectedApp));
-  }, [funnels, selectedApp]);
+    let filtered = funnels;
+
+    if (selectedApp && selectedApp !== 'all') {
+      filtered = filtered.filter(f => f.application_id === selectedApp);
+    }
+
+    if (selectedOffer && selectedOffer !== 'all') {
+      filtered = filtered.filter(f => f.offer_id === selectedOffer);
+    }
+
+    if (selectedLanguage && selectedLanguage !== 'all') {
+      filtered = filtered.filter(f => f.language === selectedLanguage);
+    }
+
+    if (selectedSource && selectedSource !== 'all') {
+      filtered = filtered.filter(f => f.traffic_source === selectedSource);
+    }
+
+    setFilteredFunnels(filtered);
+  }, [funnels, selectedApp, selectedOffer, selectedLanguage, selectedSource]);
 
   useEffect(() => {
     setFilteredOffers(offers.filter(o => !selectedApp || o.application_id === selectedApp));
@@ -192,6 +218,219 @@ export default function FunnelsList() {
             </button>
           </div>
         </div>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Aplicativo
+                </label>
+                <select
+                  value={selectedApp}
+                  onChange={(e) => {
+                    setSelectedApp(e.target.value);
+                    setSelectedOffer('all');
+                  }}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                >
+                  {applications.length === 0 ? (
+                    <option value="">Nenhum aplicativo cadastrado</option>
+                  ) : (
+                    applications.map(app => (
+                      <option key={app.id} value={app.id}>{app.name}</option>
+                    ))
+                  )}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Oferta
+                </label>
+                <select
+                  value={selectedOffer}
+                  onChange={(e) => setSelectedOffer(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                >
+                  <option value="all">Todas</option>
+                  {offers.filter(o => o.application_id === selectedApp).map(offer => (
+                    <option key={offer.id} value={offer.id}>{offer.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Idioma
+                </label>
+                <select
+                  value={selectedLanguage}
+                  onChange={(e) => setSelectedLanguage(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                >
+                  <option value="all">Todos</option>
+                  <option value="pt-BR">🇧🇷 Português (BR)</option>
+                  <option value="en-US">🇺🇸 English (US)</option>
+                  <option value="es-ES">🇪🇸 Español</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Fonte de Tráfego
+                </label>
+                <select
+                  value={selectedSource}
+                  onChange={(e) => setSelectedSource(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                >
+                  <option value="all">Todas</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="google">Google</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="organic">Orgânico</option>
+                </select>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {currentApp && (
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3 mb-6">
+                {currentApp.logo_url ? (
+                  <div className="w-12 h-12 rounded-lg border-2 border-slate-200 overflow-hidden bg-white">
+                    <img
+                      src={currentApp.logo_url}
+                      alt={currentApp.name}
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                    <Smartphone className="w-6 h-6 text-white" />
+                  </div>
+                )}
+                <h2 className="text-xl font-semibold text-slate-900">{currentApp.name}</h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {currentApp.landing_page_url && (
+                  <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                    <Globe className="w-5 h-5 text-slate-500 mt-0.5" />
+                    <div
+                      className="flex-1 min-w-0 cursor-pointer"
+                      onClick={() => window.open(currentApp.landing_page_url, '_blank')}
+                    >
+                      <p className="text-sm font-medium text-slate-700 mb-1">Landing Page</p>
+                      <p className="text-sm text-purple-600 hover:text-purple-700 truncate">{currentApp.landing_page_url}</p>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        copyToClipboard(currentApp.landing_page_url);
+                      }}
+                      className="p-1.5 hover:bg-slate-200 rounded transition-colors"
+                    >
+                      <Copy size={16} className="text-slate-500" />
+                    </button>
+                  </div>
+                )}
+
+                {currentApp.webapp_url && (
+                  <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                    <Smartphone className="w-5 h-5 text-slate-500 mt-0.5" />
+                    <div
+                      className="flex-1 min-w-0 cursor-pointer"
+                      onClick={() => window.open(currentApp.webapp_url, '_blank')}
+                    >
+                      <p className="text-sm font-medium text-slate-700 mb-1">WebApp</p>
+                      <p className="text-sm text-purple-600 hover:text-purple-700 truncate">{currentApp.webapp_url}</p>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        copyToClipboard(currentApp.webapp_url);
+                      }}
+                      className="p-1.5 hover:bg-slate-200 rounded transition-colors"
+                    >
+                      <Copy size={16} className="text-slate-500" />
+                    </button>
+                  </div>
+                )}
+
+                {currentApp.email && (
+                  <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                    <Mail className="w-5 h-5 text-slate-500 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-700 mb-1">Email</p>
+                      <p className="text-sm text-slate-600 truncate">{currentApp.email}</p>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        copyToClipboard(currentApp.email);
+                      }}
+                      className="p-1.5 hover:bg-slate-200 rounded transition-colors"
+                    >
+                      <Copy size={16} className="text-slate-500" />
+                    </button>
+                  </div>
+                )}
+
+                {currentApp.instagram_url && (
+                  <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                    <Instagram className="w-5 h-5 text-slate-500 mt-0.5" />
+                    <div
+                      className="flex-1 min-w-0 cursor-pointer"
+                      onClick={() => window.open(currentApp.instagram_url, '_blank')}
+                    >
+                      <p className="text-sm font-medium text-slate-700 mb-1">Instagram</p>
+                      <p className="text-sm text-purple-600 hover:text-purple-700 truncate">{currentApp.instagram_url}</p>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        copyToClipboard(currentApp.instagram_url);
+                      }}
+                      className="p-1.5 hover:bg-slate-200 rounded transition-colors"
+                    >
+                      <Copy size={16} className="text-slate-500" />
+                    </button>
+                  </div>
+                )}
+
+                {currentApp.custom_links && currentApp.custom_links.map((link, index) => (
+                  <div key={index} className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                    <Globe className="w-5 h-5 text-slate-500 mt-0.5" />
+                    <div
+                      className="flex-1 min-w-0 cursor-pointer"
+                      onClick={() => window.open(link.url, '_blank')}
+                    >
+                      <p className="text-sm font-medium text-slate-700 mb-1">{link.label}</p>
+                      <p className="text-sm text-purple-600 hover:text-purple-700 truncate">{link.url}</p>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        copyToClipboard(link.url);
+                      }}
+                      className="p-1.5 hover:bg-slate-200 rounded transition-colors"
+                    >
+                      <Copy size={16} className="text-slate-500" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {viewMode === 'lander' && (
           <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
