@@ -167,24 +167,15 @@ export default function FunnelsList() {
   return (
     <AdminLayout breadcrumbs={['Funis (lander)']}>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold text-slate-900">Funis (lander)</h1>
-            <button
-              onClick={handleCreateFunnel}
-              className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-colors"
-              title="Novo Funil"
-            >
-              <Plus size={20} />
-            </button>
-          </div>
-          <Button
-            onClick={() => setIsOfferDialogOpen(true)}
-            className="bg-green-600 hover:bg-green-700 text-white gap-2"
+        <div className="flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-slate-900">Funis (lander)</h1>
+          <button
+            onClick={handleCreateFunnel}
+            className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-colors"
+            title="Novo Registro"
           >
-            <Plus size={18} />
-            Nova Oferta
-          </Button>
+            <Plus size={20} />
+          </button>
         </div>
 
         <p className="text-slate-600">
@@ -511,6 +502,7 @@ export default function FunnelsList() {
         applications={applications}
         offers={offers}
         onSave={handleSaveFunnel}
+        onSaveOffer={handleSaveOffer}
       />
 
       <OfferDialog
