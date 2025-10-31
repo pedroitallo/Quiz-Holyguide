@@ -15,6 +15,7 @@ import FileManager from "./FileManager";
 import Dashboard from "./admin/dashboard/Dashboard";
 import FunnelsList from "./admin/funnels/FunnelsList";
 import FunnelEditor from "./admin/funnels/FunnelEditor";
+import FunnelDetail from "./admin/funnels/FunnelDetail";
 import ABTestsManager from "./admin/ab-tests/ABTestsManager";
 import Settings from "./admin/settings/Settings";
 import ProtectedRoute from "../components/admin/ProtectedRoute";
@@ -67,6 +68,7 @@ function PagesContent() {
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/admin/funnels" element={<ProtectedRoute><FunnelsList /></ProtectedRoute>} />
+                <Route path="/admin/funnels/:id" element={<ProtectedRoute><FunnelDetail /></ProtectedRoute>} />
                 <Route path="/admin/funnels/:id/edit" element={<ProtectedRoute><FunnelEditor /></ProtectedRoute>} />
                 <Route path="/admin/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
                 <Route path="/admin/ab-tests" element={<ProtectedRoute><ABTestsManager /></ProtectedRoute>} />

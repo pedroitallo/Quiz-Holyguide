@@ -30,15 +30,27 @@ export function useFunnels() {
 
   const createFunnel = async (funnelData) => {
     try {
+      const insertData = {
+        name: funnelData.name,
+        application_id: funnelData.application_id || null,
+        offer_id: funnelData.offer_id || null,
+        language: funnelData.language || 'pt-BR',
+        traffic_source: funnelData.traffic_source || null,
+        slug: funnelData.slug,
+        url: funnelData.url || null,
+        description: funnelData.description || '',
+        status: funnelData.status || 'active'
+      };
+
       const { data, error } = await supabase
         .from('funnels')
-        .insert([funnelData])
+        .insert([insertData])
         .select()
         .single();
 
       if (error) throw error;
 
-      setFunnels(prev => [data, ...prev]);
+      await loadFunnels();
       return { success: true, data };
     } catch (err) {
       console.error('Error creating funnel:', err);
@@ -48,16 +60,29 @@ export function useFunnels() {
 
   const updateFunnel = async (id, updates) => {
     try {
+      const updateData = {
+        name: updates.name,
+        application_id: updates.application_id || null,
+        offer_id: updates.offer_id || null,
+        language: updates.language || 'pt-BR',
+        traffic_source: updates.traffic_source || null,
+        slug: updates.slug,
+        url: updates.url || null,
+        description: updates.description || '',
+        status: updates.status || 'active',
+        updated_at: new Date().toISOString()
+      };
+
       const { data, error } = await supabase
         .from('funnels')
-        .update(updates)
+        .update(updateData)
         .eq('id', id)
         .select()
         .single();
 
       if (error) throw error;
 
-      setFunnels(prev => prev.map(f => f.id === id ? data : f));
+      await loadFunnels();
       return { success: true, data };
     } catch (err) {
       console.error('Error updating funnel:', err);

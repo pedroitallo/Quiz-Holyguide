@@ -1,72 +1,156 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../../components/admin/layout/AdminLayout';
 import { Button } from '../../../components/ui/button';
 import { Card, CardContent } from '../../../components/ui/card';
+import FunnelDialog from '../../../components/admin/funnels/FunnelDialog';
+import OfferDialog from '../../../components/admin/funnels/OfferDialog';
 import {
   Plus,
   Edit,
-  ExternalLink,
   Copy,
   Globe,
   Smartphone,
   Mail,
   Instagram,
-  BarChart3
+  Trash2
 } from 'lucide-react';
 import { useFunnels } from '../../../hooks/admin/useFunnels';
 import { useApplications } from '../../../hooks/useApplications';
+import { useOffers } from '../../../hooks/useOffers';
 
 export default function FunnelsList() {
-  const { funnels, loading } = useFunnels();
+  const navigate = useNavigate();
+  const { funnels, loading, createFunnel, updateFunnel, deleteFunnel } = useFunnels();
   const { applications } = useApplications();
-  const [selectedApp, setSelectedApp] = useState('all');
+  const { offers, createOffer, updateOffer } = useOffers();
+
+  const [selectedApp, setSelectedApp] = useState('');
   const [selectedOffer, setSelectedOffer] = useState('all');
   const [selectedLanguage, setSelectedLanguage] = useState('all');
   const [selectedSource, setSelectedSource] = useState('all');
-  const [activeTab, setActiveTab] = useState('lander');
+
+  const [isFunnelDialogOpen, setIsFunnelDialogOpen] = useState(false);
+  const [isOfferDialogOpen, setIsOfferDialogOpen] = useState(false);
+  const [editingFunnel, setEditingFunnel] = useState(null);
+  const [editingOffer, setEditingOffer] = useState(null);
+
   const [filteredFunnels, setFilteredFunnels] = useState([]);
 
-  const currentApp = applications.find(app => app.slug === selectedApp) || applications[0] || null;
+  const currentApp = applications.find(app => app.id === selectedApp) || applications[0] || null;
 
   useEffect(() => {
     if (applications.length > 0 && !selectedApp) {
-      setSelectedApp(applications[0].slug);
+      setSelectedApp(applications[0].id);
     }
   }, [applications, selectedApp]);
 
   useEffect(() => {
     let filtered = funnels;
+
+    if (selectedApp && selectedApp !== 'all') {
+      filtered = filtered.filter(f => f.application_id === selectedApp);
+    }
+
+    if (selectedOffer && selectedOffer !== 'all') {
+      filtered = filtered.filter(f => f.offer_id === selectedOffer);
+    }
+
+    if (selectedLanguage && selectedLanguage !== 'all') {
+      filtered = filtered.filter(f => f.language === selectedLanguage);
+    }
+
+    if (selectedSource && selectedSource !== 'all') {
+      filtered = filtered.filter(f => f.traffic_source === selectedSource);
+    }
+
     setFilteredFunnels(filtered);
   }, [funnels, selectedApp, selectedOffer, selectedLanguage, selectedSource]);
 
-  const getOfferName = (slug) => {
-    if (slug.includes('soulmate') || slug.includes('funnel-2') || slug.includes('aff2')) {
-      return 'Soulmate Map';
+  const filteredOffers = offers.filter(o => o.application_id === selectedApp);
+
+  const handleCreateFunnel = () => {
+    setEditingFunnel(null);
+    setIsFunnelDialogOpen(true);
+  };
+
+  const handleEditFunnel = (funnel) => {
+    setEditingFunnel(funnel);
+    setIsFunnelDialogOpen(true);
+  };
+
+  const handleSaveFunnel = async (data) => {
+    try {
+      let result;
+      if (editingFunnel) {
+        result = await updateFunnel(editingFunnel.id, data);
+      } else {
+        result = await createFunnel(data);
+      }
+
+      if (result.success) {
+        alert(editingFunnel ? 'Funil atualizado!' : 'Funil criado!');
+        setIsFunnelDialogOpen(false);
+      } else {
+        alert(result.error || 'Erro ao salvar funil');
+      }
+    } catch (err) {
+      alert('Erro: ' + err.message);
     }
-    return 'Palm Reading';
   };
 
-  const getOfferDomain = (slug) => {
-    return 'quiz.auralyapp.com';
+  const handleDeleteFunnel = async (id, name) => {
+    if (!confirm(`Deseja deletar o funil "${name}"?`)) return;
+
+    const result = await deleteFunnel(id);
+    if (result.success) {
+      alert('Funil deletado!');
+    } else {
+      alert(result.error || 'Erro ao deletar');
+    }
   };
 
-  const getSourceIcon = (slug) => {
-    if (slug.includes('aff')) return { icon: 'Orgânico', color: 'text-green-600' };
-    if (slug.includes('tt')) return { icon: 'TikTok', color: 'text-slate-900' };
-    return { icon: 'Facebook', color: 'text-blue-600' };
+  const handleViewFunnel = (funnel) => {
+    navigate(`/admin/funnels/${funnel.id}`);
   };
 
-  const getLanguage = (slug) => {
-    if (slug.includes('esp')) return { flag: '🇪🇸', name: 'Español' };
-    return { flag: '🇺🇸', name: 'English (US)' };
+  const handleSaveOffer = async (data) => {
+    try {
+      let result;
+      if (editingOffer) {
+        result = await updateOffer(editingOffer.id, data);
+      } else {
+        result = await createOffer(data);
+      }
+
+      if (result.success) {
+        alert(editingOffer ? 'Oferta atualizada!' : 'Oferta criada!');
+        setIsOfferDialogOpen(false);
+      } else {
+        alert(result.error || 'Erro ao salvar oferta');
+      }
+    } catch (err) {
+      alert('Erro: ' + err.message);
+    }
+  };
+
+  const getLanguageDisplay = (lang) => {
+    const languages = {
+      'pt-BR': { flag: '🇧🇷', name: 'Português (BR)' },
+      'en-US': { flag: '🇺🇸', name: 'English (US)' },
+      'es-ES': { flag: '🇪🇸', name: 'Español' }
+    };
+    return languages[lang] || { flag: '', name: lang };
   };
 
   const getStatusBadge = (status) => {
-    if (status === 'active') {
-      return <span className="px-3 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full">Ativado</span>;
-    }
-    return <span className="px-3 py-1 text-xs font-medium bg-yellow-100 text-yellow-700 rounded-full">Pausado</span>;
+    const statuses = {
+      active: { label: 'Ativado', class: 'bg-green-100 text-green-700' },
+      paused: { label: 'Pausado', class: 'bg-yellow-100 text-yellow-700' },
+      inactive: { label: 'Inativo', class: 'bg-slate-100 text-slate-700' }
+    };
+    const s = statuses[status] || statuses.inactive;
+    return <span className={`px-3 py-1 text-xs font-medium rounded-full ${s.class}`}>{s.label}</span>;
   };
 
   if (loading) {
@@ -85,7 +169,10 @@ export default function FunnelsList() {
       <div className="space-y-6">
         <div className="flex items-center gap-3">
           <h1 className="text-3xl font-bold text-slate-900">Funis (lander)</h1>
-          <button className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-colors">
+          <button
+            onClick={handleCreateFunnel}
+            className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-colors"
+          >
             <Plus size={20} />
           </button>
         </div>
@@ -103,14 +190,17 @@ export default function FunnelsList() {
                 </label>
                 <select
                   value={selectedApp}
-                  onChange={(e) => setSelectedApp(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedApp(e.target.value);
+                    setSelectedOffer('all');
+                  }}
                   className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
                 >
                   {applications.length === 0 ? (
                     <option value="">Nenhum aplicativo cadastrado</option>
                   ) : (
                     applications.map(app => (
-                      <option key={app.id} value={app.slug}>{app.name}</option>
+                      <option key={app.id} value={app.id}>{app.name}</option>
                     ))
                   )}
                 </select>
@@ -118,16 +208,17 @@ export default function FunnelsList() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Oferta (offer)
+                  Oferta
                 </label>
                 <select
                   value={selectedOffer}
                   onChange={(e) => setSelectedOffer(e.target.value)}
                   className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
                 >
-                  <option value="all">Todas as ofertas</option>
-                  <option value="soulmate">Soulmate Map</option>
-                  <option value="palm">Palm Reading</option>
+                  <option value="all">Todas</option>
+                  {filteredOffers.map(offer => (
+                    <option key={offer.id} value={offer.id}>{offer.name}</option>
+                  ))}
                 </select>
               </div>
 
@@ -140,9 +231,10 @@ export default function FunnelsList() {
                   onChange={(e) => setSelectedLanguage(e.target.value)}
                   className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
                 >
-                  <option value="all">Todos os idiomas</option>
-                  <option value="en">🇺🇸 English (US)</option>
-                  <option value="es">🇪🇸 Español</option>
+                  <option value="all">Todos</option>
+                  <option value="pt-BR">🇧🇷 Português (BR)</option>
+                  <option value="en-US">🇺🇸 English (US)</option>
+                  <option value="es-ES">🇪🇸 Español</option>
                 </select>
               </div>
 
@@ -155,9 +247,11 @@ export default function FunnelsList() {
                   onChange={(e) => setSelectedSource(e.target.value)}
                   className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
                 >
-                  <option value="all">Todas as fontes</option>
+                  <option value="all">Todas</option>
                   <option value="facebook">Facebook</option>
+                  <option value="google">Google</option>
                   <option value="tiktok">TikTok</option>
+                  <option value="instagram">Instagram</option>
                   <option value="organic">Orgânico</option>
                 </select>
               </div>
@@ -195,12 +289,18 @@ export default function FunnelsList() {
                 {currentApp.landing_page_url && (
                   <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
                     <Globe className="w-5 h-5 text-slate-500 mt-0.5" />
-                    <div className="flex-1 min-w-0">
+                    <div
+                      className="flex-1 min-w-0 cursor-pointer"
+                      onClick={() => window.open(currentApp.landing_page_url, '_blank')}
+                    >
                       <p className="text-sm font-medium text-slate-700 mb-1">Landing Page</p>
-                      <p className="text-sm text-slate-600 truncate">{currentApp.landing_page_url}</p>
+                      <p className="text-sm text-purple-600 hover:text-purple-700 truncate">{currentApp.landing_page_url}</p>
                     </div>
                     <button
-                      onClick={() => navigator.clipboard.writeText(currentApp.landing_page_url)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigator.clipboard.writeText(currentApp.landing_page_url);
+                      }}
                       className="p-1.5 hover:bg-slate-200 rounded transition-colors"
                     >
                       <Copy size={16} className="text-slate-500" />
@@ -211,12 +311,18 @@ export default function FunnelsList() {
                 {currentApp.webapp_url && (
                   <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
                     <Smartphone className="w-5 h-5 text-slate-500 mt-0.5" />
-                    <div className="flex-1 min-w-0">
+                    <div
+                      className="flex-1 min-w-0 cursor-pointer"
+                      onClick={() => window.open(currentApp.webapp_url, '_blank')}
+                    >
                       <p className="text-sm font-medium text-slate-700 mb-1">WebApp</p>
-                      <p className="text-sm text-slate-600 truncate">{currentApp.webapp_url}</p>
+                      <p className="text-sm text-purple-600 hover:text-purple-700 truncate">{currentApp.webapp_url}</p>
                     </div>
                     <button
-                      onClick={() => navigator.clipboard.writeText(currentApp.webapp_url)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigator.clipboard.writeText(currentApp.webapp_url);
+                      }}
                       className="p-1.5 hover:bg-slate-200 rounded transition-colors"
                     >
                       <Copy size={16} className="text-slate-500" />
@@ -232,7 +338,10 @@ export default function FunnelsList() {
                       <p className="text-sm text-slate-600 truncate">{currentApp.email}</p>
                     </div>
                     <button
-                      onClick={() => navigator.clipboard.writeText(currentApp.email)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigator.clipboard.writeText(currentApp.email);
+                      }}
                       className="p-1.5 hover:bg-slate-200 rounded transition-colors"
                     >
                       <Copy size={16} className="text-slate-500" />
@@ -243,12 +352,18 @@ export default function FunnelsList() {
                 {currentApp.instagram_url && (
                   <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
                     <Instagram className="w-5 h-5 text-slate-500 mt-0.5" />
-                    <div className="flex-1 min-w-0">
+                    <div
+                      className="flex-1 min-w-0 cursor-pointer"
+                      onClick={() => window.open(currentApp.instagram_url, '_blank')}
+                    >
                       <p className="text-sm font-medium text-slate-700 mb-1">Instagram</p>
-                      <p className="text-sm text-slate-600 truncate">{currentApp.instagram_url}</p>
+                      <p className="text-sm text-purple-600 hover:text-purple-700 truncate">{currentApp.instagram_url}</p>
                     </div>
                     <button
-                      onClick={() => navigator.clipboard.writeText(currentApp.instagram_url)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigator.clipboard.writeText(currentApp.instagram_url);
+                      }}
                       className="p-1.5 hover:bg-slate-200 rounded transition-colors"
                     >
                       <Copy size={16} className="text-slate-500" />
@@ -259,12 +374,18 @@ export default function FunnelsList() {
                 {currentApp.custom_links && currentApp.custom_links.map((link, index) => (
                   <div key={index} className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
                     <Globe className="w-5 h-5 text-slate-500 mt-0.5" />
-                    <div className="flex-1 min-w-0">
+                    <div
+                      className="flex-1 min-w-0 cursor-pointer"
+                      onClick={() => window.open(link.url, '_blank')}
+                    >
                       <p className="text-sm font-medium text-slate-700 mb-1">{link.label}</p>
-                      <p className="text-sm text-slate-600 truncate">{link.url}</p>
+                      <p className="text-sm text-purple-600 hover:text-purple-700 truncate">{link.url}</p>
                     </div>
                     <button
-                      onClick={() => navigator.clipboard.writeText(link.url)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigator.clipboard.writeText(link.url);
+                      }}
                       className="p-1.5 hover:bg-slate-200 rounded transition-colors"
                     >
                       <Copy size={16} className="text-slate-500" />
@@ -276,148 +397,122 @@ export default function FunnelsList() {
           </Card>
         )}
 
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-slate-900">
-            Funis (lander) ({filteredFunnels.length})
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold text-slate-900">
+            Funis ({filteredFunnels.length})
           </h2>
 
-          <div className="flex gap-2">
-            <button
-              onClick={() => setActiveTab('source')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                activeTab === 'source'
-                  ? 'bg-slate-100 text-slate-900'
-                  : 'text-slate-600 hover:bg-slate-50'
-              }`}
-            >
-              Source (Checkout)
-            </button>
-            <button
-              onClick={() => setActiveTab('offer')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                activeTab === 'offer'
-                  ? 'bg-slate-100 text-slate-900'
-                  : 'text-slate-600 hover:bg-slate-50'
-              }`}
-            >
-              Offer (Ofertas)
-            </button>
-            <button
-              onClick={() => setActiveTab('lander')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                activeTab === 'lander'
-                  ? 'bg-slate-900 text-white'
-                  : 'text-slate-600 hover:bg-slate-50'
-              }`}
-            >
-              Lander (Funis)
-            </button>
-          </div>
-        </div>
+          {filteredFunnels.length === 0 ? (
+            <Card>
+              <CardContent className="p-12 text-center">
+                <p className="text-slate-600">Nenhum funil encontrado</p>
+                <Button onClick={handleCreateFunnel} className="mt-4 bg-purple-600 hover:bg-purple-700">
+                  Criar Primeiro Funil
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 gap-4">
+              {filteredFunnels.map((funnel) => {
+                const app = applications.find(a => a.id === funnel.application_id);
+                const offer = offers.find(o => o.id === funnel.offer_id);
+                const lang = getLanguageDisplay(funnel.language);
 
-        <Card>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-slate-50 border-b border-slate-200">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
-                      Nome do Funil
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
-                      Oferta (offer)
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
-                      Fonte de Tráfego
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
-                      Idioma
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
-                      Slug
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
-                      Link
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
-                      Ações
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-slate-200">
-                  {filteredFunnels.map((funnel) => {
-                    const source = getSourceIcon(funnel.slug);
-                    const language = getLanguage(funnel.slug);
+                return (
+                  <Card
+                    key={funnel.id}
+                    className="hover:shadow-md transition-shadow cursor-pointer"
+                    onClick={() => handleViewFunnel(funnel)}
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-3">
+                            <h3 className="text-lg font-semibold text-slate-900">
+                              {funnel.name}
+                            </h3>
+                            {getStatusBadge(funnel.status)}
+                          </div>
 
-                    return (
-                      <tr key={funnel.id} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <Link
-                            to={`/admin/funnels/${funnel.id}/edit`}
-                            className="text-sm font-medium text-purple-600 hover:text-purple-800"
-                          >
-                            {funnel.name}
-                          </Link>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div>
-                            <p className="text-sm font-medium text-slate-900">{getOfferName(funnel.slug)}</p>
-                            <p className="text-xs text-slate-500">{getOfferDomain(funnel.slug)}</p>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div>
+                              <p className="text-slate-500 mb-1">Aplicativo</p>
+                              <p className="font-medium text-slate-900">{app?.name || '-'}</p>
+                            </div>
+                            <div>
+                              <p className="text-slate-500 mb-1">Oferta</p>
+                              <p className="font-medium text-slate-900">{offer?.name || '-'}</p>
+                            </div>
+                            <div>
+                              <p className="text-slate-500 mb-1">Idioma</p>
+                              <p className="font-medium text-slate-900">
+                                {lang.flag} {lang.name}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-slate-500 mb-1">Fonte</p>
+                              <p className="font-medium text-slate-900 capitalize">
+                                {funnel.traffic_source || '-'}
+                              </p>
+                            </div>
                           </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`text-sm font-medium ${source.color}`}>
-                            {source.icon}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center gap-2">
-                            <span className="text-lg">{language.flag}</span>
-                            <span className="text-sm text-slate-700">{language.name}</span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <code className="text-xs font-mono bg-slate-100 px-2 py-1 rounded text-slate-700">
-                            {funnel.slug}
-                          </code>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex gap-2">
-                            <Link
-                              to={`/${funnel.slug}`}
-                              target="_blank"
-                              className="p-1.5 hover:bg-slate-100 rounded transition-colors"
-                            >
-                              <ExternalLink size={16} className="text-slate-600" />
-                            </Link>
-                            <button className="p-1.5 hover:bg-slate-100 rounded transition-colors">
-                              <Copy size={16} className="text-slate-600" />
-                            </button>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {getStatusBadge(funnel.status)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <Link
-                            to={`/admin/funnels/${funnel.id}/edit`}
-                            className="inline-flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900"
+
+                          {funnel.slug && (
+                            <div className="mt-3">
+                              <p className="text-xs text-slate-500">Slug: <span className="font-mono text-slate-700">{funnel.slug}</span></p>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex gap-2 ml-4" onClick={(e) => e.stopPropagation()}>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleEditFunnel(funnel)}
                           >
                             <Edit size={16} />
-                          </Link>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleDeleteFunnel(funnel.id, funnel.name)}
+                            className="text-red-600 hover:text-red-700"
+                          >
+                            <Trash2 size={16} />
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
-          </CardContent>
-        </Card>
+          )}
+        </div>
       </div>
+
+      <FunnelDialog
+        open={isFunnelDialogOpen}
+        onClose={() => {
+          setIsFunnelDialogOpen(false);
+          setEditingFunnel(null);
+        }}
+        funnel={editingFunnel}
+        applications={applications}
+        offers={offers}
+        onSave={handleSaveFunnel}
+      />
+
+      <OfferDialog
+        open={isOfferDialogOpen}
+        onClose={() => {
+          setIsOfferDialogOpen(false);
+          setEditingOffer(null);
+        }}
+        offer={editingOffer}
+        applications={applications}
+        onSave={handleSaveOffer}
+      />
     </AdminLayout>
   );
 }
