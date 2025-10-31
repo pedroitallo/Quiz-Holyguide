@@ -138,121 +138,81 @@ export default function FunnelDetail() {
           </Button>
         </div>
 
-        <Card className="bg-purple-50 border-purple-200">
-          <CardContent className="p-6">
-            <div className="mb-2">
-              <p className="text-sm text-slate-600 mb-1">ID do Funil</p>
-              <div className="flex items-center gap-3">
-                <p className="text-lg font-mono text-slate-900">{funnelIdentifier}</p>
-                <Button
-                  variant="outline"
-                  size="sm"
+        <Card className="bg-white border-slate-200">
+          <CardContent className="p-8">
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 mb-8">
+              <p className="text-sm text-slate-600 mb-3">ID do Funil</p>
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-xl font-mono text-slate-900">{funnelIdentifier}</p>
+                <button
                   onClick={() => navigator.clipboard.writeText(funnelIdentifier)}
-                  className="gap-2"
+                  className="p-3 hover:bg-purple-100 rounded-lg transition-colors border-2 border-slate-900"
                 >
-                  <Copy size={16} />
-                </Button>
+                  <Copy size={20} />
+                </button>
               </div>
             </div>
-          </CardContent>
-        </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">Oferta (offer)</h3>
-              <div className="space-y-3">
-                <div>
-                  <p className="text-sm text-slate-600 mb-1">Nome</p>
-                  <p className="text-2xl font-bold text-slate-900">{offer?.name || '-'}</p>
-                </div>
-                {offer?.price && (
-                  <div>
-                    <p className="text-sm text-slate-600 mb-1">Preço</p>
-                    <p className="text-lg font-semibold text-slate-900">
-                      {offer.currency} {offer.price}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">Fonte de Tráfego</h3>
+            <div className="grid grid-cols-2 gap-x-12 gap-y-8">
               <div>
+                <p className="text-sm text-slate-600 mb-2">Oferta (offer)</p>
+                <p className="text-2xl font-bold text-slate-900">{offer?.name || '-'}</p>
+              </div>
+
+              <div>
+                <p className="text-sm text-slate-600 mb-2">Fonte de Tráfego</p>
                 <p className="text-2xl font-bold text-slate-900 capitalize">
-                  {funnel.traffic_source || '-'}
+                  {getTrafficSourceName(funnel.traffic_source) || '-'}
                 </p>
               </div>
-            </CardContent>
-          </Card>
 
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">Idioma</h3>
               <div>
+                <p className="text-sm text-slate-600 mb-2">Idioma</p>
                 <p className="text-2xl font-bold text-slate-900">
                   {lang.flag} {lang.name}
                 </p>
               </div>
-            </CardContent>
-          </Card>
 
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">Status</h3>
               <div>
-                {getStatusBadge(funnel.status)}
+                <p className="text-sm text-slate-600 mb-2">Status</p>
+                <div className="flex items-center">
+                  {getStatusBadge(funnel.status)}
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
 
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">URL Completa</h3>
-            {funnel.url ? (
-              <div className="flex items-center gap-3">
-                <a
-                  href={funnel.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-purple-600 hover:text-purple-700 flex-1 truncate"
-                >
-                  {funnel.url}
-                </a>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => window.open(funnel.url, '_blank')}
-                  className="gap-2"
-                >
-                  <ExternalLink size={16} />
-                </Button>
+            <div className="mt-8 pt-8 border-t border-slate-200">
+              <p className="text-sm text-slate-600 mb-3">URL Completa</p>
+              {funnel.url ? (
+                <div className="flex items-center gap-3">
+                  <a
+                    href={funnel.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-600 hover:text-purple-700 text-lg flex-1 truncate"
+                  >
+                    {funnel.url}
+                  </a>
+                  <button
+                    onClick={() => window.open(funnel.url, '_blank')}
+                    className="p-2 hover:bg-slate-100 rounded transition-colors"
+                  >
+                    <ExternalLink size={18} />
+                  </button>
+                </div>
+              ) : (
+                <p className="text-slate-600">URL não configurada</p>
+              )}
+            </div>
+
+            {funnel.description && (
+              <div className="mt-8 pt-8 border-t border-slate-200">
+                <p className="text-sm text-slate-600 mb-3">Descrição</p>
+                <p className="text-slate-900">{funnel.description}</p>
               </div>
-            ) : (
-              <p className="text-slate-600">URL não configurada</p>
             )}
           </CardContent>
         </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Aplicativo</h3>
-            <p className="text-2xl font-bold text-slate-900">{application?.name || '-'}</p>
-          </CardContent>
-        </Card>
-
-        {funnel.description && (
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">Descrição</h3>
-              <p className="text-slate-700">{funnel.description}</p>
-            </CardContent>
-          </Card>
-        )}
 
         <Card>
           <CardContent className="p-6">
