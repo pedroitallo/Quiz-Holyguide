@@ -11,6 +11,7 @@ export default function FunnelDialog({ open, onClose, funnel, applications, offe
 
   const [funnelFormData, setFunnelFormData] = useState({
     name: '',
+    application_id: '',
     offer_id: '',
     language: 'pt-BR',
     traffic_source: '',
@@ -35,6 +36,7 @@ export default function FunnelDialog({ open, onClose, funnel, applications, offe
     if (funnel) {
       setFunnelFormData({
         name: funnel.name || '',
+        application_id: funnel.application_id || (applications.length > 0 ? applications[0].id : ''),
         offer_id: funnel.offer_id || '',
         language: funnel.language || 'pt-BR',
         traffic_source: funnel.traffic_source || '',
@@ -46,6 +48,7 @@ export default function FunnelDialog({ open, onClose, funnel, applications, offe
     } else {
       setFunnelFormData({
         name: '',
+        application_id: applications.length > 0 ? applications[0].id : '',
         offer_id: '',
         language: 'pt-BR',
         traffic_source: '',
@@ -181,15 +184,33 @@ export default function FunnelDialog({ open, onClose, funnel, applications, offe
 
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-2">
+                  Aplicativo *
+                </label>
+                <select
+                  value={funnelFormData.application_id}
+                  onChange={(e) => setFunnelFormData({ ...funnelFormData, application_id: e.target.value, offer_id: '' })}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                  required
+                >
+                  <option value="">Selecione um aplicativo</option>
+                  {applications.map(app => (
+                    <option key={app.id} value={app.id}>{app.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-900 mb-2">
                   Oferta
                 </label>
                 <select
                   value={funnelFormData.offer_id}
                   onChange={(e) => setFunnelFormData({ ...funnelFormData, offer_id: e.target.value })}
                   className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                  disabled={!funnelFormData.application_id}
                 >
                   <option value="">Selecione</option>
-                  {filteredOffers.map(offer => (
+                  {offers.filter(o => o.application_id === funnelFormData.application_id).map(offer => (
                     <option key={offer.id} value={offer.id}>{offer.name}</option>
                   ))}
                 </select>
