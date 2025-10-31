@@ -4,101 +4,40 @@ import { Button } from '../../../components/ui/button';
 import { Input } from '../../../components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
-import { Save, UserPlus, Trash2, Download, Upload } from 'lucide-react';
+import { Save, UserPlus, Trash2, Smartphone } from 'lucide-react';
 import { supabase } from '../../../lib/supabase';
+import ApplicationsTab from '../../../components/admin/applications/ApplicationsTab';
 
 export default function Settings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [settings, setSettings] = useState({
-    brand: {},
-    notifications: {},
-    seo: {}
-  });
+  const [settings, setSettings] = useState({});
   const [adminUsers, setAdminUsers] = useState([]);
-  const [activityLogs, setActivityLogs] = useState([]);
   const [newAdmin, setNewAdmin] = useState({ email: '', password: '' });
 
   useEffect(() => {
-    loadSettings();
     loadAdminUsers();
-    loadActivityLogs();
   }, []);
 
-  const loadSettings = async () => {
+
+  const loadAdminUsers = async () => {
     try {
       const { data, error } = await supabase
-        .from('platform_settings')
-        .select('*');
+        .from('admin_users')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-      if (error) throw error;
-
-      const settingsMap = {};
-      data?.forEach(item => {
-        settingsMap[item.key] = item.value;
-      });
-
-      setSettings({
-        brand: settingsMap.brand || {},
-        notifications: settingsMap.notifications || {},
-        seo: settingsMap.seo || {}
-      });
+      if (!error) {
+        setAdminUsers(data || []);
+      }
     } catch (error) {
-      console.error('Error loading settings:', error);
+      console.error('Error loading admin users:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const loadAdminUsers = async () => {
-    const { data, error } = await supabase
-      .from('admin_users')
-      .select('*')
-      .order('created_at', { ascending: false });
 
-    if (!error) {
-      setAdminUsers(data || []);
-    }
-  };
-
-  const loadActivityLogs = async () => {
-    const { data, error } = await supabase
-      .from('admin_activity_logs')
-      .select('*, admin_users(email)')
-      .order('created_at', { ascending: false })
-      .limit(20);
-
-    if (!error) {
-      setActivityLogs(data || []);
-    }
-  };
-
-  const handleSaveSettings = async () => {
-    setSaving(true);
-    try {
-      const updates = [
-        { key: 'brand', value: settings.brand },
-        { key: 'notifications', value: settings.notifications },
-        { key: 'seo', value: settings.seo }
-      ];
-
-      for (const update of updates) {
-        await supabase
-          .from('platform_settings')
-          .upsert({
-            key: update.key,
-            value: update.value
-          });
-      }
-
-      alert('Configurações salvas com sucesso!');
-    } catch (error) {
-      console.error('Error saving settings:', error);
-      alert('Erro ao salvar configurações: ' + error.message);
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const handleCreateAdmin = async () => {
     if (!newAdmin.email || !newAdmin.password) {
@@ -148,32 +87,6 @@ export default function Settings() {
     }
   };
 
-  const handleExportSettings = () => {
-    const dataStr = JSON.stringify(settings, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `holymind-settings-${Date.now()}.json`;
-    link.click();
-  };
-
-  const handleImportSettings = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const imported = JSON.parse(e.target.result);
-        setSettings(imported);
-        alert('Configurações importadas! Clique em Salvar para aplicar.');
-      } catch (error) {
-        alert('Erro ao importar arquivo: ' + error.message);
-      }
-    };
-    reader.readAsText(file);
-  };
 
   if (loading) {
     return (
@@ -189,33 +102,24 @@ export default function Settings() {
   return (
     <AdminLayout breadcrumbs={['Configurações']}>
       <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900">Configurações</h1>
-            <p className="text-slate-600 mt-1">
-              Gerencie configurações globais da plataforma
-            </p>
-          </div>
-          <Button onClick={handleSaveSettings} disabled={saving} className="gap-2">
-            <Save size={16} />
-            {saving ? 'Salvando...' : 'Salvar Alterações'}
-          </Button>
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">Configurações</h1>
+          <p className="text-slate-600 mt-1">
+            Gerencie configurações globais da plataforma
+          </p>
         </div>
 
-        <Tabs defaultValue="brand" className="space-y-6">
+        <Tabs defaultValue="general" className="space-y-6">
           <TabsList>
-            <TabsTrigger value="brand">Marca</TabsTrigger>
+            <TabsTrigger value="general">Geral</TabsTrigger>
+            <TabsTrigger value="applications">Aplicativos</TabsTrigger>
             <TabsTrigger value="admins">Usuários Admin</TabsTrigger>
-            <TabsTrigger value="notifications">Notificações</TabsTrigger>
-            <TabsTrigger value="seo">SEO</TabsTrigger>
-            <TabsTrigger value="backup">Backup</TabsTrigger>
-            <TabsTrigger value="audit">Auditoria</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="brand">
+          <TabsContent value="general">
             <Card>
               <CardHeader>
-                <CardTitle>Configurações de Marca</CardTitle>
+                <CardTitle>Configurações Gerais</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -223,68 +127,42 @@ export default function Settings() {
                     Nome da Plataforma
                   </label>
                   <Input
-                    value={settings.brand.name || ''}
-                    onChange={(e) =>
-                      setSettings({
-                        ...settings,
-                        brand: { ...settings.brand, name: e.target.value }
-                      })
-                    }
+                    defaultValue="Appyon Quiz Platform"
                     placeholder="Ex: Appyon"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    URL do Logo
+                    Email de Contato
                   </label>
                   <Input
-                    value={settings.brand.logo_url || ''}
-                    onChange={(e) =>
-                      setSettings({
-                        ...settings,
-                        brand: { ...settings.brand, logo_url: e.target.value }
-                      })
-                    }
-                    placeholder="https://..."
+                    type="email"
+                    defaultValue="contato@appyon.com"
+                    placeholder="email@exemplo.com"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
-                      Cor Primária
-                    </label>
-                    <Input
-                      type="color"
-                      value={settings.brand.primary_color || '#8B5CF6'}
-                      onChange={(e) =>
-                        setSettings({
-                          ...settings,
-                          brand: { ...settings.brand, primary_color: e.target.value }
-                        })
-                      }
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
-                      Cor Secundária
-                    </label>
-                    <Input
-                      type="color"
-                      value={settings.brand.secondary_color || '#EC4899'}
-                      onChange={(e) =>
-                        setSettings({
-                          ...settings,
-                          brand: { ...settings.brand, secondary_color: e.target.value }
-                        })
-                      }
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Fuso Horário
+                  </label>
+                  <Input
+                    defaultValue="America/Sao_Paulo"
+                    placeholder="America/Sao_Paulo"
+                  />
                 </div>
+
+                <Button className="gap-2">
+                  <Save size={16} />
+                  Salvar Configurações
+                </Button>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="applications">
+            <ApplicationsTab />
           </TabsContent>
 
           <TabsContent value="admins">
@@ -349,197 +227,6 @@ export default function Settings() {
             </div>
           </TabsContent>
 
-          <TabsContent value="notifications">
-            <Card>
-              <CardHeader>
-                <CardTitle>Configurações de Notificações</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <label className="flex items-center gap-3">
-                  <input
-                    type="checkbox"
-                    checked={settings.notifications.email_alerts || false}
-                    onChange={(e) =>
-                      setSettings({
-                        ...settings,
-                        notifications: {
-                          ...settings.notifications,
-                          email_alerts: e.target.checked
-                        }
-                      })
-                    }
-                    className="w-4 h-4"
-                  />
-                  <span className="text-slate-700">Alertas por Email</span>
-                </label>
-
-                <label className="flex items-center gap-3">
-                  <input
-                    type="checkbox"
-                    checked={settings.notifications.performance_alerts || false}
-                    onChange={(e) =>
-                      setSettings({
-                        ...settings,
-                        notifications: {
-                          ...settings.notifications,
-                          performance_alerts: e.target.checked
-                        }
-                      })
-                    }
-                    className="w-4 h-4"
-                  />
-                  <span className="text-slate-700">Alertas de Performance</span>
-                </label>
-
-                <label className="flex items-center gap-3">
-                  <input
-                    type="checkbox"
-                    checked={settings.notifications.ab_test_alerts || false}
-                    onChange={(e) =>
-                      setSettings({
-                        ...settings,
-                        notifications: {
-                          ...settings.notifications,
-                          ab_test_alerts: e.target.checked
-                        }
-                      })
-                    }
-                    className="w-4 h-4"
-                  />
-                  <span className="text-slate-700">Alertas de Testes A/B</span>
-                </label>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="seo">
-            <Card>
-              <CardHeader>
-                <CardTitle>Configurações de SEO</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Título Padrão
-                  </label>
-                  <Input
-                    value={settings.seo.default_title || ''}
-                    onChange={(e) =>
-                      setSettings({
-                        ...settings,
-                        seo: { ...settings.seo, default_title: e.target.value }
-                      })
-                    }
-                    placeholder="Ex: Appyon - Quiz Místico"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Descrição Padrão
-                  </label>
-                  <Input
-                    value={settings.seo.default_description || ''}
-                    onChange={(e) =>
-                      setSettings({
-                        ...settings,
-                        seo: { ...settings.seo, default_description: e.target.value }
-                      })
-                    }
-                    placeholder="Ex: Descubra insights místicos sobre seu futuro"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    URL do Favicon
-                  </label>
-                  <Input
-                    value={settings.seo.favicon_url || ''}
-                    onChange={(e) =>
-                      setSettings({
-                        ...settings,
-                        seo: { ...settings.seo, favicon_url: e.target.value }
-                      })
-                    }
-                    placeholder="https://..."
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="backup">
-            <Card>
-              <CardHeader>
-                <CardTitle>Backup e Restore</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <p className="text-sm text-slate-600 mb-4">
-                    Exporte ou importe suas configurações em formato JSON
-                  </p>
-                  <div className="flex gap-3">
-                    <Button onClick={handleExportSettings} variant="outline" className="gap-2">
-                      <Download size={16} />
-                      Exportar Configurações
-                    </Button>
-
-                    <label>
-                      <Button variant="outline" className="gap-2" asChild>
-                        <span>
-                          <Upload size={16} />
-                          Importar Configurações
-                        </span>
-                      </Button>
-                      <input
-                        type="file"
-                        accept=".json"
-                        onChange={handleImportSettings}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="audit">
-            <Card>
-              <CardHeader>
-                <CardTitle>Log de Auditoria</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {activityLogs.length === 0 ? (
-                    <p className="text-center text-slate-500 py-8">
-                      Nenhuma atividade registrada
-                    </p>
-                  ) : (
-                    activityLogs.map((log) => (
-                      <div
-                        key={log.id}
-                        className="p-4 bg-slate-50 rounded-lg border border-slate-200"
-                      >
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <p className="text-sm text-slate-900">
-                              <span className="font-medium">{log.admin_users?.email}</span>
-                              {' '}{log.action} {log.resource_type}
-                            </p>
-                            <p className="text-xs text-slate-500 mt-1">
-                              {new Date(log.created_at).toLocaleString('pt-BR')}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
         </Tabs>
       </div>
     </AdminLayout>
