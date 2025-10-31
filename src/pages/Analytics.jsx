@@ -26,16 +26,8 @@ const getPassageColor = (passageRate, stepKey) => {
   }
 };
 
-const FUNNEL_OPTIONS = [
+const DEFAULT_FUNNEL_OPTIONS = [
   { value: 'all', label: 'Todos os Funis' },
-  { value: 'funnel-1', label: 'Funnel 1' },
-  { value: 'funnel-2', label: 'Funnel 2' },
-  { value: 'funnel-3', label: 'Funnel 3' },
-  { value: 'funnel-chat1', label: 'Funnel Chat 1' },
-  { value: 'funnel-tt', label: 'Funnel TT' },
-  { value: 'funnel-vsl', label: 'Funnel VSL' },
-  { value: 'funnel-esp', label: 'Funnel ESP' },
-  { value: 'funnel-aff', label: 'Funnel AFF' },
 ];
 
 const DATE_RANGES = [
@@ -57,6 +49,7 @@ export default function Analytics() {
   const [selectedABTest, setSelectedABTest] = useState('none');
   const [activeABTests, setActiveABTests] = useState([]);
   const [abTestDetails, setAbTestDetails] = useState(null);
+  const [funnelOptions, setFunnelOptions] = useState(DEFAULT_FUNNEL_OPTIONS);
   const [analyticsData, setAnalyticsData] = useState({
     totalSessions: 0,
     startQuiz: 0,
@@ -76,6 +69,37 @@ export default function Analytics() {
       navigate('/admin/login');
     }
   }, [admin, authLoading, navigate]);
+
+  useEffect(() => {
+    if (admin) {
+      loadFunnels();
+    }
+  }, [admin]);
+
+  const loadFunnels = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('funnels')
+        .select('id, name, slug')
+        .eq('status', 'active')
+        .order('name');
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        const options = [
+          { value: 'all', label: 'Todos os Funis' },
+          ...data.map(funnel => ({
+            value: funnel.slug,
+            label: funnel.name
+          }))
+        ];
+        setFunnelOptions(options);
+      }
+    } catch (error) {
+      console.error('Error loading funnels:', error);
+    }
+  };
 
   useEffect(() => {
     if (admin) {
@@ -339,7 +363,7 @@ export default function Analytics() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {FUNNEL_OPTIONS.map(option => (
+                    {funnelOptions.map(option => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
                       </SelectItem>
@@ -425,27 +449,27 @@ export default function Analytics() {
                   <div className="flex gap-6 mt-3 flex-wrap">
                     {abTestDetails.variant_a && (
                       <p className="text-sm text-slate-700">
-                        <strong>Variante A:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_a)?.label}
+                        <strong>Variante A:</strong> {funnelOptions.find(f => f.value === abTestDetails.variant_a)?.label}
                       </p>
                     )}
                     {abTestDetails.variant_b && (
                       <p className="text-sm text-slate-700">
-                        <strong>Variante B:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_b)?.label}
+                        <strong>Variante B:</strong> {funnelOptions.find(f => f.value === abTestDetails.variant_b)?.label}
                       </p>
                     )}
                     {abTestDetails.variant_c && (
                       <p className="text-sm text-slate-700">
-                        <strong>Variante C:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_c)?.label}
+                        <strong>Variante C:</strong> {funnelOptions.find(f => f.value === abTestDetails.variant_c)?.label}
                       </p>
                     )}
                     {abTestDetails.variant_d && (
                       <p className="text-sm text-slate-700">
-                        <strong>Variante D:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_d)?.label}
+                        <strong>Variante D:</strong> {funnelOptions.find(f => f.value === abTestDetails.variant_d)?.label}
                       </p>
                     )}
                     {abTestDetails.variant_e && (
                       <p className="text-sm text-slate-700">
-                        <strong>Variante E:</strong> {FUNNEL_OPTIONS.find(f => f.value === abTestDetails.variant_e)?.label}
+                        <strong>Variante E:</strong> {funnelOptions.find(f => f.value === abTestDetails.variant_e)?.label}
                       </p>
                     )}
                     <p className="text-sm text-slate-700">
@@ -473,7 +497,7 @@ export default function Analytics() {
                 <div key={variantInfo.variant}>
                   <h2 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
                     <div className={`w-3 h-3 ${colors.bg} rounded-full`}></div>
-                    Variante {variantInfo.variantLabel} - {FUNNEL_OPTIONS.find(f => f.value === variantInfo.variant)?.label}
+                    Variante {variantInfo.variantLabel} - {funnelOptions.find(f => f.value === variantInfo.variant)?.label}
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
                     <Card>
@@ -782,7 +806,7 @@ export default function Analytics() {
         <Card>
           <CardHeader>
             <CardTitle className="text-2xl">
-              Funil de Conversão - {selectedFunnel === 'all' ? 'Todos os Funis' : FUNNEL_OPTIONS.find(f => f.value === selectedFunnel)?.label}
+              Funil de Conversão - {selectedFunnel === 'all' ? 'Todos os Funis' : funnelOptions.find(f => f.value === selectedFunnel)?.label}
             </CardTitle>
             <p className="text-sm text-slate-600">
               Visualize quantos usuários visualizaram cada etapa do funil

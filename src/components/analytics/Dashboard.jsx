@@ -23,6 +23,7 @@ export default function Dashboard() {
     const [isLoading, setIsLoading] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
     const [selectedFunnel, setSelectedFunnel] = useState('all');
+    const [funnelOptions, setFunnelOptions] = useState([]);
     const [isEditingVendas, setIsEditingVendas] = useState(false);
     const [tempVendasValue, setTempVendasValue] = useState('');
     const [manualVendas, setManualVendas] = useState(null);
@@ -301,6 +302,28 @@ export default function Dashboard() {
             passagem,
             funnelWithMetrics,
         };
+    };
+
+    useEffect(() => {
+        loadFunnels();
+    }, []);
+
+    const loadFunnels = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('funnels')
+                .select('id, name, slug')
+                .eq('status', 'active')
+                .order('name');
+
+            if (error) throw error;
+
+            if (data && data.length > 0) {
+                setFunnelOptions(data);
+            }
+        } catch (error) {
+            console.error('Error loading funnels:', error);
+        }
     };
 
     const loadQuizData = async () => {
@@ -759,12 +782,11 @@ export default function Dashboard() {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">Todos os Funis</SelectItem>
-                                <SelectItem value="funnel-1">Funnel 1</SelectItem>
-                                <SelectItem value="funnel-2">Funnel 2</SelectItem>
-                                <SelectItem value="funnel-3">Funnel 3</SelectItem>
-                                <SelectItem value="funnel-tt">Funnel TT</SelectItem>
-                                <SelectItem value="funnel-esp">Funnel ESP</SelectItem>
-                                <SelectItem value="funnel-aff">Funnel Aff</SelectItem>
+                                {funnelOptions.map(funnel => (
+                                    <SelectItem key={funnel.id} value={funnel.slug}>
+                                        {funnel.name}
+                                    </SelectItem>
+                                ))}
                             </SelectContent>
                         </Select>
 
@@ -1167,8 +1189,7 @@ export default function Dashboard() {
                         <CardHeader>
                             <CardTitle>
                                 Funil de Conversão - {selectedFunnel === 'all' ? 'Todos os Funis' :
-                                selectedFunnel === 'funnel-1' ? 'Funil 1' :
-                                selectedFunnel === 'funnel-2' ? 'Funil 2' : 'Funil P3'}
+                                funnelOptions.find(f => f.slug === selectedFunnel)?.name || selectedFunnel}
                             </CardTitle>
                             <CardDescription>Visualize a jornada dos visitantes através de cada etapa do quiz</CardDescription>
                         </CardHeader>
