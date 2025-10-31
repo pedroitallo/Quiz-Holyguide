@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { Upload, X, FileIcon, Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
+import { Upload, X, FileIcon, Loader2, CheckCircle2, AlertCircle, FileUp } from 'lucide-react'
 import { storage } from '../../lib/supabase'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
@@ -157,49 +157,44 @@ export function FileUpload({
 
   return (
     <div className={className}>
-      <Card
-        className={`border-2 border-dashed transition-colors ${
-          isDragging
-            ? 'border-blue-500 bg-blue-50'
-            : 'border-gray-300 hover:border-gray-400'
-        } ${uploading ? 'opacity-50 pointer-events-none' : ''}`}
+      <div
+        className={`transition-colors cursor-pointer ${uploading ? 'opacity-50 pointer-events-none' : ''}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
+        onClick={openFileDialog}
       >
-        <div className="p-8 text-center">
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <div className={`rounded-full p-4 ${isDragging ? 'bg-blue-100' : 'bg-gray-100'}`}>
-              {uploading ? (
-                <Loader2 className="h-8 w-8 text-gray-600 animate-spin" />
-              ) : (
-                <Upload className={`h-8 w-8 ${isDragging ? 'text-blue-600' : 'text-gray-600'}`} />
-              )}
-            </div>
+        <div className="flex flex-col items-center justify-center space-y-4">
+          <div className={`rounded-lg p-4 ${isDragging ? 'bg-indigo-100' : 'bg-indigo-50'}`}>
+            {uploading ? (
+              <Loader2 className="h-12 w-12 text-indigo-600 animate-spin" />
+            ) : (
+              <FileUp className={`h-12 w-12 ${isDragging ? 'text-indigo-700' : 'text-indigo-600'}`} />
+            )}
+          </div>
 
-            <div>
-              <p className="text-lg font-medium text-gray-900">
-                {uploading ? 'Uploading...' : 'Drop files here'}
-              </p>
-              <p className="text-sm text-gray-500 mt-1">
-                or click to browse
-              </p>
-              <p className="text-xs text-gray-400 mt-2">
-                Max size: {maxSizeMB}MB {multiple ? '(multiple files allowed)' : '(single file)'}
-              </p>
-            </div>
+          <div>
+            <p className="text-base text-slate-700">
+              <span className="text-indigo-600 font-medium cursor-pointer hover:text-indigo-700">
+                Click here
+              </span>{' '}
+              to upload your file or drag.
+            </p>
+            <p className="text-sm text-slate-500 mt-1">
+              Supported Format: SVG, JPG, PNG (10mb each)
+            </p>
+          </div>
 
-            <Button
-              type="button"
-              onClick={openFileDialog}
+          <Button
+            type="button"
+            onClick={openFileDialog}
               disabled={uploading}
               variant="outline"
             >
               Choose File{multiple ? 's' : ''}
             </Button>
-          </div>
         </div>
-      </Card>
+      </div>
 
       <input
         ref={fileInputRef}

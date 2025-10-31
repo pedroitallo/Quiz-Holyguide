@@ -100,63 +100,49 @@ export default function FileManager() {
   return (
     <AdminLayout breadcrumbs={['Arquivos']}>
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">
-          File Manager
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          My Files & Assets
         </h1>
-        <p className="text-gray-600">
-          Upload, manage, and organize your files with Supabase Storage
+        <p className="text-slate-600">
+          Upload, manage, and organize your files with ease
         </p>
       </div>
 
-        {uploadSuccess && (
-          <Card className="mb-6 p-4 bg-green-50 border-green-200">
-            <p className="text-green-800 font-medium">
-              Files uploaded successfully!
-            </p>
-          </Card>
-        )}
-
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold text-gray-900">Galeria</h2>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleRefresh}
-              disabled={loading}
-            >
-              <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-              Refresh
-            </Button>
-          </div>
-
-          <Card className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Upload Images</h2>
-            <FileUpload
-              onUploadComplete={handleUploadComplete}
-              onUploadError={handleUploadError}
-              folder="images"
-              accept="image/*"
-              maxSizeMB={10}
-              multiple={true}
-            />
-          </Card>
-
-          <div>
-            {loading ? (
-              <Card className="p-12 text-center">
-                <RefreshCw className="h-8 w-8 text-gray-400 animate-spin mx-auto mb-2" />
-                <p className="text-gray-500">Loading files...</p>
-              </Card>
-            ) : (
-              <FileGallery
-                files={files}
-                onDelete={handleDelete}
-                onRefresh={handleRefresh}
-              />
-            )}
-          </div>
+      {uploadSuccess && (
+        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <p className="text-green-800 font-medium">
+            Files uploaded successfully!
+          </p>
         </div>
+      )}
+
+      <div className="space-y-6">
+        <div className="bg-white rounded-xl border-2 border-dashed border-indigo-300 p-8 text-center hover:border-indigo-400 transition-colors">
+          <FileUpload
+            onUploadComplete={handleUploadComplete}
+            onUploadError={handleUploadError}
+            folder="images"
+            accept="image/*"
+            maxSizeMB={10}
+            multiple={true}
+          />
+        </div>
+
+        <div>
+          {loading ? (
+            <div className="bg-white rounded-lg border border-slate-200 p-12 text-center">
+              <RefreshCw className="h-8 w-8 text-slate-400 animate-spin mx-auto mb-2" />
+              <p className="text-slate-500">Loading files...</p>
+            </div>
+          ) : (
+            <FileGallery
+              files={files}
+              onDelete={handleDelete}
+              onRefresh={handleRefresh}
+            />
+          )}
+        </div>
+      </div>
     </AdminLayout>
   )
 }
