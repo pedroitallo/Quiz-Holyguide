@@ -235,9 +235,14 @@ export default function FunnelDialog({ open, onClose, funnel, applications, offe
             </TabsContent>
 
             <TabsContent value="offer" className="space-y-6">
-              <p className="text-slate-600 text-center py-8">
-                Selecione um aplicativo na aba "Funil" para ver as ofertas disponíveis.
-              </p>
+              <div className="text-center py-8">
+                <p className="text-slate-600 mb-4">
+                  Para criar uma nova oferta, utilize o botão "+ Nova Oferta" na lista de funis.
+                </p>
+                <p className="text-sm text-slate-500">
+                  As ofertas disponíveis aparecerão no campo "Oferta" da aba "Funil" após serem criadas.
+                </p>
+              </div>
             </TabsContent>
 
             <div className="flex gap-3 pt-4 border-t">
