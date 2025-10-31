@@ -32,14 +32,15 @@ export function useFunnels() {
     try {
       const insertData = {
         name: funnelData.name,
-        application_id: funnelData.application_id || null,
         offer_id: funnelData.offer_id || null,
         language: funnelData.language || 'pt-BR',
         traffic_source: funnelData.traffic_source || null,
         slug: funnelData.slug,
         url: funnelData.url || null,
         description: funnelData.description || '',
-        status: funnelData.status || 'active'
+        status: funnelData.status || 'active',
+        tags: [],
+        config: {}
       };
 
       const { data, error } = await supabase
@@ -62,7 +63,6 @@ export function useFunnels() {
     try {
       const updateData = {
         name: updates.name,
-        application_id: updates.application_id || null,
         offer_id: updates.offer_id || null,
         language: updates.language || 'pt-BR',
         traffic_source: updates.traffic_source || null,
