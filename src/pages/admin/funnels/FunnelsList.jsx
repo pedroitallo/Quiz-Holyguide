@@ -1,257 +1,381 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AdminLayout from '../../../components/admin/layout/AdminLayout';
-import EmptyState from '../../../components/admin/ui/EmptyState';
 import { Button } from '../../../components/ui/button';
-import { Input } from '../../../components/ui/input';
 import { Card, CardContent } from '../../../components/ui/card';
 import {
-  Layers,
-  Search,
-  Edit,
-  Copy,
-  ExternalLink,
-  Trash2,
   Plus,
-  Eye
+  Edit,
+  ExternalLink,
+  Copy,
+  Globe,
+  Smartphone,
+  Mail,
+  Instagram,
+  BarChart3
 } from 'lucide-react';
 import { useFunnels } from '../../../hooks/admin/useFunnels';
+import { useApplications } from '../../../hooks/useApplications';
 
 export default function FunnelsList() {
-  const { funnels, loading, deleteFunnel, duplicateFunnel, updateFunnel } = useFunnels();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const { funnels, loading } = useFunnels();
+  const { applications } = useApplications();
+  const [selectedApp, setSelectedApp] = useState('all');
+  const [selectedOffer, setSelectedOffer] = useState('all');
+  const [selectedLanguage, setSelectedLanguage] = useState('all');
+  const [selectedSource, setSelectedSource] = useState('all');
+  const [activeTab, setActiveTab] = useState('lander');
   const [filteredFunnels, setFilteredFunnels] = useState([]);
+
+  const currentApp = applications.find(app => app.slug === selectedApp) || applications[0];
 
   useEffect(() => {
     let filtered = funnels;
-
-    if (searchTerm) {
-      filtered = filtered.filter(
-        f =>
-          f.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          f.slug.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (statusFilter !== 'all') {
-      filtered = filtered.filter(f => f.status === statusFilter);
-    }
-
     setFilteredFunnels(filtered);
-  }, [funnels, searchTerm, statusFilter]);
+  }, [funnels, selectedApp, selectedOffer, selectedLanguage, selectedSource]);
 
-  const handleToggleStatus = async (funnel) => {
-    const newStatus = funnel.status === 'active' ? 'inactive' : 'active';
-    await updateFunnel(funnel.id, { status: newStatus });
+  const getOfferName = (slug) => {
+    if (slug.includes('soulmate') || slug.includes('funnel-2') || slug.includes('aff2')) {
+      return 'Soulmate Map';
+    }
+    return 'Palm Reading';
   };
 
-  const handleDuplicate = async (id) => {
-    const result = await duplicateFunnel(id);
-    if (result.success) {
-      alert('Quiz duplicado com sucesso!');
-    } else {
-      alert('Erro ao duplicar quiz: ' + result.error);
-    }
+  const getOfferDomain = (slug) => {
+    return 'quiz.auralyapp.com';
   };
 
-  const handleDelete = async (id, name) => {
-    if (confirm(`Tem certeza que deseja deletar o quiz "${name}"?`)) {
-      const result = await deleteFunnel(id);
-      if (result.success) {
-        alert('Quiz deletado com sucesso!');
-      } else {
-        alert('Erro ao deletar quiz: ' + result.error);
-      }
-    }
+  const getSourceIcon = (slug) => {
+    if (slug.includes('aff')) return { icon: 'Orgânico', color: 'text-green-600' };
+    if (slug.includes('tt')) return { icon: 'TikTok', color: 'text-slate-900' };
+    return { icon: 'Facebook', color: 'text-blue-600' };
+  };
+
+  const getLanguage = (slug) => {
+    if (slug.includes('esp')) return { flag: '🇪🇸', name: 'Español' };
+    return { flag: '🇺🇸', name: 'English (US)' };
   };
 
   const getStatusBadge = (status) => {
-    const badges = {
-      active: 'bg-green-100 text-green-800 border-green-200',
-      inactive: 'bg-slate-100 text-slate-800 border-slate-200',
-      draft: 'bg-yellow-100 text-yellow-800 border-yellow-200'
-    };
-
-    const labels = {
-      active: 'Ativo',
-      inactive: 'Inativo',
-      draft: 'Rascunho'
-    };
-
-    return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full border ${badges[status]}`}>
-        {labels[status]}
-      </span>
-    );
+    if (status === 'active') {
+      return <span className="px-3 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full">Ativado</span>;
+    }
+    return <span className="px-3 py-1 text-xs font-medium bg-yellow-100 text-yellow-700 rounded-full">Pausado</span>;
   };
 
   if (loading) {
     return (
-      <AdminLayout breadcrumbs={['Quizzes']}>
+      <AdminLayout breadcrumbs={['Funis (lander)']}>
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-slate-600">Carregando quizzes...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Carregando funis...</p>
         </div>
       </AdminLayout>
     );
   }
 
   return (
-    <AdminLayout breadcrumbs={['Quizzes']}>
+    <AdminLayout breadcrumbs={['Funis (lander)']}>
       <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900">Gestão de Quizzes</h1>
-            <p className="text-slate-600 mt-1">
-              Gerencie todos os seus funis e quizzes
-            </p>
-          </div>
+        <div className="flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-slate-900">Funis (lander)</h1>
+          <button className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-colors">
+            <Plus size={20} />
+          </button>
         </div>
+
+        <p className="text-slate-600">
+          Gerencie os funis de vendas por aplicativo
+        </p>
 
         <Card>
           <CardContent className="p-6">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                <Input
-                  placeholder="Buscar por nome ou slug..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <div className="flex gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Aplicativo
+                </label>
                 <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedApp}
+                  onChange={(e) => setSelectedApp(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
                 >
-                  <option value="all">Todos</option>
-                  <option value="active">Ativos</option>
-                  <option value="inactive">Inativos</option>
-                  <option value="draft">Rascunhos</option>
+                  <option value="all">Auraly App</option>
+                  {applications.map(app => (
+                    <option key={app.id} value={app.slug}>{app.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Oferta (offer)
+                </label>
+                <select
+                  value={selectedOffer}
+                  onChange={(e) => setSelectedOffer(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                >
+                  <option value="all">Todas as ofertas</option>
+                  <option value="soulmate">Soulmate Map</option>
+                  <option value="palm">Palm Reading</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Idioma
+                </label>
+                <select
+                  value={selectedLanguage}
+                  onChange={(e) => setSelectedLanguage(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                >
+                  <option value="all">Todos os idiomas</option>
+                  <option value="en">🇺🇸 English (US)</option>
+                  <option value="es">🇪🇸 Español</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Fonte de Tráfego
+                </label>
+                <select
+                  value={selectedSource}
+                  onChange={(e) => setSelectedSource(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                >
+                  <option value="all">Todas as fontes</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="organic">Orgânico</option>
                 </select>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {filteredFunnels.length === 0 ? (
-          <Card>
-            <CardContent className="p-12">
-              <EmptyState
-                icon={Layers}
-                title="Nenhum quiz encontrado"
-                description={
-                  searchTerm || statusFilter !== 'all'
-                    ? 'Tente ajustar os filtros de busca'
-                    : 'Os quizzes criados via IA do Bolt aparecerão aqui para você gerenciar'
-                }
-              />
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid grid-cols-1 gap-4">
-            {filteredFunnels.map((funnel) => (
-              <Card key={funnel.id} className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-lg font-semibold text-slate-900 truncate">
-                          {funnel.name}
-                        </h3>
-                        {getStatusBadge(funnel.status)}
-                      </div>
-                      <p className="text-sm text-slate-600 mb-2">
-                        /{funnel.slug}
-                      </p>
-                      {funnel.description && (
-                        <p className="text-sm text-slate-500 mb-3">
-                          {funnel.description}
-                        </p>
-                      )}
-                      {funnel.tags && funnel.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
-                          {funnel.tags.map((tag, index) => (
-                            <span
-                              key={index}
-                              className="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded-md"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-2">
-                      <Link to={`/admin/funnels/${funnel.id}/edit`}>
-                        <Button size="sm" variant="outline" className="gap-2 w-full sm:w-auto">
-                          <Edit size={16} />
-                          Editar
-                        </Button>
-                      </Link>
-
-                      <Link to={`/${funnel.slug}`} target="_blank" rel="noopener noreferrer">
-                        <Button size="sm" variant="outline" className="gap-2 w-full sm:w-auto">
-                          <ExternalLink size={16} />
-                          Ver
-                        </Button>
-                      </Link>
-
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="gap-2"
-                        onClick={() => handleToggleStatus(funnel)}
-                      >
-                        <Eye size={16} />
-                        {funnel.status === 'active' ? 'Desativar' : 'Ativar'}
-                      </Button>
-
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="gap-2"
-                        onClick={() => handleDuplicate(funnel.id)}
-                      >
-                        <Copy size={16} />
-                        Duplicar
-                      </Button>
-
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
-                        onClick={() => handleDelete(funnel.id, funnel.name)}
-                      >
-                        <Trash2 size={16} />
-                        Deletar
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-
-        <Card className="bg-blue-50 border-blue-200">
+        <Card>
           <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-blue-100 rounded-lg">
-                <Plus size={24} className="text-blue-600" />
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                <Smartphone className="w-6 h-6 text-white" />
               </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-slate-900">
-                  Criar Novo Quiz
-                </h3>
-                <p className="text-sm text-slate-600">
-                  Use o chat da IA do Bolt para criar novos quizzes. Eles aparecerão aqui automaticamente.
-                </p>
+              <h2 className="text-xl font-semibold text-slate-900">Auraly App</h2>
+              <button className="ml-auto p-2 hover:bg-slate-100 rounded-lg transition-colors">
+                <Edit size={18} className="text-slate-600" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                <Globe className="w-5 h-5 text-slate-500 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-slate-700 mb-1">Landing Page</p>
+                  <p className="text-sm text-slate-600 truncate">https://auralyapp.com</p>
+                </div>
+                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
+                  <Copy size={16} className="text-slate-500" />
+                </button>
               </div>
+
+              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                <Smartphone className="w-5 h-5 text-slate-500 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-slate-700 mb-1">WebApp</p>
+                  <p className="text-sm text-slate-600 truncate">https://web.auralyapp.com</p>
+                </div>
+                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
+                  <Copy size={16} className="text-slate-500" />
+                </button>
+              </div>
+
+              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                <Mail className="w-5 h-5 text-slate-500 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-slate-700 mb-1">Email</p>
+                  <p className="text-sm text-slate-600 truncate">contact@auralyapp.com</p>
+                </div>
+                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
+                  <Copy size={16} className="text-slate-500" />
+                </button>
+              </div>
+
+              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                <Instagram className="w-5 h-5 text-slate-500 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-slate-700 mb-1">Instagram</p>
+                  <p className="text-sm text-slate-600 truncate">https://www.instagram.com/auralyapp/</p>
+                </div>
+                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
+                  <Copy size={16} className="text-slate-500" />
+                </button>
+              </div>
+
+              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                <Globe className="w-5 h-5 text-slate-500 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-slate-700 mb-1">Plataforma de Reembolso</p>
+                  <p className="text-sm text-slate-600 truncate">https://auralyapp.com/request</p>
+                </div>
+                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
+                  <Copy size={16} className="text-slate-500" />
+                </button>
+              </div>
+
+              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
+                <BarChart3 className="w-5 h-5 text-slate-500 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-slate-700 mb-1">Analytics Quiz</p>
+                  <p className="text-sm text-slate-600 truncate">https://quiz.auralyapp.com/analytics</p>
+                </div>
+                <button className="p-1.5 hover:bg-slate-200 rounded transition-colors">
+                  <Copy size={16} className="text-slate-500" />
+                </button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-slate-900">
+            Funis (lander) ({filteredFunnels.length})
+          </h2>
+
+          <div className="flex gap-2">
+            <button
+              onClick={() => setActiveTab('source')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                activeTab === 'source'
+                  ? 'bg-slate-100 text-slate-900'
+                  : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              Source (Checkout)
+            </button>
+            <button
+              onClick={() => setActiveTab('offer')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                activeTab === 'offer'
+                  ? 'bg-slate-100 text-slate-900'
+                  : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              Offer (Ofertas)
+            </button>
+            <button
+              onClick={() => setActiveTab('lander')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                activeTab === 'lander'
+                  ? 'bg-slate-900 text-white'
+                  : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              Lander (Funis)
+            </button>
+          </div>
+        </div>
+
+        <Card>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-slate-50 border-b border-slate-200">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                      Nome do Funil
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                      Oferta (offer)
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                      Fonte de Tráfego
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                      Idioma
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                      Slug
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                      Link
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                      Ações
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-slate-200">
+                  {filteredFunnels.map((funnel) => {
+                    const source = getSourceIcon(funnel.slug);
+                    const language = getLanguage(funnel.slug);
+
+                    return (
+                      <tr key={funnel.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <Link
+                            to={`/admin/funnels/${funnel.id}/edit`}
+                            className="text-sm font-medium text-purple-600 hover:text-purple-800"
+                          >
+                            {funnel.name}
+                          </Link>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div>
+                            <p className="text-sm font-medium text-slate-900">{getOfferName(funnel.slug)}</p>
+                            <p className="text-xs text-slate-500">{getOfferDomain(funnel.slug)}</p>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`text-sm font-medium ${source.color}`}>
+                            {source.icon}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg">{language.flag}</span>
+                            <span className="text-sm text-slate-700">{language.name}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <code className="text-xs font-mono bg-slate-100 px-2 py-1 rounded text-slate-700">
+                            {funnel.slug}
+                          </code>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex gap-2">
+                            <Link
+                              to={`/${funnel.slug}`}
+                              target="_blank"
+                              className="p-1.5 hover:bg-slate-100 rounded transition-colors"
+                            >
+                              <ExternalLink size={16} className="text-slate-600" />
+                            </Link>
+                            <button className="p-1.5 hover:bg-slate-100 rounded transition-colors">
+                              <Copy size={16} className="text-slate-600" />
+                            </button>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {getStatusBadge(funnel.status)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <Link
+                            to={`/admin/funnels/${funnel.id}/edit`}
+                            className="inline-flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900"
+                          >
+                            <Edit size={16} />
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           </CardContent>
         </Card>
