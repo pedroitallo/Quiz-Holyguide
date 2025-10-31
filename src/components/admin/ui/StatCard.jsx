@@ -1,4 +1,5 @@
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function StatCard({
   title,
@@ -6,8 +7,21 @@ export default function StatCard({
   change,
   changeType = 'neutral',
   icon: Icon,
-  iconColor = 'blue'
+  iconColor = 'blue',
+  onClick,
+  to
 }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else if (to) {
+      navigate(to);
+    }
+  };
+
+  const isClickable = onClick || to;
   const colorClasses = {
     blue: 'bg-blue-100 text-blue-600',
     green: 'bg-green-100 text-green-600',
@@ -17,7 +31,14 @@ export default function StatCard({
   };
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-shadow">
+    <div
+      className={`bg-white rounded-xl border border-slate-200 p-6 transition-all ${
+        isClickable
+          ? 'cursor-pointer hover:shadow-xl hover:border-blue-300 hover:-translate-y-1'
+          : 'hover:shadow-lg'
+      }`}
+      onClick={isClickable ? handleClick : undefined}
+    >
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <p className="text-sm text-slate-600 mb-1">{title}</p>
