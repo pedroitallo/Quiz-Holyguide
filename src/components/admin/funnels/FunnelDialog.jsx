@@ -87,10 +87,9 @@ export default function FunnelDialog({ open, onClose, funnel, applications, offe
         </DialogHeader>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
             <TabsTrigger value="funnel">Funil</TabsTrigger>
             <TabsTrigger value="offer">Oferta</TabsTrigger>
-            <TabsTrigger value="application">Aplicativo</TabsTrigger>
           </TabsList>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -238,12 +237,6 @@ export default function FunnelDialog({ open, onClose, funnel, applications, offe
             <TabsContent value="offer" className="space-y-6">
               <p className="text-slate-600 text-center py-8">
                 Selecione um aplicativo na aba "Funil" para ver as ofertas disponíveis.
-              </p>
-            </TabsContent>
-
-            <TabsContent value="application" className="space-y-6">
-              <p className="text-slate-600 text-center py-8">
-                Gerencie aplicativos na seção "Aplicativos" do painel.
               </p>
             </TabsContent>
 

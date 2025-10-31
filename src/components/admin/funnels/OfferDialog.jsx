@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../ui/dialo
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 import { Textarea } from '../../ui/textarea';
-import { Plus, X, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 
 export default function OfferDialog({ open, onClose, offer, applications, onSave }) {
   const [formData, setFormData] = useState({
@@ -49,7 +49,7 @@ export default function OfferDialog({ open, onClose, offer, applications, onSave
           url: '',
           platform: 'cartpanda',
           status: 'active',
-          language: 'pt-BR',
+          language: '',
           traffic_source: ''
         }
       ]
@@ -178,37 +178,33 @@ export default function OfferDialog({ open, onClose, offer, applications, onSave
               <label className="block text-sm font-medium text-slate-900">
                 Checkouts
               </label>
-              <Button
+              <button
                 type="button"
-                variant="outline"
-                size="sm"
                 onClick={handleAddCheckout}
-                className="gap-2"
+                className="px-4 py-2 border-2 border-black rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors flex items-center gap-2"
               >
-                <Plus size={16} />
+                <span className="text-lg">+</span>
                 Adicionar Checkout
-              </Button>
+              </button>
             </div>
 
             {formData.checkouts.length > 0 && (
               <div className="space-y-4">
                 {formData.checkouts.map((checkout, index) => (
-                  <div key={index} className="border border-slate-200 rounded-lg p-4 space-y-3 bg-slate-50">
+                  <div key={index} className="border border-slate-200 rounded-lg p-6 space-y-4 bg-white">
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium text-slate-700">Checkout {index + 1}</h4>
-                      <Button
+                      <h4 className="font-medium text-slate-900">Checkout {index + 1}</h4>
+                      <button
                         type="button"
-                        variant="ghost"
-                        size="sm"
                         onClick={() => handleRemoveCheckout(index)}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        className="text-red-600 hover:text-red-700"
                       >
-                        <Trash2 size={16} />
-                      </Button>
+                        <Trash2 size={18} />
+                      </button>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-slate-700 mb-1">
+                      <label className="block text-sm font-medium text-slate-900 mb-2">
                         Nome *
                       </label>
                       <Input
@@ -221,7 +217,7 @@ export default function OfferDialog({ open, onClose, offer, applications, onSave
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-slate-700 mb-1">
+                      <label className="block text-sm font-medium text-slate-900 mb-2">
                         URL Base do Checkout *
                       </label>
                       <Input
@@ -236,15 +232,15 @@ export default function OfferDialog({ open, onClose, offer, applications, onSave
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-medium text-slate-700 mb-1">
+                        <label className="block text-sm font-medium text-slate-900 mb-2">
                           Plataforma *
                         </label>
                         <select
                           value={checkout.platform}
                           onChange={(e) => handleCheckoutChange(index, 'platform', e.target.value)}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                          className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
                           required
                         >
                           <option value="cartpanda">Cartpanda</option>
@@ -255,13 +251,13 @@ export default function OfferDialog({ open, onClose, offer, applications, onSave
                       </div>
 
                       <div>
-                        <label className="block text-xs font-medium text-slate-700 mb-1">
+                        <label className="block text-sm font-medium text-slate-900 mb-2">
                           Status
                         </label>
                         <select
                           value={checkout.status}
                           onChange={(e) => handleCheckoutChange(index, 'status', e.target.value)}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                          className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
                         >
                           <option value="active">Ativado</option>
                           <option value="inactive">Inativo</option>
@@ -269,15 +265,15 @@ export default function OfferDialog({ open, onClose, offer, applications, onSave
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-medium text-slate-700 mb-1">
+                        <label className="block text-sm font-medium text-slate-900 mb-2">
                           Idioma
                         </label>
                         <select
                           value={checkout.language}
                           onChange={(e) => handleCheckoutChange(index, 'language', e.target.value)}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                          className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
                         >
                           <option value="">Selecione</option>
                           <option value="pt-BR">Português (BR)</option>
@@ -287,13 +283,13 @@ export default function OfferDialog({ open, onClose, offer, applications, onSave
                       </div>
 
                       <div>
-                        <label className="block text-xs font-medium text-slate-700 mb-1">
+                        <label className="block text-sm font-medium text-slate-900 mb-2">
                           Fonte
                         </label>
                         <select
                           value={checkout.traffic_source}
                           onChange={(e) => handleCheckoutChange(index, 'traffic_source', e.target.value)}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                          className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
                         >
                           <option value="">Selecione</option>
                           <option value="facebook">Facebook</option>
@@ -310,11 +306,11 @@ export default function OfferDialog({ open, onClose, offer, applications, onSave
             )}
           </div>
 
-          <div className="flex gap-3 pt-4 border-t">
+          <div className="flex gap-3 pt-4">
             <Button
               type="submit"
               disabled={saving}
-              className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
+              className="flex-1 bg-purple-600 hover:bg-purple-700 text-white h-12"
             >
               {saving ? 'Salvando...' : 'Salvar Oferta'}
             </Button>
@@ -323,6 +319,7 @@ export default function OfferDialog({ open, onClose, offer, applications, onSave
               variant="outline"
               onClick={onClose}
               disabled={saving}
+              className="h-12"
             >
               Cancelar
             </Button>
