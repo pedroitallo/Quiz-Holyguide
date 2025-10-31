@@ -100,7 +100,18 @@ export default function FunnelDetail() {
   }
 
   const lang = getLanguageDisplay(funnel.language);
-  const funnelIdentifier = `Funil ${funnel.id.slice(0, 2)} | ${funnel.traffic_source || 'N/A'} | ${offer?.name || 'N/A'} | ${application?.name || 'N/A'}`;
+  const getTrafficSourceName = (source) => {
+    const names = {
+      facebook: 'Facebook',
+      google: 'Google',
+      tiktok: 'TikTok',
+      instagram: 'Instagram',
+      organic: 'Orgânico'
+    };
+    return names[source] || source;
+  };
+
+  const funnelIdentifier = `${lang.flag} ${funnel.name} | ${getTrafficSourceName(funnel.traffic_source)} | ${offer?.name || 'N/A'} | ${application?.name || 'N/A'}`;
 
   return (
     <AdminLayout breadcrumbs={['Funis', funnel.name]}>
@@ -227,6 +238,13 @@ export default function FunnelDetail() {
           </CardContent>
         </Card>
 
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Aplicativo</h3>
+            <p className="text-2xl font-bold text-slate-900">{application?.name || '-'}</p>
+          </CardContent>
+        </Card>
+
         {funnel.description && (
           <Card>
             <CardContent className="p-6">
@@ -235,6 +253,31 @@ export default function FunnelDetail() {
             </CardContent>
           </Card>
         )}
+
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Etapas do Funil</h3>
+            <div className="space-y-3">
+              {funnel.steps && funnel.steps.length > 0 ? (
+                funnel.steps.map((step, index) => (
+                  <div key={index} className="flex items-center gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
+                      {index + 1}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-slate-900">{step.name || step.label || `Etapa ${index + 1}`}</p>
+                      {step.description && (
+                        <p className="text-sm text-slate-600 mt-1">{step.description}</p>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-slate-600 text-center py-8">Nenhuma etapa configurada para este funil</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         {offer && offer.checkouts && offer.checkouts.length > 0 && (
           <Card>

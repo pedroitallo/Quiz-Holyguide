@@ -468,7 +468,12 @@ export default function FunnelsList() {
                   return (
                     <tr key={funnel.id} className="hover:bg-slate-50 transition-colors">
                       <td className="py-4 px-6">
-                        <span className="text-purple-600 font-medium">{funnel.name}</span>
+                        <button
+                          onClick={() => navigate(`/admin/funnels/${funnel.id}`)}
+                          className="text-purple-600 font-medium hover:text-purple-700 hover:underline text-left"
+                        >
+                          {funnel.name}
+                        </button>
                       </td>
                       <td className="py-4 px-6">
                         {offer && (
@@ -558,7 +563,12 @@ export default function FunnelsList() {
                 {filteredOffers.map((offer) => (
                   <tr key={offer.id} className="hover:bg-slate-50 transition-colors">
                     <td className="py-4 px-6">
-                      <span className="text-purple-600 font-medium">{offer.name}</span>
+                      <button
+                        onClick={() => navigate(`/admin/offers/${offer.id}`)}
+                        className="text-purple-600 font-medium hover:text-purple-700 hover:underline text-left"
+                      >
+                        {offer.name}
+                      </button>
                     </td>
                     <td className="py-4 px-6">
                       <div>
