@@ -27,8 +27,13 @@ export default function FunnelsList() {
   const [activeTab, setActiveTab] = useState('lander');
   const [filteredFunnels, setFilteredFunnels] = useState([]);
 
-  const currentApp = applications.find(app => app.slug === selectedApp) ||
-    (selectedApp === 'all' && applications.length > 0 ? applications[0] : null);
+  const currentApp = applications.find(app => app.slug === selectedApp) || applications[0] || null;
+
+  useEffect(() => {
+    if (applications.length > 0 && !selectedApp) {
+      setSelectedApp(applications[0].slug);
+    }
+  }, [applications, selectedApp]);
 
   useEffect(() => {
     let filtered = funnels;
@@ -101,10 +106,13 @@ export default function FunnelsList() {
                   onChange={(e) => setSelectedApp(e.target.value)}
                   className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
                 >
-                  <option value="all">Auraly App</option>
-                  {applications.map(app => (
-                    <option key={app.id} value={app.slug}>{app.name}</option>
-                  ))}
+                  {applications.length === 0 ? (
+                    <option value="">Nenhum aplicativo cadastrado</option>
+                  ) : (
+                    applications.map(app => (
+                      <option key={app.id} value={app.slug}>{app.name}</option>
+                    ))
+                  )}
                 </select>
               </div>
 

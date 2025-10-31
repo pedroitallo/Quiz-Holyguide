@@ -78,6 +78,11 @@ export function useApplications() {
             logo_url: applicationData.logo_url || '',
             description: applicationData.description || '',
             domain: applicationData.domain || null,
+            landing_page_url: applicationData.landing_page_url || null,
+            webapp_url: applicationData.webapp_url || null,
+            email: applicationData.email || null,
+            instagram_url: applicationData.instagram_url || null,
+            custom_links: applicationData.custom_links || [],
             status: 'active'
           }
         ])
@@ -116,6 +121,11 @@ export function useApplications() {
         logo_url: applicationData.logo_url,
         description: applicationData.description,
         domain: applicationData.domain || null,
+        landing_page_url: applicationData.landing_page_url || null,
+        webapp_url: applicationData.webapp_url || null,
+        email: applicationData.email || null,
+        instagram_url: applicationData.instagram_url || null,
+        custom_links: applicationData.custom_links || [],
         updated_at: new Date().toISOString()
       };
 
