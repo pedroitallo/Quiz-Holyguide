@@ -13,8 +13,7 @@ import {
   Image as ImageIcon,
   CheckCircle2,
   XCircle,
-  Loader2,
-  Upload
+  Loader2
 } from 'lucide-react';
 
 export default function ApplicationsTab() {
@@ -25,8 +24,7 @@ export default function ApplicationsTab() {
     createApplication,
     updateApplication,
     deleteApplication,
-    toggleStatus,
-    uploadLogo
+    toggleStatus
   } = useApplications();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -37,7 +35,6 @@ export default function ApplicationsTab() {
     domain: '',
     logo_url: ''
   });
-  const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const resetForm = () => {
@@ -62,30 +59,6 @@ export default function ApplicationsTab() {
     setIsFormOpen(true);
   };
 
-  const handleLogoUpload = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      alert('Por favor, selecione uma imagem válida');
-      return;
-    }
-
-    if (file.size > 2 * 1024 * 1024) {
-      alert('A imagem deve ter no máximo 2MB');
-      return;
-    }
-
-    try {
-      setUploading(true);
-      const logoUrl = await uploadLogo(file);
-      setFormData({ ...formData, logo_url: logoUrl });
-    } catch (err) {
-      alert('Erro ao fazer upload da logo: ' + err.message);
-    } finally {
-      setUploading(false);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -227,51 +200,32 @@ export default function ApplicationsTab() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Logo
+                  URL da Logo
                 </label>
                 <div className="flex items-center gap-4">
                   {formData.logo_url && (
-                    <div className="w-20 h-20 rounded-lg border-2 border-slate-200 overflow-hidden bg-white">
+                    <div className="w-16 h-16 rounded-lg border-2 border-slate-200 overflow-hidden bg-white flex-shrink-0">
                       <img
                         src={formData.logo_url}
                         alt="Logo preview"
                         className="w-full h-full object-contain"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
                       />
                     </div>
                   )}
-                  <label className="cursor-pointer">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="gap-2"
-                      disabled={uploading}
-                      asChild
-                    >
-                      <span>
-                        {uploading ? (
-                          <>
-                            <Loader2 className="animate-spin" size={16} />
-                            Enviando...
-                          </>
-                        ) : (
-                          <>
-                            <Upload size={16} />
-                            {formData.logo_url ? 'Alterar Logo' : 'Upload Logo'}
-                          </>
-                        )}
-                      </span>
-                    </Button>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLogoUpload}
-                      className="hidden"
-                      disabled={uploading}
+                  <div className="flex-1">
+                    <Input
+                      type="url"
+                      value={formData.logo_url}
+                      onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
+                      placeholder="https://exemplo.com/logo.png"
                     />
-                  </label>
+                  </div>
                 </div>
                 <p className="text-xs text-slate-500 mt-2">
-                  Formatos: PNG, JPG, SVG. Tamanho máximo: 2MB
+                  Cole a URL completa da imagem da logo (PNG, JPG, SVG, etc.)
                 </p>
               </div>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase, storage } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
 
 export function useApplications() {
   const [applications, setApplications] = useState([]);
@@ -40,35 +40,6 @@ export function useApplications() {
       .replace(/^-+|-+$/g, '');
   };
 
-  const uploadLogo = async (file) => {
-    try {
-      if (!file) {
-        throw new Error('No file provided');
-      }
-
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-      const filePath = `logos/${fileName}`;
-
-      const { data, error: uploadError } = await supabase.storage
-        .from('application-logos')
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
-
-      if (uploadError) throw uploadError;
-
-      const { data: urlData } = supabase.storage
-        .from('application-logos')
-        .getPublicUrl(data.path);
-
-      return urlData.publicUrl;
-    } catch (err) {
-      console.error('Error uploading logo:', err);
-      throw err;
-    }
-  };
 
   const createApplication = async (applicationData) => {
     try {
@@ -215,7 +186,6 @@ export function useApplications() {
     updateApplication,
     deleteApplication,
     toggleStatus,
-    uploadLogo,
     refreshApplications: loadApplications
   };
 }
