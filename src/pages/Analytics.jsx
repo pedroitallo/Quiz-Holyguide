@@ -313,7 +313,7 @@ export default function Analytics() {
   if (!admin) return null;
 
   return (
-    <AdminLayout breadcrumbs={[{ label: 'Analytics', href: '/admin/analytics' }]}>
+    <AdminLayout breadcrumbs={['Analytics']}>
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">Dashboard de Analytics</h1>

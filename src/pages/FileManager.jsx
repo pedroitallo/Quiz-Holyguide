@@ -98,7 +98,7 @@ export default function FileManager() {
   }
 
   return (
-    <AdminLayout breadcrumbs={[{ label: 'Arquivos', href: '/admin/files' }]}>
+    <AdminLayout breadcrumbs={['Arquivos']}>
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-2">
           File Manager
