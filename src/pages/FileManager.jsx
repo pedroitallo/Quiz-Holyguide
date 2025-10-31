@@ -6,6 +6,7 @@ import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import { RefreshCw, Image as ImageIcon } from 'lucide-react'
+import AdminLayout from '../components/admin/layout/AdminLayout'
 
 export default function FileManager() {
   const [files, setFiles] = useState([])
@@ -97,16 +98,15 @@ export default function FileManager() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            File Manager
-          </h1>
-          <p className="text-gray-600">
-            Upload, manage, and organize your files with Supabase Storage
-          </p>
-        </div>
+    <AdminLayout breadcrumbs={[{ label: 'Arquivos', href: '/admin/files' }]}>
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          File Manager
+        </h1>
+        <p className="text-gray-600">
+          Upload, manage, and organize your files with Supabase Storage
+        </p>
+      </div>
 
         {uploadSuccess && (
           <Card className="mb-6 p-4 bg-green-50 border-green-200">
@@ -157,7 +157,6 @@ export default function FileManager() {
             )}
           </div>
         </div>
-      </div>
-    </div>
+    </AdminLayout>
   )
 }

@@ -5,12 +5,13 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Input } from '../components/ui/input';
-import { LogOut, RefreshCw, Eye, ArrowRight, Calendar, ShoppingCart, DollarSign, Edit2, Check, X } from 'lucide-react';
+import { RefreshCw, Eye, ArrowRight, Calendar, ShoppingCart, DollarSign, Edit2, Check, X } from 'lucide-react';
 import { fetchFunnelAnalytics, fetchAllFunnelsAnalytics, getDateFilter } from '../utils/analyticsQueries';
 import ABTestDialog from '../components/analytics/ABTestDialog';
 import ComparisonDialog from '../components/analytics/ComparisonDialog';
 import { supabase } from '../lib/supabase';
 import { FlaskConical } from 'lucide-react';
+import AdminLayout from '../components/admin/layout/AdminLayout';
 
 const getPassageColor = (passageRate, stepKey) => {
   const isIntroStep = stepKey === 'intro' || stepKey === 'video';
@@ -312,26 +313,21 @@ export default function Analytics() {
   if (!admin) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <div className="container mx-auto p-6">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900">Dashboard de Analytics</h1>
-            <p className="text-slate-600 mt-1">Acompanhe o desempenho de cada funil</p>
-          </div>
-          <div className="flex gap-3">
-            <ABTestDialog onTestChange={fetchAnalytics} />
-            <ComparisonDialog />
-            <Button onClick={fetchAnalytics} variant="outline" className="gap-2">
-              <RefreshCw className="w-4 h-4" />
-              Atualizar
-            </Button>
-            <Button onClick={handleLogout} variant="outline" className="gap-2">
-              <LogOut className="w-4 h-4" />
-              Sair
-            </Button>
-          </div>
+    <AdminLayout breadcrumbs={[{ label: 'Analytics', href: '/admin/analytics' }]}>
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">Dashboard de Analytics</h1>
+          <p className="text-slate-600 mt-1">Acompanhe o desempenho de cada funil</p>
         </div>
+        <div className="flex gap-3">
+          <ABTestDialog onTestChange={fetchAnalytics} />
+          <ComparisonDialog />
+          <Button onClick={fetchAnalytics} variant="outline" className="gap-2">
+            <RefreshCw className="w-4 h-4" />
+            Atualizar
+          </Button>
+        </div>
+      </div>
 
         <Card className="mb-6">
           <CardContent className="flex gap-4 flex-wrap p-6">
@@ -875,7 +871,6 @@ export default function Analytics() {
         </Card>
           </>
         )}
-      </div>
-    </div>
+    </AdminLayout>
   );
 }
