@@ -13,7 +13,8 @@ import {
   Globe,
   Smartphone,
   Mail,
-  Instagram
+  Instagram,
+  Plus
 } from 'lucide-react';
 import { useFunnels } from '../../../hooks/admin/useFunnels';
 import { useApplications } from '../../../hooks/useApplications';
@@ -185,7 +186,18 @@ export default function FunnelsList() {
             {viewMode === 'lander' ? `Funis (lander) (${filteredFunnels.length})` : `Offers (Checkouts) (${filteredOffers.length})`}
           </h1>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            {viewMode === 'lander' && (
+              <Button
+                onClick={handleCreateFunnel}
+                className="bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                <Plus size={18} className="mr-2" />
+                Novo Funil
+              </Button>
+            )}
+
+            <div className="flex items-center gap-2">
             <button
               onClick={() => setViewMode('source')}
               className={`px-5 py-2.5 rounded-lg font-medium transition-colors ${
@@ -216,6 +228,7 @@ export default function FunnelsList() {
             >
               Lander (Funis)
             </button>
+            </div>
           </div>
         </div>
 
@@ -450,7 +463,7 @@ export default function FunnelsList() {
               <tbody className="divide-y divide-slate-100">
                 {filteredFunnels.map((funnel) => {
                   const offer = offers.find(o => o.id === funnel.offer_id);
-                  const fullUrl = funnel.url ? `${window.location.origin}${funnel.url}` : '';
+                  const fullUrl = funnel.url || `${window.location.origin}/${funnel.slug}`;
 
                   return (
                     <tr key={funnel.id} className="hover:bg-slate-50 transition-colors">
