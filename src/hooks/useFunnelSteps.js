@@ -60,29 +60,18 @@ export const useFunnelSteps = (funnelId) => {
 
   const reorderSteps = useCallback(async (newOrder) => {
     try {
-      const updates = newOrder.map((step, index) => ({
-        id: step.id,
-        funnel_id: funnelId,
-        step_order: index + 1,
-        step_name: step.step_name,
-        component_name: step.component_name,
-        config: step.config,
-        archived: false,
-        original_name: step.original_name,
-        previous_names: step.previous_names
-      }));
+      for (let i = 0; i < newOrder.length; i++) {
+        const step = newOrder[i];
+        const { error } = await supabase
+          .from('funnel_steps')
+          .update({
+            step_order: i + 1,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', step.id);
 
-      await supabase
-        .from('funnel_steps')
-        .delete()
-        .eq('funnel_id', funnelId)
-        .eq('archived', false);
-
-      const { error } = await supabase
-        .from('funnel_steps')
-        .insert(updates);
-
-      if (error) throw error;
+        if (error) throw error;
+      }
 
       await loadSteps();
       return { success: true };

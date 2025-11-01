@@ -26,14 +26,14 @@ export default function ArchivedStepCard({
   };
 
   return (
-    <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg border border-slate-200">
-      <div className="flex items-center justify-center w-8 h-8 bg-orange-50 text-orange-600 rounded-full">
+    <div className="flex items-center gap-3 p-4 bg-slate-200 rounded-lg border-2 border-slate-300 opacity-60">
+      <div className="flex items-center justify-center w-8 h-8 bg-slate-300 text-slate-500 rounded-full">
         <ArchiveRestore size={16} />
       </div>
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <p className="font-medium text-slate-700 truncate">
+          <p className="font-medium text-slate-600 truncate line-through">
             {step.step_name}
           </p>
           {step.previous_names && step.previous_names.length > 0 && (
@@ -45,11 +45,11 @@ export default function ArchivedStepCard({
             </span>
           )}
         </div>
-        <p className="text-sm text-slate-500 truncate">
+        <p className="text-sm text-slate-500 truncate line-through">
           {step.component_name}
         </p>
-        <p className="text-xs text-orange-600 mt-1">
-          Arquivado
+        <p className="text-xs text-slate-600 font-semibold mt-1">
+          ARQUIVADO
         </p>
       </div>
 
