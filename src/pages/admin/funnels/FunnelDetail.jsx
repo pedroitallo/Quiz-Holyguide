@@ -4,7 +4,9 @@ import { supabase } from '../../../lib/supabase';
 import AdminLayout from '../../../components/admin/layout/AdminLayout';
 import { Button } from '../../../components/ui/button';
 import { Card, CardContent } from '../../../components/ui/card';
-import { ArrowLeft, Copy, ExternalLink, Edit } from 'lucide-react';
+import { ArrowLeft, Copy, ExternalLink, Edit, Eye } from 'lucide-react';
+import StepPreviewModal from '../../../components/admin/StepPreviewModal';
+import { getFunnelSteps } from '../../../config/funnelStepsMapping';
 
 export default function FunnelDetail() {
   const { id } = useParams();
@@ -13,6 +15,8 @@ export default function FunnelDetail() {
   const [application, setApplication] = useState(null);
   const [offer, setOffer] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewStepIndex, setPreviewStepIndex] = useState(0);
 
   useEffect(() => {
     loadFunnelDetails();
@@ -112,6 +116,13 @@ export default function FunnelDetail() {
   };
 
   const funnelIdentifier = `${lang.flag} ${funnel.name} | ${getTrafficSourceName(funnel.traffic_source)} | ${offer?.name || 'N/A'} | ${application?.name || 'N/A'}`;
+
+  const mappedSteps = getFunnelSteps(funnel.slug);
+
+  const handlePreviewStep = (index) => {
+    setPreviewStepIndex(index);
+    setPreviewOpen(true);
+  };
 
   return (
     <AdminLayout breadcrumbs={['Funis', funnel.name]}>
@@ -218,22 +229,34 @@ export default function FunnelDetail() {
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold text-slate-900 mb-4">Etapas do Funil</h3>
             <div className="space-y-3">
-              {funnel.steps && funnel.steps.length > 0 ? (
-                funnel.steps.map((step, index) => (
-                  <div key={index} className="flex items-center gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
-                    <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
+              {mappedSteps && mappedSteps.length > 0 ? (
+                mappedSteps.map((step, index) => (
+                  <div key={index} className="flex items-center gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors group">
+                    <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
                       {index + 1}
                     </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-slate-900">{step.name || step.label || `Etapa ${index + 1}`}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-slate-900">{step.name}</p>
                       {step.description && (
                         <p className="text-sm text-slate-600 mt-1">{step.description}</p>
                       )}
+                      <p className="text-xs text-slate-500 mt-1 font-mono">ID: {step.id}</p>
                     </div>
+                    <button
+                      onClick={() => handlePreviewStep(index)}
+                      className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-purple-50 hover:border-purple-300 hover:text-purple-700 transition-all opacity-0 group-hover:opacity-100"
+                      title="Visualizar etapa"
+                    >
+                      <Eye size={18} />
+                      <span className="text-sm font-medium">Preview</span>
+                    </button>
                   </div>
                 ))
               ) : (
-                <p className="text-slate-600 text-center py-8">Nenhuma etapa configurada para este funil</p>
+                <div className="text-center py-8">
+                  <p className="text-slate-600 mb-2">Nenhuma etapa mapeada para este funil</p>
+                  <p className="text-sm text-slate-500">As etapas são carregadas automaticamente do código do funil</p>
+                </div>
               )}
             </div>
           </CardContent>
@@ -287,6 +310,13 @@ export default function FunnelDetail() {
           </Card>
         )}
       </div>
+
+      <StepPreviewModal
+        isOpen={previewOpen}
+        onClose={() => setPreviewOpen(false)}
+        funnelSlug={funnel?.slug}
+        initialStepIndex={previewStepIndex}
+      />
     </AdminLayout>
   );
 }
