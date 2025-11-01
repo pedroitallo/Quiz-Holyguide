@@ -4,9 +4,9 @@ import { supabase } from '../../../lib/supabase';
 import AdminLayout from '../../../components/admin/layout/AdminLayout';
 import { Button } from '../../../components/ui/button';
 import { Card, CardContent } from '../../../components/ui/card';
-import { ArrowLeft, Copy, ExternalLink, Edit, Eye } from 'lucide-react';
+import { ArrowLeft, Copy, ExternalLink, Edit, Eye, Archive, ArchiveRestore } from 'lucide-react';
 import StepPreviewModal from '../../../components/admin/StepPreviewModal';
-import { getFunnelSteps } from '../../../config/funnelStepsMapping';
+import { useFunnelSteps } from '../../../hooks/useFunnelSteps';
 
 export default function FunnelDetail() {
   const { id } = useParams();
@@ -17,10 +17,20 @@ export default function FunnelDetail() {
   const [loading, setLoading] = useState(true);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewStepIndex, setPreviewStepIndex] = useState(0);
+  const [showArchivedSteps, setShowArchivedSteps] = useState(false);
+
+  const {
+    steps,
+    archivedSteps,
+    loadSteps
+  } = useFunnelSteps(id);
 
   useEffect(() => {
-    loadFunnelDetails();
-  }, [id]);
+    if (id) {
+      loadFunnelDetails();
+      loadSteps();
+    }
+  }, [id, loadSteps]);
 
   const loadFunnelDetails = async () => {
     try {
@@ -116,8 +126,6 @@ export default function FunnelDetail() {
   };
 
   const funnelIdentifier = `${lang.flag} ${funnel.name} | ${getTrafficSourceName(funnel.traffic_source)} | ${offer?.name || 'N/A'} | ${application?.name || 'N/A'}`;
-
-  const mappedSteps = getFunnelSteps(funnel.slug);
 
   const handlePreviewStep = (index) => {
     setPreviewStepIndex(index);
@@ -227,20 +235,53 @@ export default function FunnelDetail() {
 
         <Card>
           <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Etapas do Funil</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-slate-900">
+                Etapas do Funil ({steps.length} ativas)
+              </h3>
+              <div className="flex gap-2">
+                {archivedSteps.length > 0 && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setShowArchivedSteps(!showArchivedSteps)}
+                    className="gap-2"
+                  >
+                    <Archive size={14} />
+                    Arquivadas ({archivedSteps.length})
+                  </Button>
+                )}
+                <Button
+                  size="sm"
+                  onClick={() => navigate(`/admin/funnels/${id}/edit`)}
+                  className="gap-2 bg-purple-600 hover:bg-purple-700"
+                >
+                  <Edit size={14} />
+                  Editar Etapas
+                </Button>
+              </div>
+            </div>
             <div className="space-y-3">
-              {mappedSteps && mappedSteps.length > 0 ? (
-                mappedSteps.map((step, index) => (
-                  <div key={index} className="flex items-center gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors group">
+              {steps && steps.length > 0 ? (
+                steps.map((step, index) => (
+                  <div key={step.id} className="flex items-center gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors group">
                     <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
                       {index + 1}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-slate-900">{step.name}</p>
-                      {step.description && (
-                        <p className="text-sm text-slate-600 mt-1">{step.description}</p>
-                      )}
-                      <p className="text-xs text-slate-500 mt-1 font-mono">ID: {step.id}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="font-medium text-slate-900">{step.step_name}</p>
+                        {step.previous_names && step.previous_names.length > 0 && (
+                          <span
+                            className="text-xs text-slate-500 cursor-help bg-slate-200 px-2 py-0.5 rounded"
+                            title={`Nomes anteriores: ${step.previous_names.join(', ')}`}
+                          >
+                            renomeado
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-slate-600 mt-1">{step.component_name}</p>
+                      <p className="text-xs text-slate-500 mt-1">Ordem: {step.step_order}</p>
                     </div>
                     <button
                       onClick={() => handlePreviewStep(index)}
@@ -254,8 +295,47 @@ export default function FunnelDetail() {
                 ))
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-slate-600 mb-2">Nenhuma etapa mapeada para este funil</p>
-                  <p className="text-sm text-slate-500">As etapas são carregadas automaticamente do código do funil</p>
+                  <p className="text-slate-600 mb-2">Nenhuma etapa configurada</p>
+                  <p className="text-sm text-slate-500">Configure as etapas no editor do funil</p>
+                  <Button
+                    onClick={() => navigate(`/admin/funnels/${id}/edit`)}
+                    className="mt-4 bg-purple-600 hover:bg-purple-700"
+                  >
+                    Configurar Etapas
+                  </Button>
+                </div>
+              )}
+
+              {showArchivedSteps && archivedSteps.length > 0 && (
+                <div className="mt-6 pt-6 border-t border-slate-200">
+                  <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                    <Archive size={16} />
+                    Etapas Arquivadas
+                  </h4>
+                  <div className="space-y-3">
+                    {archivedSteps.map((step) => (
+                      <div key={step.id} className="flex items-center gap-4 p-4 bg-orange-50 rounded-lg border border-orange-200">
+                        <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center flex-shrink-0">
+                          <Archive size={16} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium text-slate-900">{step.step_name}</p>
+                            {step.previous_names && step.previous_names.length > 0 && (
+                              <span
+                                className="text-xs text-slate-500 cursor-help bg-orange-200 px-2 py-0.5 rounded"
+                                title={`Nomes anteriores: ${step.previous_names.join(', ')}`}
+                              >
+                                renomeado
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-slate-600 mt-1">{step.component_name}</p>
+                          <p className="text-xs text-orange-600 mt-1">Arquivado</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>

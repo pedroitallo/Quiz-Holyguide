@@ -138,13 +138,18 @@ export function useFunnels() {
       if (createError) throw createError;
 
       if (steps && steps.length > 0) {
-        const newSteps = steps.map(step => ({
-          funnel_id: createdFunnel.id,
-          step_order: step.step_order,
-          step_name: step.step_name,
-          component_name: step.component_name,
-          config: step.config
-        }));
+        const newSteps = steps
+          .filter(step => !step.archived)
+          .map(step => ({
+            funnel_id: createdFunnel.id,
+            step_order: step.step_order,
+            step_name: step.step_name,
+            component_name: step.component_name,
+            config: step.config,
+            original_name: step.step_name,
+            previous_names: [],
+            archived: false
+          }));
 
         const { error: stepsError } = await supabase
           .from('funnel_steps')
