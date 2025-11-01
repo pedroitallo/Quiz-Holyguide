@@ -13,7 +13,7 @@ import { useState } from 'react';
 
 const menuItems = [
   { path: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
-  { path: '/admin/funnels', label: 'Quizzes', icon: Layers },
+  { path: '/admin/funnels', label: 'Funis', icon: Layers },
   { path: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
   { path: '/admin/ab-tests', label: 'Testes A/B', icon: FlaskConical },
   { path: '/admin/files', label: 'Arquivos', icon: FolderOpen },
