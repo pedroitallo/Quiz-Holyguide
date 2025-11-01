@@ -14,7 +14,7 @@ import AnalyticsAB from "./AnalyticsAB";
 import FileManager from "./FileManager";
 import Dashboard from "./admin/dashboard/Dashboard";
 import FunnelsList from "./admin/funnels/FunnelsList";
-import FunnelEditor from "./admin/funnels/FunnelEditor";
+import FunnelEditor from "./admin/funnels/FunnelEditorNew";
 import FunnelDetail from "./admin/funnels/FunnelDetail";
 import OfferDetail from "./admin/offers/OfferDetail";
 import ABTestsManager from "./admin/ab-tests/ABTestsManager";
