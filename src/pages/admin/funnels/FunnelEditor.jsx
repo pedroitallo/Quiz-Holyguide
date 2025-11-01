@@ -1,20 +1,39 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable';
 import AdminLayout from '../../../components/admin/layout/AdminLayout';
 import { Button } from '../../../components/ui/button';
 import { Input } from '../../../components/ui/input';
 import { Textarea } from '../../../components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
+import DraggableStepCard from '../../../components/admin/funnels/DraggableStepCard';
+import ArchivedStepCard from '../../../components/admin/funnels/ArchivedStepCard';
 import {
   Save,
   ArrowLeft,
-  GripVertical,
-  Trash2,
   X,
   Plus,
-  ExternalLink
+  ExternalLink,
+  ChevronDown,
+  ChevronUp,
+  History,
+  Archive as ArchiveIcon
 } from 'lucide-react';
 import { supabase } from '../../../lib/supabase';
+import { useFunnelSteps } from '../../../hooks/useFunnelSteps';
 
 export default function FunnelEditor() {
   const { id } = useParams();
@@ -22,14 +41,40 @@ export default function FunnelEditor() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [funnel, setFunnel] = useState(null);
-  const [steps, setSteps] = useState([]);
   const [newTag, setNewTag] = useState('');
+  const [showArchivedSection, setShowArchivedSection] = useState(false);
+  const [showHistorySection, setShowHistorySection] = useState(false);
+
+  const {
+    steps,
+    archivedSteps,
+    history,
+    loadSteps,
+    loadHistory,
+    reorderSteps,
+    renameStep,
+    archiveStep,
+    restoreStep,
+    deleteStep
+  } = useFunnelSteps(id);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   useEffect(() => {
     if (id) {
       loadFunnel();
+      loadSteps();
     }
-  }, [id]);
+  }, [id, loadSteps]);
 
   const loadFunnel = async () => {
     try {
@@ -39,25 +84,32 @@ export default function FunnelEditor() {
         .from('funnels')
         .select('*')
         .eq('id', id)
-        .single();
+        .maybeSingle();
 
       if (funnelError) throw funnelError;
-
-      const { data: stepsData, error: stepsError } = await supabase
-        .from('funnel_steps')
-        .select('*')
-        .eq('funnel_id', id)
-        .order('step_order');
-
-      if (stepsError) throw stepsError;
-
       setFunnel(funnelData);
-      setSteps(stepsData || []);
     } catch (error) {
       console.error('Error loading funnel:', error);
       alert('Erro ao carregar quiz: ' + error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDragEnd = async (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = steps.findIndex((step) => step.id === active.id);
+      const newIndex = steps.findIndex((step) => step.id === over.id);
+
+      const newSteps = arrayMove(steps, oldIndex, newIndex);
+      const result = await reorderSteps(newSteps);
+
+      if (!result.success) {
+        alert('Erro ao reordenar etapas: ' + result.error);
+        await loadSteps();
+      }
     }
   };
 
@@ -81,27 +133,6 @@ export default function FunnelEditor() {
         .eq('id', id);
 
       if (funnelError) throw funnelError;
-
-      await supabase
-        .from('funnel_steps')
-        .delete()
-        .eq('funnel_id', id);
-
-      if (steps.length > 0) {
-        const stepsToInsert = steps.map((step, index) => ({
-          funnel_id: id,
-          step_order: index + 1,
-          step_name: step.step_name,
-          component_name: step.component_name,
-          config: step.config || {}
-        }));
-
-        const { error: stepsError } = await supabase
-          .from('funnel_steps')
-          .insert(stepsToInsert);
-
-        if (stepsError) throw stepsError;
-      }
 
       alert('Quiz salvo com sucesso!');
     } catch (error) {
@@ -129,20 +160,34 @@ export default function FunnelEditor() {
     });
   };
 
-  const moveStep = (index, direction) => {
-    const newSteps = [...steps];
-    const newIndex = direction === 'up' ? index - 1 : index + 1;
-
-    if (newIndex >= 0 && newIndex < steps.length) {
-      [newSteps[index], newSteps[newIndex]] = [newSteps[newIndex], newSteps[index]];
-      setSteps(newSteps);
+  const handleLoadHistory = () => {
+    setShowHistorySection(!showHistorySection);
+    if (!showHistorySection && history.length === 0) {
+      loadHistory();
     }
   };
 
-  const removeStep = (index) => {
-    if (confirm('Tem certeza que deseja remover esta etapa?')) {
-      setSteps(steps.filter((_, i) => i !== index));
-    }
+  const formatHistoryAction = (action) => {
+    const actions = {
+      create: 'Criada',
+      reorder: 'Reordenada',
+      rename: 'Renomeada',
+      archive: 'Arquivada',
+      restore: 'Restaurada',
+      update_config: 'Configuração atualizada',
+      delete: 'Deletada'
+    };
+    return actions[action] || action;
+  };
+
+  const formatHistoryDate = (date) => {
+    return new Date(date).toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
   if (loading) {
@@ -307,7 +352,33 @@ export default function FunnelEditor() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Etapas do Quiz</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle>Etapas do Quiz ({steps.length} ativas)</CardTitle>
+                <div className="flex gap-2">
+                  {archivedSteps.length > 0 && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setShowArchivedSection(!showArchivedSection)}
+                      className="gap-2"
+                    >
+                      <ArchiveIcon size={14} />
+                      Arquivadas ({archivedSteps.length})
+                      {showArchivedSection ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                    </Button>
+                  )}
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleLoadHistory}
+                    className="gap-2"
+                  >
+                    <History size={14} />
+                    Histórico
+                    {showHistorySection ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                  </Button>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
               {steps.length === 0 ? (
@@ -318,51 +389,89 @@ export default function FunnelEditor() {
                   </p>
                 </div>
               ) : (
-                <div className="space-y-3">
-                  {steps.map((step, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg border border-slate-200"
-                    >
-                      <div className="flex flex-col gap-1">
-                        <button
-                          onClick={() => moveStep(index, 'up')}
-                          disabled={index === 0}
-                          className="p-1 hover:bg-slate-200 rounded disabled:opacity-30 disabled:cursor-not-allowed"
-                        >
-                          <GripVertical size={16} className="text-slate-400" />
-                        </button>
-                        <button
-                          onClick={() => moveStep(index, 'down')}
-                          disabled={index === steps.length - 1}
-                          className="p-1 hover:bg-slate-200 rounded disabled:opacity-30 disabled:cursor-not-allowed"
-                        >
-                          <GripVertical size={16} className="text-slate-400" />
-                        </button>
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs font-medium text-slate-500">
-                            #{index + 1}
-                          </span>
-                          <p className="font-medium text-slate-900 truncate">
-                            {step.step_name}
-                          </p>
-                        </div>
-                        <p className="text-sm text-slate-600 truncate">
-                          {step.component_name}
-                        </p>
-                      </div>
-
-                      <button
-                        onClick={() => removeStep(index)}
-                        className="p-2 hover:bg-red-50 text-red-600 rounded transition-colors"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                >
+                  <SortableContext
+                    items={steps.map(s => s.id)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    <div className="space-y-3">
+                      {steps.map((step, index) => (
+                        <DraggableStepCard
+                          key={step.id}
+                          step={step}
+                          index={index}
+                          onRename={renameStep}
+                          onArchive={archiveStep}
+                          onDelete={deleteStep}
+                        />
+                      ))}
                     </div>
-                  ))}
+                  </SortableContext>
+                </DndContext>
+              )}
+
+              {showArchivedSection && archivedSteps.length > 0 && (
+                <div className="mt-6 pt-6 border-t border-slate-200">
+                  <h3 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                    <ArchiveIcon size={16} />
+                    Etapas Arquivadas
+                  </h3>
+                  <div className="space-y-3">
+                    {archivedSteps.map((step) => (
+                      <ArchivedStepCard
+                        key={step.id}
+                        step={step}
+                        onRestore={restoreStep}
+                        onDelete={deleteStep}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {showHistorySection && (
+                <div className="mt-6 pt-6 border-t border-slate-200">
+                  <h3 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                    <History size={16} />
+                    Histórico de Alterações
+                  </h3>
+                  <div className="space-y-2 max-h-64 overflow-y-auto">
+                    {history.length === 0 ? (
+                      <p className="text-sm text-slate-500 text-center py-4">
+                        Nenhuma alteração registrada
+                      </p>
+                    ) : (
+                      history.map((entry) => (
+                        <div
+                          key={entry.id}
+                          className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg text-sm"
+                        >
+                          <div className="flex-1">
+                            <p className="font-medium text-slate-900">
+                              {formatHistoryAction(entry.action_type)}
+                            </p>
+                            <p className="text-xs text-slate-500 mt-1">
+                              {formatHistoryDate(entry.created_at)}
+                            </p>
+                            {entry.old_value && Object.keys(entry.old_value).length > 0 && (
+                              <p className="text-xs text-slate-600 mt-1">
+                                De: {JSON.stringify(entry.old_value)}
+                              </p>
+                            )}
+                            {entry.new_value && Object.keys(entry.new_value).length > 0 && (
+                              <p className="text-xs text-slate-600">
+                                Para: {JSON.stringify(entry.new_value)}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
                 </div>
               )}
             </CardContent>
