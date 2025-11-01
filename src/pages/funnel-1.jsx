@@ -4,6 +4,8 @@ import { Stars, Moon, Heart, Sparkles, Loader2 } from "lucide-react";
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import StepTracker from '../components/quiz/shared/StepTracker';
 import { trackStepView } from '../utils/stepTracking';
+import { VisualEditorProvider } from '../contexts/VisualEditorContext';
+import VisualEditorWrapper from '../components/editor/VisualEditorWrapper';
 
 import VideoStep from "../components/quiz/funnel-1/VideoStep";
 import PaywallStep from "../components/quiz/funnel-1/PaywallStep";
@@ -129,7 +131,9 @@ export default function Funnel1Page() {
   };
   
   return (
-    <div className="min-h-screen bg-[#f9f5ff] relative overflow-hidden" style={{ userSelect: 'none' }}>
+    <VisualEditorProvider funnelId="funnel-1" stepSlug={`step-${currentStep}`}>
+      <VisualEditorWrapper>
+        <div className="min-h-screen bg-[#f9f5ff] relative overflow-hidden" style={{ userSelect: 'none' }}>
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-10 left-10 text-purple-200/40"><Stars className="w-6 h-6 animate-pulse" /></div>
         <div className="absolute top-32 right-16 text-purple-200/40"><Moon className="w-8 h-8 animate-pulse" style={{ animationDelay: '1s' }} /></div>
@@ -182,6 +186,8 @@ export default function Funnel1Page() {
           {currentStep === 9 && <ThankYouStep userName={formData.name} />}
         </div>
       </div>
-    </div>
+        </div>
+      </VisualEditorWrapper>
+    </VisualEditorProvider>
   );
 }
