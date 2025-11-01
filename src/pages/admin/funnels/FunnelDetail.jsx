@@ -149,7 +149,7 @@ export default function FunnelDetail() {
             <h1 className="text-3xl font-bold text-purple-600">{funnel.name}</h1>
           </div>
           <Button
-            onClick={() => navigate(`/admin/funnels?edit=${id}`)}
+            onClick={() => navigate(`/admin/funnels/${id}/edit`)}
             className="gap-2 bg-purple-600 hover:bg-purple-700"
           >
             <Edit size={16} />
