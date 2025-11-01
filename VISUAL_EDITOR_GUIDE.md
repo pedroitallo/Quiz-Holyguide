@@ -73,6 +73,8 @@ export default function FunnelPage() {
 }
 ```
 
+**IMPORTANTE**: O `funnelId` deve ser o **slug do funil** (ex: "funnel-1"), não o UUID. O sistema busca automaticamente o UUID correspondente no banco de dados da tabela `funnels`.
+
 ### 2. Tornar Elementos Editáveis
 
 Use o componente `EditableElement` para envolver qualquer elemento:

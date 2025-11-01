@@ -1,27 +1,54 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 
-export function useVisualEditor(funnelId, stepSlug) {
+export function useVisualEditor(funnelSlug, stepSlug) {
   const [isEditorMode, setIsEditorMode] = useState(false);
   const [selectedElement, setSelectedElement] = useState(null);
   const [elementConfigs, setElementConfigs] = useState({});
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState(null);
   const [history, setHistory] = useState([]);
+  const [funnelUUID, setFunnelUUID] = useState(null);
   const saveTimeoutRef = useRef(null);
 
   useEffect(() => {
-    if (funnelId && stepSlug) {
+    if (funnelSlug && stepSlug) {
+      fetchFunnelUUID();
+    }
+  }, [funnelSlug, stepSlug]);
+
+  const fetchFunnelUUID = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('funnels')
+        .select('id')
+        .eq('slug', funnelSlug)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (data) {
+        setFunnelUUID(data.id);
+      }
+    } catch (error) {
+      console.error('Error fetching funnel UUID:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (funnelUUID && stepSlug) {
       loadElementConfigs();
     }
-  }, [funnelId, stepSlug]);
+  }, [funnelUUID, stepSlug]);
 
   const loadElementConfigs = async () => {
+    if (!funnelUUID) return;
+
     try {
       const { data, error } = await supabase
         .from('step_element_configs')
         .select('*')
-        .eq('funnel_id', funnelId)
+        .eq('funnel_id', funnelUUID)
         .eq('step_slug', stepSlug);
 
       if (error) throw error;
@@ -57,6 +84,8 @@ export function useVisualEditor(funnelId, stepSlug) {
   };
 
   const autoSave = useCallback(async (elementId, updates) => {
+    if (!funnelUUID) return;
+
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
     }
@@ -83,7 +112,7 @@ export function useVisualEditor(funnelId, stepSlug) {
           const { error } = await supabase
             .from('step_element_configs')
             .insert({
-              funnel_id: funnelId,
+              funnel_id: funnelUUID,
               step_slug: stepSlug,
               element_id: elementId,
               element_type: updates.element_type,
@@ -105,7 +134,7 @@ export function useVisualEditor(funnelId, stepSlug) {
         setIsSaving(false);
       }
     }, 1000);
-  }, [funnelId, stepSlug, elementConfigs]);
+  }, [funnelUUID, stepSlug, elementConfigs]);
 
   const updateElement = useCallback((elementId, updates) => {
     setElementConfigs(prev => ({
@@ -140,11 +169,13 @@ export function useVisualEditor(funnelId, stepSlug) {
   };
 
   const publishAllChanges = async () => {
+    if (!funnelUUID) return { success: false, error: 'Funnel UUID not found' };
+
     try {
       const { error } = await supabase
         .from('step_element_configs')
         .update({ is_published: true })
-        .eq('funnel_id', funnelId)
+        .eq('funnel_id', funnelUUID)
         .eq('step_slug', stepSlug)
         .eq('is_published', false);
 
