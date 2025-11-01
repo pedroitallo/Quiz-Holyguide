@@ -39,7 +39,7 @@ export default function CentralPreview({
                 onSelect={onElementSelect}
                 isSelected={selectedElement?.elementId === `step-${step.id}-title`}
                 config={null}
-                defaultContent={{ text: step.name || 'Título da Etapa' }}
+                defaultContent={{ text: step.step_name || 'Título da Etapa' }}
                 defaultStyles={{
                   fontSize: '1.5rem',
                   fontWeight: 'bold',

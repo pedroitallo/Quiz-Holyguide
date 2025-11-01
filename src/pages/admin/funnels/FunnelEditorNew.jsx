@@ -56,7 +56,7 @@ export default function FunnelEditor() {
         .select('*')
         .eq('funnel_id', id)
         .eq('archived', false)
-        .order('order_index', { ascending: true });
+        .order('step_order', { ascending: true });
 
       if (error) throw error;
       setSteps(data || []);

@@ -19,12 +19,12 @@ export default function StepsSidebar({
 
   const handleRename = (step) => {
     setEditingId(step.id);
-    setEditName(step.name);
+    setEditName(step.step_name);
   };
 
   const saveRename = (stepId) => {
     const updated = steps.map(s =>
-      s.id === stepId ? { ...s, name: editName } : s
+      s.id === stepId ? { ...s, step_name: editName } : s
     );
     onStepsChange(updated);
     setEditingId(null);
@@ -86,10 +86,10 @@ export default function StepsSidebar({
                 ) : (
                   <div>
                     <p className="text-sm font-medium text-slate-900 truncate">
-                      {step.name || `Etapa ${index + 1}`}
+                      {step.step_name || `Etapa ${index + 1}`}
                     </p>
                     <p className="text-xs text-slate-500 truncate">
-                      {step.slug}
+                      {step.component_name}
                     </p>
                   </div>
                 )}
