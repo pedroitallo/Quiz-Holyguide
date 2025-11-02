@@ -41,7 +41,7 @@ export default function VideoStep({ onContinue }) {
       });
 
       // Limpiar el contenedor del reproductor
-      const playerContainer = document.getElementById("vid-6907a7c5f75bf038343c4da3");
+      const playerContainer = document.getElementById("vid-6887d876e08b97c1c6617aab");
       if (playerContainer) {
         playerContainer.innerHTML = "";
       }
