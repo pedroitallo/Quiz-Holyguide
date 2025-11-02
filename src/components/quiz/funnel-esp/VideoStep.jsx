@@ -103,16 +103,14 @@ export default function VideoStep({ onContinue }) {
         </EditableElement>
         
         <div className="mb-8 w-full max-w-lg mx-auto">
-          <div className="shadow-lg rounded-xl overflow-hidden">
-            <vturb-smartplayer
-              id="vid-6887d876e08b97c1c6617aab"
-              style={{
-                display: 'block',
-                margin: '0 auto',
-                width: '100%'
-              }}>
-            </vturb-smartplayer>
-          </div>
+          <vturb-smartplayer
+            id="vid-6907a7c5f75bf038343c4da3"
+            style={{
+              display: 'block',
+              margin: '0 auto',
+              width: '100%'
+            }}>
+          </vturb-smartplayer>
         </div>
         
         {/* El texto y el botón aparecen inmediatamente - SIN RETRASO */}
