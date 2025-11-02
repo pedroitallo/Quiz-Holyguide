@@ -124,15 +124,9 @@ export default function VideoStep({ onContinue }) {
           <p className="text-gray-700 text-sm mb-4 mx-auto max-w-sm leading-relaxed">⏳Toma solo 1 minuto
           </p>
 
-          <EditableElement
-            elementId="video-cta-button"
-            elementType="button"
-            isEditorMode={isEditorMode}
-            onSelect={setSelectedElement}
-            isSelected={selectedElement?.elementId === 'video-cta-button'}
-            config={getElementConfig('video-cta-button')}
-            defaultContent={{ text: 'Descubrir mi alma gemela' }}
-            defaultStyles={{
+          <button
+            onClick={handleContinue}
+            style={{
               backgroundColor: '#10b981',
               color: '#ffffff',
               fontSize: '1.125rem',
@@ -140,18 +134,11 @@ export default function VideoStep({ onContinue }) {
               padding: '1.25rem 2.5rem',
               borderRadius: '9999px'
             }}
+            className="w-full max-w-sm md:w-auto whitespace-nowrap inline-flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 transform active:scale-95 hover:scale-105 animate-bounce-subtle cursor-pointer touch-manipulation"
           >
-            {(content, styles) => (
-              <button
-                onClick={handleContinue}
-                style={styles}
-                className="w-full max-w-sm md:w-auto whitespace-nowrap inline-flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 transform active:scale-95 hover:scale-105 animate-bounce-subtle cursor-pointer touch-manipulation"
-              >
-                {content.text}
-                <span className="ml-2">→</span>
-              </button>
-            )}
-          </EditableElement>
+            Descubrir mi alma gemela
+            <span className="ml-2">→</span>
+          </button>
         </motion.div>
         
         {currentDate &&
