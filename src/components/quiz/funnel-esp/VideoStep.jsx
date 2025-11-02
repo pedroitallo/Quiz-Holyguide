@@ -1,53 +1,165 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { trackStepView } from "@/utils/stepTracking";
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useTracking } from '@/hooks/useTracking';
+import { useVisualEditorContext } from '@/contexts/VisualEditorContext';
+import EditableElement from '@/components/editor/EditableElement';
 
-export default function InitiateQuiz({ onContinue }) {
-  const handleStartNow = () => {
-    trackStepView('funnel-2', 'startend');
+export default function VideoStep({ onContinue }) {
+  const [currentDate, setCurrentDate] = useState('');
+  const { trackStartQuiz, trackFacebookEvent } = useTracking();
+  const { isEditorMode, selectedElement, setSelectedElement, getElementConfig } = useVisualEditorContext();
 
-    if (typeof window !== 'undefined' && window.uetq) {
-      window.uetq.push('event', 'startquiz', {});
+  useEffect(() => {
+    const today = new Date();
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    setCurrentDate(today.toLocaleDateString('es-ES', options));
+  }, []);
+
+  useEffect(() => {
+    // CARGAR EL SCRIPT DEL REPRODUCTOR SOLO CUANDO ESTE COMPONENTE ESTÉ MONTADO
+    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/6887d876e08b97c1c6617aab/v4/player.js";
+
+    // Verificar si el script ya existe
+    if (document.querySelector(`script[src="${scriptSrc}"]`)) {
+      return;
     }
 
+    console.log("Cargando script del VSL - VideoStep montado");
+    const script = document.createElement("script");
+    script.src = scriptSrc;
+    script.async = true;
+    document.head.appendChild(script);
+
+    return () => {
+      // LIMPIEZA COMPLETA CUANDO ESTE COMPONENTE SE DESMONTA
+      console.log("Eliminando script del VSL - VideoStep desmontado");
+      const scriptElements = document.querySelectorAll(`script[src="${scriptSrc}"]`);
+      scriptElements.forEach((s) => {
+        if (document.head.contains(s)) {
+          document.head.removeChild(s);
+        }
+      });
+
+      // Limpiar el contenedor del reproductor
+      const playerContainer = document.getElementById("vid-6887d876e08b97c1c6617aab");
+      if (playerContainer) {
+        playerContainer.innerHTML = "";
+      }
+
+      // Eliminar variables globales del reproductor si existen
+      if (window.smartplayer) {
+        delete window.smartplayer;
+      }
+    };
+  }, []); // Este useEffect se ejecuta solo al montar/desmontar VideoStep
+
+  const handleContinue = () => {
+    // Rastrear inicio del cuestionario
+    trackStartQuiz();
+    
+    // Continuar con la lógica original
     onContinue();
   };
+
   return (
-    <div className="text-center py-4">
+    <div className="text-center">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3 leading-tight px-4">
-          ✨ ¿Listo para descubrir quién es tu verdadera alma gemela?
-        </h1>
+        transition={{ duration: 0.8 }}>
 
-        <p className="text-base md:text-lg text-gray-600 mb-6 px-4">
-          Realiza esta lectura astral en línea de 1 minuto y descubre el rostro de tu alma gemela.
-        </p>
-
+        <EditableElement
+          elementId="video-title"
+          elementType="text"
+          isEditorMode={isEditorMode}
+          onSelect={setSelectedElement}
+          isSelected={selectedElement?.elementId === 'video-title'}
+          config={getElementConfig('video-title')}
+          defaultContent={{ text: 'Usaré mis habilidades psíquicas para revelar el rostro de tu alma gemela.' }}
+          defaultStyles={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#000000', textAlign: 'center' }}
+        >
+          {(content, styles) => (
+            <h1 style={styles} className="mb-2 leading-tight">
+              {content.text}
+            </h1>
+          )}
+        </EditableElement>
+        
+        <EditableElement
+          elementId="video-subtitle"
+          elementType="text"
+          isEditorMode={isEditorMode}
+          onSelect={setSelectedElement}
+          isSelected={selectedElement?.elementId === 'video-subtitle'}
+          config={getElementConfig('video-subtitle')}
+          defaultContent={{ text: "Presiona play y descubre por qué más de 10.000 personas confían en Aura, la psíquica número 1 de Hollywood" }}
+          defaultStyles={{ fontSize: '1rem', color: '#4b5563', textAlign: 'center' }}
+        >
+          {(content, styles) => (
+            <p style={styles} className="mb-6 max-w-2xl mx-auto leading-relaxed">
+              {content.text}
+            </p>
+          )}
+        </EditableElement>
+        
+        <div className="mb-8 w-full max-w-lg mx-auto">
+          <div className="shadow-lg rounded-xl overflow-hidden">
+            <vturb-smartplayer
+              id="vid-6887d876e08b97c1c6617aab"
+              style={{
+                display: 'block',
+                margin: '0 auto',
+                width: '100%'
+              }}>
+            </vturb-smartplayer>
+          </div>
+        </div>
+        
+        {/* El texto y el botón aparecen inmediatamente - SIN RETRASO */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.4 }}
-          className="mb-6"
-        >
-          <img
-            src="/BANNER CHECKOUT (2).png"
-            alt="Lectura del alma gemela"
-            className="w-full max-w-md mx-auto rounded-2xl shadow-lg"
-          />
-        </motion.div>
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}>
 
-        <Button
-          onClick={handleStartNow}
-          className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl"
-        >
-          Comenzar ahora
-        </Button>
+          <p className="text-gray-700 text-sm mb-4 mx-auto max-w-sm leading-relaxed">⏳Toma solo 1 minuto
+          </p>
+
+          <EditableElement
+            elementId="video-cta-button"
+            elementType="button"
+            isEditorMode={isEditorMode}
+            onSelect={setSelectedElement}
+            isSelected={selectedElement?.elementId === 'video-cta-button'}
+            config={getElementConfig('video-cta-button')}
+            defaultContent={{ text: 'Descubrir mi alma gemela' }}
+            defaultStyles={{
+              backgroundColor: '#10b981',
+              color: '#ffffff',
+              fontSize: '1.125rem',
+              fontWeight: 'bold',
+              padding: '1.25rem 2.5rem',
+              borderRadius: '9999px'
+            }}
+          >
+            {(content, styles) => (
+              <button
+                onClick={handleContinue}
+                style={styles}
+                className="w-full max-w-sm md:w-auto whitespace-nowrap inline-flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 transform active:scale-95 hover:scale-105 animate-bounce-subtle cursor-pointer touch-manipulation"
+              >
+                {content.text}
+                <span className="ml-2">→</span>
+              </button>
+            )}
+          </EditableElement>
+        </motion.div>
+        
+        {currentDate &&
+        <p className="text-red-600 mt-4 text-xs animate-pulse">
+            ⏳ ¡Esta lectura estará disponible hasta <strong>{currentDate}</strong>, solo en esta página!
+          </p>
+        }
       </motion.div>
-    </div>
-  );
+    </div>);
+
 }
