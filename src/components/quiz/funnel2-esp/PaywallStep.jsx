@@ -145,7 +145,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
 
         <div className="mb-6">
           <img
-            src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759873292152-ltl34v44ham.png"
+            src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1762109354917-1e7agmm0xox.png"
             alt="Vista previa de tu verdadero amor"
             className="w-full max-w-2xl mx-auto rounded-xl shadow-lg"
           />
