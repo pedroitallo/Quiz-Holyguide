@@ -17,7 +17,7 @@ export default function VideoStep({ onContinue }) {
 
   useEffect(() => {
     // CARGAR EL SCRIPT DEL REPRODUCTOR SOLO CUANDO ESTE COMPONENTE ESTÉ MONTADO
-    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/6887d876e08b97c1c6617aab/v4/player.js";
+    const scriptSrc = "https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/6907a7c5f75bf038343c4da3/v4/player.js";
 
     // Verificar si el script ya existe
     if (document.querySelector(`script[src="${scriptSrc}"]`)) {
