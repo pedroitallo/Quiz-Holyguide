@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Sparkles } from "lucide-react";
 
 export default function BirthChartResults({ onContinue }) {
   return (
@@ -23,27 +25,38 @@ export default function BirthChartResults({ onContinue }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="space-y-4 text-base text-gray-700 leading-relaxed px-4 max-w-2xl mx-auto"
+            className="px-4 max-w-2xl mx-auto mb-6"
           >
-            <p className="font-semibold text-lg text-gray-800">
-              Your birth chart shows a very fascinating energy.
-            </p>
+            <Card className="bg-white shadow-xl border-0">
+              <CardContent className="p-6 md:p-8 space-y-5 text-left">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-100 to-purple-50 rounded-full flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <p className="font-semibold text-lg text-gray-800 leading-relaxed">
+                    Your birth chart shows a very fascinating energy.
+                  </p>
+                </div>
 
-            <p>
-              I was so happy to see that you'll have a love story that transcends the ordinary.
-            </p>
+                <p className="text-base text-gray-700 leading-relaxed pl-13">
+                  I was so happy to see that you'll have a love story that transcends the ordinary.
+                </p>
 
-            <p>
-              Your Soulmate is someone of illuminating beauty, with a magnetic presence that attracts and an unwavering protective instinct.
-            </p>
+                <p className="text-base text-gray-700 leading-relaxed pl-13">
+                  Your Soulmate is someone of illuminating beauty, with a magnetic presence that attracts and an unwavering protective instinct.
+                </p>
 
-            <p>
-              I feel that he will bring not only passion, but a deep sense of security, opening paths to prosperity that you will build together.
-            </p>
+                <p className="text-base text-gray-700 leading-relaxed pl-13">
+                  I feel that he will bring not only passion, but a deep sense of security, opening paths to prosperity that you will build together.
+                </p>
 
-            <p className="font-semibold text-purple-600">
-              There is a secret, an even greater revelation, waiting for you. I am almost finished with the complete reading, so let's continue.
-            </p>
+                <div className="bg-gradient-to-r from-purple-50 to-pink-50 border-l-4 border-purple-600 p-4 rounded-r-lg mt-6">
+                  <p className="font-semibold text-base text-purple-700 leading-relaxed">
+                    There is a secret, an even greater revelation, waiting for you. I am almost finished with the complete reading, so let's continue.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </motion.div>
 
           <Button
