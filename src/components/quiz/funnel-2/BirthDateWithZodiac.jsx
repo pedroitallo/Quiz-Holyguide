@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import TypingIndicator from '../shared/TypingIndicator';
 
 const months = [
@@ -19,10 +18,13 @@ const months = [
   { value: "12", label: "December" }
 ];
 
-const days = Array.from({ length: 31 }, (_, i) => {
-  const day = i + 1;
-  return { value: day.toString().padStart(2, '0'), label: day.toString() };
-});
+const dayColumn1 = Array.from({ length: 10 }, (_, i) => i + 1);
+const dayColumn2 = Array.from({ length: 10 }, (_, i) => i + 11);
+const dayColumn3 = Array.from({ length: 10 }, (_, i) => i + 21);
+
+const monthColumn1 = months.slice(0, 4);
+const monthColumn2 = months.slice(4, 8);
+const monthColumn3 = months.slice(8, 12);
 
 const getZodiacSign = (day, month) => {
   const zodiacSigns = [
@@ -104,60 +106,122 @@ export default function BirthDateWithZodiac({ onSubmit }) {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto mt-6 px-4">
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700 text-center">
-              DAY
-            </label>
-            <Select
-              value={day}
-              onValueChange={setDay}
-              disabled={showComment}
-            >
-              <SelectTrigger className="w-full h-12 text-base border-2 border-gray-300 rounded-xl focus:border-purple-500">
-                <SelectValue placeholder="1-31" />
-              </SelectTrigger>
-              <SelectContent>
-                {days.map((d) => (
-                  <SelectItem key={d.value} value={d.value}>
-                    {d.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700 text-center">
-              MONTH
-            </label>
-            <Select
-              value={month}
-              onValueChange={setMonth}
-              disabled={showComment}
-            >
-              <SelectTrigger className="w-full h-12 text-base border-2 border-gray-300 rounded-xl focus:border-purple-500">
-                <SelectValue placeholder="1-12" />
-              </SelectTrigger>
-              <SelectContent>
-                {months.map((m) => (
-                  <SelectItem key={m.value} value={m.value}>
-                    {m.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
         {!showComment && (
-          <Button
-            onClick={handleContinue}
-            disabled={!day || !month}
-            className="w-full max-w-sm md:w-auto bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl md:px-16 md:py-6 md:text-2xl mt-6"
-          >
-            Continue
-          </Button>
+          <div className="max-w-md mx-auto mt-6 px-4 space-y-6">
+            <div className="space-y-3">
+              <label className="block text-sm font-semibold text-gray-700 text-center uppercase tracking-wide">
+                What day were you born?
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="space-y-2">
+                  {dayColumn1.map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setDay(d.toString().padStart(2, '0'))}
+                      className={`w-full py-2 px-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                        day === d.toString().padStart(2, '0')
+                          ? 'bg-purple-600 text-white shadow-md scale-105'
+                          : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-300 hover:bg-purple-50'
+                      }`}
+                    >
+                      {d}
+                    </button>
+                  ))}
+                </div>
+                <div className="space-y-2">
+                  {dayColumn2.map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setDay(d.toString().padStart(2, '0'))}
+                      className={`w-full py-2 px-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                        day === d.toString().padStart(2, '0')
+                          ? 'bg-purple-600 text-white shadow-md scale-105'
+                          : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-300 hover:bg-purple-50'
+                      }`}
+                    >
+                      {d}
+                    </button>
+                  ))}
+                </div>
+                <div className="space-y-2">
+                  {dayColumn3.map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setDay(d.toString().padStart(2, '0'))}
+                      className={`w-full py-2 px-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                        day === d.toString().padStart(2, '0')
+                          ? 'bg-purple-600 text-white shadow-md scale-105'
+                          : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-300 hover:bg-purple-50'
+                      }`}
+                    >
+                      {d}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <label className="block text-sm font-semibold text-gray-700 text-center uppercase tracking-wide">
+                What month were you born?
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="space-y-2">
+                  {monthColumn1.map((m) => (
+                    <button
+                      key={m.value}
+                      onClick={() => setMonth(m.value)}
+                      className={`w-full py-2 px-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                        month === m.value
+                          ? 'bg-purple-600 text-white shadow-md scale-105'
+                          : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-300 hover:bg-purple-50'
+                      }`}
+                    >
+                      {m.label}
+                    </button>
+                  ))}
+                </div>
+                <div className="space-y-2">
+                  {monthColumn2.map((m) => (
+                    <button
+                      key={m.value}
+                      onClick={() => setMonth(m.value)}
+                      className={`w-full py-2 px-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                        month === m.value
+                          ? 'bg-purple-600 text-white shadow-md scale-105'
+                          : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-300 hover:bg-purple-50'
+                      }`}
+                    >
+                      {m.label}
+                    </button>
+                  ))}
+                </div>
+                <div className="space-y-2">
+                  {monthColumn3.map((m) => (
+                    <button
+                      key={m.value}
+                      onClick={() => setMonth(m.value)}
+                      className={`w-full py-2 px-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                        month === m.value
+                          ? 'bg-purple-600 text-white shadow-md scale-105'
+                          : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-300 hover:bg-purple-50'
+                      }`}
+                    >
+                      {m.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Button
+              onClick={handleContinue}
+              disabled={!day || !month}
+              className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-10 py-5 text-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            >
+              Continue
+            </Button>
+          </div>
         )}
 
         {showComment && (
