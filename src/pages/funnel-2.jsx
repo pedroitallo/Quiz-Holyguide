@@ -219,7 +219,7 @@ export default function Funnel2Page() {
           {currentStep === 4 && <LoveSituationStep userName="" birthDate={formData.birth_date} onSubmit={handleLoveSituationSubmit} />}
           {currentStep === 5 && <IdealPartnerQualities onSubmit={handleQualitiesSubmit} zodiacSign={formData.zodiac_sign} />}
           {currentStep === 6 && <PartnerPreference onSelect={handlePreferenceSelect} />}
-          {currentStep === 7 && <BirthChartResults onContinue={nextStep} />}
+          {currentStep === 7 && <BirthChartResults onContinue={nextStep} birthDate={formData.birth_date} />}
           {currentStep === 8 && <LoveChallenge onSubmit={handleChallengeSubmit} />}
           {currentStep === 9 && <LoveDesire onSubmit={handleDesireSubmit} />}
           {currentStep === 10 && <SoulmateConnection onSubmit={handleConnectionSubmit} zodiacSign={formData.zodiac_sign} />}

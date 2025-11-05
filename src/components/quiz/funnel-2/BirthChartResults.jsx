@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
 
-export default function BirthChartResults({ onContinue }) {
+export default function BirthChartResults({ onContinue, birthDate }) {
   return (
     <div className="text-center py-4">
       <motion.div
@@ -22,9 +22,31 @@ export default function BirthChartResults({ onContinue }) {
           </motion.h2>
 
           <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="px-4 max-w-md mx-auto mb-6"
+          >
+            <div className="relative">
+              <img
+                src="/print-soulmate"
+                alt="Soulmate Drawing"
+                className="w-full h-auto rounded-lg shadow-lg"
+              />
+              {birthDate && (
+                <div className="absolute top-[15%] left-1/2 transform -translate-x-1/2 text-center">
+                  <p className="text-gray-700 font-handwriting text-lg md:text-xl font-medium">
+                    {birthDate}
+                  </p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 0.6 }}
             className="px-4 max-w-2xl mx-auto mb-6"
           >
             <Card className="bg-white shadow-xl border-0">
