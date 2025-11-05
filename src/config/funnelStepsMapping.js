@@ -84,6 +84,25 @@ export const FUNNEL_STEPS_MAP = {
     { id: 'paywall', name: 'Paywall', component: PaywallStep1, description: 'Página de pagamento' },
     { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Página de agradecimento' }
   ],
+  'funnel-2aff': [
+    { id: 'initiate', name: 'Initiate Quiz', component: InitiateQuiz2, description: 'Tela inicial do quiz' },
+    { id: 'testimonials', name: 'Testimonials', component: TestimonialsCarousel, description: 'Carrossel de depoimentos' },
+    { id: 'birth_date', name: 'Birth Date with Zodiac', component: BirthDateWithZodiac, description: 'Data de nascimento com signo' },
+    { id: 'love_situation', name: 'Love Situation', component: LoveSituationStep, description: 'Situação amorosa atual' },
+    { id: 'qualities', name: 'Ideal Partner Qualities', component: IdealPartnerQualities, description: 'Qualidades do parceiro ideal' },
+    { id: 'preference', name: 'Partner Preference', component: PartnerPreference, description: 'Preferência de parceiro' },
+    { id: 'chart_results', name: 'Birth Chart Results', component: BirthChartResults, description: 'Resultados do mapa astral' },
+    { id: 'challenge', name: 'Love Challenge', component: LoveChallenge, description: 'Desafio amoroso' },
+    { id: 'desire', name: 'Love Desire', component: LoveDesire, description: 'Desejo amoroso' },
+    { id: 'connection', name: 'Soulmate Connection', component: SoulmateConnection, description: 'Conexão com alma gêmea' },
+    { id: 'love_language', name: 'Love Language', component: LoveLanguage, description: 'Linguagem do amor' },
+    { id: 'energy', name: 'Relationship Energy', component: RelationshipEnergy, description: 'Energia do relacionamento' },
+    { id: 'future', name: 'Future Scenario', component: FutureScenario, description: 'Cenário futuro' },
+    { id: 'social_proof', name: 'Social Proof', component: SocialProof, description: 'Prova social' },
+    { id: 'loading', name: 'Soulmate Drawing Loading', component: SoulmateDrawingLoading, description: 'Carregando desenho da alma gêmea' },
+    { id: 'paywall', name: 'Paywall', component: PaywallStepAff, description: 'Página de pagamento' },
+    { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Página de agradecimento' }
+  ],
   'funnel-3': [
     { id: 'video', name: 'Video Step', component: VideoStep1, description: 'Video introdutório' },
     { id: 'testimonials', name: 'Testimonials', component: TestimonialsCarousel, description: 'Carrossel de depoimentos' },
