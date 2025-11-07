@@ -135,7 +135,7 @@ export default function PaywallStepSMS({ userName, birthDate, quizResultId, src 
         className="mb-8">
 
         <h2 className="text-2xl md:text-3xl font-bold text-black mb-6 px-4">
-          Your Birth Chart Reading Is Ready!
+          Your soulmate drawing is ready.
         </h2>
 
         <motion.div
