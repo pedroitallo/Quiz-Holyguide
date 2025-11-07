@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import { trackStepView } from '../utils/stepTracking';
-import PaywallStep from "../components/quiz/funnel-1/PaywallStep";
+import PaywallStep from "../components/quiz/paywall-sms/PaywallStep";
 
 export default function PaywallSmsPage() {
   const [quizResultId, setQuizResultId] = useState(null);
