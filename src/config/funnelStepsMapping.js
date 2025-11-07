@@ -165,6 +165,9 @@ export const FUNNEL_STEPS_MAP = {
     { id: 'revelation', name: 'Loading Revelation', component: LoadingRevelationEsp, description: 'Revelação' },
     { id: 'paywall', name: 'Paywall', component: PaywallStep2Esp, description: 'Página de pagamento' },
     { id: 'thank_you', name: 'Thank You', component: ThankYouStepEsp, description: 'Agradecimento' }
+  ],
+  'paywall-sms': [
+    { id: 'paywall', name: 'Paywall', component: PaywallStep1, description: 'Página de pagamento standalone' }
   ]
 };
 

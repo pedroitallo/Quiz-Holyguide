@@ -147,6 +147,18 @@ export const FUNNEL_DEFINITIONS = [
       { name: 'revelation', label: 'Revelação', component: 'LoadingRevelation' },
       { name: 'paywall', label: 'Checkout', component: 'PaywallStep' }
     ]
+  },
+  {
+    id: 'paywall-sms',
+    name: 'Paywall SMS',
+    slug: 'paywall-sms',
+    description: 'Página standalone de paywall para SMS',
+    component: () => import('../pages/paywall-sms'),
+    status: 'active',
+    tags: ['paywall', 'sms', 'standalone'],
+    steps: [
+      { name: 'paywall', label: 'Checkout', component: 'PaywallStep' }
+    ]
   }
 ];
 

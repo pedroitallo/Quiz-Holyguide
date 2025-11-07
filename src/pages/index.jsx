@@ -8,6 +8,7 @@ import Funnel2Aff from "./funnel-2aff";
 import Funnel3 from "./funnel-3";
 import FunnelAff2 from "./funnel-aff2";
 import Funnel2Esp from "./funnel2-esp";
+import PaywallSms from "./paywall-sms";
 import Checkout from "./Checkout";
 import AdminLogin from "./AdminLogin";
 import Analytics from "./Analytics";
@@ -35,6 +36,7 @@ const PAGES = {
     "funnel-aff2": FunnelAff2,
     "funnel2-esp": Funnel2Esp,
     "funnel-esp": FunnelEspNew,
+    "paywall-sms": PaywallSms,
 }
 
 function _getCurrentPage(url) {
@@ -97,6 +99,7 @@ function PagesContent() {
                 <Route path="/funnel-aff2" element={<FunnelAff2 />} />
                 <Route path="/funnel2-esp" element={<Funnel2Esp />} />
                 <Route path="/funnel-esp" element={<FunnelEspNew />} />
+                <Route path="/paywall-sms" element={<PaywallSms />} />
             </Routes>
         </Layout>
     );
