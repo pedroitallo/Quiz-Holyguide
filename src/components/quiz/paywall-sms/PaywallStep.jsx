@@ -152,7 +152,7 @@ export default function PaywallStepSMS({ userName, birthDate, quizResultId, src 
                 </div>
                 <div className="text-center">
                   <p className="text-xs text-green-700 font-semibold uppercase tracking-wide">
-                    Special SMS Discount
+                    Special Discount
                   </p>
                   <p className="text-3xl font-bold text-green-600">
                     50% OFF
