@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { User, Calendar } from 'lucide-react';
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
+import { useTracking } from '@/hooks/useTracking';
 import SalesSection from '../funnel-1/SalesSection';
 
 const CHECKOUT_CONFIG = {
@@ -11,6 +12,7 @@ const CHECKOUT_CONFIG = {
 
 export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
   const [showSales, setShowSales] = useState(true);
+  const { trackEndQuiz } = useTracking();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -23,6 +25,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
   }, [quizResultId]);
 
   const handleCheckout = async () => {
+    trackEndQuiz();
+
     const trackCheckout = async () => {
       if (quizResultId && quizResultId !== 'offline-mode' && quizResultId !== 'admin-mode' && quizResultId !== 'bot-mode') {
         try {
