@@ -64,8 +64,8 @@ export default function Checkout() {
         </div>
 
         <sc-checkout
-          product="drawing-soulmate-auraly-app"
-          subdomain="appyon-app"
+          product="auraly-app"
+          subdomain="appsappyon"
           coupon=""
         ></sc-checkout>
 
