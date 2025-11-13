@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Heart, Check } from "lucide-react";
+import { Heart } from "lucide-react";
 
 export default function SocialProof({ onContinue }) {
   const handleContinue = () => {
@@ -71,47 +71,12 @@ export default function SocialProof({ onContinue }) {
             ))}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
-            className="mt-8"
-          >
-            <img
-              src="/Gemini_Generated_Image_bkk26vbkk26vbkk2.png"
-              alt="App Features"
-              className="w-full max-w-md mx-auto rounded-2xl"
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4 }}
-            className="mt-6 bg-purple-50/80 border-2 border-purple-200 rounded-2xl p-6 shadow-md"
-          >
-            <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-6 text-center">
-              When you join, you'll receive exclusive access to my app — the Auraly App ✨, where you'll get to see the drawing of your soulmate 🎨💕
-            </h3>
-
-            <div className="space-y-4 text-left">
-              <div className="flex items-start gap-3">
-                <span className="text-2xl flex-shrink-0">🔮</span>
-                <div>
-                  <p className="text-gray-800 font-semibold">Plus, every month you'll receive intuitive and insightful readings</p>
-                  <p className="text-gray-600 text-sm">offering powerful guidance about your love life and showing you how to connect energetically with your soulmate 💌💕</p>
-                </div>
-                <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
-              </div>
-            </div>
-          </motion.div>
-
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.6 }}
+            transition={{ delay: 1 }}
             onClick={handleContinue}
-            className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white text-lg font-bold py-4 px-8 rounded-full hover:from-purple-600 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 mt-6"
+            className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white text-lg font-bold py-4 px-8 rounded-full hover:from-purple-600 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
             Go To Full Revelation
           </motion.button>
