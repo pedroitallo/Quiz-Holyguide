@@ -171,25 +171,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
           animate={{ opacity: 1, y: 0 }}
           className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
 
-            <div className="flex items-start gap-3">
-              <img
-              src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-              alt="Master Aura"
-              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
-
-              <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">
-                  {userName ? <><span className="font-bold">{userName}</span>, something special is unfolding...</> : "Something special is unfolding..."}
-                  <br /><br />
-                  Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate. Everything points to a meeting in <span className="font-bold">{userCity}</span> — or somewhere very close.
-                  <br /><br />
-                  This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        }
-      </AnimatePresence>
 
       {/* Continue button */}
       {showNextButton &&
