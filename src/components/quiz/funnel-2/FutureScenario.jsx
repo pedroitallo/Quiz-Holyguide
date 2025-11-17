@@ -53,7 +53,7 @@ export default function FutureScenario({ onSubmit, zodiacSign }) {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-purple-600 mb-6 text-xl md:text-2xl font-bold leading-tight px-4">
-          🔮 WHEN YOU THINK ABOUT YOUR FUTURE LIFE WITH YOUR SOUL MATE, WHICH OF THESE SCENARIOS MOST APPEALS TO YOU?
+          🔮 What kind of future do you want to live with your soulmate?
         </h1>
 
         <div className="space-y-3 max-w-md mx-auto px-4">
