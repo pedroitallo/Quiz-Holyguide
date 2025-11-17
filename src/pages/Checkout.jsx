@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 export default function Checkout() {
-  const [timeLeft, setTimeLeft] = useState(10 * 60); // 10 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(10 * 60); // 10 min
 
   useEffect(() => {
-    // Evita duplicar o script se já estiver no DOM
     if (!document.querySelector('script[src="https://static.samcart.com/checkouts/sc-checkout.js"]')) {
       const script = document.createElement('script');
       script.src = 'https://static.samcart.com/checkouts/sc-checkout.js';
@@ -15,10 +14,8 @@ export default function Checkout() {
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => (prev <= 0 ? 0 : prev - 1));
-    }, 1000);
-    return () => clearInterval(timer);
+    const t = setInterval(() => setTimeLeft(p => (p <= 0 ? 0 : p - 1)), 1000);
+    return () => clearInterval(t);
   }, []);
 
   const minutes = Math.floor(timeLeft / 60);
@@ -29,45 +26,33 @@ export default function Checkout() {
       <Helmet>
         <title>Checkout - Auraly App</title>
         <style>{`
-          /* Torna o host o referencial do ::after */
-          sc-checkout {
-            position: relative;
-            display: block; /* garante largura total */
-          }
-
-          /* Se você quer o overlay no bloco order-summary especificamente: */
-          sc-checkout::part(order-summary) {
-            position: relative;
-          }
-          sc-checkout::part(order-summary)::after {
-            content: '';
-            position: absolute;
-            top: 230px;
-            left: 5px;
-            right: 5px;
-            height: 80px;
-            background: white;
-            z-index: 10;
-            pointer-events: none;
-          }
+          /* z-index base do web component para garantir que o overlay passe por cima */
+          sc-checkout { position: relative; z-index: 1; display:block; }
         `}</style>
       </Helmet>
 
       <div className="min-h-screen bg-white py-8 relative">
-        <div className="absolute top-[253px] left-1/2 -translate-x-1/2 z-20 text-center px-4">
+        {/* BLOCO: overlay branco que cobre as infos do checkout atrás da imagem */}
+        <div
+          className="
+            absolute left-1/2 -translate-x-1/2 z-20
+            w-[min(92vw,380px)] h-[130px]
+            top-[245px]    /* ajuste fino vertical conforme o seu layout */
+            bg-white rounded-xl shadow
+            pointer-events-none
+          "
+        />
+        {/* IMAGEM acima do tapete branco */}
+        <div className="absolute top-[253px] left-1/2 -translate-x-1/2 z-30 text-center px-4">
           <img
             src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=72#759107"
             alt="Your drawing soulmate"
-            className="mx-auto w-auto max-w-[300px]"
+            className="mx-auto w-full max-w-[360px]"
           />
         </div>
 
-        {/* O componente custom permanece dentro do container principal */}
-        <sc-checkout
-          product="auraly-app"
-          subdomain="appsappyon"
-          coupon=""
-        ></sc-checkout>
+        {/* Checkout */}
+        <sc-checkout product="auraly-app" subdomain="appsappyon" coupon=""></sc-checkout>
 
         <div className="max-w-2xl mx-auto mt-8 px-4">
           <p className="text-xs text-gray-500 text-center leading-relaxed">
@@ -75,7 +60,6 @@ export default function Checkout() {
             After the trial period ends, your subscription will automatically renew for just $29/month.
             You may cancel anytime by contacting us at contact@auralyapp.com
           </p>
-          {/* Exemplo de uso do timer, se quiser exibir */}
           <p className="text-center text-sm text-gray-800 mt-2">
             Offer expires in {minutes}:{seconds}
           </p>
