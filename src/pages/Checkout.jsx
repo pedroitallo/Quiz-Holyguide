@@ -42,7 +42,7 @@ export default function Checkout() {
             "
           />
           {/* Imagem lilás grande e centralizada */}
-          <div className="absolute top-[230px] left-1/2 -translate-x-1/2 z-30 flex justify-center w-full">
+          <div className="absolute top-[350px] left-1/2 -translate-x-1/2 z-30 flex justify-center w-full">
             <img
               src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=90#759107"
               alt="Your drawing soulmate"
