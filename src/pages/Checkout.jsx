@@ -44,7 +44,7 @@ export default function Checkout() {
           "
         >
           {/* Fundo branco sem sombra */}
-          <div className="absolute inset-0 -z-10 bg-white h-[250px] rounded-xl sm:hidden pointer-events-none" />
+          <div className="absolute inset-0 -z-10 bg-white h-[150px] rounded-xl sm:hidden pointer-events-none" />
 
           {/* Imagem lilás responsiva */}
           <img
