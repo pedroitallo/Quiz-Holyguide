@@ -20,7 +20,7 @@ export default function AppearanceImportance({ onSelect, zodiacSign }) {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-purple-600 mb-6 text-xl md:text-2xl font-bold leading-tight px-4">
-          HOW MUCH DOES APPEARANCE MATTER IN A REAL CONNECTION FOR YOU?
+         How much does appearance matter in a real connection for you?
         </h1>
 
         <div className="space-y-3 max-w-md mx-auto px-4">
