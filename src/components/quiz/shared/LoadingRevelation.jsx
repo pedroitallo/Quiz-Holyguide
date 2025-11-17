@@ -141,18 +141,18 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg p-2 shadow-sm border border-gray-200 mb-4 relative w-full">
 
-            <img
-            src={imageUrl}
-            alt="Preparing your revelation"
-            className="w-full rounded-lg"
-            style={{
-              loading: 'lazy',
-              decoding: 'async',
-              imageRendering: 'crisp-edges',
-              backfaceVisibility: 'hidden',
-              transform: 'translateZ(0)'
-            }} />
-
+          <img
+  src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/tXMSzr3464284.png"
+  alt="Preparing your revelation"
+  className="w-full rounded-lg"
+  style={{
+    loading: 'lazy',
+    decoding: 'async',
+    imageRendering: 'crisp-edges',
+    backfaceVisibility: 'hidden',
+    transform: 'translateZ(0)'
+  }}
+/>
             <TextOverlay />
           </motion.div>
         }
