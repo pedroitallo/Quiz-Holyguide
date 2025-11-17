@@ -32,31 +32,25 @@ export default function Checkout() {
 
       <div className="min-h-screen bg-white py-8 relative">
 
-        {/* Wrapper do banner lilás */}
-        <div
-          className="
-            absolute z-30
-            top-[230px]
-            left-1/2 -translate-x-1/2
-            sm:static sm:translate-x-0 sm:mt-4
-            sm:ml-[80px]
-            w-[min(95vw,1100px)]
-          "
-        >
-          {/* Fundo branco sem sombra */}
-          <div className="absolute inset-0 -z-10 bg-white h-[150px] rounded-xl sm:hidden pointer-events-none" />
-
-          {/* Imagem lilás responsiva */}
-          <img
-            src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=90#759107"
-            alt="Your drawing soulmate"
+        {/* Mostra apenas em mobile */}
+        <div className="block sm:hidden">
+          {/* Fundo branco atrás da imagem */}
+          <div
             className="
-              block object-contain
-              mx-auto w-full h-auto
-              max-w-[95vw] sm:max-w-[280px] md:max-w-[300px] lg:max-w-[320px]
-              sm:mx-0
+              absolute left-1/2 -translate-x-1/2 z-20
+              w-[min(95vw,500px)] h-[150px]
+              top-[220px]
+              bg-white rounded-xl pointer-events-none
             "
           />
+          {/* Imagem lilás centralizada */}
+          <div className="absolute top-[230px] left-1/2 -translate-x-1/2 z-30 text-center px-4">
+            <img
+              src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=90#759107"
+              alt="Your drawing soulmate"
+              className="mx-auto w-full max-w-[420px] h-auto object-contain"
+            />
+          </div>
         </div>
 
         {/* Checkout */}
