@@ -1,142 +1,210 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import TypingIndicator from './TypingIndicator';
+import { useTracking } from '@/hooks/useTracking';
 
-export default function SocialProof({ onContinue }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function LoadingRevelation({ onContinue, userName, birthDate, quizResultId }) {
+  const { trackEndQuiz, trackFacebookEvent } = useTracking();
+  const [userCity, setUserCity] = useState("your city");
+  const [showFirstTyping, setShowFirstTyping] = useState(true);
+  const [showFirstMessage, setShowFirstMessage] = useState(false);
+  const [showImage, setShowImage] = useState(false);
+  const [showSecondTyping, setShowSecondTyping] = useState(false);
+  const [showFinalMessage, setShowFinalMessage] = useState(false);
+  const [showNextButton, setShowNextButton] = useState(false);
+
+  const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
 
   const handleContinue = () => {
-    if (typeof window !== "undefined" && window.uetq) {
-      window.uetq.push("event", "endquiz", {});
-    }
+    // Rastrear fim do quiz
+    trackEndQuiz();
+    
+    // Continuar com a lógica original
     onContinue();
   };
 
-  const testimonials = [
-    {
-      name: "Rebecca",
-      date: "August 19, 2025",
-      title: "It changed my life.!",
-      text: "I’m so grateful for this app and for Master Aura! She’s an amazing astrologer — detailed and calming. I can’t wait for more sessions with her!",
-      avatar: "https://cdn.eutotal.com/imagens/pose-para-selfies.jpg",
-    },
-    {
-      name: "Lily Morgan",
-      date: "November 9, 2025",
-      title: "I am very happy.",
-      text: "I finally found the relationship of my dreams! 💕 Everything feels so natural and aligned — like we were truly meant to meet. I’m beyond happy!",
-      avatar: "https://cdn.eutotal.com/imagens/poses-para-foto6.jpg",
-    },
-    {
-      name: "Emily Carter",
-      date: "August 29, 2025",
-      title: "After years of searching, I finally found true love.",
-      text: "After using the Auraly App I gotta admit, I wasn’t sure if it was worth it, but seriously… no regrets! I’m having some amazing connections now 😍",
-      avatar: "https://diariotribuna.com.br/wp-content/uploads/2021/08/Juliana-1.jpg",
-    },
-  ];
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('pt-BR');
   };
 
-  const goToPrev = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
-    );
-  };
+  const TextOverlay = () =>
+  <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+      <div
+      className="absolute"
+      style={{
+        top: '22%',
+        right: '13%',
+        width: '18%',
+        height: '18%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden'
+      }}>
+        <div
+        style={{
+          fontFamily: 'Dancing Script, cursive',
+          fontWeight: '600',
+          fontSize: 'clamp(7px, 2.2vw, 11px)',
+          lineHeight: '1.3',
+          textAlign: 'center',
+          color: '#4a4a4a',
+          textShadow: '0.5px 0.5px 1px rgba(0,0,0,0.1)',
+          filter: 'sepia(10%) contrast(1.1)',
+          transform: 'rotate(-1deg)'
+        }}>
+          <div style={{ marginBottom: '2px' }}>
+            {userName || ''}
+          </div>
+          <div>
+            {formatDate(birthDate) || '...'}
+          </div>
+        </div>
+      </div>
+    </div>;
 
-  // Auto slide every 4s
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    }, 4000);
+    const timers = [];
 
-    return () => clearInterval(interval);
-  }, [testimonials.length]);
+    // First typing (1s) then first message
+    timers.push(setTimeout(() => {
+      setShowFirstTyping(false);
+      setShowFirstMessage(true);
+    }, 1000));
 
-  const current = testimonials[currentIndex];
+    // Show image immediately after first message
+    timers.push(setTimeout(() => {
+      setShowImage(true);
+    }, 1500));
+
+    // Start second typing after image appears
+    timers.push(setTimeout(() => {
+      setShowSecondTyping(true);
+    }, 2000));
+
+    // Second typing (1s) then final message
+    timers.push(setTimeout(() => {
+      setShowSecondTyping(false);
+      setShowFinalMessage(true);
+    }, 3000));
+
+    // Show button after final message
+    timers.push(setTimeout(() => {
+      setShowNextButton(true);
+    }, 3500));
+
+    return () => timers.forEach(clearTimeout);
+  }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="w-full max-w-4xl mx-auto px-4 py-8"
-    >
-      <div className="space-y-6">
-        <div className="relative">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.4 }}
-              className="bg-white rounded-3xl p-6 shadow-lg border border-gray-200"
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={current.avatar}
-                    alt={current.name}
-                    className="w-14 h-14 rounded-full object-cover"
-                  />
-                  <div>
-                    <h3 className="font-bold text-gray-800 text-lg">
-                      {current.name}
-                    </h3>
-                    <p className="text-gray-400 text-sm">{current.date}</p>
-                  </div>
-                </div>
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-yellow-400 text-xl">
-                      ⭐
-                    </span>
-                  ))}
-                </div>
-              </div>
+    <div className="py-8 w-full max-w-lg mx-auto flex flex-col items-center gap-4">
+      <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&display=swap"
+        rel="stylesheet" />
 
-              <div className="space-y-3">
-                <h4 className="font-bold text-gray-800 text-xl">
-                  {current.title}
-                </h4>
-                <p className="text-gray-600 text-base leading-relaxed">
-                  {current.text}
-                </p>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+      {/* First typing indicator */}
+      <AnimatePresence>
+        {showFirstTyping && <TypingIndicator />}
+      </AnimatePresence>
 
-          {/* Arrows */}
-          <button
-            type="button"
-            onClick={goToPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-white/90 border border-gray-200 rounded-full p-2 shadow-md hover:bg-gray-50 transition"
-          >
-            <ChevronLeft className="w-5 h-5 text-gray-700" />
-          </button>
-
-          <button
-            type="button"
-            onClick={goToNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-white/90 border border-gray-200 rounded-full p-2 shadow-md hover:bg-gray-50 transition"
-          >
-            <ChevronRight className="w-5 h-5 text-gray-700" />
-          </button>
-        </div>
-
-        <motion.button
+      {/* First message */}
+      <AnimatePresence>
+        {showFirstMessage &&
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
+          className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+
+            <div className="flex items-start gap-3">
+              <img
+              src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
+              alt="Master Aura"
+              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, I am preparing a portrait of your soulmate. I'm starting right now👇🔮
+              </p>
+              </div>
+            </div>
+          </motion.div>
+        }
+      </AnimatePresence>
+
+      {/* Image */}
+      <AnimatePresence>
+        {showImage &&
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-lg p-2 shadow-sm border border-gray-200 mb-4 relative w-full">
+
+            <img
+            src={imageUrl}
+            alt="Preparing your revelation"
+            className="w-full rounded-lg"
+            style={{
+              loading: 'lazy',
+              decoding: 'async',
+              imageRendering: 'crisp-edges',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)'
+            }} />
+
+            <TextOverlay />
+          </motion.div>
+        }
+      </AnimatePresence>
+
+      {/* Second typing indicator */}
+      <AnimatePresence>
+        {showSecondTyping && <TypingIndicator />}
+      </AnimatePresence>
+
+      {/* Final message */}
+      <AnimatePresence>
+        {showFinalMessage &&
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
+
+            <div className="flex items-start gap-3">
+              <img
+              src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
+              alt="Master Aura"
+              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
+
+              <div className="text-left">
+                <p className="text-base text-gray-700 leading-relaxed">
+                  {userName ? <><span className="font-bold">{userName}</span>, something special is unfolding...</> : "Something special is unfolding..."}
+                  <br /><br />
+                  Based on the reading of your destiny and your birth date, I've started to draw the face of your soulmate. Everything points to a meeting in <span className="font-bold">{userCity}</span> — or somewhere very close.
+                  <br /><br />
+                  This person has a beautiful energy and is closer than you think… patiently waiting for you. ✨
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        }
+      </AnimatePresence>
+
+      {/* Continue button */}
+      {showNextButton &&
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mt-8">
+
+          <button
           onClick={handleContinue}
-          className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white text-lg font-bold py-4 px-8 rounded-full hover:from-purple-600 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-        >
-          Go To Full Revelation
-        </motion.button>
-      </div>
-    </motion.div>
-  );
+          className="btn-primary w-full max-w-sm md:w-auto">
+            Discover the face of my soulmate
+          </button>
+        </motion.div>
+      }
+    </div>);
 }
