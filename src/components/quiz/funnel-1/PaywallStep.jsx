@@ -216,29 +216,7 @@ Plus, every month you'll <strong>receive intuitive and insightful readings</stro
             </div>
           </CardContent>
         </Card>
-const testimonials = [
-    {
-      name: "Rebecca",
-      date: "August 19, 2025",
-      title: "It changed my life.!",
-      text: "I’m so grateful for this app and for Master Aura! She’s an amazing astrologer — detailed and calming. I can’t wait for more sessions with her!",
-      avatar: "https://cdn.eutotal.com/imagens/pose-para-selfies.jpg"
-    },
-     {
-      name: "Lily Morgan",
-      date: "November 9, 2025",
-      title: "I am very happy.",
-      text: "I finally found the relationship of my dreams! 💕 Everything feels so natural and aligned — like we were truly meant to meet. I’m beyond happy!",
-      avatar: "https://cdn.eutotal.com/imagens/poses-para-foto6.jpg"
-    },
-    {
-      name: "Emily Carter",
-      date: "August 29, 2025",
-      title: "After years of searching, I finally found true love.",
-      text: "After using the Auraly App I gotta admit, I wasn’t sure if it was worth it, but seriously… no regrets! I’m having some amazing connections now 😍",
-      avatar: "https://diariotribuna.com.br/wp-content/uploads/2021/08/Juliana-1.jpg"
-    }
-  ];
+
         {showSales && (
           <SalesSection
             userName={userName}
