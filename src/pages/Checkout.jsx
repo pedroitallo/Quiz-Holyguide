@@ -43,16 +43,17 @@ export default function Checkout() {
 
         {/* IMAGEM GRANDE */}
         <div className="absolute top-[250px] left-1/2 -translate-x-1/2 z-30 text-center px-4">
-          <img
-            src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=72#759107"
-            alt="Your drawing soulmate"
-            className="
-              mx-auto w-full
-              max-w-[900px] md:max-w-[300px]    /* bem grande em desktop */
-              sm:max-w-[1820px]                  /* grande em mobile maior */
-            "
-          />
-        </div>
+  <img
+    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=72#759107"
+    alt="Your drawing soulmate"
+    className="
+      mx-auto w-full
+      max-w-[1000px]        /* grande no desktop */
+      sm:max-w-[700px]      /* tamanho bom em telas menores */
+      xs:max-w-[500px]      /* opcional, se quiser definir pra telas pequenas */
+    "
+  />
+</div>
 
         {/* Checkout */}
         <sc-checkout product="auraly-app" subdomain="appsappyon" coupon=""></sc-checkout>
