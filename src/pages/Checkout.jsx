@@ -42,13 +42,13 @@ export default function Checkout() {
         />
 
         {/* IMAGEM GRANDE */}
-        <div className="absolute top-[212px] left-1/2 -translate-x-1/2 z-30 text-center px-4">
+        <div className="absolute top-[150px] left-1/2 -translate-x-1/2 z-30 text-center px-4">
           <img
             src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=72#759107"
             alt="Your drawing soulmate"
             className="
               mx-auto w-full
-              max-w-[760px] md:max-w-[500px]    /* bem grande em desktop */
+              max-w-[760px] md:max-w-[300px]    /* bem grande em desktop */
               sm:max-w-[620px]                  /* grande em mobile maior */
             "
           />
