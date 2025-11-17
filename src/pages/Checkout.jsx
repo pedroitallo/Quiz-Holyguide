@@ -56,12 +56,14 @@ export default function Checkout() {
         `}</style>
       </Helmet>
       <div className="min-h-screen bg-white py-8 relative">
-        <div className="absolute top-[253px] left-1/2 -translate-x-1/2 z-20 text-center px-4">
-          <p className="text-sm font-medium text-gray-800 mb-1">Access your drawing soulmate. Limited offer.</p>
-          <div className="text-2xl font-bold text-red-600">
-            {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-          </div>
-        </div>
+  <div className="absolute top-[253px] left-1/2 -translate-x-1/2 z-20 text-center px-4">
+    <img
+      src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=72#759107"
+      alt="Your drawing soulmate"
+      className="mx-auto w-auto max-w-[300px]"
+    />
+  </div>
+</div>
 
         <sc-checkout
           product="auraly-app"
