@@ -35,7 +35,7 @@ export default function Checkout() {
         <div
           className="
             absolute left-1/2 -translate-x-1/2 z-20
-            w-[min(96vw,520px)] h-[220px]
+            w-[min(96vw,520px)] h-[20px]
             top-[200px]
             bg-white rounded-2xl shadow-lg pointer-events-none
           "
