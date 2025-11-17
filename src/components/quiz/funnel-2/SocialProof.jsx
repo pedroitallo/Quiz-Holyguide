@@ -23,7 +23,7 @@ export default function SocialProof({ onContinue }) {
       date: "August 29, 2025",
       title: "After years of searching, I finally found true love.",
       text: "After using the Auraly App I gotta admit, I wasn’t sure if it was worth it, but seriously… no regrets! I’m having some amazing connections now 😍",
-      avatar: "https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
+      avatar: "https://diariotribuna.com.br/wp-content/uploads/2021/08/Juliana-1.jpg"
     }
   ];
 
