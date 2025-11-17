@@ -35,7 +35,7 @@ export default function Checkout() {
         <div
           className="
             absolute left-1/2 -translate-x-1/2 z-20
-            w-[min(96vw,820px)] h-[220px]
+            w-[min(96vw,520px)] h-[220px]
             top-[200px]
             bg-white rounded-2xl shadow-lg pointer-events-none
           "
@@ -49,7 +49,7 @@ export default function Checkout() {
             className="
               mx-auto w-full
               max-w-[760px] md:max-w-[300px]    /* bem grande em desktop */
-              sm:max-w-[1000px]                  /* grande em mobile maior */
+              sm:max-w-[1820px]                  /* grande em mobile maior */
             "
           />
         </div>
