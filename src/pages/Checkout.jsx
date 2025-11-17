@@ -25,37 +25,36 @@ export default function Checkout() {
     <>
       <Helmet>
         <title>Checkout - Auraly App</title>
-        <style>{`
-          sc-checkout { position: relative; z-index: 1; display:block; }
-        `}</style>
+        <style>{`sc-checkout{position:relative;z-index:1;display:block}`}</style>
       </Helmet>
 
       <div className="min-h-screen bg-white py-8 relative">
-        {/* Tapete branco (ajustado para largura grande) */}
+
+        {/* CONTAINER COM LARGURA TOTAL E SEM SOMBRA */}
         <div
           className="
-            absolute left-1/2 -translate-x-1/2 z-20
-            w-[min(96vw,520px)] h-[150px]
-            top-[200px]
-            bg-white rounded-2xl shadow-lg pointer-events-none
+            absolute left-1/2 -translate-x-1/2 z-30
+            top-[210px]
+            w-full max-w-[1200px]
+            px-4
           "
-        />
+        >
+          {/* FUNDO BRANCO (SEM SHADOW) */}
+          <div className="absolute inset-0 -z-10 bg-white h-[250px] rounded-xl pointer-events-none" />
 
-        {/* IMAGEM GRANDE */}
-        <div className="absolute top-[250px] left-1/2 -translate-x-1/2 z-30 text-center px-4">
-  <img
-    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=72#759107"
-    alt="Your drawing soulmate"
-    className="
-      mx-auto w-full
-      max-w-[1000px]        /* grande no desktop */
-      sm:max-w-[700px]      /* tamanho bom em telas menores */
-      xs:max-w-[500px]      /* opcional, se quiser definir pra telas pequenas */
-    "
-  />
-</div>
+          {/* IMAGEM GRANDE E RESPONSIVA */}
+          <img
+            src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=90#759107"
+            alt="Your drawing soulmate"
+            className="
+              w-full h-auto object-contain
+              max-w-[95vw] sm:max-w-[600px] md:max-w-[800px] lg:max-w-[1000px]
+              mx-auto
+            "
+          />
+        </div>
 
-        {/* Checkout */}
+        {/* CHECKOUT */}
         <sc-checkout product="auraly-app" subdomain="appsappyon" coupon=""></sc-checkout>
 
         <div className="max-w-2xl mx-auto mt-8 px-4">
