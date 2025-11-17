@@ -6,7 +6,7 @@ import { useTracking } from "@/hooks/useTracking";
 export default function LoadingRevelation({
   onContinue,
   userName,
-  birthDate,
+  birthDate
 }) {
   const { trackEndQuiz } = useTracking();
 
@@ -19,47 +19,6 @@ export default function LoadingRevelation({
     trackEndQuiz();
     onContinue();
   };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("pt-BR");
-  };
-
-  const TextOverlay = () => (
-    <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-      <div
-        className="absolute"
-        style={{
-          top: "22%",
-          right: "13%",
-          width: "18%",
-          height: "18%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            fontFamily: "Dancing Script, cursive",
-            fontWeight: "600",
-            fontSize: "clamp(7px, 2.2vw, 11px)",
-            lineHeight: "1.3",
-            textAlign: "center",
-            color: "#4a4a4a",
-            textShadow: "0.5px 0.5px 1px rgba(0,0,0,0.1)",
-            filter: "sepia(10%) contrast(1.1)",
-            transform: "rotate(-1deg)",
-          }}
-        >
-          <div style={{ marginBottom: "2px" }}>{userName || ""}</div>
-          <div>{formatDate(birthDate) || "..."}</div>
-        </div>
-      </div>
-    </div>
-  );
 
   useEffect(() => {
     const t1 = setTimeout(() => {
@@ -94,7 +53,7 @@ export default function LoadingRevelation({
         {showFirstTyping && <TypingIndicator />}
       </AnimatePresence>
 
-      {/* Mensagem 1 */}
+      {/* Primeiro texto */}
       <AnimatePresence>
         {showFirstMessage && (
           <motion.div
@@ -125,7 +84,7 @@ export default function LoadingRevelation({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-lg p-2 shadow-sm border border-gray-200 mb-4 relative w-full"
+            className="bg-white rounded-lg p-2 shadow-sm border border-gray-200 w-full"
           >
             <img
               src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/tXMSzr3464284.png?quality=83#875227"
@@ -136,25 +95,24 @@ export default function LoadingRevelation({
                 decoding: "async",
                 imageRendering: "crisp-edges",
                 backfaceVisibility: "hidden",
-                transform: "translateZ(0)",
+                transform: "translateZ(0)"
               }}
             />
-            <TextOverlay />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Botão */}
+      {/* Botão próximo da imagem e maior */}
       {showNextButton && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mt-4"
+          className="mt-2 w-full flex justify-center"
         >
           <button
             onClick={handleContinue}
-            className="btn-primary w-full max-w-sm md:w-auto"
+            className="btn-primary w-full max-w-sm md:w-auto text-lg md:text-xl font-bold py-4 px-10 rounded-full"
           >
             Discover the face of my soulmate
           </button>
