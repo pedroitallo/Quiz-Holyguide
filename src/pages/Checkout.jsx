@@ -48,7 +48,7 @@ export default function Checkout() {
             <img
               src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=90#759107"
               alt="Your drawing soulmate"
-              className="mx-auto w-full max-w-[420px] h-auto object-contain"
+              className="mx-auto w-full max-w-[820px] h-auto object-contain"
             />
           </div>
         </div>
