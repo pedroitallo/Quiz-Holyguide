@@ -35,7 +35,7 @@ export default function Checkout() {
           className="
             absolute left-1/2 -translate-x-1/2 z-30
             top-[210px]
-            w-full max-w-[700px]
+            w-full max-w-[1700px]
             px-4
           "
         >
