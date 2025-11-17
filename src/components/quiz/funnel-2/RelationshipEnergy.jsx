@@ -53,7 +53,7 @@ export default function RelationshipEnergy({ onSelect }) {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-purple-600 mb-6 text-xl md:text-2xl font-bold leading-tight px-4">
-          WHAT KIND OF ENERGY DO YOU FEEL MOST BALANCES YOU IN A RELATIONSHIP?
+          What kind of energy do you feel most balances you in a relationship?
         </h1>
 
         <div className="space-y-3 max-w-md mx-auto px-4">
