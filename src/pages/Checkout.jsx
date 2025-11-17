@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 export default function Checkout() {
-  const [timeLeft, setTimeLeft] = useState(10 * 60); // 10 min
+  const [timeLeft, setTimeLeft] = useState(10 * 60);
 
   useEffect(() => {
     if (!document.querySelector('script[src="https://static.samcart.com/checkouts/sc-checkout.js"]')) {
@@ -26,32 +26,31 @@ export default function Checkout() {
       <Helmet>
         <title>Checkout - Auraly App</title>
         <style>{`
-          sc-checkout {
-            position: relative;
-            z-index: 1;
-            display: block;
-          }
+          sc-checkout { position: relative; z-index: 1; display:block; }
         `}</style>
       </Helmet>
 
       <div className="min-h-screen bg-white py-8 relative">
-        {/* Fundo branco que cobre tudo atrás da imagem */}
+        {/* Tapete branco (ajustado para largura grande) */}
         <div
           className="
             absolute left-1/2 -translate-x-1/2 z-20
-            w-[min(95vw,450px)] h-[180px]
-            top-[220px]
-            bg-white rounded-2xl shadow-lg
-            pointer-events-none
+            w-[min(96vw,820px)] h-[220px]
+            top-[200px]
+            bg-white rounded-2xl shadow-lg pointer-events-none
           "
         />
 
-        {/* Imagem grande centralizada */}
-        <div className="absolute top-[230px] left-1/2 -translate-x-1/2 z-30 text-center px-4">
+        {/* IMAGEM GRANDE */}
+        <div className="absolute top-[212px] left-1/2 -translate-x-1/2 z-30 text-center px-4">
           <img
             src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=72#759107"
             alt="Your drawing soulmate"
-            className="mx-auto w-full max-w-[420px] sm:max-w-[480px]"
+            className="
+              mx-auto w-full
+              max-w-[760px] md:max-w-[800px]    /* bem grande em desktop */
+              sm:max-w-[620px]                  /* grande em mobile maior */
+            "
           />
         </div>
 
