@@ -47,17 +47,21 @@ export default function BirthChartResults({ onContinue, birthDate }) {
                 />
               </div>
 
-              <p className="text-base text-gray-700 leading-relaxed pl-13">
-                I was so happy to see that you'll have a love story that transcends the ordinary.
-              </p>
+         <p className="text-base text-gray-700 leading-relaxed pl-13">
+  I was so happy to see that you'll have a <strong>love story</strong> that 
+  <strong> transcends the ordinary</strong>.
+</p>
 
-              <p className="text-base text-gray-700 leading-relaxed pl-13">
-                Your Soulmate is someone of illuminating beauty, with a magnetic presence that attracts and an unwavering protective instinct.
-              </p>
+<p className="text-base text-gray-700 leading-relaxed pl-13">
+  Your <strong>Soulmate</strong> is someone of <strong>illuminating beauty</strong>, 
+  with a <strong>magnetic presence</strong> that attracts and an 
+  <strong> unwavering protective instinct</strong>.
+</p>
 
-              <p className="text-base text-gray-700 leading-relaxed pl-13">
-                I feel that he will bring not only passion, but a deep sense of security, opening paths to prosperity that you will build together.
-              </p>
+<p className="text-base text-gray-700 leading-relaxed pl-13">
+  I feel that he will bring not only <strong>passion</strong>, but a deep sense of 
+  <strong>security</strong>, opening paths to <strong>prosperity</strong> that you will build together.
+</p>
 
               <div className="bg-gradient-to-r from-purple-50 to-pink-50 border-l-4 border-purple-600 p-4 rounded-r-lg mt-6">
                 <p className="font-semibold text-base text-purple-700 leading-relaxed">
