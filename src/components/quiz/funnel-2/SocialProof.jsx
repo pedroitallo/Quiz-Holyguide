@@ -23,7 +23,7 @@ export default function SocialProof({ onContinue }) {
       date: "November 9, 2025",
       title: "It changed my life.!",
       text: "I finally found the relationship of my dreams! 💕 Everything feels so natural and aligned — like we were truly meant to meet. I’m beyond happy!",
-      avatar: "https://cdn.eutotal.com/imagens/pose-para-selfies.jpg"
+      avatar: "https://cdn.eutotal.com/imagens/poses-para-foto6.jpg"
     },
     {
       name: "Emily Carter",
