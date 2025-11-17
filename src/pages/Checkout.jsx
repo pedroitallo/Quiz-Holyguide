@@ -35,12 +35,12 @@ export default function Checkout() {
           className="
             absolute left-1/2 -translate-x-1/2 z-30
             top-[210px]
-            w-full max-w-[1700px]
+            w-full max-w-[1200px]
             px-4
           "
         >
           {/* FUNDO BRANCO (SEM SHADOW) */}
-          <div className="absolute inset-0 -z-10 bg-white h-[550px] rounded-xl pointer-events-none" />
+          <div className="absolute inset-0 -z-10 bg-white h-[250px] rounded-xl pointer-events-none" />
 
           {/* IMAGEM GRANDE E RESPONSIVA */}
           <img
