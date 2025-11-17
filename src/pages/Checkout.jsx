@@ -26,28 +26,32 @@ export default function Checkout() {
       <Helmet>
         <title>Checkout - Auraly App</title>
         <style>{`
-          /* z-index base do web component para garantir que o overlay passe por cima */
-          sc-checkout { position: relative; z-index: 1; display:block; }
+          sc-checkout {
+            position: relative;
+            z-index: 1;
+            display: block;
+          }
         `}</style>
       </Helmet>
 
       <div className="min-h-screen bg-white py-8 relative">
-        {/* BLOCO: overlay branco que cobre as infos do checkout atrás da imagem */}
+        {/* Fundo branco que cobre tudo atrás da imagem */}
         <div
           className="
             absolute left-1/2 -translate-x-1/2 z-20
-            w-[min(92vw,380px)] h-[130px]
-            top-[245px]    /* ajuste fino vertical conforme o seu layout */
-            bg-white rounded-xl shadow
+            w-[min(95vw,450px)] h-[180px]
+            top-[220px]
+            bg-white rounded-2xl shadow-lg
             pointer-events-none
           "
         />
-        {/* IMAGEM acima do tapete branco */}
-        <div className="absolute top-[253px] left-1/2 -translate-x-1/2 z-30 text-center px-4">
+
+        {/* Imagem grande centralizada */}
+        <div className="absolute top-[230px] left-1/2 -translate-x-1/2 z-30 text-center px-4">
           <img
             src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=72#759107"
             alt="Your drawing soulmate"
-            className="mx-auto w-full max-w-[360px]"
+            className="mx-auto w-full max-w-[420px] sm:max-w-[480px]"
           />
         </div>
 
