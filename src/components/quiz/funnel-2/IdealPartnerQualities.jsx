@@ -15,6 +15,9 @@ export default function IdealPartnerQualities({ onSubmit, zodiacSign }) {
     { value: "protective", label: "Protective", emoji: "💪" }
   ];
 
+  const firstRow = qualities.slice(0, 4);
+  const secondRow = qualities.slice(4, 8);
+
   const toggleQuality = (value) => {
     setSelectedQualities(prev =>
       prev.includes(value)
@@ -44,28 +47,53 @@ export default function IdealPartnerQualities({ onSubmit, zodiacSign }) {
           <p className="text-gray-600 text-lg">Please select all that apply</p>
         </div>
 
-        <div className="grid grid-cols-5 gap-3">
-          {qualities.map((quality, index) => (
-            <motion.button
-              key={quality.value}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.05 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => toggleQuality(quality.value)}
-              className={`p-3 rounded-2xl border-2 transition-all duration-300 ${
-                selectedQualities.includes(quality.value)
-                  ? "bg-purple-500 border-purple-600 text-white shadow-lg"
-                  : "bg-white border-purple-200 hover:border-purple-400 text-gray-800"
-              }`}
-            >
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-2xl">{quality.emoji}</span>
-                <span className="font-semibold text-xs">{quality.label}</span>
-              </div>
-            </motion.button>
-          ))}
+        <div className="space-y-4">
+          <div className="grid grid-cols-4 gap-3">
+            {firstRow.map((quality, index) => (
+              <motion.button
+                key={quality.value}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => toggleQuality(quality.value)}
+                className={`p-4 rounded-3xl border-2 transition-all duration-300 ${
+                  selectedQualities.includes(quality.value)
+                    ? "bg-purple-500 border-purple-600 text-white shadow-lg"
+                    : "bg-white border-purple-200 hover:border-purple-400 text-gray-800"
+                }`}
+              >
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <span className="text-3xl md:text-4xl">{quality.emoji}</span>
+                  <span className="font-semibold text-sm">{quality.label}</span>
+                </div>
+              </motion.button>
+            ))}
+          </div>
+          <div className="grid grid-cols-4 gap-3">
+            {secondRow.map((quality, index) => (
+              <motion.button
+                key={quality.value}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: (4 + index) * 0.05 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => toggleQuality(quality.value)}
+                className={`p-4 rounded-3xl border-2 transition-all duration-300 ${
+                  selectedQualities.includes(quality.value)
+                    ? "bg-purple-500 border-purple-600 text-white shadow-lg"
+                    : "bg-white border-purple-200 hover:border-purple-400 text-gray-800"
+                }`}
+              >
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <span className="text-3xl md:text-4xl">{quality.emoji}</span>
+                  <span className="font-semibold text-sm">{quality.label}</span>
+                </div>
+              </motion.button>
+            ))}
+          </div>
         </div>
 
         <button
