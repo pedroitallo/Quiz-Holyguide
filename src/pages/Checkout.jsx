@@ -25,36 +25,41 @@ export default function Checkout() {
     <>
       <Helmet>
         <title>Checkout - Auraly App</title>
-        <style>{`sc-checkout{position:relative;z-index:1;display:block}`}</style>
+        <style>{`
+          sc-checkout { position: relative; z-index: 1; display:block; }
+        `}</style>
       </Helmet>
 
       <div className="min-h-screen bg-white py-8 relative">
 
-        {/* CONTAINER COM LARGURA TOTAL E SEM SOMBRA */}
+        {/* Wrapper do banner lilás */}
         <div
           className="
-            absolute left-1/2 -translate-x-1/2 z-30
-            top-[210px]
-            w-full max-w-[1200px]
-            px-4
+            absolute z-30
+            top-[230px]
+            left-1/2 -translate-x-1/2
+            sm:static sm:translate-x-0 sm:mt-4
+            sm:ml-[80px]
+            w-[min(95vw,1100px)]
           "
         >
-          {/* FUNDO BRANCO (SEM SHADOW) */}
-          <div className="absolute inset-0 -z-10 bg-white h-[150px] rounded-xl pointer-events-none" />
+          {/* Fundo branco sem sombra */}
+          <div className="absolute inset-0 -z-10 bg-white h-[250px] rounded-xl sm:hidden pointer-events-none" />
 
-          {/* IMAGEM GRANDE E RESPONSIVA */}
+          {/* Imagem lilás responsiva */}
           <img
             src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=90#759107"
             alt="Your drawing soulmate"
             className="
-              w-full h-auto object-contain
-              max-w-[95vw] sm:max-w-[600px] md:max-w-[800px] lg:max-w-[1000px]
-              mx-auto
+              block object-contain
+              mx-auto w-full h-auto
+              max-w-[95vw] sm:max-w-[280px] md:max-w-[300px] lg:max-w-[320px]
+              sm:mx-0
             "
           />
         </div>
 
-        {/* CHECKOUT */}
+        {/* Checkout */}
         <sc-checkout product="auraly-app" subdomain="appsappyon" coupon=""></sc-checkout>
 
         <div className="max-w-2xl mx-auto mt-8 px-4">
