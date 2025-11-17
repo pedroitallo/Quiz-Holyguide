@@ -183,34 +183,36 @@ export default function Funnel2Page() {
         <div className="absolute top-2/3 right-1/4 text-purple-200/40"><Sparkles className="w-4 h-4 animate-pulse" style={{ animationDelay: '4s' }} /></div>
       </div>
 
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm">
-        <div className="px-4 md:px-6 py-3">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <img src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png" alt="Master Aura" className="w-10 md:w-12 h-10 md:h-12 rounded-full object-cover border-2 border-purple-200" />
-              <div className="absolute -bottom-1 -right-1 w-3 md:w-4 h-3 md:h-4 bg-green-500 border-2 border-white rounded-full" />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm md:text-base font-semibold text-gray-800">Master Aura</h3>
-                <div className="w-3 md:w-4 h-3 md:h-4 bg-green-500 rounded-full flex items-center justify-center">
-                  <svg className="w-2 md:w-2.5 h-2 md:h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-                </div>
+      {currentStep !== 16 && (
+        <div className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm">
+          <div className="px-4 md:px-6 py-3">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <img src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png" alt="Master Aura" className="w-10 md:w-12 h-10 md:h-12 rounded-full object-cover border-2 border-purple-200" />
+                <div className="absolute -bottom-1 -right-1 w-3 md:w-4 h-3 md:h-4 bg-green-500 border-2 border-white rounded-full" />
               </div>
-              <p className="text-xs md:text-sm text-green-600 font-medium">online</p>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm md:text-base font-semibold text-gray-800">Master Aura</h3>
+                  <div className="w-3 md:w-4 h-3 md:h-4 bg-green-500 rounded-full flex items-center justify-center">
+                    <svg className="w-2 md:w-2.5 h-2 md:h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                  </div>
+                </div>
+                <p className="text-xs md:text-sm text-green-600 font-medium">online</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="relative">
-          <div className="w-full bg-gray-200 h-1">
-            <motion.div className="bg-gradient-to-r from-purple-400 to-purple-600 h-1" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.5, ease: "easeOut" }} />
+          <div className="relative">
+            <div className="w-full bg-gray-200 h-1">
+              <motion.div className="bg-gradient-to-r from-purple-400 to-purple-600 h-1" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.5, ease: "easeOut" }} />
+            </div>
+            <div className="absolute right-2 -top-6 text-xs text-gray-600 font-medium">{Math.round(progress)}%</div>
           </div>
-          <div className="absolute right-2 -top-6 text-xs text-gray-600 font-medium">{Math.round(progress)}%</div>
         </div>
-      </div>
+      )}
 
-      <div className="bg-[#f9f5ff] pt-24 pb-8 px-2 md:pt-28 md:px-4">
+      <div className={`bg-[#f9f5ff] pb-8 px-2 md:px-4 ${currentStep === 16 ? 'pt-8' : 'pt-24 md:pt-28'}`}>
         <div className="max-w-lg mx-auto">
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
           {currentStep === 1 && <InitiateQuiz onContinue={nextStep} />}
