@@ -16,7 +16,7 @@ export default function SocialProof({ onContinue }) {
       date: "August 19, 2025",
       title: "It changed my life.!",
       text: "I’m so grateful for this app and for Master Aura! She’s an amazing astrologer — detailed and calming. I can’t wait for more sessions with her!",
-      avatar: "https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
+      avatar: "https://cdn.eutotal.com/imagens/pose-para-selfies.jpg"
     },
     {
       name: "Emily Carter",
