@@ -20,9 +20,9 @@ export default function SocialProof({ onContinue }) {
     },
     {
       name: "Mika Ryan",
-      date: "29 de agosto de 2024",
-      title: "Depois de anos procurando, finalmente encontrei um amor verdadeiro.",
-      text: "Eu estava hesitante se realmente valia a pena tentar, mas agora não tenho arrependimentos e estou curtindo meus novos relacionamentos!",
+      date: "August 29, 2025",
+      title: "After years of searching, I finally found true love.",
+      text: "After using the Auraly App I gotta admit, I wasn’t sure if it was worth it, but seriously… no regrets! I’m having some amazing connections now 😍",
       avatar: "https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
     }
   ];
