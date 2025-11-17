@@ -53,7 +53,7 @@ export default function LoveDesire({ onSubmit }) {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-purple-600 mb-6 text-xl md:text-2xl font-bold leading-tight px-4">
-          IS THERE SOMETHING YOU DEEPLY WISH TO EXPERIENCE IN LOVE — BUT HAVEN'T YET?
+         Is there something you deeply wish to experience in love?
         </h1>
 
         <div className="space-y-3 max-w-md mx-auto px-4">
