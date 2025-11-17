@@ -1,173 +1,165 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import TypingIndicator from './TypingIndicator';
-import { useTracking } from '@/hooks/useTracking';
+import TypingIndicator from "./TypingIndicator";
+import { useTracking } from "@/hooks/useTracking";
 
-export default function LoadingRevelation({ onContinue, userName, birthDate, quizResultId }) {
-  const { trackEndQuiz, trackFacebookEvent } = useTracking();
-  const [userCity, setUserCity] = useState("your city");
+export default function LoadingRevelation({
+  onContinue,
+  userName,
+  birthDate,
+}) {
+  const { trackEndQuiz } = useTracking();
+
   const [showFirstTyping, setShowFirstTyping] = useState(true);
   const [showFirstMessage, setShowFirstMessage] = useState(false);
   const [showImage, setShowImage] = useState(false);
-  const [showSecondTyping, setShowSecondTyping] = useState(false);
-  const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
 
-  const imageUrl = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/b6f3d66de_image.png";
-
   const handleContinue = () => {
-    // Rastrear fim do quiz
     trackEndQuiz();
-    
-    // Continuar com a lógica original
     onContinue();
   };
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toLocaleDateString('pt-BR');
+    return date.toLocaleDateString("pt-BR");
   };
 
-  const TextOverlay = () =>
-  <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+  const TextOverlay = () => (
+    <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
       <div
-      className="absolute"
-      style={{
-        top: '22%',
-        right: '13%',
-        width: '18%',
-        height: '18%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden'
-      }}>
-        <div
+        className="absolute"
         style={{
-          fontFamily: 'Dancing Script, cursive',
-          fontWeight: '600',
-          fontSize: 'clamp(7px, 2.2vw, 11px)',
-          lineHeight: '1.3',
-          textAlign: 'center',
-          color: '#4a4a4a',
-          textShadow: '0.5px 0.5px 1px rgba(0,0,0,0.1)',
-          filter: 'sepia(10%) contrast(1.1)',
-          transform: 'rotate(-1deg)'
-        }}>
-          <div style={{ marginBottom: '2px' }}>
-            {userName || ''}
-          </div>
-          <div>
-            {formatDate(birthDate) || '...'}
-          </div>
+          top: "22%",
+          right: "13%",
+          width: "18%",
+          height: "18%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "Dancing Script, cursive",
+            fontWeight: "600",
+            fontSize: "clamp(7px, 2.2vw, 11px)",
+            lineHeight: "1.3",
+            textAlign: "center",
+            color: "#4a4a4a",
+            textShadow: "0.5px 0.5px 1px rgba(0,0,0,0.1)",
+            filter: "sepia(10%) contrast(1.1)",
+            transform: "rotate(-1deg)",
+          }}
+        >
+          <div style={{ marginBottom: "2px" }}>{userName || ""}</div>
+          <div>{formatDate(birthDate) || "..."}</div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 
   useEffect(() => {
-    const timers = [];
-
-    // First typing (1s) then first message
-    timers.push(setTimeout(() => {
+    const t1 = setTimeout(() => {
       setShowFirstTyping(false);
       setShowFirstMessage(true);
-    }, 1000));
+    }, 1000);
 
-    // Show image immediately after first message
-    timers.push(setTimeout(() => {
+    const t2 = setTimeout(() => {
       setShowImage(true);
-    }, 1500));
+    }, 1500);
 
-    // Start second typing after image appears
-    timers.push(setTimeout(() => {
-      setShowSecondTyping(true);
-    }, 2000));
-
-    // Second typing (1s) then final message
-    timers.push(setTimeout(() => {
-      setShowSecondTyping(false);
-      setShowFinalMessage(true);
-    }, 3000));
-
-    // Show button after final message
-    timers.push(setTimeout(() => {
+    const t3 = setTimeout(() => {
       setShowNextButton(true);
-    }, 3500));
+    }, 2200);
 
-    return () => timers.forEach(clearTimeout);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, []);
 
   return (
     <div className="py-8 w-full max-w-lg mx-auto flex flex-col items-center gap-4">
       <link
         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&display=swap"
-        rel="stylesheet" />
+        rel="stylesheet"
+      />
 
-      {/* First typing indicator */}
+      {/* Typing 1 */}
       <AnimatePresence>
         {showFirstTyping && <TypingIndicator />}
       </AnimatePresence>
 
-      {/* First message */}
+      {/* Mensagem 1 */}
       <AnimatePresence>
-        {showFirstMessage &&
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
-
+        {showFirstMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full"
+          >
             <div className="flex items-start gap-3">
               <img
-              src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-              alt="Master Aura"
-              className="w-10 h-10 rounded-full object-cover border-2 border-purple-200" />
-
+                src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
+                alt="Master Aura"
+                className="w-10 h-10 rounded-full object-cover border-2 border-purple-200"
+              />
               <div className="text-left">
-                <p className="text-base text-gray-700 leading-relaxed">Based on your birth chart, I am preparing a portrait of your soulmate. I'm starting right now👇🔮
-              </p>
+                <p className="text-base text-gray-700 leading-relaxed">
+                  Based on your birth chart, I am preparing a portrait of your
+                  soulmate. I'm starting right now👇🔮
+                </p>
               </div>
             </div>
           </motion.div>
-        }
+        )}
       </AnimatePresence>
 
-      {/* Image */}
+      {/* Imagem */}
       <AnimatePresence>
-        {showImage &&
+        {showImage && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white rounded-lg p-2 shadow-sm border border-gray-200 mb-4 relative w-full"
+          >
+            <img
+              src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/tXMSzr3464284.png?quality=83#875227"
+              alt="Preparing your revelation"
+              className="w-full rounded-lg"
+              style={{
+                loading: "lazy",
+                decoding: "async",
+                imageRendering: "crisp-edges",
+                backfaceVisibility: "hidden",
+                transform: "translateZ(0)",
+              }}
+            />
+            <TextOverlay />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Botão */}
+      {showNextButton && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-lg p-2 shadow-sm border border-gray-200 mb-4 relative w-full">
-
-          <img
-  src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/tXMSzr3464284.png?quality=83#875227"
-  alt="Preparing your revelation"
-  className="w-full rounded-lg"
-  style={{
-    loading: 'lazy',
-    decoding: 'async',
-    imageRendering: 'crisp-edges',
-    backfaceVisibility: 'hidden',
-    transform: 'translateZ(0)'
-  }}
-/>
-
-      {/* Continue button */}
-      {showNextButton &&
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mt-8">
-
+          transition={{ duration: 0.5 }}
+          className="mt-4"
+        >
           <button
-          onClick={handleContinue}
-          className="btn-primary w-full max-w-sm md:w-auto">
+            onClick={handleContinue}
+            className="btn-primary w-full max-w-sm md:w-auto"
+          >
             Discover the face of my soulmate
           </button>
         </motion.div>
-      }
-    </div>);
+      )}
+    </div>
+  );
 }
