@@ -32,23 +32,24 @@ export default function Checkout() {
 
       <div className="min-h-screen bg-white py-8 relative">
 
-        {/* Mostra apenas em mobile */}
-        <div className="block sm:hidden">
-          {/* Fundo branco atrás da imagem */}
+        {/* Banner visível apenas no mobile */}
+        <div className="block sm:hidden relative w-full">
+          {/* Fundo branco por trás */}
           <div
             className="
-              absolute left-1/2 -translate-x-1/2 z-20
-              w-[min(125vw,800px)] h-[110px]
-              top-[230px]
-              bg-white rounded-xl pointer-events-none
+              absolute top-[225px] left-0 w-full h-[160px]
+              bg-white pointer-events-none
             "
           />
-          {/* Imagem lilás centralizada */}
-          <div className="absolute top-[230px] left-1/2 -translate-x-1/2 z-30 text-center px-4">
+          {/* Imagem lilás grande e centralizada */}
+          <div className="absolute top-[230px] left-1/2 -translate-x-1/2 z-30 flex justify-center w-full">
             <img
               src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=90#759107"
               alt="Your drawing soulmate"
-              className="mx-auto w-full max-w-[920px] h-auto object-contain"
+              className="
+                w-[95vw] max-w-[520px]
+                h-auto object-contain
+              "
             />
           </div>
         </div>
