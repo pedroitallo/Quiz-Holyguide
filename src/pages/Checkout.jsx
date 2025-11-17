@@ -40,7 +40,7 @@ export default function Checkout() {
           "
         >
           {/* FUNDO BRANCO (SEM SHADOW) */}
-          <div className="absolute inset-0 -z-10 bg-white h-[250px] rounded-xl pointer-events-none" />
+          <div className="absolute inset-0 -z-10 bg-white h-[150px] rounded-xl pointer-events-none" />
 
           {/* IMAGEM GRANDE E RESPONSIVA */}
           <img
