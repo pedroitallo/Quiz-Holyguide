@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ export default function SoulmateConnection({ onSubmit, zodiacSign }) {
   const [selectedConnection, setSelectedConnection] = useState(null);
   const [showComment, setShowComment] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const messageRef = useRef(null);
 
   const connections = [
     { value: "soul_union", label: "Union of souls", emoji: "💞" },
@@ -21,6 +22,13 @@ export default function SoulmateConnection({ onSubmit, zodiacSign }) {
     let timer;
     if (showComment) {
       setIsTyping(true);
+
+      if (messageRef.current) {
+        setTimeout(() => {
+          messageRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }
+
       timer = setTimeout(() => {
         setIsTyping(false);
       }, 2000);
@@ -84,6 +92,7 @@ export default function SoulmateConnection({ onSubmit, zodiacSign }) {
 
         {showComment && (
           <motion.div
+            ref={messageRef}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}

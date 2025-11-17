@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ export default function LoveChallenge({ onSubmit }) {
   const [selectedChallenge, setSelectedChallenge] = useState(null);
   const [showComment, setShowComment] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const messageRef = useRef(null);
 
   const challenges = [
     { value: "finding_connection", label: "Finding someone who truly connects with me", emoji: "💘" },
@@ -21,6 +22,13 @@ export default function LoveChallenge({ onSubmit }) {
     let timer;
     if (showComment) {
       setIsTyping(true);
+
+      if (messageRef.current) {
+        setTimeout(() => {
+          messageRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }
+
       timer = setTimeout(() => {
         setIsTyping(false);
       }, 2000);
@@ -84,6 +92,7 @@ export default function LoveChallenge({ onSubmit }) {
 
         {showComment && (
           <motion.div
+            ref={messageRef}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}

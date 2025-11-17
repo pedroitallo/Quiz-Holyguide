@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ export default function RelationshipEnergy({ onSelect }) {
   const [selectedEnergy, setSelectedEnergy] = useState("");
   const [showMessage, setShowMessage] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const messageRef = useRef(null);
 
   const energies = [
     { value: "sweetness_affection", label: "Sweetness and affection", emoji: "💖" },
@@ -21,6 +22,13 @@ export default function RelationshipEnergy({ onSelect }) {
     let timer;
     if (showMessage) {
       setIsTyping(true);
+
+      if (messageRef.current) {
+        setTimeout(() => {
+          messageRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }
+
       timer = setTimeout(() => {
         setIsTyping(false);
       }, 2000);
@@ -81,6 +89,7 @@ export default function RelationshipEnergy({ onSelect }) {
 
         {showMessage && (
           <motion.div
+            ref={messageRef}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
