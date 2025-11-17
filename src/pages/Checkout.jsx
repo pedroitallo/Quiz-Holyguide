@@ -39,7 +39,7 @@ export default function Checkout() {
             className="
               absolute left-1/2 -translate-x-1/2 z-20
               w-[min(95vw,500px)] h-[150px]
-              top-[220px]
+              top-[140px]
               bg-white rounded-xl pointer-events-none
             "
           />
@@ -48,7 +48,7 @@ export default function Checkout() {
             <img
               src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zPHWyX6816126.png?quality=90#759107"
               alt="Your drawing soulmate"
-              className="mx-auto w-full max-w-[820px] h-auto object-contain"
+              className="mx-auto w-full max-w-[420px] h-auto object-contain"
             />
           </div>
         </div>
