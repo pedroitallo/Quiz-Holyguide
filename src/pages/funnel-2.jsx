@@ -18,7 +18,7 @@ import SoulmateConnection from "../components/quiz/funnel-2/SoulmateConnection";
 import LoveLanguage from "../components/quiz/funnel-2/LoveLanguage";
 import RelationshipEnergy from "../components/quiz/funnel-2/RelationshipEnergy";
 import FutureScenario from "../components/quiz/funnel-2/FutureScenario";
-import SocialProof from "../components/quiz/funnel-2/SocialProof";
+import LoadingRevelation from "../components/quiz/shared/LoadingRevelation";
 import SoulmateDrawingLoading from "../components/quiz/funnel-2/SoulmateDrawingLoading";
 import PaywallStep from "../components/quiz/funnel-1/PaywallStep";
 import ThankYouStep from "../components/quiz/shared/ThankYouStep";
@@ -40,17 +40,17 @@ export default function Funnel2Page() {
     quizResultId: null
   });
 
-  const totalSteps = 17;
+  const totalSteps = 16;
   const progress = currentStep / totalSteps * 100;
 
   useEffect(() => {
-    if (currentStep < 17) {
+    if (currentStep < 16) {
       const stateToSave = {
         step: currentStep,
         data: formData
       };
       localStorage.setItem('holymind_quiz_state_funnel2', JSON.stringify(stateToSave));
-    } else if (currentStep === 18) {
+    } else if (currentStep === 17) {
       localStorage.removeItem('holymind_quiz_state_funnel2');
     }
   }, [currentStep, formData]);
@@ -113,7 +113,7 @@ export default function Funnel2Page() {
       'initiate', 'testimonials', 'birth_date', 'love_situation',
       'qualities', 'preference', 'chart_results', 'challenge',
       'desire', 'connection', 'love_language', 'energy', 'future',
-      'social_proof', 'loading', 'paywall', 'thank_you'
+      'loading_revelation', 'loading', 'paywall', 'thank_you'
     ];
     if (currentStep <= stepNames.length) {
       trackStepView('funnel-2', stepNames[currentStep - 1]);
@@ -183,7 +183,7 @@ export default function Funnel2Page() {
         <div className="absolute top-2/3 right-1/4 text-purple-200/40"><Sparkles className="w-4 h-4 animate-pulse" style={{ animationDelay: '4s' }} /></div>
       </div>
 
-      {currentStep !== 16 && (
+      {currentStep !== 15 && (
         <div className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm">
           <div className="px-4 md:px-6 py-3">
             <div className="flex items-center gap-3">
@@ -212,7 +212,7 @@ export default function Funnel2Page() {
         </div>
       )}
 
-      <div className={`bg-[#f9f5ff] pb-8 px-2 md:px-4 ${currentStep === 16 ? 'pt-8' : 'pt-24 md:pt-28'}`}>
+      <div className={`bg-[#f9f5ff] pb-8 px-2 md:px-4 ${currentStep === 15 ? 'pt-8' : 'pt-24 md:pt-28'}`}>
         <div className="max-w-lg mx-auto">
           <StepTracker currentStep={currentStep} quizResultId={formData.quizResultId} />
           {currentStep === 1 && <InitiateQuiz onContinue={nextStep} />}
@@ -228,10 +228,9 @@ export default function Funnel2Page() {
           {currentStep === 11 && <LoveLanguage onSelect={handleLoveLanguageSelect} />}
           {currentStep === 12 && <RelationshipEnergy onSelect={handleEnergySelect} />}
           {currentStep === 13 && <FutureScenario onSubmit={handleScenarioSubmit} zodiacSign={formData.zodiac_sign} />}
-          {currentStep === 14 && <SocialProof onContinue={nextStep} />}
-          {currentStep === 15 && <SoulmateDrawingLoading onComplete={nextStep} birthDate={formData.birth_date} zodiacSign={formData.zodiac_sign} />}
-          {currentStep === 16 && <PaywallStep userName="" birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 17 && <ThankYouStep userName="" />}
+          {currentStep === 14 && <LoadingRevelation onContinue={nextStep} userName="" birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 15 && <PaywallStep userName="" birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
+          {currentStep === 16 && <ThankYouStep userName="" />}
         </div>
       </div>
     </div>
