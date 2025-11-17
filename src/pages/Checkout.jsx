@@ -48,7 +48,7 @@ export default function Checkout() {
             alt="Your drawing soulmate"
             className="
               mx-auto w-full
-              max-w-[760px] md:max-w-[800px]    /* bem grande em desktop */
+              max-w-[760px] md:max-w-[500px]    /* bem grande em desktop */
               sm:max-w-[620px]                  /* grande em mobile maior */
             "
           />
