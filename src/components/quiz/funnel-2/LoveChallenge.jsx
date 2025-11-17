@@ -53,7 +53,7 @@ export default function LoveChallenge({ onSubmit }) {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-purple-600 mb-6 text-xl md:text-2xl font-bold leading-tight px-4">
-          WHAT IS YOUR BIGGEST LOVE CHALLENGE TODAY?
+         What is your biggest love challenge today?
         </h1>
 
         <div className="space-y-3 max-w-md mx-auto px-4">
