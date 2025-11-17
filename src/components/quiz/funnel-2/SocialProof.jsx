@@ -18,6 +18,13 @@ export default function SocialProof({ onContinue }) {
       text: "I’m so grateful for this app and for Master Aura! She’s an amazing astrologer — detailed and calming. I can’t wait for more sessions with her!",
       avatar: "https://cdn.eutotal.com/imagens/pose-para-selfies.jpg"
     },
+     {
+      name: "Lily Morgan",
+      date: "November 9, 2025",
+      title: "It changed my life.!",
+      text: "I finally found the relationship of my dreams! 💕 Everything feels so natural and aligned — like we were truly meant to meet. I’m beyond happy!",
+      avatar: "https://cdn.eutotal.com/imagens/pose-para-selfies.jpg"
+    },
     {
       name: "Emily Carter",
       date: "August 29, 2025",
