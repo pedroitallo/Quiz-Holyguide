@@ -49,7 +49,7 @@ export default function Checkout() {
             className="
               mx-auto w-full
               max-w-[760px] md:max-w-[300px]    /* bem grande em desktop */
-              sm:max-w-[820px]                  /* grande em mobile maior */
+              sm:max-w-[1000px]                  /* grande em mobile maior */
             "
           />
         </div>
