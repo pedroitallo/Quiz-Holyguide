@@ -5,10 +5,8 @@ export default function IdealPartnerQualities({ onSubmit, zodiacSign }) {
   const [selectedQualities, setSelectedQualities] = useState([]);
 
   const qualities = [
-    { value: "kind", label: "Kind", emoji: "🤗" },
     { value: "supportive", label: "Supportive", emoji: "👐" },
     { value: "honest", label: "Honest", emoji: "🤝" },
-    { value: "optimistic", label: "Optimistic", emoji: "🙂" },
     { value: "loyal", label: "Loyal", emoji: "🧑‍🤝‍🧑" },
     { value: "caring", label: "Caring", emoji: "😘" },
     { value: "confident", label: "Confident", emoji: "🤩" },
