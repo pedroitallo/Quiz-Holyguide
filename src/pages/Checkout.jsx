@@ -39,7 +39,7 @@ export default function Checkout() {
             className="
               absolute left-1/2 -translate-x-1/2 z-20
               w-[min(95vw,500px)] h-[150px]
-              top-[140px]
+              top-[230px]
               bg-white rounded-xl pointer-events-none
             "
           />
