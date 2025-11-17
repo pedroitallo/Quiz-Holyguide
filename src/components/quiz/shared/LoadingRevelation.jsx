@@ -153,24 +153,6 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
     transform: 'translateZ(0)'
   }}
 />
-            <TextOverlay />
-          </motion.div>
-        }
-      </AnimatePresence>
-
-      {/* Second typing indicator */}
-      <AnimatePresence>
-        {showSecondTyping && <TypingIndicator />}
-      </AnimatePresence>
-
-      {/* Final message */}
-      <AnimatePresence>
-        {showFinalMessage &&
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl shadow-sm border border-purple-100 w-full">
-
 
       {/* Continue button */}
       {showNextButton &&
