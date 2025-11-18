@@ -508,7 +508,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           </Card>
 
          
-Você disse:
 import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
