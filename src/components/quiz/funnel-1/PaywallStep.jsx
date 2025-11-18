@@ -376,6 +376,29 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   </div>
 </div>
 </div>
+{/* Mini-card da Master Aura */}
+<div className="w-full max-w-md mx-auto flex items-center gap-4 bg-purple-50 border border-purple-200 rounded-2xl p-4 mt-2 shadow-sm">
+  
+  {/* Foto */}
+  <img
+    src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
+    alt="Master Aura"
+    className="w-14 h-14 rounded-full object-cover border border-purple-300"
+  />
+
+  {/* Texto */}
+  <div className="text-left">
+    <p className="text-sm font-semibold text-gray-900">
+      Master Aura — Hollywood’s top psychic
+    </p>
+
+    <p className="text-xs text-gray-700 leading-snug">
+      I’ve delivered over <strong>12,000 soulmate readings</strong>.
+      Your full details and sketch will be revealed inside the 
+      <span className="font-semibold text-purple-700"> Auraly App</span>.
+    </p>
+  </div>
+</div>
 
           {/* PITCH DE PREÇO */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
