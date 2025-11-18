@@ -279,15 +279,16 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
         <span className="text-gray-500 line-through font-normal">$19</span>
       </p>
 
-      {/* Divider */}
-      <div className="border-t border-gray-200 my-2"></div>
+    {/* Divider */}
+<div className="border-t border-gray-200 my-2"></div>
 
-      {/* Total today */}
-      <div className="flex flex-col w-full">
-        <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
-          <span>Total today:</span>
-          <span className="text-green-600 text-xl font-extrabold">$19</span>
-        </div>
+{/* Total today */}
+<div className="flex flex-col w-full">
+  <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
+    <span>Total today:</span>
+    <span className="text-green-600 text-xl font-extrabold">$19</span>
+  </div>
+</div>
         </div>
       </div>
 
