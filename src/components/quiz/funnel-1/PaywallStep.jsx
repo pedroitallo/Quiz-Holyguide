@@ -244,8 +244,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
       {[
         "Deeply loyal",
         "Protective",
-        "Very confident",
-        "Secure and grounded",
         "Playfully romantic",
       ].map((trait, idx) => (
         <div
