@@ -209,16 +209,19 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
           {/* PITCH DE PREÇO */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
-            <CardContent className="p-6 space-y-4">
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
-               Discover the face of your soulmate with the Auraly App.
-              </h3>
-{/* Imagem logo abaixo do título */}
+  <CardContent className="p-6 space-y-4">
+
+    {/* Título centralizado */}
+    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 text-center">
+      Discover the face of your soulmate with the Auraly App.
+    </h3>
+
+    {/* Imagem menor e centralizada */}
     <div className="w-full flex justify-center mb-2">
       <img
         src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/btldwX5786311.png"
         alt="Soulmate Offer Highlight"
-        className="w-full max-w-md mx-auto rounded-xl"
+        className="w-[55%] max-w-xs mx-auto rounded-xl"
       />
     </div>
 
