@@ -376,18 +376,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
               })}
             </div>
           </div>
-
-          {/* Seção extra de vendas (se quiser manter) */}
-          {showSales && (
-            <SalesSection
-              userName={userName}
-              birthDate={birthDate}
-              quizResultId={quizResultId}
-              src={src}
-              onCheckout={handleCheckout}
-            />
-          )}
-        </motion.div>
       </div>
     </div>
   );
