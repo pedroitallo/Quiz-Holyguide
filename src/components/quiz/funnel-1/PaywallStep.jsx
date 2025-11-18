@@ -13,6 +13,13 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   const { trackEndQuiz } = useTracking();
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
+  const scrollToPriceCard = () => {
+    const priceCard = document.querySelector('.price-card-anchor');
+    if (priceCard) {
+      priceCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -438,7 +445,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               </div>
 
               {/* CARD DE PREÇO */}
-              <div className="max-w-md mx-auto mt-2">
+              <div className="max-w-md mx-auto mt-2 price-card-anchor">
                 <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
                   {/* Topo Roxo */}
                   <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
