@@ -227,14 +227,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
               <ul className="space-y-2 text-sm md:text-base text-gray-800">
                 <li>
-                  ✍️ Ultra-realistic, hand-drawn sketch of your soulmate, made by Master Aura.
+                  ✍️ <strong> Ultra-realistic</strong> , hand-drawn sketch of your soulmate, made by Master Aura.
                 </li>
                 <li>
-                  💫 Uncover exclusive personality traits only your soulmate has
+                  💫 <strong> Uncover exclusive personality</strong>  traits only your soulmate has
                 </li>
-                <li>🗓️ Date and context most favorable for the meeting</li>
+                <li>🗓️ <strong> Date and context</strong>  most favorable for the meeting</li>
                 <li>
-                  🔮 Receive deep, personalized insights into your love life.
+                  🔮 <strong> Receive deep, personalized insights</strong>  into your love life.
                 </li>
               </ul>
 
@@ -249,7 +249,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                   🎁 <strong>Free Bonuses:</strong> Emotional Healing Guide (From $9, for
                   free)
                 </p>
-    <p>+ Updates and new reports every day.</p>
               </div>
               <div className="pt-3 space-y-1 text-sm md:text-base text-gray-800">
                 <p>
