@@ -191,6 +191,16 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           transition={{ duration: 0.8 }}
           className="mb-8"
         >
+          {/* Top Banner Offer */}
+<div className="w-full bg-purple-100 text-purple-900 py-3 px-4 rounded-xl mb-6 text-center shadow-sm">
+  <p className="text-sm font-medium">
+    Garanta o desenho da sua alma gêmea com <strong>50% de desconto</strong>
+  </p>
+  <p className="text-xs mt-1">
+    Oferta válida pelos próximos <span className="font-bold">15:00</span>
+  </p>
+</div>
+
           <h2 className="text-2xl md:text-3xl font-bold text-black mb-6 px-4">
             Your Birth Chart Reading Is Ready!
           </h2>
