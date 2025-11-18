@@ -250,10 +250,11 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                   free)
                 </p>
               </div>
-              <div className="pt-3 space-y-1 text-sm md:text-base text-gray-800">
-                <p>
-                All this for a <strong>symbolic price</strong> to finally discover who your true love is.
-                </p>
+              <div className="pt-3 space-y-1 text-sm md:text-base text-gray-800 text-center">
+  <p>
+    All this for a <strong>symbolic price</strong> to finally discover who your true love is.
+  </p>
+</div>
                 <p className="text-green-600 font-semibold">
                   30% OFF – Ends Today!
                 </p>
