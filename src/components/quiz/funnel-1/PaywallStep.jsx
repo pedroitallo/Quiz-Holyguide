@@ -16,7 +16,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   const scrollToPriceCard = () => {
     const priceCard = document.querySelector('.price-card-anchor');
     if (priceCard) {
-      priceCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      priceCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
