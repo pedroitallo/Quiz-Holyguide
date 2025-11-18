@@ -219,6 +219,38 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     Your soulmate report is ready and includes a complete analysis of your soulmate
   </p>
 </div>
+               {/* Bullets de confiança */}
+          <div className="w-full max-w-md mx-auto mt-4 space-y-4 text-left">
+            {/* Bullet 1 */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/456/456212.png"
+                  alt="Users icon"
+                  className="w-5 h-5"
+                />
+              </div>
+
+              <p className="text-gray-900 text-sm md:text-base">
+                <strong>9200 women</strong> found their soulmate.
+              </p>
+            </div>
+
+            {/* Bullet 2 */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/2462/2462719.png"
+                  alt="Chat icon"
+                  className="w-5 h-5"
+                />
+              </div>
+
+              <p className="text-gray-900 text-sm md:text-base">
+                <strong>Thousands of consultations</strong> carried out
+              </p>
+            </div>
+          </div>
            {/* Título + imagem grande */}
           <h2 className="text-2xl md:text-3xl font-bold text-black mt-8 mb-2 px-4">
           We uncovered key details about your soulmate. 👇🏼
@@ -468,39 +500,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               alt="Auraly App Preview"
               className="w-full max-w-md mx-auto rounded-xl"
             />
-          </div>
-
-          {/* Bullets de confiança */}
-          <div className="w-full max-w-md mx-auto mt-4 space-y-4 text-left">
-            {/* Bullet 1 */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/456/456212.png"
-                  alt="Users icon"
-                  className="w-5 h-5"
-                />
-              </div>
-
-              <p className="text-gray-900 text-sm md:text-base">
-                <strong>9200 women</strong> found their soulmate.
-              </p>
-            </div>
-
-            {/* Bullet 2 */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/2462/2462719.png"
-                  alt="Chat icon"
-                  className="w-5 h-5"
-                />
-              </div>
-
-              <p className="text-gray-900 text-sm md:text-base">
-                <strong>Thousands of consultations</strong> carried out
-              </p>
-            </div>
           </div>
 
           {/* Social Proof */}
