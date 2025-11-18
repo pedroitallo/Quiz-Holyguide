@@ -216,7 +216,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
        {/* Top Banner Offer */}
 <div className="w-full bg-purple-100 text-purple-900 py-3 px-4 rounded-xl mb-6 text-center shadow-sm">
   <p className="text-sm font-medium">
-    Your soulmate report is ready and includes a complete analysis of your soulmate, offering profound insights into your connection with your true love.
+    Your soulmate report is ready and includes a complete analysis of your soulmate
   </p>
 </div>
            {/* Título + imagem grande */}
