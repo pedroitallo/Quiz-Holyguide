@@ -321,73 +321,70 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             GET MY RESULTS
           </button>
 
-        {/* Badge/garantia verde abaixo do botão */}
-<div className="w-full flex justify-center mb-2 mt-4">
-  <img
-    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/MqWQAB5264462.png"
-    alt="Guarantee Badge"
-    className="w-[35%] max-w-[120px] mx-auto rounded-xl"
-  />
-</div>
+          {/* Badge/garantia verde abaixo do botão */}
+          <div className="w-full flex justify-center mb-2 mt-4">
+            <img
+              src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/MqWQAB5264462.png"
+              alt="Guarantee Badge"
+              className="w-[35%] max-w-[120px] mx-auto rounded-xl"
+            />
+          </div>
 
-{/* Texto de trial – mais perto do ícone */}
-<div className="max-w-2xl mx-auto mt-2 px-4">
-  <p className="text-xs text-gray-500 text-center leading-relaxed">
-    By accepting this offer, you agree to start a 30-day trial on the
-    Auraly App. After the trial period ends, your subscription will
-    automatically renew for just $29/m. You may cancel anytime by
-    contacting us at contact@auralyapp.com
-  </p>
-</div>
+          {/* Texto de trial */}
+          <div className="max-w-2xl mx-auto mt-2 px-4">
+            <p className="text-xs text-gray-500 text-center leading-relaxed">
+              By accepting this offer, you agree to start a 30-day trial on the
+              Auraly App. After the trial period ends, your subscription will
+              automatically renew for just $29/m. You may cancel anytime by
+              contacting us at contact@auralyapp.com
+            </p>
+          </div>
 
-{/* Título – mais distante do disclaimer e mais perto da imagem */}
-<h2 className="text-2xl md:text-3xl font-bold text-black mt-8 mb-2 px-4">
-  Trusted By Over 1,000,000 Transformed Lives
-</h2>
+          {/* Título + imagem grande */}
+          <h2 className="text-2xl md:text-3xl font-bold text-black mt-8 mb-2 px-4">
+            Trusted By Over 1,000,000 Transformed Lives
+          </h2>
 
-{/* Imagem grande abaixo do texto */}
-<div className="w-full flex justify-center mb-3 mt-1">
-  <img
-    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/YuivNF7917669.png"
-    alt="Auraly App Preview"
-    className="w-full max-w-md mx-auto rounded-xl"
-  />
-</div>
-{/* Bullets de confiança */}
-<div className="w-full max-w-md mx-auto mt-4 space-y-4 text-left">
+          <div className="w-full flex justify-center mb-3 mt-1">
+            <img
+              src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/YuivNF7917669.png"
+              alt="Auraly App Preview"
+              className="w-full max-w-md mx-auto rounded-xl"
+            />
+          </div>
 
-  {/* Bullet 1 */}
-<div className="flex items-center gap-3">
-  <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
-    <img
-      src="https://cdn-icons-png.flaticon.com/512/456/456212.png"
-      alt="Users icon"
-      className="w-5 h-5"
-    />
-  </div>
+          {/* Bullets de confiança */}
+          <div className="w-full max-w-md mx-auto mt-4 space-y-4 text-left">
+            {/* Bullet 1 */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/456/456212.png"
+                  alt="Users icon"
+                  className="w-5 h-5"
+                />
+              </div>
 
-  <p className="text-gray-900 text-sm md:text-base">
-    <strong>9200 women</strong> found their soulmate.
-  </p>
-</div>
+              <p className="text-gray-900 text-sm md:text-base">
+                <strong>9200 women</strong> found their soulmate.
+              </p>
+            </div>
 
+            {/* Bullet 2 */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/2462/2462719.png"
+                  alt="Chat icon"
+                  className="w-5 h-5"
+                />
+              </div>
 
-  {/* Bullet 2 */}
-  <div className="flex items-center gap-3">
-    <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
-      <img
-        src="https://cdn-icons-png.flaticon.com/512/2462/2462719.png"
-        alt="Chat icon"
-        className="w-5 h-5 opacity-90"
-      />
-    </div>
-
-    <p className="text-gray-900 text-sm md:text-base">
-      <strong>Thousands of consultations</strong> carried out
-    </p>
-  </div>
-
-</div>
+              <p className="text-gray-900 text-sm md:text-base">
+                <strong>Thousands of consultations</strong> carried out
+              </p>
+            </div>
+          </div>
 
           {/* Social Proof */}
           <motion.div
@@ -444,43 +441,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               </div>
             </div>
           </motion.div>
-        {/* CARD DE PREÇO */}
-              <div className="max-w-md mx-auto mt-2">
-                <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
-                  {/* Topo Roxo */}
-                  <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
-                    Special offer 50% OFF Today
-                  </div>
 
-                  {/* Conteúdo */}
-                  <div className="p-5 space-y-4">
-                    {/* Texto principal */}
-                    <p className="text-center text-lg font-semibold text-gray-900">
-                      The original price is{" "}
-                      <span className="text-gray-500 line-through font-normal">
-                        $29
-                      </span>
-                    </p>
-
-                    {/* Divider */}
-                    <div className="border-t border-gray-200 my-2" />
-
-                    {/* Total today */}
-                    <div className="flex flex-col w-full">
-                      <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
-                        <span>Total today 50% OFF:</span>
-                        <span className="text-green-600 text-xl font-extrabold">
-                          $19
-                        </span>
-                      </div>
-                    </div>
-   {/* CTA */}
-          <button
-            onClick={handleCheckout}
-            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
-          >
-            GET MY RESULTS
-          </button>
           {/* FAQ */}
           <div className="max-w-xl mx-auto mt-6 text-left">
             <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">
