@@ -289,9 +289,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                   <div className="p-5 space-y-4">
                     {/* Texto principal */}
                     <p className="text-center text-lg font-semibold text-gray-900">
-                      Personalized reading for{" "}
+                      The original price is{" "}
                       <span className="text-gray-500 line-through font-normal">
-                        $19
+                        $29
                       </span>
                     </p>
 
