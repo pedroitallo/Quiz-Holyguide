@@ -213,6 +213,15 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               className="w-full max-w-2xl mx-auto rounded-xl shadow-lg"
             />
           </div>
+          {/* Botão para scroll */}
+<div className="w-full flex justify-center mb-6">
+  <button
+    onClick={scrollToPriceCard}
+    className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all duration-300 shadow-md"
+  >
+    SEE YOUR FULL READING
+  </button>
+</div>
        {/* Top Banner Offer */}
 <div className="w-full bg-purple-100 text-purple-900 py-3 px-4 rounded-xl mb-6 text-center shadow-sm">
   <p className="text-sm font-medium">
