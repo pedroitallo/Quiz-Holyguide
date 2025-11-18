@@ -288,12 +288,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           <span>Total today:</span>
           <span className="text-green-600 text-xl font-extrabold">$19</span>
         </div>
-
-        {/* (30 days bonus) */}
-        <div className="flex justify-end mt-1">
-          <span className="text-[11px] text-gray-400">
-            (30 days bonus)
-          </span>
         </div>
       </div>
 
