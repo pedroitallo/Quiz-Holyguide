@@ -213,6 +213,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
                Discover the face of your soulmate with the Auraly App.
               </h3>
+{/* Imagem logo abaixo do título */}
+    <div className="w-full flex justify-center mb-2">
+      <img
+        src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/btldwX5786311.png"
+        alt="Soulmate Offer Highlight"
+        className="w-full max-w-md mx-auto rounded-xl"
+      />
+    </div>
 
               <ul className="space-y-2 text-sm md:text-base text-gray-800">
                 <li>
