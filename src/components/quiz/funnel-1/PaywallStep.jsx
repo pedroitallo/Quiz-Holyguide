@@ -198,11 +198,11 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   </p>
 </div>
 
-        <h2 className="text-2xl md:text-3xl font-bold px-4 leading-tight mb-6">
+        <h3 className="text-2xl md:text-3xl font-bold px-4 leading-tight mb-6">
   <span className="text-black">Your soulmate reading is ready.</span>
   <br />
   <span className="text-purple-600">See your soulmate today!</span>
-</h2>
+</h3>
 
 
           {/* Imagem do desenho */}
