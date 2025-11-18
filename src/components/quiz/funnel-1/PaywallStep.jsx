@@ -202,7 +202,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 </div>
 
           <h2 className="text-2xl md:text-3xl font-bold text-black mb-6 px-4">
-            Your Birth Chart Reading Is Ready!
+            Your soulmate drawing is ready
           </h2>
 
           <h1 className="text-purple-600 mb-4 text-xl font-semibold md:text-2xl leading-tight px-4 uppercase tracking-wide">
