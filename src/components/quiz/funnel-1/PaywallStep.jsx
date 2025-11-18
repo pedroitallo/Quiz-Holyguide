@@ -202,9 +202,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             Your drawing is ready
           </h2>
 
-          <h1 className="text-purple-600 mb-4 text-xl font-semibold md:text-2xl leading-tight px-4 uppercase tracking-wide">
+          <h2 className="text-purple-600 mb-4 text-xl font-semibold md:text-2xl leading-tight px-4 uppercase tracking-wide">
             See your soulmate today!
-          </h1>
+          </h2>
 
           {/* Imagem do desenho */}
           <div className="mb-6">
