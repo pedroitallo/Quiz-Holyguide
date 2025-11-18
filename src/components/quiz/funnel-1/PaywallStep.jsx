@@ -367,7 +367,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   </div>
 
   <p className="text-gray-900 text-sm md:text-base">
-    <strong>900+ usuários</strong> viram a sua alma gêmea hoje.
+    <strong>9200 women</strong> found their soulmate.
   </p>
 </div>
 
