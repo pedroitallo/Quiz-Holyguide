@@ -245,7 +245,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                 All this for a <strong>symbolic price</strong> to finally discover who your true love is.
                 </p>
                 <p className="text-green-600 font-semibold">
-                  50% OFF – Ends Today!
+                  30% OFF – Ends Today!
                 </p>
                 <p className="text-lg md:text-xl font-bold text-green-600">
                   Unlock your soulmate sketch for only $19{" "}
