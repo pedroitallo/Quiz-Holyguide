@@ -250,7 +250,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                 <p className="text-lg md:text-xl font-bold text-green-600">
                   Unlock your soulmate sketch for only $19{" "}
                   <span className="text-sm md:text-base text-gray-500 line-through align-middle">
-                    (normally $39)
+                    (normally $29)
                   </span>
                 </p>
               </div>
