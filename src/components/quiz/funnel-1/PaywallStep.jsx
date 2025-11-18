@@ -353,7 +353,48 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     className="w-full max-w-md mx-auto rounded-xl"
   />
 </div>
+{/* Bullets de confiança */}
+<div className="w-full max-w-md mx-auto mt-4 space-y-4">
 
+  {/* Bullet 1 */}
+  <div className="flex items-start gap-3">
+    <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/456/456212.png"
+        alt="Users icon"
+        className="w-6 h-6 opacity-80"
+      />
+    </div>
+    <p className="text-gray-900 text-sm md:text-base">
+      <strong>900+ usuários</strong> viram a sua alma gêmea hoje.
+    </p>
+  </div>
+
+  {/* Bullet 2 */}
+  <div className="flex items-start gap-3">
+    <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/1380/1380338.png"
+        alt="Chat icon"
+        className="w-6 h-6 opacity-80"
+      />
+    </div>
+
+    <div>
+      <p className="text-gray-900 text-sm md:text-base">
+        Confiado por mais de <strong>25 milhões</strong> de pessoas.
+      </p>
+
+      {/* Estrelas */}
+      <div className="flex gap-0.5 mt-1">
+        {[...Array(5)].map((_, i) => (
+          <span key={i} className="text-yellow-400 text-lg">⭐</span>
+        ))}
+      </div>
+    </div>
+  </div>
+
+</div>
           {/* Social Proof */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
