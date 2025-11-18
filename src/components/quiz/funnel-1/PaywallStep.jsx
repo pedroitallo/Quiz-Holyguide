@@ -225,10 +225,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                 <li>
                   🔮 Receive deep, personalized insights into your love life.
                 </li>
-                <li>
-                  💕 Feel the emotional connection before even meeting — you’ll
-                  know why he’s &quot;the one&quot;
-                </li>
               </ul>
 
               <div className="mt-4 bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
