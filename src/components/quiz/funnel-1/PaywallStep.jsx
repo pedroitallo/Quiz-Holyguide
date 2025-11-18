@@ -444,7 +444,28 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               </div>
             </div>
           </motion.div>
-          {/* Total today */}
+        {/* CARD DE PREÇO */}
+              <div className="max-w-md mx-auto mt-2">
+                <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
+                  {/* Topo Roxo */}
+                  <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
+                    Special offer 50% OFF Today
+                  </div>
+
+                  {/* Conteúdo */}
+                  <div className="p-5 space-y-4">
+                    {/* Texto principal */}
+                    <p className="text-center text-lg font-semibold text-gray-900">
+                      The original price is{" "}
+                      <span className="text-gray-500 line-through font-normal">
+                        $29
+                      </span>
+                    </p>
+
+                    {/* Divider */}
+                    <div className="border-t border-gray-200 my-2" />
+
+                    {/* Total today */}
                     <div className="flex flex-col w-full">
                       <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
                         <span>Total today 50% OFF:</span>
