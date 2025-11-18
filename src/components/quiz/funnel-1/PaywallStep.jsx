@@ -357,19 +357,20 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 <div className="w-full max-w-md mx-auto mt-4 space-y-4 text-left">
 
   {/* Bullet 1 */}
-  <div className="flex items-center gap-3">
-    <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
-      <img
-        src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
-        alt="Users icon"
-        className="w-5 h-5 opacity-90"
-      />
-    </div>
-
-    <p className="text-gray-900 text-sm md:text-base">
-      <strong>900+ usuários</strong> viram a sua alma gêmea hoje.
-    </p>
+<div className="flex items-center gap-3">
+  <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/456/456212.png"
+      alt="Users icon"
+      className="w-5 h-5"
+    />
   </div>
+
+  <p className="text-gray-900 text-sm md:text-base">
+    <strong>900+ usuários</strong> viram a sua alma gêmea hoje.
+  </p>
+</div>
+
 
   {/* Bullet 2 */}
   <div className="flex items-center gap-3">
