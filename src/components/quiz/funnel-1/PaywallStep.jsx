@@ -265,12 +265,12 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     <div className="max-w-md mx-auto mt-2">
   <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
 
-    {/* Topo roxo */}
+    {/* Topo Roxo */}
     <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
       Special offer
     </div>
 
-    {/* Conteúdo interno */}
+    {/* Conteúdo */}
     <div className="p-5 space-y-4">
 
       {/* Texto principal */}
@@ -283,15 +283,20 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
       <div className="border-t border-gray-200 my-2"></div>
 
       {/* Total today */}
-      <div className="flex flex-col items-end text-gray-800 text-sm font-medium">
-        <div className="flex w-full justify-between">
+      <div className="flex flex-col w-full">
+        <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
           <span>Total today:</span>
           <span className="text-green-600 text-xl font-extrabold">$19</span>
         </div>
 
-        {/* Linha pequena embaixo */}
-        <span className="text-[10px] text-gray-400 mt-1">(30 days bonus)</span>
+        {/* (30 days bonus) */}
+        <div className="flex justify-end mt-1">
+          <span className="text-[11px] text-gray-400">
+            (30 days bonus)
+          </span>
+        </div>
       </div>
+
     </div>
   </div>
 </div>
