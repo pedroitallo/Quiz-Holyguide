@@ -444,6 +444,15 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               </div>
             </div>
           </motion.div>
+          {/* Total today */}
+                    <div className="flex flex-col w-full">
+                      <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
+                        <span>Total today 50% OFF:</span>
+                        <span className="text-green-600 text-xl font-extrabold">
+                          $19
+                        </span>
+                      </div>
+                    </div>
    {/* CTA */}
           <button
             onClick={handleCheckout}
