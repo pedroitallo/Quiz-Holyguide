@@ -229,13 +229,18 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
               <div className="mt-4 bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
                 <p>
-                  🎁 <strong>2 Free Bonuses:</strong> Synchronicity Calendar
+                  🎁 <strong>Free Bonuses:</strong> Synchronicity Calendar
                   (From $19, for free) + Emotional Healing Guide (From $19, for
                   free)
                 </p>
-                <p>💎 Updates and new reports every day.</p>
               </div>
-
+<div className="mt-4 bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
+                <p>
+                  🎁 <strong>Free Bonuses:</strong> Emotional Healing Guide (From $9, for
+                  free)
+                </p>
+    <p>+ Updates and new reports every day.</p>
+              </div>
               <div className="pt-3 space-y-1 text-sm md:text-base text-gray-800">
                 <p>
                   All this for just <strong>$19 today</strong> — a symbolic
