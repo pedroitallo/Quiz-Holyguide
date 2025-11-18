@@ -19,6 +19,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ChevronDown, ChevronUp, Clock, Shield, UserCheck, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTracking } from '@/hooks/useTracking';
+import { HybridQuizResult } from '@/entities/HybridQuizResult';
 
 const CHECKOUT_CONFIG = {
   baseUrl: "https://checkout.auralyapp.com/checkout/auralyapp-tiktok"
@@ -118,7 +119,6 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
         try {
           Promise.resolve().then(async () => {
             try {
-              const { HybridQuizResult } = await import('@/entities/HybridQuizResult');
               await HybridQuizResult.update(quizResultId, { pitch_step_viewed: true });
               console.log('Pitch view tracked successfully');
             } catch (error) {
@@ -126,7 +126,7 @@ export default function SalesSection({ userName, birthDate, quizResultId, src, o
             }
           });
         } catch (error) {
-          console.warn("Failed to import HybridQuizResult:", error);
+          console.warn("Failed to track pitch view:", error);
         }
       }
 
