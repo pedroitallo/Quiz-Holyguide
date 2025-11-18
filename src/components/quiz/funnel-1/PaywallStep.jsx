@@ -321,35 +321,38 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             GET MY RESULTS
           </button>
 
-          {/* Badge/garantia verde abaixo do botão */}
-          <div className="w-full flex justify-center mb-3 mt-4">
-            <img
-              src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/MqWQAB5264462.png"
-              alt="Guarantee Badge"
-              className="w-[35%] max-w-[120px] mx-auto rounded-xl"
-            />
-          </div>
+        {/* Badge/garantia verde abaixo do botão */}
+<div className="w-full flex justify-center mb-2 mt-4">
+  <img
+    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/MqWQAB5264462.png"
+    alt="Guarantee Badge"
+    className="w-[35%] max-w-[120px] mx-auto rounded-xl"
+  />
+</div>
 
-          {/* Texto de trial */}
-          <div className="max-w-2xl mx-auto mt-8 px-4">
-            <p className="text-xs text-gray-500 text-center leading-relaxed">
-              By accepting this offer, you agree to start a 30-day trial on the
-              Auraly App. After the trial period ends, your subscription will
-              automatically renew for just $29/m. You may cancel anytime by
-              contacting us at contact@auralyapp.com
-            </p>
-          </div>
-<h2 className="text-2xl md:text-3xl font-bold text-black mb-0 px-4">
-            Trusted By Over 1,000,000 Transformed Lives
-          </h2>
-          {/* Imagem grande abaixo do texto */}
-          <div className="w-full flex justify-center mb-3 mt-4">
-            <img
-              src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/YuivNF7917669.png"
-              alt="Auraly App Preview"
-              className="w-full max-w-md mx-auto rounded-xl"
-            />
-          </div>
+{/* Texto de trial – mais perto do ícone */}
+<div className="max-w-2xl mx-auto mt-2 px-4">
+  <p className="text-xs text-gray-500 text-center leading-relaxed">
+    By accepting this offer, you agree to start a 30-day trial on the
+    Auraly App. After the trial period ends, your subscription will
+    automatically renew for just $29/m. You may cancel anytime by
+    contacting us at contact@auralyapp.com
+  </p>
+</div>
+
+{/* Título – mais distante do disclaimer e mais perto da imagem */}
+<h2 className="text-2xl md:text-3xl font-bold text-black mt-8 mb-2 px-4">
+  Trusted By Over 1,000,000 Transformed Lives
+</h2>
+
+{/* Imagem grande abaixo do texto */}
+<div className="w-full flex justify-center mb-3 mt-1">
+  <img
+    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/YuivNF7917669.png"
+    alt="Auraly App Preview"
+    className="w-full max-w-md mx-auto rounded-xl"
+  />
+</div>
 
           {/* Social Proof */}
           <motion.div
