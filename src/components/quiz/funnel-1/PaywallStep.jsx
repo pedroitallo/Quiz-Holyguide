@@ -385,6 +385,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     alt="Master Aura"
     className="w-14 h-14 rounded-full object-cover border border-purple-300"
   />
+ {/* Título centralizado */}
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 text-center">
+                How will your drawing be made available?
+              </h3>
 
   {/* Texto */}
   <div className="text-left">
