@@ -13077,17 +13077,8 @@ Segue o trecho ajustado (repare no mb-8 no mini-card e mt-2→mt-0 você pode ma
 <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
   {/* ...resto igual */}
 </Card>
-Se quiser ainda mais espaço, troca mb-8 por mb-10 ou mb-12.
-Quer que eu ajuste mais algum espaçamento do paywall?
 
-Você disse:
-Imagem carregada
-quero o secute bem emabixo do botao quase colado e o disclaimer quase colado no secure
-O ChatGPT disse:
-Segue exatamente como você pediu: secure quase colado no botão, disclaimer quase colado no secure.
-Basta substituir seu bloco atual por este:
-
-{/* CTA */}
+  {/* CTA */}
 <button
   onClick={handleCheckout}
   className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
