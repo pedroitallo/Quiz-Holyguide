@@ -57,9 +57,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
           let allUtms = {};
 
-          if (typeof window !== "undefined" && window.utmify) {
+          if (typeof window !== "undefined" && (window as any).utmify) {
             try {
-              allUtms = window.utmify.getUtms() || {};
+              allUtms = (window as any).utmify.getUtms() || {};
               console.log("UTMs from UTMIFY:", allUtms);
             } catch (error) {
               console.warn("Failed to get UTMs from UTMIFY:", error);
@@ -79,7 +79,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             utmParams.forEach((param) => {
               const value = currentUrl.searchParams.get(param);
               if (value) {
-                allUtms[param] = value;
+                (allUtms as any)[param] = value;
               }
             });
 
@@ -87,14 +87,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             otherParams.forEach((param) => {
               const value = currentUrl.searchParams.get(param);
               if (value) {
-                allUtms[param] = value;
+                (allUtms as any)[param] = value;
               }
             });
           }
 
           Object.keys(allUtms).forEach((key) => {
-            if (allUtms[key]) {
-              url.searchParams.set(key, allUtms[key]);
+            if ((allUtms as any)[key]) {
+              url.searchParams.set(key, (allUtms as any)[key]);
             }
           });
 
@@ -178,7 +178,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     },
   ];
 
-  const toggleFaq = (index) => {
+  const toggleFaq = (index: number) => {
     setOpenFaqIndex((prev) => (prev === index ? null : index));
   };
 
@@ -211,14 +211,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           {/* PITCH DE PREÇO */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
             <CardContent className="p-6 space-y-4">
-               {/* Imagem nova acima do título */}
-<div className="w-full flex justify-center mb-3">
-  <img
-    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zlmLXK5905984.png"
-    alt="Auraly App Preview"
-    className="w-[35%] max-w-[120px] mx-auto rounded-xl"
-  />
-</div>
+              {/* Imagem pequena acima do título */}
+              <div className="w-full flex justify-center mb-3">
+                <img
+                  src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zlmLXK5905984.png"
+                  alt="Auraly App Preview"
+                  className="w-[35%] max-w-[120px] mx-auto rounded-xl"
+                />
+              </div>
 
               {/* Título centralizado */}
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 text-center">
@@ -296,7 +296,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                     </p>
 
                     {/* Divider */}
-                    <div className="border-t border-gray-200 my-2"></div>
+                    <div className="border-t border-gray-200 my-2" />
 
                     {/* Total today */}
                     <div className="flex flex-col w-full">
@@ -313,37 +313,42 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             </CardContent>
           </Card>
 
-       <button
-  onClick={handleCheckout}
-  className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
->
-  GET MY RESULTS
-</button>
+          {/* CTA */}
+          <button
+            onClick={handleCheckout}
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
+          >
+            GET MY RESULTS
+          </button>
 
-<div className="w-full flex justify-center mb-3">
-  <img
-    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/MqWQAB5264462.png"
-    alt="Auraly App Preview"
-    className="w-[35%] max-w-[120px] mx-auto rounded-xl"
-  />
-</div>
+          {/* Badge/garantia verde abaixo do botão */}
+          <div className="w-full flex justify-center mb-3 mt-4">
+            <img
+              src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/MqWQAB5264462.png"
+              alt="Guarantee Badge"
+              className="w-[35%] max-w-[120px] mx-auto rounded-xl"
+            />
+          </div>
 
-<div className="max-w-2xl mx-auto mt-0 px-4">
-  <p className="text-xs text-gray-500 text-center leading-relaxed">
-    By accepting this offer, you agree to start a 30-day trial on the Auraly App.
-    After the trial period ends, your subscription will automatically renew for just $29/m.
-    You may cancel anytime by contacting us at contact@auralyapp.com
-  </p>
-</div>
+          {/* Texto de trial */}
+          <div className="max-w-2xl mx-auto mt-0 px-4">
+            <p className="text-xs text-gray-500 text-center leading-relaxed">
+              By accepting this offer, you agree to start a 30-day trial on the
+              Auraly App. After the trial period ends, your subscription will
+              automatically renew for just $29/m. You may cancel anytime by
+              contacting us at contact@auralyapp.com
+            </p>
+          </div>
 
-{/* Imagem nova acima do título */}
-<div className="w-full flex justify-center mb-3">
-  <img
-    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/YuivNF7917669.png"
-    alt="Auraly App Preview"
-    className="w-full max-w-md mx-auto rounded-xl"
-  />
-</div>
+          {/* Imagem grande abaixo do texto */}
+          <div className="w-full flex justify-center mb-3 mt-4">
+            <img
+              src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/YuivNF7917669.png"
+              alt="Auraly App Preview"
+              className="w-full max-w-md mx-auto rounded-xl"
+            />
+          </div>
+
           {/* Social Proof */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
