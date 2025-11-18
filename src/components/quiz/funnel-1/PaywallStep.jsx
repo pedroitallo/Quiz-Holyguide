@@ -313,12 +313,13 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             </CardContent>
           </Card>
 
-        <button
+       <button
   onClick={handleCheckout}
   className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
 >
   GET MY RESULTS
 </button>
+
 <div className="w-full flex justify-center mb-3">
   <img
     src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/MqWQAB5264462.png"
@@ -326,13 +327,23 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     className="w-[35%] max-w-[120px] mx-auto rounded-xl"
   />
 </div>
+
 <div className="max-w-2xl mx-auto mt-0 px-4">
-          <p className="text-xs text-gray-500 text-center leading-relaxed">
-            By accepting this offer, you agree to start a 30-day trial on the Auraly App.
-            After the trial period ends, your subscription will automatically renew for just $29/m.
-            You may cancel anytime by contacting us at contact@auralyapp.com
-          </p>
-  </div>
+  <p className="text-xs text-gray-500 text-center leading-relaxed">
+    By accepting this offer, you agree to start a 30-day trial on the Auraly App.
+    After the trial period ends, your subscription will automatically renew for just $29/m.
+    You may cancel anytime by contacting us at contact@auralyapp.com
+  </p>
+</div>
+
+{/* Imagem nova acima do título */}
+<div className="w-full flex justify-center mb-3">
+  <img
+    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/YuivNF7917669.png"
+    alt="Auraly App Preview"
+    className="w-full max-w-md mx-auto rounded-xl"
+  />
+</div>
           {/* Social Proof */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
