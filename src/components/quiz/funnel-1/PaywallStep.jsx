@@ -376,10 +376,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   </div>
 </div>
 </div>
-          {/* Título centralizado */}
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-5 text-center">
-                How will your drawing be made available?
-              </h3>
+         {/* Headline afastada do card de cima */}
+<h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-10 mb-5 text-center">
+  How will your drawing be made available?
+</h3>
 {/* Mini-card da Master Aura */}
 <div className="w-full max-w-md mx-auto flex items-center gap-4 bg-purple-50 border border-purple-200 rounded-2xl p-4 mt-2 shadow-sm">
   
