@@ -196,9 +196,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   <p className="text-sm font-medium">
     Secure your soulmate sketch with <strong>50% OFF</strong>
   </p>
-  <p className="text-xs mt-1">
-   Offer ends in <span className="font-bold">{minutes}:{seconds}</span>
-  </p>
 </div>
 
           <h2 className="text-2xl md:text-3xl font-bold text-black mb-6 px-4">
