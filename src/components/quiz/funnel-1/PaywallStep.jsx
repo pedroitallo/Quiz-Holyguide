@@ -399,7 +399,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     <p className="text-xs text-gray-700 leading-snug">
       I’ve delivered over <strong>12,000 soulmate readings</strong>.
       Your full details and sketch will be revealed inside the 
-      <span className="font-semibold text-purple-700"> Auraly App</span>.
+      <span className="font-semibold text-purple-700"> Auraly App</span> via email.
     </p>
   </div>
 </div>
