@@ -282,7 +282,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                 <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
                   {/* Topo Roxo */}
                   <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
-                    Special offer
+                    Special offer 50% OFF Today
                   </div>
 
                   {/* Conteúdo */}
