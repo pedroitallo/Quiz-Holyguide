@@ -277,32 +277,52 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   </div>
 
   {/* Details about your meeting – borrado */}
-  <div className="mb-3">
-    <p className="text-sm font-semibold text-gray-800 mb-1">
-     💕 Details about your meeting:
-    </p>
-    <div className="relative rounded-xl bg-gray-100/80 p-3">
-      <p className="text-sm text-gray-600 blur-sm select-none">
-        This section contains specific details about how, where and under which
-        circumstances your first encounter will happen.
-      </p>
-      <div className="absolute inset-0 rounded-xl bg-white/30 backdrop-blur-sm pointer-events-none" />
-    </div>
-  </div>
+<div className="mb-4">
+  <p className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-1">
+    <span className="text-pink-500">💕</span> Details about your meeting:
+  </p>
 
-  {/* What this drawing reveals – borrado */}
-  <div>
-    <p className="text-sm font-semibold text-gray-800 mb-1">
-     👤 What this drawing reveals:
+  <div className="relative rounded-xl bg-gray-100/70 p-3 overflow-hidden">
+
+    {/* Conteúdo borrado */}
+    <p className="text-sm text-gray-600 blur-sm select-none opacity-70">
+      This section contains specific details about how, where and under which
+      circumstances your first encounter will happen.
     </p>
-    <div className="relative rounded-xl bg-gray-100/80 p-3">
-      <p className="text-sm text-gray-600 blur-sm select-none">
-        This section reveals deeper information about his emotional energy, the
-        bond between you two, and how this connection will transform your love
-        life.
-      </p>
-      <div className="absolute inset-0 rounded-xl bg-white/30 backdrop-blur-sm pointer-events-none" />
+
+    {/* Overlay com cadeado */}
+    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+      <div className="bg-white/70 backdrop-blur-md px-3 py-2 rounded-full shadow-sm border border-gray-200 flex items-center gap-2">
+        <span className="text-gray-700 text-sm">🔒</span>
+        <span className="text-gray-700 text-sm font-semibold">Locked</span>
+      </div>
     </div>
+
+  </div>
+</div>
+
+{/* What this drawing reveals – borrado */}
+<div className="mb-4">
+  <p className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-1">
+    <span className="text-blue-600">👤</span> What this drawing reveals:
+  </p>
+
+  <div className="relative rounded-xl bg-gray-100/70 p-3 overflow-hidden">
+
+    {/* Conteúdo borrado */}
+    <p className="text-sm text-gray-600 blur-sm select-none opacity-70">
+      This section reveals deeper emotional information, the bond between you two,
+      and how this connection will transform your love life.
+    </p>
+
+    {/* Overlay com cadeado */}
+    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+      <div className="bg-white/70 backdrop-blur-md px-3 py-2 rounded-full shadow-sm border border-gray-200 flex items-center gap-2">
+        <span className="text-gray-700 text-sm">🔒</span>
+        <span className="text-gray-700 text-sm font-semibold">Locked</span>
+      </div>
+    </div>
+
   </div>
 </div>
     {/* Top Banner Offer */}
