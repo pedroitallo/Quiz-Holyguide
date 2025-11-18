@@ -268,9 +268,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               style={{ minHeight: "70px" }}
             >
               <span className="block text-center leading-tight">
-                YES! Claim My Divine
+              Get your soulmate drawing now.
                 <br />
-                Soul Drawing
               </span>
             </button>
           </div>
