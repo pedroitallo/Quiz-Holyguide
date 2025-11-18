@@ -322,8 +322,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 </div>
 </div> {/* <- fecha corretamente o card borrado */}
 
-
-
           {/* PITCH DE PREÇO */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
             <CardContent className="p-6 space-y-4">
