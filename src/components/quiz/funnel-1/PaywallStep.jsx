@@ -14,11 +14,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   const scrollToPriceCard = () => {
-    const priceCard = document.querySelector('.price-card-anchor');
+    const priceCard = document.querySelector(".price-card-anchor");
     if (priceCard) {
       const yOffset = -200;
-      const y = priceCard.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      const y =
+        priceCard.getBoundingClientRect().top +
+        window.pageYOffset +
+        yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
 
@@ -31,8 +34,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
       quizResultId !== "admin-mode" &&
       quizResultId !== "bot-mode"
     ) {
-      HybridQuizResult.update(quizResultId, { pitch_step_viewed: true }).catch(
-        (e) => console.warn("Failed to update pitch step view:", e)
+      HybridQuizResult.update(quizResultId, {
+        pitch_step_viewed: true,
+      }).catch((e) =>
+        console.warn("Failed to update pitch step view:", e)
       );
     }
   }, [quizResultId]);
@@ -200,21 +205,20 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           transition={{ duration: 0.8 }}
           className="mb-8"
         >
-          {/* Top Banner Offer */}
-<div className="w-full bg-purple-100 text-purple-900 py-3 px-4 rounded-xl mb-6 text-center shadow-sm">
-  <p className="text-sm font-medium">
-  Your soulmate reading is ready.
-  </p>
-</div>
+          {/* ======================= TOP HEADER ======================= */}
+          <div className="w-full bg-purple-100 text-purple-900 py-3 px-4 rounded-xl mb-6 text-center shadow-sm">
+            <p className="text-sm font-medium">
+              Your soulmate reading is ready.
+            </p>
+          </div>
 
-        <h3 className="text-2xl md:text-3xl font-bold px-4 leading-tight mb-6">
-  <span className="text-black">Your reading is ready.</span>
-  <br />
-  <span className="text-purple-600">See your soulmate today!</span>
-</h3>
+          <h3 className="text-2xl md:text-3xl font-bold px-4 leading-tight mb-6">
+            <span className="text-black">Your reading is ready.</span>
+            <br />
+            <span className="text-purple-600">See your soulmate today!</span>
+          </h3>
 
-
-          {/* Imagem do desenho */}
+          {/* ======================= DRAWING IMAGE ======================= */}
           <div className="mb-6">
             <img
               src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/QGBKNA0389427.jpeg"
@@ -222,22 +226,26 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               className="w-full max-w-2xl mx-auto rounded-xl shadow-lg"
             />
           </div>
-          {/* Botão para scroll */}
-<div className="w-full flex justify-center mb-6">
-  <button
-    onClick={scrollToPriceCard}
-    className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all duration-300 shadow-md"
-  >
-    SEE YOUR FULL READING
-  </button>
-</div>
-       {/* Top Banner Offer */}
-<div className="w-full bg-purple-100 text-purple-900 py-3 px-4 rounded-xl mb-6 text-center shadow-sm">
-  <p className="text-sm font-medium">
-    Your soulmate report is ready and includes a complete analysis of your soulmate
-  </p>
-</div>
-               {/* Bullets de confiança */}
+
+          {/* ======================= SCROLL BUTTON ======================= */}
+          <div className="w-full flex justify-center mb-6">
+            <button
+              onClick={scrollToPriceCard}
+              className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all duration-300 shadow-md"
+            >
+              SEE YOUR FULL READING
+            </button>
+          </div>
+
+          {/* ======================= SECOND BANNER ======================= */}
+          <div className="w-full bg-purple-100 text-purple-900 py-3 px-4 rounded-xl mb-6 text-center shadow-sm">
+            <p className="text-sm font-medium">
+              Your soulmate report is ready and includes a complete analysis of
+              your soulmate.
+            </p>
+          </div>
+
+          {/* Bullets de confiança */}
           <div className="w-full max-w-md mx-auto mt-4 space-y-4 text-left">
             {/* Bullet 1 */}
             <div className="flex items-center gap-3">
@@ -265,144 +273,151 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               </div>
 
               <p className="text-gray-900 text-sm md:text-base">
-                <strong>Thousands of consultations</strong> carried out
+                <strong>Thousands of consultations</strong> carried out.
               </p>
             </div>
           </div>
-          <div className="w-full h-px bg-gray-300/70 my-4"></div>
 
-           {/* Título + imagem grande */}
+          <div className="w-full h-px bg-gray-300/70 my-4" />
+
+          {/* ======================= INSIGHT CARD ======================= */}
           <h2 className="text-2xl md:text-3xl font-bold text-black mt-8 mb-2 px-4">
-          We uncovered key details about your soulmate. 👇🏼
+            We uncovered key details about your soulmate. 👇🏼
           </h2>
+
           <div className="max-w-xl mx-auto mt-6 bg-white/90 border border-purple-100 rounded-3xl shadow-xl p-6 md:p-7 text-left">
-  {/* Header */}
-  <div className="mb-4">
-    <p className="text-xs uppercase tracking-wide text-purple-500 font-semibold">
-      Personalized Soulmate Insight
-    </p>
-    <h3 className="text-lg md:text-xl font-bold text-gray-900 mt-1">
-      Precise information about your soulmate
-    </h3>
-  </div>
+            {/* Header */}
+            <div className="mb-4">
+              <p className="text-xs uppercase tracking-wide text-purple-500 font-semibold">
+                Personalized Soulmate Insight
+              </p>
+              <h3 className="text-lg md:text-xl font-bold text-gray-900 mt-1">
+                Precise information about your soulmate
+              </h3>
+            </div>
 
-  {/* Personality Traits */}
-  <div className="mb-5">
-    <p className="text-sm font-semibold text-gray-800 mb-2">
-      Personality Traits:
-    </p>
+            {/* Personality Traits */}
+            <div className="mb-5">
+              <p className="text-sm font-semibold text-gray-800 mb-2">
+                Personality Traits:
+              </p>
 
-    <div className="space-y-2">
-      {[
-        "Deeply loyal",
-        "Protective",
-        "Playfully romantic",
-      ].map((trait, idx) => (
-        <div
-          key={idx}
-          className="flex items-center gap-3 bg-purple-50/80 rounded-2xl px-3 py-2"
-        >
-          <div className="w-7 h-7 rounded-full bg-purple-200 flex items-center justify-center">
-            <span className="text-xs text-purple-800">♥</span>
+              <div className="space-y-2">
+                {["Deeply loyal", "Protective", "Playfully romantic"].map(
+                  (trait, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center gap-3 bg-purple-50/80 rounded-2xl px-3 py-2"
+                    >
+                      <div className="w-7 h-7 rounded-full bg-purple-200 flex items-center justify-center">
+                        <span className="text-xs text-purple-800">♥</span>
+                      </div>
+                      <p className="text-sm text-gray-800">{trait}</p>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+
+            {/* Proximity of the Meeting */}
+            <div className="mb-4">
+              <p className="text-sm font-semibold text-gray-800 mb-1">
+                📍 Proximity of the Meeting:
+              </p>
+              <p className="text-sm md:text-base text-gray-700">
+                <span className="font-semibold text-purple-700">
+                  “You’re closer than you think.”
+                </span>{" "}
+                Your birth chart indicates that your paths will cross{" "}
+                <span className="font-semibold">within a year</span>, in a{" "}
+                <span className="font-semibold">familiar setting</span>.
+              </p>
+            </div>
+
+            {/* Details about your meeting – blurred */}
+            <div className="mb-4">
+              <p className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-1">
+                <span className="text-pink-500">💕</span> Details about your
+                meeting:
+              </p>
+
+              <div className="relative rounded-xl bg-gray-100/70 p-3 overflow-hidden">
+                <p className="text-sm text-gray-600 blur-sm select-none opacity-70">
+                  This section contains specific details about how, where and
+                  under which circumstances your first encounter will happen.
+                </p>
+
+                {/* Overlay com cadeado */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                  <div className="bg-white/70 backdrop-blur-md px-3 py-2 rounded-full shadow-sm border border-gray-200 flex items-center gap-2">
+                    <span className="text-gray-700 text-sm">🔒</span>
+                    <span className="text-gray-700 text-sm font-semibold">
+                      Locked
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* What this drawing reveals – blurred */}
+            <div className="mb-4">
+              <p className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-1">
+                <span className="text-blue-600">👤</span> What this drawing
+                reveals:
+              </p>
+
+              <div className="relative rounded-xl bg-gray-100/70 p-3 overflow-hidden">
+                <p className="text-sm text-gray-600 blur-sm select-none opacity-70">
+                  This section reveals deeper emotional information, the bond
+                  between you two, and how this connection will transform your
+                  love life.
+                </p>
+
+                {/* Overlay com cadeado */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                  <div className="bg-white/70 backdrop-blur-md px-3 py-2 rounded-full shadow-sm border border-gray-200 flex items-center gap-2">
+                    <span className="text-gray-700 text-sm">🔒</span>
+                    <span className="text-gray-700 text-sm font-semibold">
+                      Locked
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="text-sm text-gray-800">{trait}</p>
-        </div>
-      ))}
-    </div>
-  </div>
 
-  {/* Proximity of the Meeting */}
-  <div className="mb-4">
-    <p className="text-sm font-semibold text-gray-800 mb-1">
-     📍 Proximity of the Meeting:
-    </p>
-    <p className="text-sm md:text-base text-gray-700">
-      <span className="font-semibold text-purple-700">
-        “You’re closer than you think.”
-      </span>{" "}
-      Your birth chart indicates that your paths will cross{" "}
-      <span className="font-semibold">within a year</span>, in a{" "}
-      <span className="font-semibold">familiar setting</span>.
-    </p>
-  </div>
+          {/* ======================= HOW YOU RECEIVE SECTION ======================= */}
+          <h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-10 mb-5 text-center">
+            How will your drawing be made available?
+          </h3>
 
- {/* Details about your meeting – borrado */}
-<div className="mb-4">
-  <p className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-1">
-    <span className="text-pink-500">💕</span> Details about your meeting:
-  </p>
+          {/* Mini-card da Master Aura */}
+          <div className="w-full max-w-md mx-auto flex items-center gap-4 bg-purple-50 border border-purple-200 rounded-2xl p-4 mt-2 mb-8 shadow-sm">
+            {/* Foto */}
+            <img
+              src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
+              alt="Master Aura"
+              className="w-14 h-14 rounded-full object-cover border border-purple-300"
+            />
 
-  <div className="relative rounded-xl bg-gray-100/70 p-3 overflow-hidden">
+            {/* Texto */}
+            <div className="text-left">
+              <p className="text-sm font-semibold text-gray-900">
+                Master Aura — Auraly top psychic
+              </p>
+              <p className="text-xs text-gray-700 leading-snug">
+                I’ve delivered over <strong>12,000 soulmate readings</strong>.
+                Your full details and sketch will be revealed inside the
+                <span className="font-semibold text-purple-700">
+                  {" "}
+                  Auraly App
+                </span>
+                .
+              </p>
+            </div>
+          </div>
 
-    {/* Conteúdo borrado */}
-    <p className="text-sm text-gray-600 blur-sm select-none opacity-70">
-      This section contains specific details about how, where and under which
-      circumstances your first encounter will happen.
-    </p>
-
-    {/* Overlay com cadeado */}
-    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-      <div className="bg-white/70 backdrop-blur-md px-3 py-2 rounded-full shadow-sm border border-gray-200 flex items-center gap-2">
-        <span className="text-gray-700 text-sm">🔒</span>
-        <span className="text-gray-700 text-sm font-semibold">Locked</span>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-{/* What this drawing reveals – borrado */}
-<div className="mb-4">
-  <p className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-1">
-    <span className="text-blue-600">👤</span> What this drawing reveals:
-  </p>
-
-  <div className="relative rounded-xl bg-gray-100/70 p-3 overflow-hidden">
-
-    {/* Conteúdo borrado */}
-    <p className="text-sm text-gray-600 blur-sm select-none opacity-70">
-      This section reveals deeper emotional information, the bond between you two,
-      and how this connection will transform your love life.
-    </p>
-
-    {/* Overlay com cadeado */}
-    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-      <div className="bg-white/70 backdrop-blur-md px-3 py-2 rounded-full shadow-sm border border-gray-200 flex items-center gap-2">
-        <span className="text-gray-700 text-sm">🔒</span>
-        <span className="text-gray-700 text-sm font-semibold">Locked</span>
-      </div>
-    </div>
-
-  </div>
-</div>
-</div>
-         {/* Headline afastada do card de cima */}
-<h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-10 mb-5 text-center">
-  How will your drawing be made available?
-</h3>
-{/* Mini-card da Master Aura */}
-<div className="w-full max-w-md mx-auto flex items-center gap-4 bg-purple-50 border border-purple-200 rounded-2xl p-4 mt-2 mb-8 shadow-sm">
-  {/* Foto */}
-  <img
-    src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
-    alt="Master Aura"
-    className="w-14 h-14 rounded-full object-cover border border-purple-300"
-  />
-
-  {/* Texto */}
-  <div className="text-left">
-    <p className="text-sm font-semibold text-gray-900">
-      Master Aura — Auraly top psychic
-    </p>
-    <p className="text-xs text-gray-700 leading-snug">
-      I’ve delivered over <strong>12,000 soulmate readings</strong>. Your full
-      details and sketch will be revealed inside the
-      <span className="font-semibold text-purple-700"> Auraly App</span>.
-    </p>
-  </div>
-</div>
-
-          {/* PITCH DE PREÇO */}
+          {/* ======================= FIRST PRICING CARD + CTA + SECURE ======================= */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
             <CardContent className="p-6 space-y-4">
               {/* Imagem pequena acima do título */}
@@ -471,7 +486,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                 </p>
               </div>
 
-              {/* CARD DE PREÇO */}
+              {/* CARD DE PREÇO com âncora para scroll */}
               <div className="max-w-md mx-auto mt-2 price-card-anchor">
                 <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
                   {/* Topo Roxo */}
@@ -492,203 +507,202 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                     {/* Divider */}
                     <div className="border-t border-gray-200 my-2" />
 
-                   {/* Total today */}
-<div className="flex flex-col w-full">
-  <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
-    <span>Total today 50% OFF:</span>
-    <span className="text-green-600 text-xl font-extrabold">
-      $19
-    </span>
-  </div>
-</div>
-
-</div>
-</div>
-</div>
-
-</CardContent>
-</Card>
-
-{/* CTA */}
-<button
-  onClick={handleCheckout}
-  className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
->
-  GET MY DRAWING SOULMATE
-</button>
-
-{/* Badge/garantia verde abaixo do botão */}
-<div className="w-full flex justify-center mb-2 mt-4">
-  <img
-    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/MqWQAB5264462.png"
-    alt="Guarantee Badge"
-    className="w-[35%] max-w-[120px] mx-auto rounded-xl"
-  />
-</div>
-
-{/* Texto de trial */}
-<div className="max-w-2xl mx-auto mt-2 px-4">
-  <p className="text-xs text-gray-500 text-center leading-relaxed">
-    By accepting this offer, you agree to start a 30-day trial on the Auraly App.
-    After the trial period ends, your subscription will automatically renew for
-    just $29/m. You may cancel anytime by contacting us at
-    contact@auralyapp.com
-  </p>
-</div>
-
-{/* Título + imagem grande */}
-<h2 className="text-2xl md:text-3xl font-bold text-black mt-8 mb-2 px-4">
-  Trusted By Over 1,000,000 Transformed Lives
-</h2>
-
-<div className="w-full flex justify-center mb-3 mt-1">
-  <img
-    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/YuivNF7917669.png"
-    alt="Auraly App Preview"
-    className="w-full max-w-md mx-auto rounded-xl"
-  />
-</div>
-
-{/* Social Proof */}
-<motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
-  className="w-full max-w-4xl mx-auto px-0 py-4"
->
-  <div className="space-y-6">
-    <div className="space-y-4">
-      {testimonials.map((testimonial, index) => (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2 + index * 0.2 }}
-          className="bg-white rounded-3xl p-6 shadow-lg border border-gray-200"
-        >
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <img
-                src={testimonial.avatar}
-                alt={testimonial.name}
-                className="w-14 h-14 rounded-full object-cover"
-              />
-              <div>
-                <h3 className="font-bold text-gray-800 text-lg">
-                  {testimonial.name}
-                </h3>
-                <p className="text-gray-400 text-sm">
-                  {testimonial.date}
-                </p>
+                    {/* Total today */}
+                    <div className="flex flex-col w-full">
+                      <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
+                        <span>Total today 50% OFF:</span>
+                        <span className="text-green-600 text-xl font-extrabold">
+                          $19
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            </CardContent>
+          </Card>
 
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-yellow-400 text-xl">
-                  ⭐
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-3 text-left">
-            <h4 className="font-bold text-gray-800 text-xl">
-              {testimonial.title}
-            </h4>
-            <p className="text-gray-600 text-base leading-relaxed">
-              {testimonial.text}
-            </p>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</motion.div>
-
-{/* CARD DE PREÇO ABAIXO DO SOCIAL PROOF */}
-<div className="max-w-md mx-auto mt-4">
-  <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
-    {/* Topo Roxo */}
-    <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
-      Special offer 50% OFF Today
-    </div>
-
-    {/* Conteúdo */}
-    <div className="p-5 space-y-4">
-      {/* Texto principal */}
-      <p className="text-center text-lg font-semibold text-gray-900">
-        The original price is{" "}
-        <span className="text-gray-500 line-through font-normal">
-          $29
-        </span>
-      </p>
-
-      {/* Divider */}
-      <div className="border-t border-gray-200 my-2" />
-
-      {/* Total today */}
-      <div className="flex flex-col w-full">
-        <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
-          <span>Total today 50% OFF:</span>
-          <span className="text-green-600 text-xl font-extrabold">
-            $19
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-{/* CTA ABAIXO DO CARD DE PREÇO */}
-<button
-  onClick={handleCheckout}
-  className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
->
-  GET MY DRAWING SOULMATE
-</button>
-
-{/* FAQ */}
-<div className="max-w-xl mx-auto mt-6 text-left">
-  <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">
-    FAQ
-  </h2>
-
-  <div className="divide-y divide-gray-200 border-t border-b border-gray-200">
-    {faqs.map((item, index) => {
-      const isOpen = openFaqIndex === index;
-
-      return (
-        <div key={index} className="w-full">
+          {/* CTA */}
           <button
-            type="button"
-            onClick={() => toggleFaq(index)}
-            className="w-full py-3 flex items-center justify-between gap-2"
+            onClick={handleCheckout}
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
           >
-            <span className="text-sm md:text-base text-gray-800 font-semibold">
-              {item.question}
-            </span>
-
-            <ChevronRight
-              className={`w-4 h-4 text-gray-500 transition-transform ${
-                isOpen ? "rotate-90" : ""
-              }`}
-            />
+            GET MY RESULTS
           </button>
 
-          {isOpen && (
-            <div className="pb-3 px-1">
-              <p className="text-sm text-gray-600">
-                {item.answer}
-              </p>
-            </div>
-          )}
-        </div>
-      );
-    })}
-  </div>
-</div>
+          {/* Secure Badge — quase colado no botão */}
+          <div className="w-full flex justify-center mt-2 mb-1">
+            <img
+              src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/MqWQAB5264462.png"
+              alt="Guarantee Badge"
+              className="w-[32%] max-w-[110px] mx-auto"
+            />
+          </div>
 
-</motion.div>
-</div>
-</div>
+          {/* Disclaimer — quase colado no secure */}
+          <div className="max-w-2xl mx-auto mt-1 px-4">
+            <p className="text-xs text-gray-500 text-center leading-relaxed">
+              By accepting this offer, you agree to start a 30-day trial on the
+              Auraly App. After the trial period ends, your subscription will
+              automatically renew for just $29/m. You may cancel anytime by
+              contacting us at contact@auralyapp.com
+            </p>
+          </div>
+
+          {/* ======================= TRUSTED SECTION ======================= */}
+          <h2 className="text-2xl md:text-3xl font-bold text-black mt-8 mb-2 px-4">
+            Trusted By Over 1,000,000 Transformed Lives
+          </h2>
+
+          <div className="w-full flex justify-center mb-3 mt-1">
+            <img
+              src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/YuivNF7917669.png"
+              alt="Auraly App Preview"
+              className="w-full max-w-md mx-auto rounded-xl"
+            />
+          </div>
+
+          {/* Social Proof */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="w-full max-w-4xl mx-auto px-0 py-4"
+          >
+            <div className="space-y-6">
+              <div className="space-y-4">
+                {testimonials.map((testimonial, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 + index * 0.2 }}
+                    className="bg-white rounded-3xl p-6 shadow-lg border border-gray-200"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={testimonial.avatar}
+                          alt={testimonial.name}
+                          className="w-14 h-14 rounded-full object-cover"
+                        />
+                        <div>
+                          <h3 className="font-bold text-gray-800 text-lg">
+                            {testimonial.name}
+                          </h3>
+                          <p className="text-gray-400 text-sm">
+                            {testimonial.date}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <span key={i} className="text-yellow-400 text-xl">
+                            ⭐
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-3 text-left">
+                      <h4 className="font-bold text-gray-800 text-xl">
+                        {testimonial.title}
+                      </h4>
+                      <p className="text-gray-600 text-base leading-relaxed">
+                        {testimonial.text}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* CARD DE PREÇO ABAIXO DO SOCIAL PROOF */}
+          <div className="max-w-md mx-auto mt-4">
+            <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
+              {/* Topo Roxo */}
+              <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
+                Special offer 50% OFF Today
+              </div>
+
+              {/* Conteúdo */}
+              <div className="p-5 space-y-4">
+                {/* Texto principal */}
+                <p className="text-center text-lg font-semibold text-gray-900">
+                  The original price is{" "}
+                  <span className="text-gray-500 line-through font-normal">
+                    $29
+                  </span>
+                </p>
+
+                {/* Divider */}
+                <div className="border-t border-gray-200 my-2" />
+
+                {/* Total today */}
+                <div className="flex flex-col w-full">
+                  <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
+                    <span>Total today 50% OFF:</span>
+                    <span className="text-green-600 text-xl font-extrabold">
+                      $19
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA ABAIXO DO CARD DE PREÇO */}
+          <button
+            onClick={handleCheckout}
+            className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
+          >
+            GET MY RESULTS
+          </button>
+
+          {/* ======================= FAQ ======================= */}
+          <div className="max-w-xl mx-auto mt-6 text-left">
+            <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">
+              FAQ
+            </h2>
+
+            <div className="divide-y divide-gray-200 border-t border-b border-gray-200">
+              {faqs.map((item, index) => {
+                const isOpen = openFaqIndex === index;
+
+                return (
+                  <div key={index} className="w-full">
+                    <button
+                      type="button"
+                      onClick={() => toggleFaq(index)}
+                      className="w-full py-3 flex items-center justify-between gap-2"
+                    >
+                      <span className="text-sm md:text-base text-gray-800 font-semibold">
+                        {item.question}
+                      </span>
+
+                      <ChevronRight
+                        className={`w-4 h-4 text-gray-500 transition-transform ${
+                          isOpen ? "rotate-90" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {isOpen && (
+                      <div className="pb-3 px-1">
+                        <p className="text-sm text-gray-600">
+                          {item.answer}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
