@@ -251,6 +251,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               </p>
             </div>
           </div>
+          <div className="w-full h-px bg-gray-300/70 my-4"></div>
+
            {/* Título + imagem grande */}
           <h2 className="text-2xl md:text-3xl font-bold text-black mt-8 mb-2 px-4">
           We uncovered key details about your soulmate. 👇🏼
