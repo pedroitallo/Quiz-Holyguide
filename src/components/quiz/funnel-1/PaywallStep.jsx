@@ -322,7 +322,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     </div>
 
   </div>
-</div>
+
 
           {/* PITCH DE PREÇO */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
