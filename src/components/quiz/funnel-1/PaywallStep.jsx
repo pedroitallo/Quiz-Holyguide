@@ -199,7 +199,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 </div>
 
         <h2 className="text-2xl md:text-3xl font-bold px-4 leading-tight mb-6">
-  <span className="text-black">Your drawing is ready</span>
+  <span className="text-black">Your soulmate reading is ready.</span>
   <br />
   <span className="text-purple-600">See your soulmate today!</span>
 </h2>
