@@ -313,16 +313,13 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             </CardContent>
           </Card>
 
-          {/* CTA */}
-          <button
-            onClick={handleCheckout}
-            className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg md:text-xl shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
-            style={{ minHeight: "70px" }}
-          >
-            <span className="block text-center leading-tight">
-              Get your soulmate drawing now.
-            </span>
-          </button>
+        <button
+  onClick={handleCheckout}
+  className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
+>
+  GET MY RESULTS
+</button>
+
 
           {/* Social Proof */}
           <motion.div
