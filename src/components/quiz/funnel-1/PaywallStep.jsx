@@ -209,7 +209,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           {/* Imagem do desenho */}
           <div className="mb-6">
             <img
-              src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759873292152-ltl34v44ham.png"
+              src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/QGBKNA0389427.jpeg"
               alt="Your True Love Preview"
               className="w-full max-w-2xl mx-auto rounded-xl shadow-lg"
             />
