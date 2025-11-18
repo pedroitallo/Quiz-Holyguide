@@ -244,7 +244,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                 <p>
                 All this for a <strong>symbolic price</strong> to finally discover who your true love is.
                 </p>
-                <p className="text-red-600 font-semibold">
+                <p className="text-green-600 font-semibold">
                   50% OFF – Ends Today!
                 </p>
                 <p className="text-lg md:text-xl font-bold text-green-600">
