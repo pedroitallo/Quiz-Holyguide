@@ -319,7 +319,13 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 >
   GET MY RESULTS
 </button>
-
+<div className="w-full flex justify-center mb-3">
+  <img
+    src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/MqWQAB5264462.png"
+    alt="Auraly App Preview"
+    className="w-[35%] max-w-[120px] mx-auto rounded-xl"
+  />
+</div>
 
           {/* Social Proof */}
           <motion.div
