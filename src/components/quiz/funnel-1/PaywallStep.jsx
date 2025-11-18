@@ -393,7 +393,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   {/* Texto */}
   <div className="text-left">
     <p className="text-sm font-semibold text-gray-900">
-      Master Aura — Hollywood’s top psychic
+      Master Aura — Auraly top psychic
     </p>
 
     <p className="text-xs text-gray-700 leading-snug">
