@@ -263,31 +263,38 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
     {/* CARD DE PREÇO IGUAL AO MODELO DA IMAGEM */}
     <div className="max-w-md mx-auto mt-2">
-      <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
+  <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
 
-        {/* Topo roxo */}
-        <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
-          Special offer
+    {/* Topo roxo */}
+    <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
+      Special offer
+    </div>
+
+    {/* Conteúdo interno */}
+    <div className="p-5 space-y-4">
+
+      {/* Texto principal */}
+      <p className="text-center text-lg font-semibold text-gray-900">
+        Personalized reading for{" "}
+        <span className="text-gray-500 line-through font-normal">$19</span>
+      </p>
+
+      {/* Divider */}
+      <div className="border-t border-gray-200 my-2"></div>
+
+      {/* Total today */}
+      <div className="flex flex-col items-end text-gray-800 text-sm font-medium">
+        <div className="flex w-full justify-between">
+          <span>Total today:</span>
+          <span className="text-green-600 text-xl font-extrabold">$19</span>
         </div>
 
-        {/* Conteúdo interno */}
-        <div className="p-5 space-y-3">
-
-          <p className="text-center text-lg font-semibold text-gray-900">
-            Personalized reading for{" "}
-            <span className="text-purple-600 font-bold">$19</span>
-          </p>
-
-          <div className="border-t border-gray-200 my-2"></div>
-
-          <div className="flex items-center justify-between text-gray-800 text-sm font-medium">
-            <span>Total today:</span>
-            <span className="font-bold">$19</span>
-          </div>
-
-        </div>
+        {/* Linha pequena embaixo */}
+        <span className="text-[10px] text-gray-400 mt-1">(30 days bonus)</span>
       </div>
     </div>
+  </div>
+</div>
 
   </CardContent>
 </Card>
