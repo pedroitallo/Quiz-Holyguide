@@ -381,8 +381,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   How will your drawing be made available?
 </h3>
 {/* Mini-card da Master Aura */}
-<div className="w-full max-w-md mx-auto flex items-center gap-4 bg-purple-50 border border-purple-200 rounded-2xl p-4 mt-2 shadow-sm">
-  
+<div className="w-full max-w-md mx-auto flex items-center gap-4 bg-purple-50 border border-purple-200 rounded-2xl p-4 mt-2 mb-8 shadow-sm">
   {/* Foto */}
   <img
     src="https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
@@ -395,11 +394,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     <p className="text-sm font-semibold text-gray-900">
       Master Aura — Auraly top psychic
     </p>
-
     <p className="text-xs text-gray-700 leading-snug">
-      I’ve delivered over <strong>12,000 soulmate readings</strong>.
-      Your full details and sketch will be revealed inside the 
-      <span className="font-semibold text-purple-700"> Auraly App</span> via email.
+      I’ve delivered over <strong>12,000 soulmate readings</strong>. Your full
+      details and sketch will be revealed inside the
+      <span className="font-semibold text-purple-700"> Auraly App</span>.
     </p>
   </div>
 </div>
