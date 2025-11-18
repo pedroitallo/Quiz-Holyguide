@@ -299,12 +299,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   </CardContent>
 </Card>
 
-
-          {/* CTA */}
-          <div className="space-y-3 mb-8 px-4">
-            <p className="text-gray-700 text-sm font-bold">
-              Click Below To Secure Your Drawing 👇🏻
-            </p>
             <button
               onClick={handleCheckout}
               className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg md:text-xl shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
