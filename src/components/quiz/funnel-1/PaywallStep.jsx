@@ -219,6 +219,89 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     Your soulmate report is ready and includes a complete analysis of your soulmate, offering profound insights into your connection with your true love.
   </p>
 </div>
+          <div className="max-w-xl mx-auto mt-6 bg-white/90 border border-purple-100 rounded-3xl shadow-xl p-6 md:p-7 text-left">
+  {/* Header */}
+  <div className="mb-4">
+    <p className="text-xs uppercase tracking-wide text-purple-500 font-semibold">
+      Personalized Soulmate Insight
+    </p>
+    <h3 className="text-lg md:text-xl font-bold text-gray-900 mt-1">
+      Precise information about your soulmate
+    </h3>
+  </div>
+
+  {/* Personality Traits */}
+  <div className="mb-5">
+    <p className="text-sm font-semibold text-gray-800 mb-2">
+      Personality Traits:
+    </p>
+
+    <div className="space-y-2">
+      {[
+        "Deeply loyal",
+        "Protective",
+        "Very confident",
+        "Secure and grounded",
+        "Playfully romantic",
+      ].map((trait, idx) => (
+        <div
+          key={idx}
+          className="flex items-center gap-3 bg-purple-50/80 rounded-2xl px-3 py-2"
+        >
+          <div className="w-7 h-7 rounded-full bg-purple-200 flex items-center justify-center">
+            <span className="text-xs text-purple-800">♥</span>
+          </div>
+          <p className="text-sm text-gray-800">{trait}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Proximity of the Meeting */}
+  <div className="mb-4">
+    <p className="text-sm font-semibold text-gray-800 mb-1">
+      Proximity of the Meeting:
+    </p>
+    <p className="text-sm md:text-base text-gray-700">
+      <span className="font-semibold text-purple-700">
+        “You’re closer than you think.”
+      </span>{" "}
+      Your birth chart indicates that your paths will cross{" "}
+      <span className="font-semibold">within a year</span>, in a{" "}
+      <span className="font-semibold">familiar setting</span>.
+    </p>
+  </div>
+
+  {/* Details about your meeting – borrado */}
+  <div className="mb-3">
+    <p className="text-sm font-semibold text-gray-800 mb-1">
+      Details about your meeting:
+    </p>
+    <div className="relative rounded-xl bg-gray-100/80 p-3">
+      <p className="text-sm text-gray-600 blur-sm select-none">
+        This section contains specific details about how, where and under which
+        circumstances your first encounter will happen.
+      </p>
+      <div className="absolute inset-0 rounded-xl bg-white/30 backdrop-blur-sm pointer-events-none" />
+    </div>
+  </div>
+
+  {/* What this drawing reveals – borrado */}
+  <div>
+    <p className="text-sm font-semibold text-gray-800 mb-1">
+      What this drawing reveals:
+    </p>
+    <div className="relative rounded-xl bg-gray-100/80 p-3">
+      <p className="text-sm text-gray-600 blur-sm select-none">
+        This section reveals deeper information about his emotional energy, the
+        bond between you two, and how this connection will transform your love
+        life.
+      </p>
+      <div className="absolute inset-0 rounded-xl bg-white/30 backdrop-blur-sm pointer-events-none" />
+    </div>
+  </div>
+</div>
+
           {/* PITCH DE PREÇO */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
             <CardContent className="p-6 space-y-4">
