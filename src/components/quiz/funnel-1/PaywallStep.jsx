@@ -213,7 +213,12 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               className="w-full max-w-2xl mx-auto rounded-xl shadow-lg"
             />
           </div>
-
+       {/* Top Banner Offer */}
+<div className="w-full bg-purple-100 text-purple-900 py-3 px-4 rounded-xl mb-6 text-center shadow-sm">
+  <p className="text-sm font-medium">
+    Your soulmate report is ready and includes a complete analysis of your soulmate, offering profound insights into your connection with your true love.
+  </p>
+</div>
           {/* PITCH DE PREÇO */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
             <CardContent className="p-6 space-y-4">
