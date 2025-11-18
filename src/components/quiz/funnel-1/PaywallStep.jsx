@@ -211,7 +211,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
             <CardContent className="p-6 space-y-4">
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
-                Descubra o Rosto da sua alma gemea com o Auraly App
+               Discover the face of your soulmate with the Auraly App.
               </h3>
 
               <ul className="space-y-2 text-sm md:text-base text-gray-800">
