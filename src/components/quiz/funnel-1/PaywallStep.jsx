@@ -219,6 +219,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     Your soulmate report is ready and includes a complete analysis of your soulmate, offering profound insights into your connection with your true love.
   </p>
 </div>
+           {/* Título + imagem grande */}
+          <h2 className="text-2xl md:text-3xl font-bold text-black mt-8 mb-2 px-4">
+           We found complete details and insight into your soulmate.👇🏼
+          </h2>
           <div className="max-w-xl mx-auto mt-6 bg-white/90 border border-purple-100 rounded-3xl shadow-xl p-6 md:p-7 text-left">
   {/* Header */}
   <div className="mb-4">
