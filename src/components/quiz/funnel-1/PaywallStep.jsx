@@ -173,7 +173,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
       date: "August 29, 2025",
       title: "After years of searching, I finally found true love.",
       text: "After using the Auraly App I gotta admit, I wasn’t sure if it was worth it, but seriously… no regrets! I’m having some amazing connections now 😍",
-      avatar: "https://diariotribuna.com.br/wp-content/uploads/2021/08/Juliana-1.jpg",
+      avatar:
+        "https://diariotribuna.com.br/wp-content/uploads/2021/08/Juliana-1.jpg",
     },
   ];
 
@@ -207,108 +208,112 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             />
           </div>
 
-   {/* PITCH DE PREÇO */}
-<Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
-  <CardContent className="p-6 space-y-4">
+          {/* PITCH DE PREÇO */}
+          <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
+            <CardContent className="p-6 space-y-4">
+              {/* Título centralizado */}
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 text-center">
+                Discover the face of your soulmate with the Auraly App.
+              </h3>
 
-    {/* Título centralizado */}
-    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 text-center">
-      Discover the face of your soulmate with the Auraly App.
-    </h3>
+              {/* Imagem menor e centralizada */}
+              <div className="w-full flex justify-center mb-2">
+                <img
+                  src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/btldwX5786311.png"
+                  alt="Soulmate Offer Highlight"
+                  className="w-[55%] max-w-xs mx-auto rounded-xl"
+                />
+              </div>
 
-    {/* Imagem menor e centralizada */}
-    <div className="w-full flex justify-center mb-2">
-      <img
-        src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/btldwX5786311.png"
-        alt="Soulmate Offer Highlight"
-        className="w-[55%] max-w-xs mx-auto rounded-xl"
-      />
-    </div>
+              {/* Bullets */}
+              <ul className="space-y-2 text-sm md:text-base text-gray-800">
+                <li>
+                  ✍️ <strong>Ultra-realistic</strong> hand-drawn sketch of your
+                  soulmate, made by Master Aura.
+                </li>
+                <li>
+                  💫 <strong>Uncover exclusive personality traits</strong> only
+                  your soulmate has.
+                </li>
+                <li>
+                  🗓️ <strong>Date and context</strong> most favorable for the
+                  meeting.
+                </li>
+                <li>
+                  🔮 <strong>Receive deep, personalized insights</strong> into
+                  your love life.
+                </li>
+              </ul>
 
-    {/* Bullets */}
-    <ul className="space-y-2 text-sm md:text-base text-gray-800">
-      <li>
-        ✍️ <strong>Ultra-realistic</strong> hand-drawn sketch of your soulmate, made by Master Aura.
-      </li>
-      <li>
-        💫 <strong>Uncover exclusive personality traits</strong> only your soulmate has.
-      </li>
-      <li>
-        🗓️ <strong>Date and context</strong> most favorable for the meeting.
-      </li>
-      <li>
-        🔮 <strong>Receive deep, personalized insights</strong> into your love life.
-      </li>
-    </ul>
+              {/* Bônus */}
+              <div className="mt-4 bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
+                <p>
+                  🎁 <strong>Free Bonus:</strong> Synchronicity Calendar (From
+                  $19, free)
+                </p>
+              </div>
 
-    {/* Bônus */}
-    <div className="mt-4 bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
-      <p>
-        🎁 <strong>Free Bonus:</strong> Synchronicity Calendar (From $19, free)
-      </p>
-    </div>
+              <div className="bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
+                <p>
+                  🎁 <strong>Free Bonus:</strong> Emotional Healing Guide (From
+                  $9, free)
+                </p>
+              </div>
 
-    <div className="bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
-      <p>
-        🎁 <strong>Free Bonus:</strong> Emotional Healing Guide (From $9, free)
-      </p>
-    </div>
+              {/* Texto antes do preço */}
+              <div className="pt-3 space-y-1 text-sm md:text-base text-gray-800 text-center">
+                <p>
+                  All this for a <strong>symbolic price</strong> to finally
+                  discover who your true love is.
+                </p>
+              </div>
 
-    {/* Texto antes do preço */}
-    <div className="pt-3 space-y-1 text-sm md:text-base text-gray-800 text-center">
-      <p>
-        All this for a <strong>symbolic price</strong> to finally discover who your true love is.
-      </p>
-    </div>
+              {/* CARD DE PREÇO */}
+              <div className="max-w-md mx-auto mt-2">
+                <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
+                  {/* Topo Roxo */}
+                  <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
+                    Special offer
+                  </div>
 
-    {/* CARD DE PREÇO IGUAL AO MODELO DA IMAGEM */}
-    <div className="max-w-md mx-auto mt-2">
-  <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
+                  {/* Conteúdo */}
+                  <div className="p-5 space-y-4">
+                    {/* Texto principal */}
+                    <p className="text-center text-lg font-semibold text-gray-900">
+                      Personalized reading for{" "}
+                      <span className="text-gray-500 line-through font-normal">
+                        $19
+                      </span>
+                    </p>
 
-    {/* Topo Roxo */}
-    <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
-      Special offer
-    </div>
+                    {/* Divider */}
+                    <div className="border-t border-gray-200 my-2"></div>
 
-    {/* Conteúdo */}
-    <div className="p-5 space-y-4">
+                    {/* Total today */}
+                    <div className="flex flex-col w-full">
+                      <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
+                        <span>Total today:</span>
+                        <span className="text-green-600 text-xl font-extrabold">
+                          $19
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-      {/* Texto principal */}
-      <p className="text-center text-lg font-semibold text-gray-900">
-        Personalized reading for{" "}
-        <span className="text-gray-500 line-through font-normal">$19</span>
-      </p>
-
-    {/* Divider */}
-<div className="border-t border-gray-200 my-2"></div>
-
-{/* Total today */}
-<div className="flex flex-col w-full">
-  <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
-    <span>Total today:</span>
-    <span className="text-green-600 text-xl font-extrabold">$19</span>
-  </div>
-</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-  </CardContent>
-</Card>
-
-            <button
-              onClick={handleCheckout}
-              className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg md:text-xl shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
-              style={{ minHeight: "70px" }}
-            >
-              <span className="block text-center leading-tight">
+          {/* CTA */}
+          <button
+            onClick={handleCheckout}
+            className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-6 px-12 rounded-full text-lg md:text-xl shadow-2xl transform transition-all duration-300 hover:scale-105 leading-tight"
+            style={{ minHeight: "70px" }}
+          >
+            <span className="block text-center leading-tight">
               Get your soulmate drawing now.
-              </span>
-            </button>
-          </div>
+            </span>
+          </button>
 
           {/* Social Proof */}
           <motion.div
