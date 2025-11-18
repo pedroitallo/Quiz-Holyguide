@@ -276,7 +276,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     </p>
   </div>
 
-  {/* Details about your meeting – borrado */}
+ {/* Details about your meeting – borrado */}
 <div className="mb-4">
   <p className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-1">
     <span className="text-pink-500">💕</span> Details about your meeting:
@@ -325,12 +325,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
   </div>
 </div>
-    {/* Top Banner Offer */}
-<div className="w-full bg-purple-100 text-purple-900 py-3 px-4 rounded-xl mb-6 text-center shadow-sm">
-  <p className="text-sm font-medium">
-    Secure your soulmate sketch with <strong>50% OFF</strong>
-  </p>
-</div>
+
           {/* PITCH DE PREÇO */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
             <CardContent className="p-6 space-y-4">
