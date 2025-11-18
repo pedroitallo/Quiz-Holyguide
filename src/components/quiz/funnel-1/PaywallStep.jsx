@@ -383,7 +383,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     </div>
 
     <p className="text-gray-900 text-sm md:text-base">
-      Confiado por mais de <strong>25 milhões</strong> de pessoas.
+      <strong>Thousands of consultations</strong> carried out
     </p>
   </div>
 
