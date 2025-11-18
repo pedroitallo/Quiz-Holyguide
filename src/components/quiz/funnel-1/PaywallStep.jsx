@@ -211,6 +211,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           {/* PITCH DE PREÇO */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
             <CardContent className="p-6 space-y-4">
+               {/* Imagem nova acima do título */}
+    <div className="w-full flex justify-center mb-3">
+      <img
+        src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/zlmLXK5905984.png"
+        alt="Auraly App Preview"
+        className="w-full max-w-md mx-auto rounded-xl"
+      />
+    </div>
               {/* Título centralizado */}
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 text-center">
                 Discover the face of your soulmate with the Auraly App.
