@@ -264,7 +264,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   {/* Proximity of the Meeting */}
   <div className="mb-4">
     <p className="text-sm font-semibold text-gray-800 mb-1">
-      Proximity of the Meeting:
+     📍 Proximity of the Meeting:
     </p>
     <p className="text-sm md:text-base text-gray-700">
       <span className="font-semibold text-purple-700">
@@ -279,7 +279,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   {/* Details about your meeting – borrado */}
   <div className="mb-3">
     <p className="text-sm font-semibold text-gray-800 mb-1">
-      Details about your meeting:
+     💕 Details about your meeting:
     </p>
     <div className="relative rounded-xl bg-gray-100/80 p-3">
       <p className="text-sm text-gray-600 blur-sm select-none">
@@ -293,7 +293,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   {/* What this drawing reveals – borrado */}
   <div>
     <p className="text-sm font-semibold text-gray-800 mb-1">
-      What this drawing reveals:
+     👤 What this drawing reveals:
     </p>
     <div className="relative rounded-xl bg-gray-100/80 p-3">
       <p className="text-sm text-gray-600 blur-sm select-none">
