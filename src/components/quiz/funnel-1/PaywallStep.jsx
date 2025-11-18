@@ -223,8 +223,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                 </li>
                 <li>🗓️ Date and context most favorable for the meeting</li>
                 <li>
-                  🔮 Receive deep, personalized insights decoded through your
-                  unique birth chart and spiritual profile
+                  🔮 Receive deep, personalized insights into your love life.
                 </li>
                 <li>
                   💕 Feel the emotional connection before even meeting — you’ll
