@@ -645,7 +645,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   onClick={handleCheckout}
   className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
 >
-  GET MY RESULTS
+  GET MY DRAWING SOULMATE
 </button>
 
 {/* FAQ */}
@@ -692,5 +692,3 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 </motion.div>
 </div>
 </div>
-
-         
