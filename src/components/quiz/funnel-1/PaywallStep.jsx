@@ -339,7 +339,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               contacting us at contact@auralyapp.com
             </p>
           </div>
-
+<h2 className="text-2xl md:text-3xl font-bold text-black mb-6 px-4">
+            Trusted By Over 1,000,000 Transformed Lives
+          </h2>
           {/* Imagem grande abaixo do texto */}
           <div className="w-full flex justify-center mb-3 mt-4">
             <img
