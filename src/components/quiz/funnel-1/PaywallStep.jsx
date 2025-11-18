@@ -194,7 +194,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           {/* Top Banner Offer */}
 <div className="w-full bg-purple-100 text-purple-900 py-3 px-4 rounded-xl mb-6 text-center shadow-sm">
   <p className="text-sm font-medium">
-    Reports on your soulmate are ready.
+  Your soulmate reading is ready.
   </p>
 </div>
 
