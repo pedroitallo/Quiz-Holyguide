@@ -194,10 +194,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           {/* Top Banner Offer */}
 <div className="w-full bg-purple-100 text-purple-900 py-3 px-4 rounded-xl mb-6 text-center shadow-sm">
   <p className="text-sm font-medium">
-    Garanta o desenho da sua alma gêmea com <strong>50% de desconto</strong>
+    Secure your soulmate sketch with <strong>50% OFF</strong>
   </p>
   <p className="text-xs mt-1">
-    Oferta válida pelos próximos <span className="font-bold">15:00</span>
+   Offer ends in <span className="font-bold">{minutes}:{seconds}</span>
   </p>
 </div>
 
