@@ -168,9 +168,9 @@ export default function LoadingRevelation({ onContinue, userName, birthDate, qui
                 <p className="text-base text-gray-700 leading-relaxed">
                   {userName ? <><span className="font-bold">{userName}</span>, algo especial se está desarrollando...</> : "Algo especial se está desarrollando..."}
                   <br /><br />
-                  Basándome en la lectura de tu destino y tu fecha de nacimiento, he comenzado a dibujar el rostro de tu alma gemela. Todo indica un encuentro en <span className="font-bold">{userCity}</span> — o en algún lugar muy cercano.
+                  Basándome en la lectura de tu destino y tu fecha de nacimiento, he comenzado a dibujar el rostro de tu alma gemela. Todo indica un encuentro en <span className="font-bold">{userCity}</span> - o en algún lugar muy cercano.
                   <br /><br />
-                  Esta persona tiene una energía hermosa y está más cerca de lo que piensas… esperándote pacientemente. ✨
+                  Esta persona tiene una energía hermosa y está más cerca de lo que piensas... esperándote pacientemente. ✨
                 </p>
               </div>
             </div>

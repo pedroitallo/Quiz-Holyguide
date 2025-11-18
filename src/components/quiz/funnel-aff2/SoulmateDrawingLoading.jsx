@@ -37,7 +37,7 @@ export default function SoulmateDrawingLoading({ onComplete, birthDate, zodiacSi
       >
         <div className="text-center space-y-4">
           <h2 className="text-xl md:text-2xl font-bold text-purple-600 px-4">
-            El dibujo de tu alma gemela se está preparando…
+            El dibujo de tu alma gemela se está preparando...
           </h2>
         </div>
 

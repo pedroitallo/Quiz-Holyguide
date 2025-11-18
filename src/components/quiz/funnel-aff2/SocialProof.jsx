@@ -43,7 +43,7 @@ export default function SocialProof({ onContinue }) {
           >
             <Heart className="w-16 h-16 text-red-500 mx-auto fill-current" />
             <h2 className="text-2xl md:text-4xl font-bold text-gray-800 leading-tight">
-              ¡Más de 490,000 personas se encontraron con su verdadero amor después de este dibujo de alma gemela — ¡Y tú serás la próxima!
+              ¡Más de 490,000 personas se encontraron con su verdadero amor después de este dibujo de alma gemela - ¡Y tú serás la próxima!
             </h2>
           </motion.div>
 
@@ -64,7 +64,7 @@ export default function SocialProof({ onContinue }) {
                     "{testimonial.text}"
                   </p>
                   <p className="text-purple-600 font-semibold">
-                    — {testimonial.author}
+                    - {testimonial.author}
                   </p>
                 </div>
               </motion.div>

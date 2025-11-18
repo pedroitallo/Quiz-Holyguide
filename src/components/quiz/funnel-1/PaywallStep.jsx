@@ -143,22 +143,22 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     {
       question: "Does it really work?",
       answer:
-        "We base predictions on the data you provide and recognized compatibility patterns. It’s not guesswork; it’s personalized analysis.",
+        "We base predictions on the data you provide and recognized compatibility patterns. It's not guesswork; it's personalized analysis.",
     },
     {
-      question: "I’m skeptical. Is this safe?",
+      question: "I'm skeptical. Is this safe?",
       answer:
         "Your data are encrypted and used only to create your report. You risk nothing with our guarantee.",
     },
     {
-      question: "What if I’m already in a relationship?",
+      question: "What if I'm already in a relationship?",
       answer:
         "The report shows compatibility with your current partner and clarifies your future.",
     },
     {
       question: "Is the portrait real?",
       answer:
-        "It’s a representation generated from the most likely characteristics. Users report striking similarities.",
+        "It's a representation generated from the most likely characteristics. Users report striking similarities.",
     },
     {
       question: "Can I cancel?",
@@ -172,21 +172,21 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
       name: "Rebecca",
       date: "August 19, 2025",
       title: "It changed my life.!",
-      text: "I’m so grateful for this app and for Master Aura! She’s an amazing astrologer — detailed and calming. I can’t wait for more sessions with her!",
+      text: "I'm so grateful for this app and for Master Aura! She's an amazing astrologer - detailed and calming. I can't wait for more sessions with her!",
       avatar: "https://cdn.eutotal.com/imagens/pose-para-selfies.jpg",
     },
     {
       name: "Lily Morgan",
       date: "November 9, 2025",
       title: "I am very happy.",
-      text: "I finally found the relationship of my dreams! 💕 Everything feels so natural and aligned — like we were truly meant to meet. I’m beyond happy!",
+      text: "I finally found the relationship of my dreams! 💕 Everything feels so natural and aligned - like we were truly meant to meet. I'm beyond happy!",
       avatar: "https://cdn.eutotal.com/imagens/poses-para-foto6.jpg",
     },
     {
       name: "Emily Carter",
       date: "August 29, 2025",
       title: "After years of searching, I finally found true love.",
-      text: "After using the Auraly App I gotta admit, I wasn’t sure if it was worth it, but seriously… no regrets! I’m having some amazing connections now 😍",
+      text: "After using the Auraly App I gotta admit, I wasn't sure if it was worth it, but seriously... no regrets! I'm having some amazing connections now 😍",
       avatar:
         "https://diariotribuna.com.br/wp-content/uploads/2021/08/Juliana-1.jpg",
     },
@@ -326,7 +326,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               </p>
               <p className="text-sm md:text-base text-gray-700">
                 <span className="font-semibold text-purple-700">
-                  “You’re closer than you think.”
+                  “You're closer than you think.”
                 </span>{" "}
                 Your birth chart indicates that your paths will cross{" "}
                 <span className="font-semibold">within a year</span>, in a{" "}
@@ -403,10 +403,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             {/* Texto */}
             <div className="text-left">
               <p className="text-sm font-semibold text-gray-900">
-                Master Aura — Auraly top psychic
+                Master Aura - Auraly top psychic
               </p>
               <p className="text-xs text-gray-700 leading-snug">
-                I’ve delivered over <strong>12,000 soulmate readings</strong>.
+                I've delivered over <strong>12,000 soulmate readings</strong>.
                 Your full details and sketch will be revealed inside the
                 <span className="font-semibold text-purple-700">
                   {" "}
@@ -530,7 +530,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             GET MY DRAWING SOULMATE
           </button>
 
-          {/* Secure Badge — quase colado no botão */}
+          {/* Secure Badge - quase colado no botão */}
           <div className="w-full flex justify-center mt-2 mb-1">
             <img
               src="https://media.atomicatpages.net/u/Df7JwzgHi4NP3wU9R4rFqEhfypJ2/Pictures/MqWQAB5264462.png"
@@ -539,7 +539,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             />
           </div>
 
-          {/* Disclaimer — quase colado no secure */}
+          {/* Disclaimer - quase colado no secure */}
           <div className="max-w-2xl mx-auto mt-1 px-4">
             <p className="text-xs text-gray-500 text-center leading-relaxed">
               By accepting this offer, you agree to start a 30-day trial on the

@@ -206,7 +206,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                 <p className="font-semibold text-gray-800 text-lg">Master Aura</p>
               </div>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left">
-                Cuando te unas, recibirás acceso exclusivo a mi aplicación — <strong>la App Auraly</strong> 💫, donde podrás ver el <strong>dibujo de tu alma gemela</strong> 🎨💖
+                Cuando te unas, recibirás acceso exclusivo a mi aplicación - <strong>la App Auraly</strong> 💫, donde podrás ver el <strong>dibujo de tu alma gemela</strong> 🎨💖
               </p>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed text-left mt-3">
                 Además, cada mes recibirás <strong>lecturas intuitivas y reveladoras</strong> 🔮, ofreciendo orientación poderosa sobre tu vida amorosa y mostrándote cómo <strong>conectarte energéticamente con tu alma gemela</strong> 💌💞

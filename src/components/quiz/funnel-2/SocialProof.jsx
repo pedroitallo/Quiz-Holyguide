@@ -15,7 +15,7 @@ export default function SocialProof({ onContinue }) {
       name: "Rebecca Bauman",
       date: "28 de agosto de 2024",
       title: "Mudou a minha vida!",
-      text: "Sou grata por este app e pela Akho! Ela é uma excelente quiromante e astróloga—clara, minuciosa e tranquilizadora. Mal posso esperar por mais sessões com ela!",
+      text: "Sou grata por este app e pela Akho! Ela é uma excelente quiromante e astróloga-clara, minuciosa e tranquilizadora. Mal posso esperar por mais sessões com ela!",
       avatar: "https://reoszoosrzwlrzkasube.supabase.co/storage/v1/object/public/user-uploads/images/1759890624957-jkxekrn97yd.png"
     },
     {
