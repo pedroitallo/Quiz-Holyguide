@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { User, Calendar, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { HybridQuizResult } from "@/entities/HybridQuizResult";
 import { useTracking } from "@/hooks/useTracking";
 import SalesSection from "../funnel-1/SalesSection";
@@ -13,7 +13,7 @@ const CHECKOUT_CONFIG = {
 export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
   const [showSales, setShowSales] = useState(true);
   const { trackEndQuiz } = useTracking();
-  const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -57,11 +57,11 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           const checkoutUrl = CHECKOUT_CONFIG.baseUrl;
           const url = new URL(checkoutUrl);
 
-          let allUtms = {};
+          let allUtms: Record<string, string> = {};
 
-          if (typeof window !== "undefined" && window.utmify) {
+          if (typeof window !== "undefined" && (window as any).utmify) {
             try {
-              allUtms = window.utmify.getUtms() || {};
+              allUtms = (window as any).utmify.getUtms() || {};
               console.log("UTMs from UTMIFY:", allUtms);
             } catch (error) {
               console.warn("Failed to get UTMs from UTMIFY:", error);
@@ -127,15 +127,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
       });
   };
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "Não informado";
-    const [year, month, day] = dateString.split("-");
-    if (day && month) {
-      return `${day}/${month}`;
-    }
-    return dateString;
-  };
-
   const faqs = [
     {
       question: "Does it really work?",
@@ -164,13 +155,37 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
     },
   ];
 
-  const toggleFaq = (index) => {
+  const testimonials = [
+    {
+      name: "Rebecca",
+      date: "August 19, 2025",
+      title: "It changed my life.!",
+      text: "I’m so grateful for this app and for Master Aura! She’s an amazing astrologer — detailed and calming. I can’t wait for more sessions with her!",
+      avatar: "https://cdn.eutotal.com/imagens/pose-para-selfies.jpg",
+    },
+    {
+      name: "Lily Morgan",
+      date: "November 9, 2025",
+      title: "I am very happy.",
+      text: "I finally found the relationship of my dreams! 💕 Everything feels so natural and aligned — like we were truly meant to meet. I’m beyond happy!",
+      avatar: "https://cdn.eutotal.com/imagens/poses-para-foto6.jpg",
+    },
+    {
+      name: "Emily Carter",
+      date: "August 29, 2025",
+      title: "After years of searching, I finally found true love.",
+      text: "After using the Auraly App I gotta admit, I wasn’t sure if it was worth it, but seriously… no regrets! I’m having some amazing connections now 😍",
+      avatar: "https://diariotribuna.com.br/wp-content/uploads/2021/08/Juliana-1.jpg",
+    },
+  ];
+
+  const toggleFaq = (index: number) => {
     setOpenFaqIndex((prev) => (prev === index ? null : index));
   };
 
   return (
     <div className="bg-white min-h-screen">
-      <div className="text-center py-8 max-w-3xl mx-auto px-4">
+      <div className="text-center py-8 max-w-3xl mx-auto px-4 bg-white">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -180,35 +195,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           <h2 className="text-2xl md:text-3xl font-bold text-black mb-6 px-4">
             Your Birth Chart Reading Is Ready!
           </h2>
-
-          {/* Card com nome e data */}
-          <Card className="w-fit mx-auto bg-white border-purple-100 shadow-md mb-6">
-            <CardContent className="p-3 flex items-center justify-center gap-4 md:gap-6">
-              <div className="flex items-center gap-2">
-                <div className="bg-purple-100 p-2 rounded-full">
-                  <User className="w-4 h-4 text-purple-600" />
-                </div>
-                <div className="text-left">
-                  <p className="text-xs text-gray-500">Name</p>
-                  <p className="text-sm font-semibold text-gray-800">
-                    {userName || ""}
-                  </p>
-                </div>
-              </div>
-              <div className="h-8 w-px bg-purple-200" />
-              <div className="flex items-center gap-2">
-                <div className="bg-purple-100 p-2 rounded-full">
-                  <Calendar className="w-4 h-4 text-purple-600" />
-                </div>
-                <div className="text-left">
-                  <p className="text-xs text-gray-500">Date of Birth</p>
-                  <p className="text-sm font-semibold text-gray-800">
-                    {formatDate(birthDate)}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
 
           <h1 className="text-purple-600 mb-4 text-xl font-semibold md:text-2xl leading-tight px-4 uppercase tracking-wide">
             HERE&apos;S YOUR SOULMATE&apos;S DRAWING
@@ -223,7 +209,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             />
           </div>
 
-          {/* PITCH DE PREÇO ESTILO HINT */}
+          {/* PITCH DE PREÇO */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
             <CardContent className="p-6 space-y-4">
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
@@ -231,27 +217,41 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
               </h3>
 
               <ul className="space-y-2 text-sm md:text-base text-gray-800">
-                <li>✍️ Ultra-realistic hand-drawn sketch of your soul mate made by a renowned astrologer</li>
-                <li>💫 Uncover exclusive personality traits only your soulmate has</li>
+                <li>
+                  ✍️ Ultra-realistic hand-drawn sketch of your soul mate made by
+                  a renowned astrologer
+                </li>
+                <li>
+                  💫 Uncover exclusive personality traits only your soulmate has
+                </li>
                 <li>🗓️ Date and context most favorable for the meeting</li>
-                <li>🔮 Receive deep, personalized insights decoded through your unique birth chart and spiritual profile</li>
-                <li>💕 Feel the emotional connection before even meeting — you’ll know why he’s &quot;the one&quot;</li>
+                <li>
+                  🔮 Receive deep, personalized insights decoded through your
+                  unique birth chart and spiritual profile
+                </li>
+                <li>
+                  💕 Feel the emotional connection before even meeting — you’ll
+                  know why he’s &quot;the one&quot;
+                </li>
               </ul>
 
-              {/* Caixa de presente lilás */}
               <div className="mt-4 bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
                 <p>
-                  🎁 <strong>2 Free Bonuses:</strong> Synchronicity Calendar (From $19, for free) + Emotional Healing Guide (From $19, for free)
+                  🎁 <strong>2 Free Bonuses:</strong> Synchronicity Calendar
+                  (From $19, for free) + Emotional Healing Guide (From $19, for
+                  free)
                 </p>
                 <p>💎 Updates and new reports every day.</p>
               </div>
 
-              {/* Preço */}
               <div className="pt-3 space-y-1 text-sm md:text-base text-gray-800">
                 <p>
-                  All this for just <strong>$19 today</strong> — a symbolic price to finally discover who your true love is.
+                  All this for just <strong>$19 today</strong> — a symbolic
+                  price to finally discover who your true love is.
                 </p>
-                <p className="text-red-600 font-semibold">50% OFF – Ends Today!</p>
+                <p className="text-red-600 font-semibold">
+                  50% OFF – Ends Today!
+                </p>
                 <p className="text-lg md:text-xl font-bold text-green-600">
                   Unlock your soulmate sketch for only $19{" "}
                   <span className="text-sm md:text-base text-gray-500 line-through align-middle">
@@ -263,7 +263,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           </Card>
 
           {/* CTA */}
-          <div className="space-y-3 mb-6 px-4">
+          <div className="space-y-3 mb-8 px-4">
             <p className="text-gray-700 text-sm font-bold">
               Click Below To Secure Your Drawing 👇🏻
             </p>
@@ -280,8 +280,67 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
             </button>
           </div>
 
+          {/* Social Proof */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="w-full max-w-4xl mx-auto px-0 py-4"
+          >
+            <div className="space-y-6">
+              <div className="space-y-4">
+                {testimonials.map((testimonial, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 + index * 0.2 }}
+                    className="bg-white rounded-3xl p-6 shadow-lg border border-gray-200"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={testimonial.avatar}
+                          alt={testimonial.name}
+                          className="w-14 h-14 rounded-full object-cover"
+                        />
+                        <div>
+                          <h3 className="font-bold text-gray-800 text-lg">
+                            {testimonial.name}
+                          </h3>
+                          <p className="text-gray-400 text-sm">
+                            {testimonial.date}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <span
+                            key={i}
+                            className="text-yellow-400 text-xl"
+                          >
+                            ⭐
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-3 text-left">
+                      <h4 className="font-bold text-gray-800 text-xl">
+                        {testimonial.title}
+                      </h4>
+                      <p className="text-gray-600 text-base leading-relaxed">
+                        {testimonial.text}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
           {/* FAQ */}
-          <div className="max-w-xl mx-auto mt-8 text-left">
+          <div className="max-w-xl mx-auto mt-6 text-left">
             <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">
               FAQ
             </h2>
@@ -290,34 +349,35 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
               {faqs.map((item, index) => {
                 const isOpen = openFaqIndex === index;
                 return (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => toggleFaq(index)}
-                    className="w-full text-left py-3 flex items-center justify-between gap-2"
-                  >
-                    <span className="text-sm md:text-base text-gray-800">
-                      {item.question}
-                    </span>
-                    <ChevronRight
-                      className={`w-4 h-4 text-gray-500 transition-transform ${
-                        isOpen ? "rotate-90" : ""
-                      }`}
-                    />
+                  <div key={index} className="w-full">
+                    <button
+                      type="button"
+                      onClick={() => toggleFaq(index)}
+                      className="w-full py-3 flex items-center justify-between gap-2"
+                    >
+                      <span className="text-sm md:text-base text-gray-800 font-semibold">
+                        {item.question}
+                      </span>
+                      <ChevronRight
+                        className={`w-4 h-4 text-gray-500 transition-transform ${
+                          isOpen ? "rotate-90" : ""
+                        }`}
+                      />
+                    </button>
                     {isOpen && (
-                      <div className="w-full mt-2 col-span-2">
-                        <p className="text-sm text-gray-600 mt-1">
+                      <div className="pb-3 px-1">
+                        <p className="text-sm text-gray-600">
                           {item.answer}
                         </p>
                       </div>
                     )}
-                  </button>
+                  </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Seção de vendas extra (mantida) */}
+          {/* Seção extra de vendas (se quiser manter) */}
           {showSales && (
             <SalesSection
               userName={userName}
