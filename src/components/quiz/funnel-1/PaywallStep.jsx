@@ -332,6 +332,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             After the trial period ends, your subscription will automatically renew for just $29/m.
             You may cancel anytime by contacting us at contact@auralyapp.com
           </p>
+  </div>
           {/* Social Proof */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
