@@ -269,7 +269,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             >
               <span className="block text-center leading-tight">
               Get your soulmate drawing now.
-                <br />
               </span>
             </button>
           </div>
