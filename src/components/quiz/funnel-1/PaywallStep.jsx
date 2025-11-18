@@ -331,7 +331,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           </div>
 
           {/* Texto de trial */}
-          <div className="max-w-2xl mx-auto mt-4 px-4">
+          <div className="max-w-2xl mx-auto mt-8 px-4">
             <p className="text-xs text-gray-500 text-center leading-relaxed">
               By accepting this offer, you agree to start a 30-day trial on the
               Auraly App. After the trial period ends, your subscription will
@@ -339,7 +339,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               contacting us at contact@auralyapp.com
             </p>
           </div>
-<h2 className="text-2xl md:text-3xl font-bold text-black mb-1 px-4">
+<h2 className="text-2xl md:text-3xl font-bold text-black mb-0 px-4">
             Trusted By Over 1,000,000 Transformed Lives
           </h2>
           {/* Imagem grande abaixo do texto */}
