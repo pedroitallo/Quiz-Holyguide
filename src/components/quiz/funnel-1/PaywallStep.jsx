@@ -314,13 +314,16 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     </p>
 
     {/* Overlay com cadeado */}
-<div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-  <div className="bg-white/70 backdrop-blur-md px-3 py-2 rounded-full shadow-sm border border-gray-200 flex items-center gap-2">
-    <span className="text-gray-700 text-sm">🔒</span>
-    <span className="text-gray-700 text-sm font-semibold">Locked</span>
+    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+      <div className="bg-white/70 backdrop-blur-md px-3 py-2 rounded-full shadow-sm border border-gray-200 flex items-center gap-2">
+        <span className="text-gray-700 text-sm">🔒</span>
+        <span className="text-gray-700 text-sm font-semibold">Locked</span>
+      </div>
+    </div>
+
   </div>
 </div>
-</div> {/* <- fecha corretamente o card borrado */}
+</div>
 
           {/* PITCH DE PREÇO */}
           <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
@@ -555,47 +558,48 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               </div>
             </div>
           </motion.div>
-{/* CARD DE PREÇO ABAIXO DO SOCIAL PROOF */}
-<div className="max-w-md mx-auto mt-4">
-  <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
-    {/* Topo Roxo */}
-    <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
-      Special offer 50% OFF Today
-    </div>
 
-    {/* Conteúdo */}
-    <div className="p-5 space-y-4">
-      {/* Texto principal */}
-      <p className="text-center text-lg font-semibold text-gray-900">
-        The original price is{" "}
-        <span className="text-gray-500 line-through font-normal">
-          $29
-        </span>
-      </p>
+          {/* CARD DE PREÇO ABAIXO DO SOCIAL PROOF */}
+          <div className="max-w-md mx-auto mt-4">
+            <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
+              {/* Topo Roxo */}
+              <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
+                Special offer 50% OFF Today
+              </div>
 
-      {/* Divider */}
-      <div className="border-t border-gray-200 my-2" />
+              {/* Conteúdo */}
+              <div className="p-5 space-y-4">
+                {/* Texto principal */}
+                <p className="text-center text-lg font-semibold text-gray-900">
+                  The original price is{" "}
+                  <span className="text-gray-500 line-through font-normal">
+                    $29
+                  </span>
+                </p>
 
-      {/* Total today */}
-      <div className="flex flex-col w-full">
-        <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
-          <span>Total today 50% OFF:</span>
-          <span className="text-green-600 text-xl font-extrabold">
-            $19
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                {/* Divider */}
+                <div className="border-t border-gray-200 my-2" />
 
-{/* CTA ABAIXO DO CARD DE PREÇO */}
-<button
-  onClick={handleCheckout}
-  className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
->
-  GET MY RESULTS
-</button>
+                {/* Total today */}
+                <div className="flex flex-col w-full">
+                  <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
+                    <span>Total today 50% OFF:</span>
+                    <span className="text-green-600 text-xl font-extrabold">
+                      $19
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA ABAIXO DO CARD DE PREÇO */}
+          <button
+            onClick={handleCheckout}
+            className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
+          >
+            GET MY RESULTS
+          </button>
           {/* FAQ */}
           <div className="max-w-xl mx-auto mt-6 text-left">
             <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">
