@@ -216,8 +216,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
               <ul className="space-y-2 text-sm md:text-base text-gray-800">
                 <li>
-                  ✍️ Ultra-realistic hand-drawn sketch of your soul mate made by
-                  a renowned astrologer
+                  ✍️ Ultra-realistic, hand-drawn sketch of your soulmate, made by Master Aura.
                 </li>
                 <li>
                   💫 Uncover exclusive personality traits only your soulmate has
