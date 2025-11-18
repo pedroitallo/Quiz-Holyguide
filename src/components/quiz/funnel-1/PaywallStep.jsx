@@ -207,8 +207,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             />
           </div>
 
-          {/* PITCH DE PREÇO */}
-          <Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
+   {/* PITCH DE PREÇO */}
+<Card className="max-w-xl mx-auto bg-white border-purple-100 shadow-md mb-6 text-left">
   <CardContent className="p-6 space-y-4">
 
     {/* Título centralizado */}
@@ -225,49 +225,73 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
       />
     </div>
 
-              <ul className="space-y-2 text-sm md:text-base text-gray-800">
-                <li>
-                  ✍️ <strong> Ultra-realistic</strong> , hand-drawn sketch of your soulmate, made by Master Aura.
-                </li>
-                <li>
-                  💫 <strong> Uncover exclusive personality</strong>  traits only your soulmate has
-                </li>
-                <li>🗓️ <strong> Date and context</strong>  most favorable for the meeting</li>
-                <li>
-                  🔮 <strong> Receive deep, personalized insights</strong>  into your love life.
-                </li>
-              </ul>
+    {/* Bullets */}
+    <ul className="space-y-2 text-sm md:text-base text-gray-800">
+      <li>
+        ✍️ <strong>Ultra-realistic</strong> hand-drawn sketch of your soulmate, made by Master Aura.
+      </li>
+      <li>
+        💫 <strong>Uncover exclusive personality traits</strong> only your soulmate has.
+      </li>
+      <li>
+        🗓️ <strong>Date and context</strong> most favorable for the meeting.
+      </li>
+      <li>
+        🔮 <strong>Receive deep, personalized insights</strong> into your love life.
+      </li>
+    </ul>
 
-              <div className="mt-4 bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
-                <p>
-                  🎁 <strong>Free Bonuses:</strong> Synchronicity Calendar
-                  (From $19, for free)
-                </p>
-              </div>
-<div className="mt-4 bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
-                <p>
-                  🎁 <strong>Free Bonuses:</strong> Emotional Healing Guide (From $9, for
-                  free)
-                </p>
-              </div>
-              <div className="pt-3 space-y-1 text-sm md:text-base text-gray-800 text-center">
-<div className="pt-3 space-y-1 text-sm md:text-base text-gray-800 text-center">
-  <p>
-    All this for a <strong>symbolic price</strong> to finally discover who your true love is.
-  </p>
-</div>
-                <p className="text-green-600 font-semibold">
-                  30% OFF – Ends Today!
-                </p>
-                <p className="text-lg md:text-xl font-bold text-green-600">
-                  Unlock your soulmate sketch for only $19{" "}
-                  <span className="text-sm md:text-base text-gray-500 line-through align-middle">
-                    (normally $29)
-                  </span>
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+    {/* Bônus */}
+    <div className="mt-4 bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
+      <p>
+        🎁 <strong>Free Bonus:</strong> Synchronicity Calendar (From $19, free)
+      </p>
+    </div>
+
+    <div className="bg-purple-50 rounded-2xl p-4 space-y-1 text-sm md:text-base text-gray-800">
+      <p>
+        🎁 <strong>Free Bonus:</strong> Emotional Healing Guide (From $9, free)
+      </p>
+    </div>
+
+    {/* Texto antes do preço */}
+    <div className="pt-3 space-y-1 text-sm md:text-base text-gray-800 text-center">
+      <p>
+        All this for a <strong>symbolic price</strong> to finally discover who your true love is.
+      </p>
+    </div>
+
+    {/* CARD DE PREÇO IGUAL AO MODELO DA IMAGEM */}
+    <div className="max-w-md mx-auto mt-2">
+      <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
+
+        {/* Topo roxo */}
+        <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
+          Special offer
+        </div>
+
+        {/* Conteúdo interno */}
+        <div className="p-5 space-y-3">
+
+          <p className="text-center text-lg font-semibold text-gray-900">
+            Personalized reading for{" "}
+            <span className="text-purple-600 font-bold">$19</span>
+          </p>
+
+          <div className="border-t border-gray-200 my-2"></div>
+
+          <div className="flex items-center justify-between text-gray-800 text-sm font-medium">
+            <span>Total today:</span>
+            <span className="font-bold">$19</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </CardContent>
+</Card>
+
 
           {/* CTA */}
           <div className="space-y-3 mb-8 px-4">
