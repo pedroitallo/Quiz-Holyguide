@@ -57,9 +57,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
           let allUtms = {};
 
-          if (typeof window !== "undefined" && (window as any).utmify) {
+          if (typeof window !== "undefined" && window.utmify) {
             try {
-              allUtms = (window as any).utmify.getUtms() || {};
+              allUtms = window.utmify.getUtms() || {};
               console.log("UTMs from UTMIFY:", allUtms);
             } catch (error) {
               console.warn("Failed to get UTMs from UTMIFY:", error);
@@ -79,7 +79,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             utmParams.forEach((param) => {
               const value = currentUrl.searchParams.get(param);
               if (value) {
-                (allUtms as any)[param] = value;
+                allUtms[param] = value;
               }
             });
 
@@ -87,14 +87,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             otherParams.forEach((param) => {
               const value = currentUrl.searchParams.get(param);
               if (value) {
-                (allUtms as any)[param] = value;
+                allUtms[param] = value;
               }
             });
           }
 
           Object.keys(allUtms).forEach((key) => {
-            if ((allUtms as any)[key]) {
-              url.searchParams.set(key, (allUtms as any)[key]);
+            if (allUtms[key]) {
+              url.searchParams.set(key, allUtms[key]);
             }
           });
 
@@ -178,7 +178,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     },
   ];
 
-  const toggleFaq = (index: number) => {
+  const toggleFaq = (index) => {
     setOpenFaqIndex((prev) => (prev === index ? null : index));
   };
 
