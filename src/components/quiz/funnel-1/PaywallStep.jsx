@@ -314,14 +314,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     </p>
 
     {/* Overlay com cadeado */}
-    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-      <div className="bg-white/70 backdrop-blur-md px-3 py-2 rounded-full shadow-sm border border-gray-200 flex items-center gap-2">
-        <span className="text-gray-700 text-sm">🔒</span>
-        <span className="text-gray-700 text-sm font-semibold">Locked</span>
-      </div>
-    </div>
-
+<div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+  <div className="bg-white/70 backdrop-blur-md px-3 py-2 rounded-full shadow-sm border border-gray-200 flex items-center gap-2">
+    <span className="text-gray-700 text-sm">🔒</span>
+    <span className="text-gray-700 text-sm font-semibold">Locked</span>
   </div>
+</div>
+</div> {/* <- fecha corretamente o card borrado */}
+
 
 
           {/* PITCH DE PREÇO */}
