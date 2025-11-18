@@ -444,7 +444,13 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               </div>
             </div>
           </motion.div>
-
+   {/* CTA */}
+          <button
+            onClick={handleCheckout}
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
+          >
+            GET MY RESULTS
+          </button>
           {/* FAQ */}
           <div className="max-w-xl mx-auto mt-6 text-left">
             <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">
