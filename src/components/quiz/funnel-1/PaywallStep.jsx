@@ -4,16 +4,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ChevronRight } from "lucide-react";
 import { HybridQuizResult } from "@/entities/HybridQuizResult";
 import { useTracking } from "@/hooks/useTracking";
-import SalesSection from "../funnel-1/SalesSection";
 
 const CHECKOUT_CONFIG = {
   baseUrl: "https://tkk.holyguide.online/click",
 };
 
-export default function PaywallStep({ userName, birthDate, quizResultId, src }) {
-  const [showSales, setShowSales] = useState(true);
+export default function PaywallStep({ userName, birthDate, quizResultId }) {
   const { trackEndQuiz } = useTracking();
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -57,11 +55,11 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
           const checkoutUrl = CHECKOUT_CONFIG.baseUrl;
           const url = new URL(checkoutUrl);
 
-          let allUtms: Record<string, string> = {};
+          let allUtms = {};
 
-          if (typeof window !== "undefined" && (window as any).utmify) {
+          if (typeof window !== "undefined" && window.utmify) {
             try {
-              allUtms = (window as any).utmify.getUtms() || {};
+              allUtms = window.utmify.getUtms() || {};
               console.log("UTMs from UTMIFY:", allUtms);
             } catch (error) {
               console.warn("Failed to get UTMs from UTMIFY:", error);
@@ -179,7 +177,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
     },
   ];
 
-  const toggleFaq = (index: number) => {
+  const toggleFaq = (index) => {
     setOpenFaqIndex((prev) => (prev === index ? null : index));
   };
 
@@ -315,10 +313,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                       </div>
                       <div className="flex gap-0.5">
                         {[...Array(5)].map((_, i) => (
-                          <span
-                            key={i}
-                            className="text-yellow-400 text-xl"
-                          >
+                          <span key={i} className="text-yellow-400 text-xl">
                             ⭐
                           </span>
                         ))}
@@ -366,9 +361,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
                     </button>
                     {isOpen && (
                       <div className="pb-3 px-1">
-                        <p className="text-sm text-gray-600">
-                          {item.answer}
-                        </p>
+                        <p className="text-sm text-gray-600">{item.answer}</p>
                       </div>
                     )}
                   </div>
@@ -376,6 +369,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
               })}
             </div>
           </div>
+        </motion.div>
       </div>
     </div>
   );
