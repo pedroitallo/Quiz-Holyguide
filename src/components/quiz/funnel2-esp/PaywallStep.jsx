@@ -81,7 +81,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId, src }) 
         }
 
         console.log('Redirigiendo al checkout:', url.toString());
-        localStorage.removeItem('holymind_quiz_state_funnel2');
+        localStorage.removeItem('holymind_quiz_state_funnel2_esp');
         localStorage.setItem('holymind_last_quiz_id', quizResultId);
         window.location.href = url.toString();
       } catch (error) {
