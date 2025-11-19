@@ -55,7 +55,7 @@ export default function Checkout() {
         </div>
 
         {/* Checkout */}
-        <sc-checkout product="auraly-app" subdomain="checkout" coupon=""></sc-checkout>
+        <sc-checkout product="auraly-app" subdomain="appsappyon" coupon=""></sc-checkout>
       </div>
     </>
   );
