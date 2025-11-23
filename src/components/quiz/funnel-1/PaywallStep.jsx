@@ -527,7 +527,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             onClick={handleCheckout}
             className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
           >
-            GET MY DRAWING SOULMATE FOR ONLY $19
+            GET MY DRAWING SOULMATE
           </button>
 
           {/* Secure Badge - quase colado no botão */}
