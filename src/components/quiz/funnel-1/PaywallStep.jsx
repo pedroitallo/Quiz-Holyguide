@@ -633,7 +633,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                 <p className="text-center text-lg font-semibold text-gray-900">
                   The original price is{" "}
                   <span className="text-gray-500 line-through font-normal">
-                    $29
+                    $49
                   </span>
                 </p>
 
