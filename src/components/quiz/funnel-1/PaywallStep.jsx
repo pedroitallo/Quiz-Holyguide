@@ -510,7 +510,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                     {/* Total today */}
                     <div className="flex flex-col w-full">
                       <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
-                        <span>Total today 50% OFF:</span>
+                        <span>Total today 80% OFF:</span>
                         <span className="text-green-600 text-xl font-extrabold">
                           $9
                         </span>
@@ -544,7 +544,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             <p className="text-xs text-gray-500 text-center leading-relaxed">
               By accepting this offer, you agree to start a 30-day trial on the
               Auraly App. After the trial period ends, your subscription will
-              automatically renew for just $29/m. You may cancel anytime by
+              automatically renew for just $49/m. You may cancel anytime by
               contacting us at contact@auralyapp.com
             </p>
           </div>
@@ -643,7 +643,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                 {/* Total today */}
                 <div className="flex flex-col w-full">
                   <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
-                    <span>Total today 50% OFF:</span>
+                    <span>Total today 80% OFF:</span>
                     <span className="text-green-600 text-xl font-extrabold">
                       $9
                     </span>
