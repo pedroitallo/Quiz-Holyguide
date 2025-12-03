@@ -542,7 +542,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           {/* Disclaimer - quase colado no secure */}
           <div className="max-w-2xl mx-auto mt-1 px-4">
             <p className="text-xs text-gray-500 text-center leading-relaxed">
-              By accepting this offer, you agree to start a 30-day trial on the
+              By accepting this offer, you agree to start a 7-day trial on the
               Auraly App. After the trial period ends, your subscription will
               automatically renew for just $49/m. You may cancel anytime by
               contacting us at contact@auralyapp.com
