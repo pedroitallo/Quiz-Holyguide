@@ -31,14 +31,33 @@ export default function FnGadsPage() {
   const progress = currentStep / totalSteps * 100;
 
   useEffect(() => {
-    // Save state up to the PaywallStep (step 8), clear on ThankYouStep (step 9)
+    const oldScript = document.querySelector('script[src*="tkk.holyguide.online"]');
+    if (oldScript) {
+      oldScript.remove();
+    }
+
+    const newScript = document.createElement('script');
+    newScript.type = 'text/javascript';
+    newScript.src = 'https://rdk.auralyapp.com/track.js?rtkcmpid=69396811d5606d59642f2b56';
+    newScript.async = true;
+    document.head.appendChild(newScript);
+
+    return () => {
+      const scriptToRemove = document.querySelector('script[src*="rdk.auralyapp.com"]');
+      if (scriptToRemove) {
+        scriptToRemove.remove();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     if (currentStep < 9) {
         const stateToSave = {
             step: currentStep,
             data: formData
         };
         localStorage.setItem('holymind_quiz_state', JSON.stringify(stateToSave));
-    } else if (currentStep === 9) { // ThankYouStep
+    } else if (currentStep === 9) {
         localStorage.removeItem('holymind_quiz_state');
     }
   }, [currentStep, formData]);
