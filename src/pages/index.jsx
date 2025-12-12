@@ -60,11 +60,20 @@ function PagesContent() {
 
     const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/analytics');
     const isCheckoutRoute = location.pathname.startsWith('/checkout');
+    const isFnGadsRoute = location.pathname.startsWith('/fn-gads');
 
     if (isCheckoutRoute) {
         return (
             <Routes>
                 <Route path="/checkout" element={<Checkout />} />
+            </Routes>
+        );
+    }
+
+    if (isFnGadsRoute) {
+        return (
+            <Routes>
+                <Route path="/fn-gads" element={<FnGads />} />
             </Routes>
         );
     }
@@ -102,7 +111,6 @@ function PagesContent() {
                 <Route path="/funnel2-esp" element={<Funnel2Esp />} />
                 <Route path="/funnel-esp" element={<FunnelEspNew />} />
                 <Route path="/paywall-sms" element={<PaywallSms />} />
-                <Route path="/fn-gads" element={<FnGads />} />
             </Routes>
         </Layout>
     );
