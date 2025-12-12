@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 import { Stars, Moon, Heart, Sparkles, Loader2 } from "lucide-react";
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import StepTracker from '../components/quiz/shared/StepTracker';
@@ -29,26 +30,6 @@ export default function FnGadsPage() {
 
   const totalSteps = 8; // Video, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
   const progress = currentStep / totalSteps * 100;
-
-  useEffect(() => {
-    const oldScript = document.querySelector('script[src*="tkk.holyguide.online"]');
-    if (oldScript) {
-      oldScript.remove();
-    }
-
-    const newScript = document.createElement('script');
-    newScript.type = 'text/javascript';
-    newScript.src = 'https://rdk.auralyapp.com/track.js?rtkcmpid=693c84f9ea09666661d1bbfa';
-    newScript.async = true;
-    document.head.appendChild(newScript);
-
-    return () => {
-      const scriptToRemove = document.querySelector('script[src*="rdk.auralyapp.com"]');
-      if (scriptToRemove) {
-        scriptToRemove.remove();
-      }
-    };
-  }, []);
 
   useEffect(() => {
     if (currentStep < 9) {
@@ -174,6 +155,9 @@ export default function FnGadsPage() {
   return (
     <VisualEditorProvider funnelId="fn-gads" stepSlug={`step-${currentStep}`}>
       <VisualEditorWrapper>
+        <Helmet>
+          <script type="text/javascript" src="https://rdk.auralyapp.com/track.js?rtkcmpid=693c84f9ea09666661d1bbfa"></script>
+        </Helmet>
         <div className="min-h-screen bg-[#f9f5ff] relative overflow-hidden" style={{ userSelect: 'none' }}>
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-10 left-10 text-purple-200/40"><Stars className="w-6 h-6 animate-pulse" /></div>
