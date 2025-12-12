@@ -8,7 +8,7 @@ import { VisualEditorProvider } from '../contexts/VisualEditorContext';
 import VisualEditorWrapper from '../components/editor/VisualEditorWrapper';
 
 import VideoStep from "../components/quiz/funnel-1/VideoStep";
-import PaywallStep from "../components/quiz/funnel-1/PaywallStep";
+import PaywallStep from "../components/quiz/fn-gads/PaywallStep";
 import NameCollection from "../components/quiz/shared/NameCollection";
 import BirthDataCollection from "../components/quiz/shared/BirthDataCollection";
 import LoveSituationStep from "../components/quiz/shared/LoveSituationStep";
