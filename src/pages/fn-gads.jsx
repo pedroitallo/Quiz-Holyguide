@@ -38,7 +38,7 @@ export default function FnGadsPage() {
 
     const newScript = document.createElement('script');
     newScript.type = 'text/javascript';
-    newScript.src = 'https://rdk.auralyapp.com/track.js?rtkcmpid=68fa60207cf2f536fa9aa4bc';
+    newScript.src = 'https://rdk.auralyapp.com/track.js?rtkcmpid=693c84f9ea09666661d1bbfa';
     newScript.async = true;
     document.head.appendChild(newScript);
 
