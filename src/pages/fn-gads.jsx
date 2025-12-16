@@ -30,25 +30,8 @@ export default function FnGadsPage() {
   const totalSteps = 8; // Video, Testimonials, Name, Birth, Love, Palm, Revelation, Paywall
   const progress = currentStep / totalSteps * 100;
 
-  useEffect(() => {
-    const oldScript = document.querySelector('script[src*="tkk.holyguide.online"]');
-    if (oldScript) {
-      oldScript.remove();
-    }
-
-    const newScript = document.createElement('script');
-    newScript.type = 'text/javascript';
-    newScript.src = 'https://rdk.auralyapp.com/track.js?rtkcmpid=68fa60207cf2f536fa9aa4bc';
-    newScript.async = true;
-    document.head.appendChild(newScript);
-
-    return () => {
-      const scriptToRemove = document.querySelector('script[src*="rdk.auralyapp.com"]');
-      if (scriptToRemove) {
-        scriptToRemove.remove();
-      }
-    };
-  }, []);
+  // RedTrack script is now loaded globally in index.html at the end of body
+  // No need to dynamically inject it here
 
   useEffect(() => {
     if (currentStep < 9) {

@@ -66,11 +66,21 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     trackCheckout()
       .then(() => {
         try {
-          const checkoutUrl = CHECKOUT_CONFIG.baseUrl;
-          const url = new URL(checkoutUrl);
+          // Get the hidden checkout link element
+          const checkoutLink = document.getElementById('checkout-link-hidden');
+          if (!checkoutLink) {
+            console.error("Checkout link element not found");
+            window.location.href = CHECKOUT_CONFIG.baseUrl;
+            return;
+          }
+
+          // Capture all current URL parameters
+          const currentUrl = new URL(window.location.href);
+          const params = new URLSearchParams(window.location.search);
 
           let allUtms = {};
 
+          // Try to get UTMs from UTMIFY first
           if (typeof window !== "undefined" && window.utmify) {
             try {
               allUtms = window.utmify.getUtms() || {};
@@ -80,8 +90,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             }
           }
 
+          // Fallback: get params directly from URL
           if (Object.keys(allUtms).length === 0) {
-            const currentUrl = new URL(window.location.href);
             const utmParams = [
               "utm_source",
               "utm_medium",
@@ -97,7 +107,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
               }
             });
 
-            const otherParams = ["fbclid", "gclid", "ttclid", "src", "xcod"];
+            const otherParams = ["fbclid", "gclid", "ttclid", "src", "xcod", "rtk_clickid"];
             otherParams.forEach((param) => {
               const value = currentUrl.searchParams.get(param);
               if (value) {
@@ -106,9 +116,12 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             });
           }
 
+          // Build the final URL with all parameters
+          const finalUrl = new URL(CHECKOUT_CONFIG.baseUrl);
+
           Object.keys(allUtms).forEach((key) => {
             if (allUtms[key]) {
-              url.searchParams.set(key, allUtms[key]);
+              finalUrl.searchParams.set(key, allUtms[key]);
             }
           });
 
@@ -118,13 +131,21 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             quizResultId !== "admin-mode" &&
             quizResultId !== "bot-mode"
           ) {
-            url.searchParams.set("quiz_result_id", quizResultId);
+            finalUrl.searchParams.set("quiz_result_id", quizResultId);
           }
 
-          console.log("Redirecting to checkout:", url.toString());
+          console.log("Final checkout URL:", finalUrl.toString());
+
+          // Update the hidden link href with all parameters
+          checkoutLink.href = finalUrl.toString();
+
+          // Clean up localStorage
           localStorage.removeItem("holymind_quiz_state");
           localStorage.setItem("holymind_last_quiz_id", quizResultId);
-          window.location.href = url.toString();
+
+          // Redirect by updating window.location.href (same tab)
+          // This allows RedTrack to properly track the click
+          window.location.href = finalUrl.toString();
         } catch (error) {
           console.error("Erro ao construir URL de checkout:", error);
           window.location.href = CHECKOUT_CONFIG.baseUrl;
@@ -198,6 +219,18 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
   return (
     <div className="bg-white min-h-screen">
+      {/* Hidden checkout link for RedTrack parameter propagation - NOT visible to users */}
+      <a
+        id="checkout-link-hidden"
+        href={CHECKOUT_CONFIG.baseUrl}
+        className="sr-only"
+        aria-hidden="true"
+        tabIndex="-1"
+        style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px' }}
+      >
+        Checkout
+      </a>
+
       <div className="text-center py-8 max-w-3xl mx-auto px-4 bg-white">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
