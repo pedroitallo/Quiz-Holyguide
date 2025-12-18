@@ -143,9 +143,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           localStorage.removeItem("holymind_quiz_state");
           localStorage.setItem("holymind_last_quiz_id", quizResultId);
 
-          // Redirect by updating window.location.href (same tab)
-          // This allows RedTrack to properly track the click
-          window.location.href = finalUrl.toString();
+          // Simulate click on the link element (allows RedTrack to intercept)
+          // RedTrack monitors <a> clicks, not direct window.location changes
+          checkoutLink.click();
         } catch (error) {
           console.error("Erro ao construir URL de checkout:", error);
           window.location.href = CHECKOUT_CONFIG.baseUrl;
