@@ -1,7 +1,23 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
+import { useLocation } from 'react-router-dom';
 
 export default function Layout({ children, currentPageName }) {
+  const location = useLocation();
+
+  // Determine which tracking script to load based on the current route
+  const getTrackingScript = () => {
+    const path = location.pathname;
+
+    // fn-gads uses RedTrack with specific campaign ID
+    if (path === '/fn-gads' || path.startsWith('/fn-gads/')) {
+      return 'https://rdk.auralyapp.com/track.js?rtkcmpid=693c84f9ea09666661d1bbfa';
+    }
+
+    // All other funnels use the default tracking script
+    return 'https://tkk.holyguide.online/track.js';
+  };
+
   useEffect(() => {
     const handleContextmenu = e => e.preventDefault();
     const handleKeydown = e => {
@@ -9,10 +25,10 @@ export default function Layout({ children, currentPageName }) {
         e.preventDefault();
       }
     };
-    
+
     document.addEventListener('contextmenu', handleContextmenu);
     document.addEventListener('keydown', handleKeydown);
-    
+
     return () => {
       document.removeEventListener('contextmenu', handleContextmenu);
       document.removeEventListener('keydown', handleKeydown);
@@ -22,7 +38,7 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none' }}>
       <Helmet>
-        <script type="text/javascript" src="https://tkk.holyguide.online/track.js"></script>
+        <script type="text/javascript" src={getTrackingScript()}></script>
         {/* Meta Pixel Code */}
         <script dangerouslySetInnerHTML={{
           __html: `
