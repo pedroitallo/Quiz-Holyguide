@@ -66,17 +66,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     trackCheckout()
       .then(() => {
         try {
-          // Get the hidden checkout link element
-          const checkoutLink = document.getElementById('checkout-link-hidden');
-          if (!checkoutLink) {
-            console.error("Checkout link element not found");
-            window.location.href = CHECKOUT_CONFIG.baseUrl;
-            return;
-          }
-
           // Capture all current URL parameters
           const currentUrl = new URL(window.location.href);
-          const params = new URLSearchParams(window.location.search);
 
           let allUtms = {};
 
@@ -136,16 +127,12 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
           console.log("Final checkout URL:", finalUrl.toString());
 
-          // Update the hidden link href with all parameters
-          checkoutLink.href = finalUrl.toString();
-
           // Clean up localStorage
           localStorage.removeItem("holymind_quiz_state");
           localStorage.setItem("holymind_last_quiz_id", quizResultId);
 
-          // Simulate click on the link element (allows RedTrack to intercept)
-          // RedTrack monitors <a> clicks, not direct window.location changes
-          checkoutLink.click();
+          // Direct navigation - RedTrack should intercept via global scripts
+          window.location.href = finalUrl.toString();
         } catch (error) {
           console.error("Erro ao construir URL de checkout:", error);
           window.location.href = CHECKOUT_CONFIG.baseUrl;
