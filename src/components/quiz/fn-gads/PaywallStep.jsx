@@ -12,6 +12,7 @@ const CHECKOUT_CONFIG = {
 export default function PaywallStep({ userName, birthDate, quizResultId }) {
   const { trackEndQuiz } = useTracking();
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [redtrackLoaded, setRedtrackLoaded] = useState(false);
 
   const scrollToPriceCard = () => {
     const priceCard = document.querySelector(".price-card-anchor");
@@ -33,9 +34,20 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     redtrackScript.type = 'text/javascript';
     redtrackScript.src = 'https://rdk.auralyapp.com/track.js?rtkcmpid=693c84f9ea09666661d1bbfa';
     redtrackScript.async = true;
+
+    redtrackScript.onload = () => {
+      console.log('✅ RedTrack script loaded and ready for fn-gads funnel');
+      setRedtrackLoaded(true);
+    };
+
+    redtrackScript.onerror = () => {
+      console.error('❌ Failed to load RedTrack script');
+      setRedtrackLoaded(true); // Still allow checkout even if script fails
+    };
+
     document.head.appendChild(redtrackScript);
 
-    console.log('RedTrack script loaded for fn-gads funnel');
+    console.log('🔄 Loading RedTrack script for fn-gads funnel...');
 
     if (
       quizResultId &&
@@ -59,6 +71,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   }, [quizResultId]);
 
   const handleCheckout = async () => {
+    console.log('🛒 Checkout initiated - RedTrack loaded:', redtrackLoaded);
     trackEndQuiz();
 
     const trackCheckout = async () => {
@@ -147,8 +160,38 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           localStorage.removeItem("holymind_quiz_state");
           localStorage.setItem("holymind_last_quiz_id", quizResultId);
 
-          // Direct navigation - RedTrack should intercept via global scripts
-          window.location.href = finalUrl.toString();
+          // Create a temporary link for RedTrack to intercept
+          const tempLink = document.createElement('a');
+          tempLink.href = finalUrl.toString();
+          tempLink.style.display = 'none';
+          tempLink.id = 'redtrack-checkout-link';
+          tempLink.setAttribute('data-rtk-track', 'true');
+          document.body.appendChild(tempLink);
+
+          console.log('🔗 Created RedTrack link:', tempLink.href);
+          console.log('🔗 Link attributes:', tempLink.outerHTML);
+
+          // Use a small delay to ensure RedTrack is ready to intercept
+          setTimeout(() => {
+            // Simulate real mouse click event for RedTrack to intercept
+            const clickEvent = new MouseEvent('click', {
+              bubbles: true,
+              cancelable: true,
+              view: window
+            });
+
+            console.log('👆 Dispatching click event to RedTrack link...');
+            tempLink.dispatchEvent(clickEvent);
+
+            // Fallback: if RedTrack doesn't redirect within 1000ms, do it manually
+            setTimeout(() => {
+              console.log('⏰ Fallback redirect triggered');
+              if (tempLink.parentNode) {
+                tempLink.parentNode.removeChild(tempLink);
+              }
+              window.location.href = finalUrl.toString();
+            }, 1000);
+          }, 100);
         } catch (error) {
           console.error("Erro ao construir URL de checkout:", error);
           window.location.href = CHECKOUT_CONFIG.baseUrl;
