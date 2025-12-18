@@ -219,18 +219,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Hidden checkout link for RedTrack parameter propagation - NOT visible to users */}
-      <a
-        id="checkout-link-hidden"
-        href={CHECKOUT_CONFIG.baseUrl}
-        className="sr-only"
-        aria-hidden="true"
-        tabIndex="-1"
-        style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px' }}
-      >
-        Checkout
-      </a>
-
       <div className="text-center py-8 max-w-3xl mx-auto px-4 bg-white">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
