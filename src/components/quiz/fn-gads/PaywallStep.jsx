@@ -28,6 +28,15 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   useEffect(() => {
     window.scrollTo(0, 0);
 
+    // Load RedTrack script ONLY for fn-gads funnel
+    const redtrackScript = document.createElement('script');
+    redtrackScript.type = 'text/javascript';
+    redtrackScript.src = 'https://rdk.auralyapp.com/track.js?rtkcmpid=693c84f9ea09666661d1bbfa';
+    redtrackScript.async = true;
+    document.head.appendChild(redtrackScript);
+
+    console.log('RedTrack script loaded for fn-gads funnel');
+
     if (
       quizResultId &&
       quizResultId !== "offline-mode" &&
@@ -40,6 +49,13 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
         console.warn("Failed to update pitch step view:", e)
       );
     }
+
+    // Cleanup: remove script when component unmounts
+    return () => {
+      if (redtrackScript.parentNode) {
+        redtrackScript.parentNode.removeChild(redtrackScript);
+      }
+    };
   }, [quizResultId]);
 
   const handleCheckout = async () => {
