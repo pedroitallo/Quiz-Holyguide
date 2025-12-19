@@ -13,6 +13,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   const { trackEndQuiz } = useTracking();
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
   const [redtrackLoaded, setRedtrackLoaded] = useState(false);
+  const [checkoutUrl, setCheckoutUrl] = useState(CHECKOUT_CONFIG.baseUrl);
 
   const scrollToPriceCard = () => {
     const priceCard = document.querySelector(".price-card-anchor");
@@ -29,6 +30,55 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   useEffect(() => {
     window.scrollTo(0, 0);
 
+    // Build checkout URL with all parameters
+    const buildCheckoutUrl = () => {
+      try {
+        const currentUrl = new URL(window.location.href);
+        const finalUrl = new URL(CHECKOUT_CONFIG.baseUrl);
+
+        // Capture all UTM parameters
+        const utmParams = [
+          "utm_source",
+          "utm_medium",
+          "utm_campaign",
+          "utm_content",
+          "utm_term",
+        ];
+
+        utmParams.forEach((param) => {
+          const value = currentUrl.searchParams.get(param);
+          if (value) {
+            finalUrl.searchParams.set(param, value);
+          }
+        });
+
+        // Capture other tracking parameters
+        const otherParams = ["fbclid", "gclid", "ttclid", "src", "xcod", "rtk_clickid"];
+        otherParams.forEach((param) => {
+          const value = currentUrl.searchParams.get(param);
+          if (value) {
+            finalUrl.searchParams.set(param, value);
+          }
+        });
+
+        // Add quiz result ID
+        if (
+          quizResultId &&
+          quizResultId !== "offline-mode" &&
+          quizResultId !== "admin-mode" &&
+          quizResultId !== "bot-mode"
+        ) {
+          finalUrl.searchParams.set("quiz_result_id", quizResultId);
+        }
+
+        console.log('✅ Checkout URL built:', finalUrl.toString());
+        setCheckoutUrl(finalUrl.toString());
+      } catch (error) {
+        console.error('❌ Error building checkout URL:', error);
+        setCheckoutUrl(CHECKOUT_CONFIG.baseUrl);
+      }
+    };
+
     // Load RedTrack script ONLY for fn-gads funnel
     const redtrackScript = document.createElement('script');
     redtrackScript.type = 'text/javascript';
@@ -38,14 +88,23 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     redtrackScript.onload = () => {
       console.log('✅ RedTrack script loaded and ready for fn-gads funnel');
       setRedtrackLoaded(true);
+
+      // Rebuild checkout URL after RedTrack loads (in case it adds rtk_clickid to URL)
+      setTimeout(() => {
+        buildCheckoutUrl();
+      }, 500);
     };
 
     redtrackScript.onerror = () => {
       console.error('❌ Failed to load RedTrack script');
-      setRedtrackLoaded(true); // Still allow checkout even if script fails
+      setRedtrackLoaded(true);
+      buildCheckoutUrl();
     };
 
     document.head.appendChild(redtrackScript);
+
+    // Build initial checkout URL
+    buildCheckoutUrl();
 
     console.log('🔄 Loading RedTrack script for fn-gads funnel...');
 
@@ -70,126 +129,28 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
     };
   }, [quizResultId]);
 
-  const handleCheckout = async () => {
-    console.log('🛒 Checkout initiated - RedTrack loaded:', redtrackLoaded);
+  const handleCheckout = async (e) => {
+    console.log('🛒 Checkout link clicked - RedTrack loaded:', redtrackLoaded);
     trackEndQuiz();
 
-    const trackCheckout = async () => {
-      if (
-        quizResultId &&
-        quizResultId !== "offline-mode" &&
-        quizResultId !== "admin-mode" &&
-        quizResultId !== "bot-mode"
-      ) {
-        try {
-          await HybridQuizResult.update(quizResultId, {
-            checkout_step_clicked: true,
-          });
-          console.log("Checkout click tracked successfully");
-        } catch (error) {
-          console.warn("Falha ao rastrear clique de checkout:", error);
-        }
+    if (
+      quizResultId &&
+      quizResultId !== "offline-mode" &&
+      quizResultId !== "admin-mode" &&
+      quizResultId !== "bot-mode"
+    ) {
+      try {
+        await HybridQuizResult.update(quizResultId, {
+          checkout_step_clicked: true,
+        });
+        console.log("✅ Checkout click tracked successfully");
+      } catch (error) {
+        console.warn("⚠️ Failed to track checkout click:", error);
       }
-    };
+    }
 
-    trackCheckout()
-      .then(() => {
-        try {
-          // Capture all current URL parameters
-          const currentUrl = new URL(window.location.href);
-
-          let allUtms = {};
-
-          // Try to get UTMs from UTMIFY first
-          if (typeof window !== "undefined" && window.utmify) {
-            try {
-              allUtms = window.utmify.getUtms() || {};
-              console.log("UTMs from UTMIFY:", allUtms);
-            } catch (error) {
-              console.warn("Failed to get UTMs from UTMIFY:", error);
-            }
-          }
-
-          // Fallback: get params directly from URL
-          if (Object.keys(allUtms).length === 0) {
-            const utmParams = [
-              "utm_source",
-              "utm_medium",
-              "utm_campaign",
-              "utm_content",
-              "utm_term",
-            ];
-
-            utmParams.forEach((param) => {
-              const value = currentUrl.searchParams.get(param);
-              if (value) {
-                allUtms[param] = value;
-              }
-            });
-
-            const otherParams = ["fbclid", "gclid", "ttclid", "src", "xcod", "rtk_clickid"];
-            otherParams.forEach((param) => {
-              const value = currentUrl.searchParams.get(param);
-              if (value) {
-                allUtms[param] = value;
-              }
-            });
-          }
-
-          // Build the final URL with all parameters
-          const finalUrl = new URL(CHECKOUT_CONFIG.baseUrl);
-
-          Object.keys(allUtms).forEach((key) => {
-            if (allUtms[key]) {
-              finalUrl.searchParams.set(key, allUtms[key]);
-            }
-          });
-
-          if (
-            quizResultId &&
-            quizResultId !== "offline-mode" &&
-            quizResultId !== "admin-mode" &&
-            quizResultId !== "bot-mode"
-          ) {
-            finalUrl.searchParams.set("quiz_result_id", quizResultId);
-          }
-
-          console.log("Final checkout URL:", finalUrl.toString());
-
-          // Clean up localStorage
-          localStorage.removeItem("holymind_quiz_state");
-          localStorage.setItem("holymind_last_quiz_id", quizResultId);
-
-          // Get the existing RedTrack link from DOM (created in JSX)
-          const checkoutLink = document.getElementById('redtrack-checkout-link');
-
-          if (checkoutLink) {
-            // Update the href with the final URL including all parameters
-            checkoutLink.href = finalUrl.toString();
-
-            console.log('🔗 Updated RedTrack link href:', checkoutLink.href);
-            console.log('🔗 Link element:', checkoutLink.outerHTML);
-
-            // Use a small delay to ensure RedTrack script is ready
-            setTimeout(() => {
-              console.log('👆 Clicking RedTrack link...');
-              checkoutLink.click();
-            }, 200);
-          } else {
-            console.error('❌ RedTrack link not found in DOM');
-          }
-        } catch (error) {
-          console.error("Erro ao construir URL de checkout:", error);
-          window.location.href = CHECKOUT_CONFIG.baseUrl;
-        }
-      })
-      .catch((error) => {
-        console.error(
-          "Erro ao rastrear checkout, mas redirecionando mesmo assim:",
-          error
-        );
-        window.location.href = CHECKOUT_CONFIG.baseUrl;
-      });
+    localStorage.removeItem("holymind_quiz_state");
+    localStorage.setItem("holymind_last_quiz_id", quizResultId);
   };
 
   const faqs = [
@@ -576,12 +537,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           </Card>
 
           {/* CTA */}
-          <button
+          <a
+            href={checkoutUrl}
             onClick={handleCheckout}
-            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
+            data-rtk-track="true"
+            className="w-full block text-center bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
           >
             GET MY DRAWING SOULMATE
-          </button>
+          </a>
 
           {/* Secure Badge - quase colado no botão */}
           <div className="w-full flex justify-center mt-2 mb-1">
@@ -707,12 +670,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           </div>
 
           {/* CTA ABAIXO DO CARD DE PREÇO */}
-          <button
+          <a
+            href={checkoutUrl}
             onClick={handleCheckout}
-            className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
+            data-rtk-track="true"
+            className="w-full block text-center mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
           >
             GET MY DRAWING SOULMATE
-          </button>
+          </a>
 
           {/* ======================= FAQ ======================= */}
           <div className="max-w-xl mx-auto mt-6 text-left">
@@ -756,18 +721,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           </div>
         </motion.div>
       </div>
-
-      {/* Hidden link for RedTrack integration - DO NOT REMOVE */}
-      {/* This link must exist in the DOM for RedTrack to properly track clicks */}
-      <a
-        id="redtrack-checkout-link"
-        href={CHECKOUT_CONFIG.baseUrl}
-        style={{ display: 'none' }}
-        data-rtk-track="true"
-        aria-hidden="true"
-      >
-        Checkout
-      </a>
     </div>
   );
 }
