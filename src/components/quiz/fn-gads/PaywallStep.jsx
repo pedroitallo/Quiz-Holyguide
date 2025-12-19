@@ -160,38 +160,24 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           localStorage.removeItem("holymind_quiz_state");
           localStorage.setItem("holymind_last_quiz_id", quizResultId);
 
-          // Create a temporary link for RedTrack to intercept
-          const tempLink = document.createElement('a');
-          tempLink.href = finalUrl.toString();
-          tempLink.style.display = 'none';
-          tempLink.id = 'redtrack-checkout-link';
-          tempLink.setAttribute('data-rtk-track', 'true');
-          document.body.appendChild(tempLink);
+          // Get the existing RedTrack link from DOM (created in JSX)
+          const checkoutLink = document.getElementById('redtrack-checkout-link');
 
-          console.log('🔗 Created RedTrack link:', tempLink.href);
-          console.log('🔗 Link attributes:', tempLink.outerHTML);
+          if (checkoutLink) {
+            // Update the href with the final URL including all parameters
+            checkoutLink.href = finalUrl.toString();
 
-          // Use a small delay to ensure RedTrack is ready to intercept
-          setTimeout(() => {
-            // Simulate real mouse click event for RedTrack to intercept
-            const clickEvent = new MouseEvent('click', {
-              bubbles: true,
-              cancelable: true,
-              view: window
-            });
+            console.log('🔗 Updated RedTrack link href:', checkoutLink.href);
+            console.log('🔗 Link element:', checkoutLink.outerHTML);
 
-            console.log('👆 Dispatching click event to RedTrack link...');
-            tempLink.dispatchEvent(clickEvent);
-
-            // Fallback: if RedTrack doesn't redirect within 1000ms, do it manually
+            // Use a small delay to ensure RedTrack script is ready
             setTimeout(() => {
-              console.log('⏰ Fallback redirect triggered');
-              if (tempLink.parentNode) {
-                tempLink.parentNode.removeChild(tempLink);
-              }
-              window.location.href = finalUrl.toString();
-            }, 1000);
-          }, 100);
+              console.log('👆 Clicking RedTrack link...');
+              checkoutLink.click();
+            }, 200);
+          } else {
+            console.error('❌ RedTrack link not found in DOM');
+          }
         } catch (error) {
           console.error("Erro ao construir URL de checkout:", error);
           window.location.href = CHECKOUT_CONFIG.baseUrl;
@@ -770,6 +756,18 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           </div>
         </motion.div>
       </div>
+
+      {/* Hidden link for RedTrack integration - DO NOT REMOVE */}
+      {/* This link must exist in the DOM for RedTrack to properly track clicks */}
+      <a
+        id="redtrack-checkout-link"
+        href={CHECKOUT_CONFIG.baseUrl}
+        style={{ display: 'none' }}
+        data-rtk-track="true"
+        aria-hidden="true"
+      >
+        Checkout
+      </a>
     </div>
   );
 }
