@@ -476,7 +476,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                     <p className="text-center text-lg font-semibold text-gray-900">
                       The original price is{" "}
                       <span className="text-gray-500 line-through font-normal">
-                        $49
+                        $29
                       </span>
                     </p>
 
@@ -486,7 +486,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                       <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
                         <span>Total today 80% OFF:</span>
                         <span className="text-green-600 text-xl font-extrabold">
-                          $9
+                          $4.9
                         </span>
                       </div>
                     </div>
@@ -517,7 +517,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             <p className="text-xs text-gray-500 text-center leading-relaxed">
               By accepting this offer, you agree to start a 7-day trial on the
               Auraly App. After the trial period ends, your subscription will
-              automatically renew for just $49/m. You may cancel anytime by
+              automatically renew for just $29/m. You may cancel anytime by
               contacting us at contact@auralyapp.com
             </p>
           </div>
@@ -593,14 +593,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           <div className="max-w-md mx-auto mt-4">
             <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
               <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
-                Special offer 50% OFF Today
+                Special offer 80% OFF Today
               </div>
 
               <div className="p-5 space-y-4">
                 <p className="text-center text-lg font-semibold text-gray-900">
                   The original price is{" "}
                   <span className="text-gray-500 line-through font-normal">
-                    $49
+                    $29
                   </span>
                 </p>
 
@@ -610,7 +610,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                   <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
                     <span>Total today 80% OFF:</span>
                     <span className="text-green-600 text-xl font-extrabold">
-                      $9
+                      $4.9
                     </span>
                   </div>
                 </div>
