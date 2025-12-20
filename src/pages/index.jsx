@@ -11,6 +11,7 @@ import Funnel2Esp from "./funnel2-esp";
 import PaywallSms from "./paywall-sms";
 import FnGads from "./fn-gads";
 import Fn1Dsv from "./fn1-dsv";
+import Fn1Org from "./fn1-org";
 import Checkout from "./Checkout";
 import AdminLogin from "./AdminLogin";
 import Analytics from "./Analytics";
@@ -41,6 +42,7 @@ const PAGES = {
     "paywall-sms": PaywallSms,
     "fn-gads": FnGads,
     "fn1-dsv": Fn1Dsv,
+    "fn1-org": Fn1Org,
 }
 
 function _getCurrentPage(url) {
@@ -106,6 +108,7 @@ function PagesContent() {
                 <Route path="/paywall-sms" element={<PaywallSms />} />
                 <Route path="/fn-gads" element={<FnGads />} />
                 <Route path="/fn1-dsv" element={<Fn1Dsv />} />
+                <Route path="/fn1-org" element={<Fn1Org />} />
             </Routes>
         </Layout>
     );
