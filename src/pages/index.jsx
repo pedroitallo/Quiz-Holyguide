@@ -12,6 +12,7 @@ import PaywallSms from "./paywall-sms";
 import FnGads from "./fn-gads";
 import Fn1Dsv from "./fn1-dsv";
 import Fn1Org from "./fn1-org";
+import Fn2SmFb from "./fn2-sm-fb";
 import Checkout from "./Checkout";
 import AdminLogin from "./AdminLogin";
 import Analytics from "./Analytics";
@@ -43,6 +44,7 @@ const PAGES = {
     "fn-gads": FnGads,
     "fn1-dsv": Fn1Dsv,
     "fn1-org": Fn1Org,
+    "fn2-sm-fb": Fn2SmFb,
 }
 
 function _getCurrentPage(url) {
@@ -109,6 +111,7 @@ function PagesContent() {
                 <Route path="/fn-gads" element={<FnGads />} />
                 <Route path="/fn1-dsv" element={<Fn1Dsv />} />
                 <Route path="/fn1-org" element={<Fn1Org />} />
+                <Route path="/fn2-sm-fb" element={<Fn2SmFb />} />
             </Routes>
         </Layout>
     );
