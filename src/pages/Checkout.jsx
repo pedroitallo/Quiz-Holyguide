@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function Checkout() {
   const [timeLeft, setTimeLeft] = useState(10 * 60);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   useEffect(() => {
     if (!document.querySelector('script[src="https://static.samcart.com/checkouts/sc-checkout.js"]')) {
@@ -54,9 +56,36 @@ export default function Checkout() {
           </div>
         </div>
 
+        {/* Botão de Compra */}
+        <div className="max-w-3xl mx-auto px-4 mb-8">
+          <button
+            onClick={() => setIsPaymentModalOpen(true)}
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300 shadow-lg"
+          >
+            COMPLETE YOUR PURCHASE
+          </button>
+        </div>
+
         {/* Checkout */}
         <sc-checkout product="auraly-app" subdomain="appsappyon" coupon=""></sc-checkout>
       </div>
+
+      {/* Modal de Pagamento */}
+      <Dialog open={isPaymentModalOpen} onOpenChange={setIsPaymentModalOpen}>
+        <DialogContent className="max-w-4xl w-[95vw] h-[90vh] p-0">
+          <DialogHeader className="p-4 border-b">
+            <DialogTitle>Complete Your Payment</DialogTitle>
+          </DialogHeader>
+          <div className="w-full h-[calc(90vh-80px)]">
+            <iframe
+              src="https://payments.auralyapp.com/"
+              className="w-full h-full border-0"
+              title="Payment Gateway"
+              allow="payment"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
