@@ -7,15 +7,6 @@ export default function Checkout() {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!document.querySelector('script[src="https://static.samcart.com/checkouts/sc-checkout.js"]')) {
-      const script = document.createElement('script');
-      script.src = 'https://static.samcart.com/checkouts/sc-checkout.js';
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, []);
-
-  useEffect(() => {
     const t = setInterval(() => setTimeLeft(p => (p <= 0 ? 0 : p - 1)), 1000);
     return () => clearInterval(t);
   }, []);
@@ -27,9 +18,6 @@ export default function Checkout() {
     <>
       <Helmet>
         <title>Checkout - Auraly App</title>
-        <style>{`
-          sc-checkout { position: relative; z-index: 1; display:block; }
-        `}</style>
       </Helmet>
 
       <div className="min-h-screen bg-white py-8 relative">
@@ -65,9 +53,6 @@ export default function Checkout() {
             COMPLETE YOUR PURCHASE
           </button>
         </div>
-
-        {/* Checkout */}
-        <sc-checkout product="auraly-app" subdomain="appsappyon" coupon=""></sc-checkout>
       </div>
 
       {/* Modal de Pagamento */}
