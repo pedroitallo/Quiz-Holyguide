@@ -6,7 +6,7 @@ import { ChevronRight } from "lucide-react";
 import { HybridQuizResult } from "@/entities/HybridQuizResult";
 
 const CHECKOUT_CONFIG = {
-  baseUrl: "https://tkk.holyguide.online/click/1",
+  baseUrl: "https://payments.auralyapp.com/",
 };
 
 export default function PaywallStep({ userName, birthDate, quizResultId }) {
