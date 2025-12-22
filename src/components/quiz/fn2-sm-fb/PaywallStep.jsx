@@ -6,7 +6,7 @@ import { ChevronRight } from "lucide-react";
 import { HybridQuizResult } from "@/entities/HybridQuizResult";
 
 const CHECKOUT_CONFIG = {
-  baseUrl: "https://payments.auralyapp.com/",
+  baseUrl: "https://payments.auralyapp.com/popup",
 };
 
 export default function PaywallStep({ userName, birthDate, quizResultId }) {
