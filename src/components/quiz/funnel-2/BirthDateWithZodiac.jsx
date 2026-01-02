@@ -20,7 +20,7 @@ const months = [
 
 const dayColumn1 = Array.from({ length: 10 }, (_, i) => i + 1);
 const dayColumn2 = Array.from({ length: 10 }, (_, i) => i + 11);
-const dayColumn3 = Array.from({ length: 11 }, (_, i) => i + 21);
+const dayColumn3 = Array.from({ length: 10 }, (_, i) => i + 21);
 
 const monthColumn1 = months.slice(0, 4);
 const monthColumn2 = months.slice(4, 8);
@@ -154,7 +154,7 @@ export default function BirthDateWithZodiac({ onSubmit }) {
                           : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-300 hover:bg-purple-50'
                       }`}
                     >
-                      {d}
+                      {d === 30 ? '30 or 31' : d}
                     </button>
                   ))}
                 </div>
