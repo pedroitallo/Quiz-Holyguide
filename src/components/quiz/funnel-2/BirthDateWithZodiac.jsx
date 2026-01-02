@@ -20,7 +20,7 @@ const months = [
 
 const dayColumn1 = Array.from({ length: 10 }, (_, i) => i + 1);
 const dayColumn2 = Array.from({ length: 10 }, (_, i) => i + 11);
-const dayColumn3 = Array.from({ length: 10 }, (_, i) => i + 21);
+const dayColumn3 = Array.from({ length: 11 }, (_, i) => i + 21);
 
 const monthColumn1 = months.slice(0, 4);
 const monthColumn2 = months.slice(4, 8);
