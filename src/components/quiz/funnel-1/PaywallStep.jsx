@@ -6,7 +6,7 @@ import { HybridQuizResult } from "@/entities/HybridQuizResult";
 import { useTracking } from "@/hooks/useTracking";
 
 const CHECKOUT_CONFIG = {
-  baseUrl: "https://tkk.holyguide.online/click/1",
+  baseUrl: "https://tkk.holyguide.online/click",
 };
 
 export default function PaywallStep({ userName, birthDate, quizResultId }) {
