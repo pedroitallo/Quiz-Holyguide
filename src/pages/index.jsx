@@ -5,6 +5,7 @@ import FunnelAff from "./funnel-aff";
 import FunnelEspNew from "./funnel-esp";
 import Funnel2 from "./funnel-2";
 import Funnel21 from "./funnel-2.1";
+import Funnel22 from "./funnel-2.2";
 import Funnel2Aff from "./funnel-2aff";
 import Funnel3 from "./funnel-3";
 import FunnelAff2 from "./funnel-aff2";
@@ -36,6 +37,7 @@ const PAGES = {
     "funnel-1": Funnel1,
     "funnel-2": Funnel2,
     "funnel-2.1": Funnel21,
+    "funnel-2.2": Funnel22,
     "funnel-2aff": Funnel2Aff,
     "funnel-3": Funnel3,
     "funnel-aff": FunnelAff,
@@ -104,6 +106,7 @@ function PagesContent() {
                 <Route path="/funnel-1" element={<Funnel1 />} />
                 <Route path="/funnel-2" element={<Funnel2 />} />
                 <Route path="/funnel-2.1" element={<Funnel21 />} />
+                <Route path="/funnel-2.2" element={<Funnel22 />} />
                 <Route path="/funnel-2aff" element={<Funnel2Aff />} />
                 <Route path="/funnel-3" element={<Funnel3 />} />
                 <Route path="/funnel-aff" element={<FunnelAff />} />
