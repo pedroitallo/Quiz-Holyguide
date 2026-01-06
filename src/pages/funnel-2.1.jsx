@@ -20,7 +20,7 @@ import RelationshipEnergy from "../components/quiz/funnel-2/RelationshipEnergy";
 import FutureScenario from "../components/quiz/funnel-2/FutureScenario";
 import LoadingRevelation from "../components/quiz/shared/LoadingRevelation";
 import SoulmateDrawingLoading from "../components/quiz/funnel-2/SoulmateDrawingLoading";
-import PaywallStep from "../components/quiz/funnel-1/PaywallStep";
+import PaywallStep from "../components/quiz/funnel-2.1/PaywallStep";
 import ThankYouStep from "../components/quiz/shared/ThankYouStep";
 
 export default function Funnel21Page() {
