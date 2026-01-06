@@ -500,7 +500,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                     <p className="text-center text-lg font-semibold text-gray-900">
                       The original price is{" "}
                       <span className="text-gray-500 line-through font-normal">
-                        $49
+                        $39
                       </span>
                     </p>
 
@@ -512,7 +512,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                       <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
                         <span>Total today 80% OFF:</span>
                         <span className="text-green-600 text-xl font-extrabold">
-                          $9
+                          $15
                         </span>
                       </div>
                     </div>
@@ -624,7 +624,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             <div className="rounded-2xl border border-gray-300 overflow-hidden shadow-sm bg-white">
               {/* Topo Roxo */}
               <div className="bg-[#4B4BA8] text-white text-center py-2 text-sm font-semibold">
-                Special offer 50% OFF Today
+                Special offer 80% OFF Today
               </div>
 
               {/* Conteúdo */}
@@ -633,7 +633,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                 <p className="text-center text-lg font-semibold text-gray-900">
                   The original price is{" "}
                   <span className="text-gray-500 line-through font-normal">
-                    $49
+                    $39
                   </span>
                 </p>
 
@@ -645,7 +645,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                   <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
                     <span>Total today 80% OFF:</span>
                     <span className="text-green-600 text-xl font-extrabold">
-                      $9
+                      $12
                     </span>
                   </div>
                 </div>
