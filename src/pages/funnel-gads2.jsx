@@ -4,6 +4,7 @@ import { Stars, Moon, Heart, Sparkles } from "lucide-react";
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import StepTracker from '../components/quiz/shared/StepTracker';
 import { trackStepView } from '../utils/stepTracking';
+import { useTracking } from '@/hooks/useTracking';
 
 import InitiateQuiz from "../components/quiz/funnel-2/InitiateQuiz";
 import TestimonialsCarousel from "../components/quiz/shared/TestimonialsCarousel";
@@ -24,6 +25,7 @@ import PaywallStep from "../components/quiz/funnel-gads2/PaywallStep";
 import ThankYouStep from "../components/quiz/shared/ThankYouStep";
 
 export default function FunnelGads2Page() {
+  const { trackStartQuiz, trackEndQuiz } = useTracking();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     birth_date: "",
@@ -94,15 +96,8 @@ export default function FunnelGads2Page() {
         setFormData(prev => ({ ...prev, quizResultId: newQuizResult.id }));
         console.log('✅ New QuizResult created successfully:', newQuizResult.id);
 
-        // RedTrack: Start Quiz Event
-        if (typeof window !== 'undefined' && window.rtgNoBack) {
-          try {
-            window.rtgNoBack('event', 'StartQuiz');
-            console.log('✅ RedTrack StartQuiz event fired for funnel-gads2');
-          } catch (error) {
-            console.warn('⚠️ Failed to fire RedTrack StartQuiz event:', error);
-          }
-        }
+        // Disparar evento StartQuiz
+        trackStartQuiz();
       } catch (error) {
         console.error('❌ CRITICAL: Failed to create QuizResult, using offline mode:', error.message, error);
         setFormData(prev => ({ ...prev, quizResultId: 'offline-mode' }));
@@ -110,7 +105,7 @@ export default function FunnelGads2Page() {
     };
 
     initializeQuizSession();
-  }, []);
+  }, [trackStartQuiz]);
 
   const nextStep = () => {
     const newStep = currentStep + 1;
@@ -129,18 +124,11 @@ export default function FunnelGads2Page() {
       trackStepView('funnel-gads2', stepNames[currentStep - 1]);
     }
 
-    // RedTrack: EndQuiz Event when reaching Paywall step (step 15)
+    // Disparar evento EndQuiz quando chegar no Paywall (step 15)
     if (currentStep === 15) {
-      if (typeof window !== 'undefined' && window.rtgNoBack) {
-        try {
-          window.rtgNoBack('event', 'EndQuiz');
-          console.log('✅ RedTrack EndQuiz event fired for funnel-gads2');
-        } catch (error) {
-          console.warn('⚠️ Failed to fire RedTrack EndQuiz event:', error);
-        }
-      }
+      trackEndQuiz();
     }
-  }, [currentStep]);
+  }, [currentStep, trackEndQuiz]);
 
   const handleBirthDateSubmit = (data) => {
     setFormData(prev => ({ ...prev, ...data }));
