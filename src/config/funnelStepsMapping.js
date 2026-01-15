@@ -49,6 +49,7 @@ import PaywallStepFnGads from "../components/quiz/fn-gads/PaywallStep";
 import PaywallStepFn1Dsv from "../components/quiz/fn1-dsv/PaywallStep";
 import PaywallStepFn1Org from "../components/quiz/fn1-org/PaywallStep";
 import PaywallStepFn2SmFb from "../components/quiz/fn2-sm-fb/PaywallStep";
+import PaywallStepFnShorts2 from "../components/quiz/fn-shorts2/PaywallStep";
 
 import NameCollection from "../components/quiz/shared/NameCollection";
 import BirthDataCollection from "../components/quiz/shared/BirthDataCollection";
@@ -243,6 +244,25 @@ export const FUNNEL_STEPS_MAP = {
     { id: 'loading_revelation', name: 'Loading Revelation', component: LoadingRevelation, description: 'Tela de carregamento com revelação' },
     { id: 'loading', name: 'Soulmate Drawing Loading', component: SoulmateDrawingLoading, description: 'Carregando desenho da alma gêmea' },
     { id: 'paywall', name: 'Paywall', component: PaywallStepFn2SmFb, description: 'Página de pagamento com modal' },
+    { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Página de agradecimento' }
+  ],
+  'fn-shorts2': [
+    { id: 'initiate', name: 'Initiate Quiz', component: InitiateQuiz2, description: 'Tela inicial do quiz' },
+    { id: 'testimonials', name: 'Testimonials', component: TestimonialsCarousel, description: 'Carrossel de depoimentos' },
+    { id: 'birth_date', name: 'Birth Date with Zodiac', component: BirthDateWithZodiac, description: 'Data de nascimento com signo' },
+    { id: 'love_situation', name: 'Love Situation', component: LoveSituationStep, description: 'Situação amorosa atual' },
+    { id: 'qualities', name: 'Ideal Partner Qualities', component: IdealPartnerQualities, description: 'Qualidades do parceiro ideal' },
+    { id: 'preference', name: 'Partner Preference', component: PartnerPreference, description: 'Preferência de parceiro' },
+    { id: 'chart_results', name: 'Birth Chart Results', component: BirthChartResults, description: 'Resultados do mapa astral' },
+    { id: 'challenge', name: 'Love Challenge', component: LoveChallenge, description: 'Desafio amoroso' },
+    { id: 'desire', name: 'Love Desire', component: LoveDesire, description: 'Desejo amoroso' },
+    { id: 'connection', name: 'Soulmate Connection', component: SoulmateConnection, description: 'Conexão com alma gêmea' },
+    { id: 'love_language', name: 'Love Language', component: LoveLanguage, description: 'Linguagem do amor' },
+    { id: 'energy', name: 'Relationship Energy', component: RelationshipEnergy, description: 'Energia do relacionamento' },
+    { id: 'future', name: 'Future Scenario', component: FutureScenario, description: 'Cenário futuro' },
+    { id: 'loading_revelation', name: 'Loading Revelation', component: LoadingRevelation, description: 'Tela de carregamento com revelação' },
+    { id: 'loading', name: 'Soulmate Drawing Loading', component: SoulmateDrawingLoading, description: 'Carregando desenho da alma gêmea' },
+    { id: 'paywall', name: 'Paywall', component: PaywallStepFnShorts2, description: 'Página de pagamento' },
     { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Página de agradecimento' }
   ]
 };
