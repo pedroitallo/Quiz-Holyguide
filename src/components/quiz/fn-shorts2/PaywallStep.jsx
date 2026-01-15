@@ -13,6 +13,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   const { trackEndQuiz } = useTracking();
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
+  const [redtrackLoaded, setRedtrackLoaded] = useState(false);
+  const [checkoutUrl, setCheckoutUrl] = useState(CHECKOUT_CONFIG.baseUrl);
+
   const scrollToPriceCard = () => {
     const priceCard = document.querySelector(".price-card-anchor");
     if (priceCard) {
@@ -28,6 +31,75 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   useEffect(() => {
     window.scrollTo(0, 0);
 
+    const buildCheckoutUrl = () => {
+      try {
+        const url = new URL(CHECKOUT_CONFIG.baseUrl);
+        const currentUrl = new URL(window.location.href);
+
+        let allUtms = {};
+
+        if (typeof window !== "undefined" && window.utmify) {
+          try {
+            allUtms = window.utmify.getUtms() || {};
+          } catch (error) {
+            console.warn("Failed to get UTMs from UTMIFY:", error);
+          }
+        }
+
+        if (Object.keys(allUtms).length === 0) {
+          const utmParams = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+          utmParams.forEach((param) => {
+            const value = currentUrl.searchParams.get(param);
+            if (value) allUtms[param] = value;
+          });
+
+          const otherParams = ["fbclid", "gclid", "ttclid", "src", "xcod"];
+          otherParams.forEach((param) => {
+            const value = currentUrl.searchParams.get(param);
+            if (value) allUtms[param] = value;
+          });
+        }
+
+        Object.keys(allUtms).forEach((key) => {
+          if (allUtms[key]) url.searchParams.set(key, allUtms[key]);
+        });
+
+        if (quizResultId && quizResultId !== "offline-mode" && quizResultId !== "admin-mode" && quizResultId !== "bot-mode") {
+          url.searchParams.set("quiz_result_id", quizResultId);
+        }
+
+        setCheckoutUrl(url.toString());
+      } catch (error) {
+        console.error("Error building checkout URL:", error);
+      }
+    };
+
+    const redtrackScript = document.createElement('script');
+    redtrackScript.type = 'text/javascript';
+    redtrackScript.src = 'https://rdk.auralyapp.com/track.js?rtkcmpid=6968d2ed204268d287472ac6';
+    redtrackScript.async = true;
+
+    redtrackScript.onload = () => {
+      console.log('✅ RedTrack script loaded and ready for fn-shorts2');
+      setRedtrackLoaded(true);
+
+      setTimeout(() => {
+        buildCheckoutUrl();
+      }, 500);
+    };
+
+    redtrackScript.onerror = () => {
+      console.error('❌ Failed to load RedTrack script');
+      setRedtrackLoaded(true);
+      buildCheckoutUrl();
+    };
+
+    document.head.appendChild(redtrackScript);
+
+    buildCheckoutUrl();
+
+    console.log('🔄 Loading RedTrack script for fn-shorts2...');
+
     if (
       quizResultId &&
       quizResultId !== "offline-mode" &&
@@ -40,103 +112,38 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
         console.warn("Failed to update pitch step view:", e)
       );
     }
-  }, [quizResultId]);
 
-  const handleCheckout = async () => {
-    trackEndQuiz();
-
-    const trackCheckout = async () => {
-      if (
-        quizResultId &&
-        quizResultId !== "offline-mode" &&
-        quizResultId !== "admin-mode" &&
-        quizResultId !== "bot-mode"
-      ) {
-        try {
-          await HybridQuizResult.update(quizResultId, {
-            checkout_step_clicked: true,
-          });
-          console.log("Checkout click tracked successfully");
-        } catch (error) {
-          console.warn("Falha ao rastrear clique de checkout:", error);
-        }
+    return () => {
+      if (redtrackScript.parentNode) {
+        redtrackScript.parentNode.removeChild(redtrackScript);
       }
     };
+  }, [quizResultId]);
 
-    trackCheckout()
-      .then(() => {
-        try {
-          const checkoutUrl = CHECKOUT_CONFIG.baseUrl;
-          const url = new URL(checkoutUrl);
+  const handleCheckout = async (e) => {
+    console.log('🛒 Checkout link clicked - RedTrack loaded:', redtrackLoaded);
+    trackEndQuiz();
 
-          let allUtms = {};
+    if (
+      quizResultId &&
+      quizResultId !== "offline-mode" &&
+      quizResultId !== "admin-mode" &&
+      quizResultId !== "bot-mode"
+    ) {
+      try {
+        await HybridQuizResult.update(quizResultId, {
+          checkout_step_clicked: true,
+        });
+        console.log("✅ Checkout click tracked successfully");
+      } catch (error) {
+        console.warn("⚠️ Failed to track checkout click:", error);
+      }
+    }
 
-          if (typeof window !== "undefined" && window.utmify) {
-            try {
-              allUtms = window.utmify.getUtms() || {};
-              console.log("UTMs from UTMIFY:", allUtms);
-            } catch (error) {
-              console.warn("Failed to get UTMs from UTMIFY:", error);
-            }
-          }
-
-          if (Object.keys(allUtms).length === 0) {
-            const currentUrl = new URL(window.location.href);
-            const utmParams = [
-              "utm_source",
-              "utm_medium",
-              "utm_campaign",
-              "utm_content",
-              "utm_term",
-            ];
-
-            utmParams.forEach((param) => {
-              const value = currentUrl.searchParams.get(param);
-              if (value) {
-                allUtms[param] = value;
-              }
-            });
-
-            const otherParams = ["fbclid", "gclid", "ttclid", "src", "xcod"];
-            otherParams.forEach((param) => {
-              const value = currentUrl.searchParams.get(param);
-              if (value) {
-                allUtms[param] = value;
-              }
-            });
-          }
-
-          Object.keys(allUtms).forEach((key) => {
-            if (allUtms[key]) {
-              url.searchParams.set(key, allUtms[key]);
-            }
-          });
-
-          if (
-            quizResultId &&
-            quizResultId !== "offline-mode" &&
-            quizResultId !== "admin-mode" &&
-            quizResultId !== "bot-mode"
-          ) {
-            url.searchParams.set("quiz_result_id", quizResultId);
-          }
-
-          console.log("Redirecting to checkout:", url.toString());
-          localStorage.removeItem("holymind_quiz_state_fn_shorts2");
-          localStorage.setItem("holymind_last_quiz_id", quizResultId);
-          window.location.href = url.toString();
-        } catch (error) {
-          console.error("Erro ao construir URL de checkout:", error);
-          window.location.href = CHECKOUT_CONFIG.baseUrl;
-        }
-      })
-      .catch((error) => {
-        console.error(
-          "Erro ao rastrear checkout, mas redirecionando mesmo assim:",
-          error
-        );
-        window.location.href = CHECKOUT_CONFIG.baseUrl;
-      });
+    console.log("🔄 Redirecting to checkout:", checkoutUrl);
+    localStorage.removeItem("holymind_quiz_state_fn_shorts2");
+    localStorage.setItem("holymind_last_quiz_id", quizResultId);
+    window.location.href = checkoutUrl;
   };
 
   const faqs = [
