@@ -143,10 +143,8 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
       }
     }
 
-    console.log("🔄 Redirecting to checkout:", checkoutUrl);
     localStorage.removeItem("holymind_quiz_state_funnel_gads2");
     localStorage.setItem("holymind_last_quiz_id", quizResultId);
-    window.location.href = checkoutUrl;
   };
 
   const faqs = [
@@ -533,12 +531,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           </Card>
 
           {/* CTA */}
-          <button
+          <a
+            href={checkoutUrl}
             onClick={handleCheckout}
-            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
+            data-rtk-track="true"
+            className="w-full block text-center bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
           >
             GET MY DRAWING SOULMATE
-          </button>
+          </a>
 
           {/* Secure Badge - quase colado no botão */}
           <div className="w-full flex justify-center mt-2 mb-1">
@@ -664,12 +664,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           </div>
 
           {/* CTA ABAIXO DO CARD DE PREÇO */}
-          <button
+          <a
+            href={checkoutUrl}
             onClick={handleCheckout}
-            className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
+            data-rtk-track="true"
+            className="w-full block text-center mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl text-lg md:text-xl transition-all duration-300"
           >
             GET MY DRAWING SOULMATE
-          </button>
+          </a>
 
           {/* ======================= FAQ ======================= */}
           <div className="max-w-xl mx-auto mt-6 text-left">
