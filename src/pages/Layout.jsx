@@ -9,8 +9,9 @@ export default function Layout({ children, currentPageName }) {
   const getTrackingScript = () => {
     const path = location.pathname;
 
-    // fn-gads uses RedTrack with specific campaign ID
-    if (path === '/fn-gads' || path.startsWith('/fn-gads/')) {
+    // fn-gads and funnel-gads2 use RedTrack with specific campaign ID
+    if (path === '/fn-gads' || path.startsWith('/fn-gads/') ||
+        path === '/funnel-gads2' || path.startsWith('/funnel-gads2/')) {
       return 'https://rdk.auralyapp.com/track.js?rtkcmpid=693c84f9ea09666661d1bbfa';
     }
 

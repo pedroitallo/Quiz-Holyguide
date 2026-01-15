@@ -93,6 +93,16 @@ export default function FunnelGads2Page() {
 
         setFormData(prev => ({ ...prev, quizResultId: newQuizResult.id }));
         console.log('✅ New QuizResult created successfully:', newQuizResult.id);
+
+        // RedTrack: Start Quiz Event
+        if (typeof window !== 'undefined' && window.rtgNoBack) {
+          try {
+            window.rtgNoBack('event', 'StartQuiz');
+            console.log('✅ RedTrack StartQuiz event fired for funnel-gads2');
+          } catch (error) {
+            console.warn('⚠️ Failed to fire RedTrack StartQuiz event:', error);
+          }
+        }
       } catch (error) {
         console.error('❌ CRITICAL: Failed to create QuizResult, using offline mode:', error.message, error);
         setFormData(prev => ({ ...prev, quizResultId: 'offline-mode' }));
@@ -117,6 +127,18 @@ export default function FunnelGads2Page() {
     ];
     if (currentStep <= stepNames.length) {
       trackStepView('funnel-gads2', stepNames[currentStep - 1]);
+    }
+
+    // RedTrack: EndQuiz Event when reaching Paywall step (step 15)
+    if (currentStep === 15) {
+      if (typeof window !== 'undefined' && window.rtgNoBack) {
+        try {
+          window.rtgNoBack('event', 'EndQuiz');
+          console.log('✅ RedTrack EndQuiz event fired for funnel-gads2');
+        } catch (error) {
+          console.warn('⚠️ Failed to fire RedTrack EndQuiz event:', error);
+        }
+      }
     }
   }, [currentStep]);
 
