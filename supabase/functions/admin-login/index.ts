@@ -110,32 +110,14 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    console.log("[admin-login] Verifying password");
-    const { data: verifyResult, error: verifyError } = await supabase.rpc(
-      "verify_admin_password",
-      {
-        user_email: email,
-        user_password: password,
-      }
-    );
+    console.log("[admin-login] Verifying password with Supabase Auth");
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-    if (verifyError) {
-      console.error("[admin-login] Password verification error:", verifyError);
-      return new Response(
-        JSON.stringify({ success: false, error: "Password verification failed: " + verifyError.message }),
-        {
-          status: 500,
-          headers: {
-            ...corsHeaders,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-
-    console.log("[admin-login] Password verification result:", verifyResult);
-    if (!verifyResult) {
-      console.log("[admin-login] Invalid password");
+    if (authError || !authData.user) {
+      console.error("[admin-login] Authentication failed:", authError?.message);
       return new Response(
         JSON.stringify({ success: false, error: "Invalid credentials" }),
         {
@@ -147,6 +129,8 @@ Deno.serve(async (req: Request) => {
         }
       );
     }
+
+    console.log("[admin-login] Authentication successful");
 
     console.log("[admin-login] Updating last_login");
     await supabase
