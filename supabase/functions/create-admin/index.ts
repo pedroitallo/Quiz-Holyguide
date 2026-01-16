@@ -27,11 +27,11 @@ Deno.serve(async (req: Request) => {
       }
     );
 
-    const { email, password, name } = await req.json();
+    const { email, password } = await req.json();
 
-    if (!email || !password || !name) {
+    if (!email || !password) {
       return new Response(
-        JSON.stringify({ error: "Email, password and name are required" }),
+        JSON.stringify({ error: "Email and password are required" }),
         {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -57,12 +57,11 @@ Deno.serve(async (req: Request) => {
     }
 
     const { data: adminData, error: adminError } = await supabaseAdmin
-      .from("admins")
+      .from("admin_users")
       .insert([{
         id: authData.user.id,
         email,
         password_hash: "managed_by_auth",
-        name,
       }])
       .select()
       .single();
