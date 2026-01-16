@@ -4,7 +4,7 @@ import { supabase } from '../../../lib/supabase';
 import AdminLayout from '../../../components/admin/layout/AdminLayout';
 import { Button } from '../../../components/ui/button';
 import { Card, CardContent } from '../../../components/ui/card';
-import { ArrowLeft, Copy, ExternalLink, Edit, Eye, Archive, ArchiveRestore } from 'lucide-react';
+import { ArrowLeft, Copy, ExternalLink, Edit, Eye, Archive, ArchiveRestore, Layers } from 'lucide-react';
 import StepPreviewModal from '../../../components/admin/StepPreviewModal';
 import { useFunnelSteps } from '../../../hooks/useFunnelSteps';
 
@@ -148,13 +148,23 @@ export default function FunnelDetail() {
             </Button>
             <h1 className="text-3xl font-bold text-purple-600">{funnel.name}</h1>
           </div>
-          <Button
-            onClick={() => navigate(`/admin/funnels/${id}/edit`)}
-            className="gap-2 bg-purple-600 hover:bg-purple-700"
-          >
-            <Edit size={16} />
-            Editar
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => navigate(`/admin/funnels/${id}/builder`)}
+              variant="outline"
+              className="gap-2"
+            >
+              <Layers size={16} />
+              Construtor
+            </Button>
+            <Button
+              onClick={() => navigate(`/admin/funnels/${id}/edit`)}
+              className="gap-2 bg-purple-600 hover:bg-purple-700"
+            >
+              <Edit size={16} />
+              Editar
+            </Button>
+          </div>
         </div>
 
         <Card className="bg-white border-slate-200">

@@ -26,6 +26,7 @@ import Dashboard from "./admin/dashboard/Dashboard";
 import FunnelsList from "./admin/funnels/FunnelsList";
 import FunnelEditor from "./admin/funnels/FunnelEditorNew";
 import FunnelDetail from "./admin/funnels/FunnelDetail";
+import QuizBuilder from "./admin/funnels/QuizBuilder";
 import OfferDetail from "./admin/offers/OfferDetail";
 import ABTestsManager from "./admin/ab-tests/ABTestsManager";
 import Settings from "./admin/settings/Settings";
@@ -91,6 +92,7 @@ function PagesContent() {
                 <Route path="/admin/funnels" element={<ProtectedRoute><FunnelsList /></ProtectedRoute>} />
                 <Route path="/admin/funnels/:id" element={<ProtectedRoute><FunnelDetail /></ProtectedRoute>} />
                 <Route path="/admin/funnels/:id/edit" element={<ProtectedRoute><FunnelEditor /></ProtectedRoute>} />
+                <Route path="/admin/funnels/:id/builder" element={<ProtectedRoute><QuizBuilder /></ProtectedRoute>} />
                 <Route path="/admin/offers/:id" element={<ProtectedRoute><OfferDetail /></ProtectedRoute>} />
                 <Route path="/admin/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
                 <Route path="/admin/ab-tests" element={<ProtectedRoute><ABTestsManager /></ProtectedRoute>} />
