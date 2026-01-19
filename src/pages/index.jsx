@@ -17,6 +17,7 @@ import Fn1Org from "./fn1-org";
 import Fn2SmFb from "./fn2-sm-fb";
 import FunnelGads2 from "./funnel-gads2";
 import FnShorts2 from "./fn-shorts2";
+import Fn2Tiktok from "./fn2-tiktok";
 import Checkout from "./Checkout";
 import AdminLogin from "./AdminLogin";
 import Analytics from "./Analytics";
@@ -54,6 +55,7 @@ const PAGES = {
     "fn2-sm-fb": Fn2SmFb,
     "funnel-gads2": FunnelGads2,
     "fn-shorts2": FnShorts2,
+    "fn2-tiktok": Fn2Tiktok,
 }
 
 function _getCurrentPage(url) {
@@ -126,6 +128,7 @@ function PagesContent() {
                 <Route path="/fn2-sm-fb" element={<Fn2SmFb />} />
                 <Route path="/funnel-gads2" element={<FunnelGads2 />} />
                 <Route path="/fn-shorts2" element={<FnShorts2 />} />
+                <Route path="/fn2-tiktok" element={<Fn2Tiktok />} />
             </Routes>
         </Layout>
     );
