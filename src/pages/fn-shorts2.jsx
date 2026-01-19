@@ -105,7 +105,8 @@ export default function FnShorts2Page() {
     };
 
     initializeQuizSession();
-  }, [trackStartQuiz]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const nextStep = () => {
     const newStep = currentStep + 1;
