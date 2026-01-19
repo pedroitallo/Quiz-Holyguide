@@ -10,7 +10,7 @@ const CHECKOUT_CONFIG = {
 };
 
 export default function PaywallStep({ userName, birthDate, quizResultId }) {
-  const { trackEndQuiz } = useTracking();
+  const { trackStartQuiz, trackEndQuiz } = useTracking();
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   const [redtrackLoaded, setRedtrackLoaded] = useState(false);
@@ -30,6 +30,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    trackStartQuiz();
+    trackEndQuiz();
 
     const buildCheckoutUrl = () => {
       try {
@@ -118,7 +121,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
         redtrackScript.parentNode.removeChild(redtrackScript);
       }
     };
-  }, [quizResultId]);
+  }, [quizResultId, trackStartQuiz, trackEndQuiz]);
 
   const handleCheckout = async (e) => {
     console.log('🛒 Checkout link clicked - RedTrack loaded:', redtrackLoaded);
