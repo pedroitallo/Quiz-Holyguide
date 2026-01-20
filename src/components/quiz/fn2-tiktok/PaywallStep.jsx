@@ -31,6 +31,9 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   useEffect(() => {
     window.scrollTo(0, 0);
 
+    // Disparar EndQuiz quando chega no paywall
+    trackEndQuiz();
+
     const buildCheckoutUrl = () => {
       try {
         const url = new URL(CHECKOUT_CONFIG.baseUrl);
@@ -118,11 +121,11 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
         redtrackScript.parentNode.removeChild(redtrackScript);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quizResultId]);
 
   const handleCheckout = async (e) => {
     console.log('🛒 Checkout link clicked - RedTrack loaded:', redtrackLoaded);
-    trackEndQuiz();
 
     if (
       quizResultId &&
