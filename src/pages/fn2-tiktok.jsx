@@ -4,6 +4,7 @@ import { Stars, Moon, Heart, Sparkles } from "lucide-react";
 import { HybridQuizResult } from '@/entities/HybridQuizResult';
 import StepTracker from '../components/quiz/shared/StepTracker';
 import { trackStepView } from '../utils/stepTracking';
+import { useTracking } from '@/hooks/useTracking';
 
 import InitiateQuiz from "../components/quiz/funnel-2/InitiateQuiz";
 import TestimonialsCarousel from "../components/quiz/shared/TestimonialsCarousel";
@@ -24,6 +25,7 @@ import PaywallStep from "../components/quiz/fn2-tiktok/PaywallStep";
 import ThankYouStep from "../components/quiz/shared/ThankYouStep";
 
 export default function Fn2TiktokPage() {
+  const { trackStartQuiz } = useTracking();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     birth_date: "",
@@ -93,6 +95,9 @@ export default function Fn2TiktokPage() {
 
         setFormData(prev => ({ ...prev, quizResultId: newQuizResult.id }));
         console.log('✅ New QuizResult created successfully:', newQuizResult.id);
+
+        // Disparar evento StartQuiz
+        trackStartQuiz();
       } catch (error) {
         console.error('❌ CRITICAL: Failed to create QuizResult, using offline mode:', error.message, error);
         setFormData(prev => ({ ...prev, quizResultId: 'offline-mode' }));
@@ -100,6 +105,7 @@ export default function Fn2TiktokPage() {
     };
 
     initializeQuizSession();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const nextStep = () => {
