@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { HybridQuizResult } from "@/entities/HybridQuizResult";
 import { useTracking } from "@/hooks/useTracking";
@@ -7,8 +7,11 @@ const CHECKOUT_CONFIG = {
   baseUrl: "https://tkk.holyguide.online/click",
 };
 
+const BUTTON_DELAY_SECONDS = 270;
+
 export default function PaywallStep({ userName, birthDate, quizResultId }) {
   const { trackEndQuiz } = useTracking();
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -28,6 +31,35 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
       );
     }
   }, [quizResultId, trackEndQuiz]);
+
+  useEffect(() => {
+    const checkVideoTime = () => {
+      const smartplayer = window.smartplayer;
+      if (smartplayer && smartplayer.instances) {
+        const playerInstance = smartplayer.instances[0];
+        if (playerInstance) {
+          playerInstance.on('timeupdate', (currentTime) => {
+            if (currentTime >= BUTTON_DELAY_SECONDS && !showButton) {
+              setShowButton(true);
+            }
+          });
+        }
+      }
+    };
+
+    const timer = setTimeout(() => {
+      checkVideoTime();
+    }, 2000);
+
+    const fallbackTimer = setTimeout(() => {
+      setShowButton(true);
+    }, BUTTON_DELAY_SECONDS * 1000);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(fallbackTimer);
+    };
+  }, [showButton]);
 
   const handleCheckout = async () => {
 
@@ -156,14 +188,10 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                       style="display: block; margin: 0 auto; width: 100%;"
                     ></vturb-smartplayer>
                     <script type="text/javascript">
-                      (function() {
-                        if (!document.querySelector('script[src*="68a204ee95de0adfa0e77121"]')) {
-                          var s=document.createElement("script");
-                          s.src="https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/68a204ee95de0adfa0e77121/v4/player.js";
-                          s.async=true;
-                          document.head.appendChild(s);
-                        }
-                      })();
+                      var s=document.createElement("script");
+                      s.src="https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/68a204ee95de0adfa0e77121/v4/player.js";
+                      s.async=true;
+                      document.head.appendChild(s);
                     </script>
                   `
                 }}
@@ -171,14 +199,21 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             </div>
           </div>
 
-          <div className="w-full flex justify-center">
-            <button
-              onClick={handleCheckout}
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-6 px-12 rounded-2xl text-xl md:text-2xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105"
+          {showButton && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="w-full flex justify-center"
             >
-              GET MY SOULMATE DRAWING NOW
-            </button>
-          </div>
+              <button
+                onClick={handleCheckout}
+                className="bg-green-500 hover:bg-green-600 text-white font-bold py-6 px-12 rounded-2xl text-xl md:text-2xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105"
+              >
+                GET MY SOULMATE DRAWING NOW
+              </button>
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </div>
