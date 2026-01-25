@@ -52,6 +52,7 @@ import PaywallStepFn2SmFb from "../components/quiz/fn2-sm-fb/PaywallStep";
 import PaywallStepFnShorts2 from "../components/quiz/fn-shorts2/PaywallStep";
 import PaywallStepFn2Tiktok from "../components/quiz/fn2-tiktok/PaywallStep";
 import PaywallStepFunnel23 from "../components/quiz/funnel-2.3/PaywallStep";
+import PaywallStepFunnelVsl1 from "../components/quiz/funnel-vsl1/PaywallStep";
 
 import NameCollection from "../components/quiz/shared/NameCollection";
 import BirthDataCollection from "../components/quiz/shared/BirthDataCollection";
@@ -303,6 +304,17 @@ export const FUNNEL_STEPS_MAP = {
     { id: 'loading_revelation', name: 'Loading Revelation', component: LoadingRevelation, description: 'Tela de carregamento com revelação' },
     { id: 'loading', name: 'Soulmate Drawing Loading', component: SoulmateDrawingLoading, description: 'Carregando desenho da alma gêmea' },
     { id: 'paywall', name: 'Paywall', component: PaywallStepFunnel23, description: 'Página de pagamento com tracking start/end' },
+    { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Página de agradecimento' }
+  ],
+  'funnel-vsl1': [
+    { id: 'video', name: 'Video Step', component: VideoStep1, description: 'Video introdutório do quiz' },
+    { id: 'testimonials', name: 'Testimonials', component: TestimonialsCarousel, description: 'Carrossel de depoimentos' },
+    { id: 'name', name: 'Name Collection', component: NameCollection, description: 'Coleta do nome do usuário' },
+    { id: 'birth', name: 'Birth Data', component: BirthDataCollection, description: 'Coleta de data de nascimento' },
+    { id: 'love_situation', name: 'Love Situation', component: LoveSituationStep, description: 'Situação amorosa atual' },
+    { id: 'palm_reading', name: 'Palm Reading', component: PalmReadingResults, description: 'Resultados da leitura de palma' },
+    { id: 'revelation', name: 'Loading Revelation', component: LoadingRevelation, description: 'Tela de carregamento com revelação' },
+    { id: 'paywall', name: 'Paywall', component: PaywallStepFunnelVsl1, description: 'Página de pagamento com VSL e delay' },
     { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Página de agradecimento' }
   ]
 };

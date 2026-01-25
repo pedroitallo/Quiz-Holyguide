@@ -270,6 +270,25 @@ export const FUNNEL_DEFINITIONS = [
       { name: 'loading', label: 'Gerando Desenho', component: 'SoulmateDrawingLoading' },
       { name: 'paywall', label: 'Checkout', component: 'PaywallStep' }
     ]
+  },
+  {
+    id: 'funnel-vsl1',
+    name: 'Funnel VSL1',
+    slug: 'funnel-vsl1',
+    description: 'Funil com VSL e delay no paywall',
+    component: () => import('../pages/funnel-vsl1'),
+    status: 'active',
+    tags: ['vsl', 'video', 'quiz', 'delay'],
+    steps: [
+      { name: 'video', label: 'Vídeo', component: 'VideoStep' },
+      { name: 'testimonials', label: 'Depoimentos', component: 'TestimonialsCarousel' },
+      { name: 'name', label: 'Nome', component: 'NameCollection' },
+      { name: 'birth', label: 'Data Nascimento', component: 'BirthDataCollection' },
+      { name: 'love_situation', label: 'Situação Amorosa', component: 'LoveSituationStep' },
+      { name: 'palm_reading', label: 'Leitura Palma', component: 'PalmReadingResults' },
+      { name: 'revelation', label: 'Revelação', component: 'LoadingRevelation' },
+      { name: 'paywall', label: 'Checkout', component: 'PaywallStep' }
+    ]
   }
 ];
 
