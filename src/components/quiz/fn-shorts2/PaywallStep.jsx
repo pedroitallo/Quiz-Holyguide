@@ -520,7 +520,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                       <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
                         <span>Total today 80% OFF:</span>
                         <span className="text-green-600 text-xl font-extrabold">
-                          $9
+                          $15
                         </span>
                       </div>
                     </div>
@@ -646,7 +646,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                   <div className="flex items-center justify-between text-gray-900 text-sm font-bold">
                     <span>Total today 80% OFF:</span>
                     <span className="text-green-600 text-xl font-extrabold">
-                      $9
+                      $15
                     </span>
                   </div>
                 </div>
