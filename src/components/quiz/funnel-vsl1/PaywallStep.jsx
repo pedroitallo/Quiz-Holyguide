@@ -203,14 +203,14 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
             <span className="text-purple-600">About your soulmate reading</span>
           </h3>
 
-          <div className="w-full max-w-2xl mx-auto">
-            <div className="rounded-xl shadow-lg overflow-hidden bg-black" style={{ minHeight: '400px' }}>
+          <div className="w-full max-w-lg mx-auto">
+            <div className="rounded-xl shadow-lg overflow-hidden bg-black aspect-square">
               <div
                 dangerouslySetInnerHTML={{
                   __html: `
                     <vturb-smartplayer
                       id="vid-68a204ee95de0adfa0e77121"
-                      style="display: block; margin: 0 auto; width: 100%;"
+                      style="display: block; margin: 0 auto; width: 100%; height: 100%;"
                     ></vturb-smartplayer>
                   `
                 }}
