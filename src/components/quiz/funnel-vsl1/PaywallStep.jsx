@@ -33,6 +33,31 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
   }, [quizResultId, trackEndQuiz]);
 
   useEffect(() => {
+    const loadSmartPlayerScript = () => {
+      if (document.querySelector('script[src*="68a204ee95de0adfa0e77121"]')) {
+        console.log('SmartPlayer script already loaded');
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/68a204ee95de0adfa0e77121/v4/player.js';
+      script.async = true;
+
+      script.onload = () => {
+        console.log('SmartPlayer script loaded successfully');
+      };
+
+      script.onerror = () => {
+        console.error('Failed to load SmartPlayer script');
+      };
+
+      document.head.appendChild(script);
+    };
+
+    loadSmartPlayerScript();
+  }, []);
+
+  useEffect(() => {
     const checkVideoTime = () => {
       const smartplayer = window.smartplayer;
       if (smartplayer && smartplayer.instances) {
@@ -179,7 +204,7 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           </h3>
 
           <div className="w-full max-w-2xl mx-auto">
-            <div className="rounded-xl shadow-lg overflow-hidden bg-black">
+            <div className="rounded-xl shadow-lg overflow-hidden bg-black" style={{ minHeight: '400px' }}>
               <div
                 dangerouslySetInnerHTML={{
                   __html: `
@@ -187,12 +212,6 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
                       id="vid-68a204ee95de0adfa0e77121"
                       style="display: block; margin: 0 auto; width: 100%;"
                     ></vturb-smartplayer>
-                    <script type="text/javascript">
-                      var s=document.createElement("script");
-                      s.src="https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/68a204ee95de0adfa0e77121/v4/player.js";
-                      s.async=true;
-                      document.head.appendChild(s);
-                    </script>
                   `
                 }}
               />
