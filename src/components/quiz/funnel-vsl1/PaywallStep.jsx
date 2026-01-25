@@ -8,7 +8,7 @@ const CHECKOUT_CONFIG = {
   baseUrl: "https://tkk.holyguide.online/click",
 };
 
-const BUTTON_DELAY_SECONDS = 280;
+const BUTTON_DELAY_SECONDS = 270;
 
 export default function PaywallStep({ userName, birthDate, quizResultId }) {
   const { trackEndQuiz } = useTracking();
@@ -178,15 +178,27 @@ export default function PaywallStep({ userName, birthDate, quizResultId }) {
           </h3>
 
           <div className="w-full max-w-2xl mx-auto">
-            <div className="relative" style={{ paddingBottom: "56.25%", height: 0 }}>
-              <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&rel=0"
-                title="Soulmate Reading Video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="absolute top-0 left-0 w-full h-full rounded-xl shadow-lg"
-              ></iframe>
+            <div className="rounded-xl shadow-lg overflow-hidden bg-black">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    <vturb-smartplayer
+                      id="vid-68a204ee95de0adfa0e77121"
+                      style="display: block; margin: 0 auto; width: 100%;"
+                    ></vturb-smartplayer>
+                    <script type="text/javascript">
+                      (function() {
+                        if (!document.querySelector('script[src*="68a204ee95de0adfa0e77121"]')) {
+                          var s=document.createElement("script");
+                          s.src="https://scripts.converteai.net/8f5333fd-fe8a-42cd-9840-10519ad6c7c7/players/68a204ee95de0adfa0e77121/v4/player.js";
+                          s.async=true;
+                          document.head.appendChild(s);
+                        }
+                      })();
+                    </script>
+                  `
+                }}
+              />
             </div>
           </div>
 
