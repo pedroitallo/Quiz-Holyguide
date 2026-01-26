@@ -42,11 +42,11 @@ export default function FunnelVsl2Page() {
     quizResultId: null
   });
 
-  const totalSteps = 16;
+  const totalSteps = 17;
   const progress = currentStep / totalSteps * 100;
 
   useEffect(() => {
-    if (currentStep < 16) {
+    if (currentStep < 17) {
       const stateToSave = {
         step: currentStep,
         data: formData
@@ -233,7 +233,7 @@ export default function FunnelVsl2Page() {
           {currentStep === 12 && <RelationshipEnergy onSelect={handleEnergySelect} />}
           {currentStep === 13 && <FutureScenario onSubmit={handleScenarioSubmit} zodiacSign={formData.zodiac_sign} />}
           {currentStep === 14 && <LoadingRevelation onContinue={nextStep} userName="" birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
-          {currentStep === 15 && <SoulmateDrawingLoading onContinue={nextStep} />}
+          {currentStep === 15 && <SoulmateDrawingLoading onComplete={nextStep} birthDate={formData.birth_date} zodiacSign={formData.zodiac_sign} />}
           {currentStep === 16 && <PaywallStep userName="" birthDate={formData.birth_date} quizResultId={formData.quizResultId} />}
           {currentStep === 17 && <ThankYouStep userName="" />}
         </div>
