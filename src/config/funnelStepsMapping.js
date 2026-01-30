@@ -15,6 +15,19 @@ import FutureScenario from "../components/quiz/funnel-2/FutureScenario";
 import SocialProof from "../components/quiz/funnel-2/SocialProof";
 import SoulmateDrawingLoading from "../components/quiz/funnel-2/SoulmateDrawingLoading";
 
+import InitiateQuiz3 from "../components/quiz/funnel-3/InitiateQuiz";
+import BirthDateWithZodiac3 from "../components/quiz/funnel-3/BirthDateWithZodiac";
+import IdealPartnerQualities3 from "../components/quiz/funnel-3/IdealPartnerQualities";
+import PartnerPreference3 from "../components/quiz/funnel-3/PartnerPreference";
+import BirthChartResults3 from "../components/quiz/funnel-3/BirthChartResults";
+import LoveChallenge3 from "../components/quiz/funnel-3/LoveChallenge";
+import LoveDesire3 from "../components/quiz/funnel-3/LoveDesire";
+import SoulmateConnection3 from "../components/quiz/funnel-3/SoulmateConnection";
+import LoveLanguage3 from "../components/quiz/funnel-3/LoveLanguage";
+import RelationshipEnergy3 from "../components/quiz/funnel-3/RelationshipEnergy";
+import FutureScenario3 from "../components/quiz/funnel-3/FutureScenario";
+import SoulmateDrawingLoading3 from "../components/quiz/funnel-3/SoulmateDrawingLoading";
+
 import VideoStepAff from "../components/quiz/funnel-aff/VideoStep";
 import PaywallStepAff from "../components/quiz/funnel-aff/PaywallStep";
 
@@ -133,15 +146,23 @@ export const FUNNEL_STEPS_MAP = {
     { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Página de agradecimento' }
   ],
   'funnel-3': [
-    { id: 'video', name: 'Video Step', component: VideoStep1, description: 'Video introdutório' },
+    { id: 'initiate', name: 'Initiate Quiz', component: InitiateQuiz3, description: 'Tela inicial do quiz' },
     { id: 'testimonials', name: 'Testimonials', component: TestimonialsCarousel, description: 'Carrossel de depoimentos' },
-    { id: 'name', name: 'Name Collection', component: NameCollection, description: 'Coleta do nome' },
-    { id: 'birth', name: 'Birth Data', component: BirthDataCollection, description: 'Dados de nascimento' },
-    { id: 'love_situation', name: 'Love Situation', component: LoveSituationStep, description: 'Situação amorosa' },
-    { id: 'palm_reading', name: 'Palm Reading', component: PalmReadingResults, description: 'Leitura de palma' },
-    { id: 'revelation', name: 'Loading Revelation', component: LoadingRevelation, description: 'Revelação' },
+    { id: 'birth_date', name: 'Birth Date with Zodiac', component: BirthDateWithZodiac3, description: 'Data de nascimento com signo' },
+    { id: 'love_situation', name: 'Love Situation', component: LoveSituationStep, description: 'Situação amorosa atual' },
+    { id: 'qualities', name: 'Ideal Partner Qualities', component: IdealPartnerQualities3, description: 'Qualidades do parceiro ideal' },
+    { id: 'preference', name: 'Partner Preference', component: PartnerPreference3, description: 'Preferência de parceiro' },
+    { id: 'chart_results', name: 'Birth Chart Results', component: BirthChartResults3, description: 'Resultados do mapa astral' },
+    { id: 'challenge', name: 'Love Challenge', component: LoveChallenge3, description: 'Desafio amoroso' },
+    { id: 'desire', name: 'Love Desire', component: LoveDesire3, description: 'Desejo amoroso' },
+    { id: 'connection', name: 'Soulmate Connection', component: SoulmateConnection3, description: 'Conexão com alma gêmea' },
+    { id: 'love_language', name: 'Love Language', component: LoveLanguage3, description: 'Linguagem do amor' },
+    { id: 'energy', name: 'Relationship Energy', component: RelationshipEnergy3, description: 'Energia do relacionamento' },
+    { id: 'future', name: 'Future Scenario', component: FutureScenario3, description: 'Cenário futuro' },
+    { id: 'loading_revelation', name: 'Loading Revelation', component: LoadingRevelation, description: 'Tela de carregamento com revelação' },
+    { id: 'loading', name: 'Soulmate Drawing Loading', component: SoulmateDrawingLoading3, description: 'Carregando desenho da alma gêmea' },
     { id: 'paywall', name: 'Paywall', component: PaywallStep1, description: 'Página de pagamento' },
-    { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Agradecimento' }
+    { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Página de agradecimento' }
   ],
   'funnel-aff': [
     { id: 'video', name: 'Video Step', component: VideoStepAff, description: 'Video introdutório' },
