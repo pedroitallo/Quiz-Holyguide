@@ -23,7 +23,7 @@ import { useTracking } from '@/hooks/useTracking';
 
 // Checkout configuration
 const CHECKOUT_CONFIG = {
-  baseUrl: "https://tkk.holyguide.online/click"
+  baseUrl: "https://rdk.auralyapp.com/click"
   // Add more checkout URLs here if needed for different products
   // premiumUrl: "https://pay.hotmart.com/PREMIUM123",
   // basicUrl: "https://pay.hotmart.com/BASIC456",
