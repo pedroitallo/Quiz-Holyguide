@@ -4,7 +4,7 @@ import { HybridQuizResult } from "@/entities/HybridQuizResult";
 import { useTracking } from "@/hooks/useTracking";
 
 const CHECKOUT_CONFIG = {
-  baseUrl: "https://tkk.holyguide.online/click",
+  baseUrl: "https://rdk.auralyapp.com/click",
 };
 
 const BUTTON_DELAY_SECONDS = 270;
