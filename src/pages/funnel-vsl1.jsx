@@ -6,15 +6,15 @@ import StepTracker from '../components/quiz/shared/StepTracker';
 import { trackStepView } from '../utils/stepTracking';
 import { useTracking } from '@/hooks/useTracking';
 
-import VideoStep from "../components/quiz/funnel-1/VideoStep";
+import VideoStep from "../components/quiz/funnel-vsl1/VideoStep";
 import PaywallStep from "../components/quiz/funnel-vsl1/PaywallStep";
-import NameCollection from "../components/quiz/shared/NameCollection";
-import BirthDataCollection from "../components/quiz/shared/BirthDataCollection";
-import LoveSituationStep from "../components/quiz/shared/LoveSituationStep";
-import PalmReadingResults from "../components/quiz/shared/PalmReadingResults";
-import LoadingRevelation from "../components/quiz/shared/LoadingRevelation";
-import TestimonialsCarousel from "../components/quiz/shared/TestimonialsCarousel";
-import ThankYouStep from "../components/quiz/shared/ThankYouStep";
+import NameCollection from "../components/quiz/funnel-vsl1/NameCollection";
+import BirthDataCollection from "../components/quiz/funnel-vsl1/BirthDataCollection";
+import LoveSituationStep from "../components/quiz/funnel-vsl1/LoveSituationStep";
+import PalmReadingResults from "../components/quiz/funnel-vsl1/PalmReadingResults";
+import LoadingRevelation from "../components/quiz/funnel-vsl1/LoadingRevelation";
+import TestimonialsCarousel from "../components/quiz/funnel-vsl1/TestimonialsCarousel";
+import ThankYouStep from "../components/quiz/funnel-vsl1/ThankYouStep";
 
 export default function FunnelVsl1Page() {
   const { trackStartQuiz } = useTracking();

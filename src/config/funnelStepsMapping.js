@@ -65,6 +65,14 @@ import PaywallStepFn2SmFb from "../components/quiz/fn2-sm-fb/PaywallStep";
 import PaywallStepFnShorts2 from "../components/quiz/fn-shorts2/PaywallStep";
 import PaywallStepFn2Tiktok from "../components/quiz/fn2-tiktok/PaywallStep";
 import PaywallStepFunnel23 from "../components/quiz/funnel-2.3/PaywallStep";
+import VideoStepVsl1 from "../components/quiz/funnel-vsl1/VideoStep";
+import NameCollectionVsl1 from "../components/quiz/funnel-vsl1/NameCollection";
+import BirthDataCollectionVsl1 from "../components/quiz/funnel-vsl1/BirthDataCollection";
+import LoveSituationStepVsl1 from "../components/quiz/funnel-vsl1/LoveSituationStep";
+import PalmReadingResultsVsl1 from "../components/quiz/funnel-vsl1/PalmReadingResults";
+import LoadingRevelationVsl1 from "../components/quiz/funnel-vsl1/LoadingRevelation";
+import TestimonialsCarouselVsl1 from "../components/quiz/funnel-vsl1/TestimonialsCarousel";
+import ThankYouStepVsl1 from "../components/quiz/funnel-vsl1/ThankYouStep";
 import PaywallStepFunnelVsl1 from "../components/quiz/funnel-vsl1/PaywallStep";
 import PaywallStepFunnelVsl2 from "../components/quiz/funnel-vsl1/PaywallStep";
 
@@ -329,15 +337,15 @@ export const FUNNEL_STEPS_MAP = {
     { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Página de agradecimento' }
   ],
   'funnel-vsl1': [
-    { id: 'video', name: 'Video Step', component: VideoStep1, description: 'Video introdutório do quiz' },
-    { id: 'testimonials', name: 'Testimonials', component: TestimonialsCarousel, description: 'Carrossel de depoimentos' },
-    { id: 'name', name: 'Name Collection', component: NameCollection, description: 'Coleta do nome do usuário' },
-    { id: 'birth', name: 'Birth Data', component: BirthDataCollection, description: 'Coleta de data de nascimento' },
-    { id: 'love_situation', name: 'Love Situation', component: LoveSituationStep, description: 'Situação amorosa atual' },
-    { id: 'palm_reading', name: 'Palm Reading', component: PalmReadingResults, description: 'Resultados da leitura de palma' },
-    { id: 'revelation', name: 'Loading Revelation', component: LoadingRevelation, description: 'Tela de carregamento com revelação' },
+    { id: 'video', name: 'Video Step', component: VideoStepVsl1, description: 'Video introdutório do quiz' },
+    { id: 'testimonials', name: 'Testimonials', component: TestimonialsCarouselVsl1, description: 'Carrossel de depoimentos' },
+    { id: 'name', name: 'Name Collection', component: NameCollectionVsl1, description: 'Coleta do nome do usuário' },
+    { id: 'birth', name: 'Birth Data', component: BirthDataCollectionVsl1, description: 'Coleta de data de nascimento' },
+    { id: 'love_situation', name: 'Love Situation', component: LoveSituationStepVsl1, description: 'Situação amorosa atual' },
+    { id: 'palm_reading', name: 'Palm Reading', component: PalmReadingResultsVsl1, description: 'Resultados da leitura de palma' },
+    { id: 'revelation', name: 'Loading Revelation', component: LoadingRevelationVsl1, description: 'Tela de carregamento com revelação' },
     { id: 'paywall', name: 'Paywall', component: PaywallStepFunnelVsl1, description: 'Página de pagamento com VSL e delay' },
-    { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Página de agradecimento' }
+    { id: 'thank_you', name: 'Thank You', component: ThankYouStepVsl1, description: 'Página de agradecimento' }
   ],
   'funnel-vsl2': [
     { id: 'initiate', name: 'Initiate Quiz', component: InitiateQuiz2, description: 'Tela inicial do quiz' },
