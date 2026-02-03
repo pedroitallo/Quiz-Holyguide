@@ -11,6 +11,7 @@ import Funnel2Aff from "./funnel-2aff";
 import Funnel3 from "./funnel-3";
 import FunnelVsl1 from "./funnel-vsl1";
 import FunnelVsl2 from "./funnel-vsl2";
+import FnShortVsl1 from "./fnshort-vsl1";
 import FunnelAff2 from "./funnel-aff2";
 import Funnel2Esp from "./funnel2-esp";
 import PaywallSms from "./paywall-sms";
@@ -50,6 +51,7 @@ const PAGES = {
     "funnel-3": Funnel3,
     "funnel-vsl1": FunnelVsl1,
     "funnel-vsl2": FunnelVsl2,
+    "fnshort-vsl1": FnShortVsl1,
     "funnel-aff": FunnelAff,
     "funnel-aff2": FunnelAff2,
     "funnel2-esp": Funnel2Esp,
@@ -126,6 +128,7 @@ function PagesContent() {
                 <Route path="/funnel-3" element={<Funnel3 />} />
                 <Route path="/funnel-vsl1" element={<FunnelVsl1 />} />
                 <Route path="/funnel-vsl2" element={<FunnelVsl2 />} />
+                <Route path="/fnshort-vsl1" element={<FnShortVsl1 />} />
                 <Route path="/funnel-aff" element={<FunnelAff />} />
                 <Route path="/funnel-aff2" element={<FunnelAff2 />} />
                 <Route path="/funnel2-esp" element={<Funnel2Esp />} />
