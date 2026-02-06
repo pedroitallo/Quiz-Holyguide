@@ -7,7 +7,7 @@ import { trackStepView } from '../utils/stepTracking';
 import { useTracking } from '@/hooks/useTracking';
 
 import VideoStep from "../components/quiz/funnel-1/VideoStep";
-import PaywallStep from "../components/quiz/fn-shorts2/PaywallStep";
+import PaywallStep from "../components/quiz/funnel-vsl1/PaywallStep";
 import NameCollection from "../components/quiz/shared/NameCollection";
 import BirthDataCollection from "../components/quiz/shared/BirthDataCollection";
 import LoveSituationStep from "../components/quiz/shared/LoveSituationStep";

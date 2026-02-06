@@ -374,7 +374,7 @@ export const FUNNEL_STEPS_MAP = {
     { id: 'love_situation', name: 'Love Situation', component: LoveSituationStep, description: 'Situação amorosa atual' },
     { id: 'palm_reading', name: 'Palm Reading', component: PalmReadingResults, description: 'Resultados da leitura de palma' },
     { id: 'revelation', name: 'Loading Revelation', component: LoadingRevelation, description: 'Tela de carregamento com revelação' },
-    { id: 'paywall', name: 'Paywall', component: PaywallStepFnShorts2, description: 'Página de pagamento NO redirect (fn-shorts2)' },
+    { id: 'paywall', name: 'Paywall', component: PaywallStepFunnelVsl1, description: 'Página de pagamento com VSL (mesmo do funnel-vsl1)' },
     { id: 'thank_you', name: 'Thank You', component: ThankYouStep, description: 'Página de agradecimento' }
   ]
 };
